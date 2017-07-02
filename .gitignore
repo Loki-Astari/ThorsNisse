@@ -1,0 +1,14 @@
+aclocal.m4
+autom4te.cache/
+
+Makefile.config
+Makefile.extra
+
+config.log
+config.status
+
+libtool
+
+debug/
+release/
+stamp-h1
