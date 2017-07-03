@@ -1,12 +1,8 @@
 #include "NisseService.h"
+#include "NisseHandler.h"
 
 #include <iostream>
-#pragma vera_pushoff
-using TimeVal = struct timeval;
-#pragma vera_pop
-
 using namespace ThorsAnvil::Nisse;
-using TimeVal = struct timeval;
 
 NisseService::NisseService()
     : running(true)
@@ -66,16 +62,4 @@ void NisseService::runLoop()
 void NisseService::listenOn(int port)
 {
     new ServerEvent(eventBase, port);
-}
-
-// export "C"
-void eventCB(LibSocketId socketId, short eventType, void* event)
-{
-    NisseEvent* eventObj = reinterpret_cast<NisseEvent*>(event);
-    eventObj->eventActivate(socketId, eventType);
-}
-
-void NisseEvent::eventActivate(LibSocketId sockId, short eventType)
-{
-    std::cout << "Callback made: " << sockId << " For " << eventType << "\n";
 }
