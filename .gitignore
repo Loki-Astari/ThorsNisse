@@ -11,4 +11,5 @@ libtool
 
 debug/
 release/
+coverage/
 stamp-h1
