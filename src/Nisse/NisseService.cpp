@@ -1,6 +1,9 @@
 #include "NisseService.h"
 
 #include <iostream>
+#pragma vera_pushoff
+using TimeVal = struct timeval;
+#pragma vera_pop
 
 using namespace ThorsAnvil::Nisse;
 using TimeVal = struct timeval;
@@ -58,4 +61,21 @@ void NisseService::runLoop()
         default:
             throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_dispatch(): Unknown Error");
     }
+}
+
+void NisseService::listenOn(int port)
+{
+    new ServerEvent(eventBase, port);
+}
+
+// export "C"
+void eventCB(LibSocketId socketId, short eventType, void* event)
+{
+    NisseEvent* eventObj = reinterpret_cast<NisseEvent*>(event);
+    eventObj->eventActivate(socketId, eventType);
+}
+
+void NisseEvent::eventActivate(LibSocketId sockId, short eventType)
+{
+    std::cout << "Callback made: " << sockId << " For " << eventType << "\n";
 }
