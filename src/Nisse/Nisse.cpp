@@ -1,6 +1,22 @@
+#include "NisseService.h"
+
 #include <iostream>
 
 int main()
 {
-    std::cout << "Nisse Started\n";
+    try
+    {
+        ThorsAnvil::Nisse::NisseService     service;
+        service.start();
+    }
+    catch (std::exception const& e)
+    {
+        //Log exception
+        throw;
+    }
+    catch (...)
+    {
+        //Log exception
+        throw;
+    }
 }
