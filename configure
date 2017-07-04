@@ -595,7 +595,7 @@ PACKAGE_STRING='ThorsAnvil 0.1'
 PACKAGE_BUGREPORT='Loki.Astari+ThorsAnvil@gmail.com'
 PACKAGE_URL=''
 
-ac_unique_file="src/Nisse/main.cpp"
+ac_unique_file="src/Nisse/Nisse.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -15829,10 +15829,6 @@ fi
 
 
 
-ac_config_headers="$ac_config_headers src/Nisse/NisseConfig.h"
-
-ac_config_files="$ac_config_files Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in"
-
 am__api_version='1.15'
 
 # Find a good install program.  We prefer a C program (faster),
@@ -16685,6 +16681,10 @@ END
     as_fn_error $? "Your 'rm' program is bad, sorry." "$LINENO" 5
   fi
 fi
+
+ac_config_headers="$ac_config_headers src/Nisse/NisseConfig.h"
+
+ac_config_files="$ac_config_files Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -17795,10 +17795,10 @@ for ac_config_target in $ac_config_targets
 do
   case $ac_config_target in
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
+    "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "src/Nisse/NisseConfig.h") CONFIG_HEADERS="$CONFIG_HEADERS src/Nisse/NisseConfig.h" ;;
     "Makefile.extra") CONFIG_FILES="$CONFIG_FILES Makefile.extra" ;;
     "Makefile.config") CONFIG_FILES="$CONFIG_FILES Makefile.config:build/autotools/build/Makefile.config.in" ;;
-    "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

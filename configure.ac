@@ -8,7 +8,7 @@ AX_THOR_FUNC_BUILD
 AC_CONFIG_AUX_DIR([build/autotools/build])
 
 
-AC_CONFIG_SRCDIR([src/Nisse/main.cpp])
+AC_CONFIG_SRCDIR([src/Nisse/Nisse.cpp])
 AC_PROG_CXX
 AX_THOR_PROG_COV
 LT_INIT([disable-static])
