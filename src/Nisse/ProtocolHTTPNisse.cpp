@@ -22,13 +22,13 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
 
 void HTTPHandlerAccept::headerParser(Yield& yield)
 {
-    while(true)
+    while (true)
     {
         try
         {
             yield();
         }
-        catch(...)
+        catch (...)
         {}
     }
 }
