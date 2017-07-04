@@ -45,9 +45,8 @@ class DataSocket: public BaseSocket
             : BaseSocket(socketId)
         {}
 
-        template<typename F>
-        std::size_t getMessageData(char* buffer, std::size_t size, F scanForEnd = [](std::size_t){return false;});
-        void        putMessageData(char const* buffer, std::size_t size);
+        std::size_t getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot = 0);
+        std::size_t putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut = 0);
         void        putMessageClose();
 };
 
@@ -73,7 +72,5 @@ class ServerSocket: public BaseSocket
 
     }
 }
-
-#include "Socket.tpp"
 
 #endif

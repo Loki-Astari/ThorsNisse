@@ -1,19 +1,25 @@
 #ifndef THORSANVIL_NISSE_NISSE_SERVICE_H
 #define THORSANVIL_NISSE_NISSE_SERVICE_H
 
-#include "NisseEventUtil.h"
+#include "NisseHandler.h"
+#include "ThorsSocket/Socket.h"
+#include <memory>
+#include <vector>
 
 namespace ThorsAnvil
 {
     namespace Nisse
     {
 
+class NisseHandler;
 class NisseService
 {
     private:
-
-        bool            running;
-        LibEventBase*   eventBase;
+        using NisseManagHandler = std::unique_ptr<NisseHandler>;
+        bool                            running;
+        LibEventBase*                   eventBase;
+        std::vector<NisseManagHandler>  handlers;
+        std::vector<NisseHandler*>      retiredHandlers;
     public:
         ~NisseService();
         NisseService();
@@ -29,6 +35,18 @@ class NisseService
         void listenOn(int port);
     private:
         void runLoop();
+
+    public:
+        template<typename H, typename S>
+        void addHandler(S&& socket)
+        {
+            handlers.emplace_back(std::make_unique<H>(*this, eventBase, std::forward<S>(socket)));
+        }
+
+        void delHandler(NisseHandler* oldHandler)
+        {
+            retiredHandlers.emplace_back(oldHandler);
+        }
 };
 
     }

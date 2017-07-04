@@ -159,9 +159,76 @@ DataSocket ServerSocket::accept()
     return DataSocket(newSocket);
 }
 
-void DataSocket::putMessageData(char const* buffer, std::size_t size)
+std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot)
 {
-    std::size_t     dataWritten = 0;
+    if (getSocketId() == 0)
+    {
+        throw std::logic_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__, ": accept called on a bad socket object (this object was moved)"));
+    }
+
+    std::size_t     dataRead  = alreadyGot;
+    while (dataRead < size)
+    {
+        // The inner loop handles interactions with the socket.
+        std::size_t get = ::read(getSocketId(), buffer + dataRead, size - dataRead);
+        if (get == static_cast<std::size_t>(-1))
+        {
+            switch (errno)
+            {
+                case EBADF:
+                case EFAULT:
+                case EINVAL:
+                case ENXIO:
+                {
+                    // Fatal error. Programming bug
+                    throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__, ": read: critical error: ", errnoToName(), strerror(errno)));
+                }
+                case EIO:
+                case ENOBUFS:
+                case ENOMEM:
+                {
+                   // Resource acquisition failure or device error
+                    throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__, ": read: resource failure: ", errnoToName(), strerror(errno)));
+                }
+                case EINTR:
+                    // TODO: Check for user interrupt flags.
+                    //       Beyond the scope of this project
+                    //       so continue normal operations.
+                case ETIMEDOUT:
+                case EAGAIN:
+                {
+                    // Temporary error.
+                    // Simply retry the read.
+                    continue;
+                }
+                case ECONNRESET:
+                case ENOTCONN:
+                {
+                    // Connection broken.
+                    // Return the data we have available and exit
+                    // as if the connection was closed correctly.
+                    get = 0;
+                    break;
+                }
+                default:
+                {
+                    throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__, ": read: returned -1: ", errnoToName(), strerror(errno)));
+                }
+            }
+        }
+        if (get == 0)
+        {
+            break;
+        }
+        dataRead += get;
+    }
+
+    return dataRead;
+}
+
+std::size_t DataSocket::putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut)
+{
+    std::size_t     dataWritten = alreadyPut;
 
     while (dataWritten < size)
     {
@@ -207,7 +274,7 @@ void DataSocket::putMessageData(char const* buffer, std::size_t size)
         }
         dataWritten += put;
     }
-    return;
+    return dataWritten;
 }
 
 void DataSocket::putMessageClose()

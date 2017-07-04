@@ -11,30 +11,54 @@ namespace ThorsAnvil
     namespace Nisse
     {
 
+class NisseService;
+class NisseHandler;
 class NisseEvent
 {
     LibEvent*   event;
     public:
         ~NisseEvent();
-        NisseEvent(LibEventBase* base, LibSocketId socketId);
+        NisseEvent(LibEventBase* base, LibSocketId socketId, NisseHandler& parent, short eventType);
 
         NisseEvent(NisseEvent const&)               = delete;
         NisseEvent(NisseEvent&&)                    = delete;
         NisseEvent& operator=(NisseEvent const&)    = delete;
         NisseEvent& operator=(NisseEvent&&)         = delete;
 
-    private:
-        friend void ::eventCB(LibSocketId sockId, short eventType, void* event);
+        void drop();
+};
+
+class NisseHandler
+{
+    protected:
+        NisseService&                       parent;
+        NisseEvent                          eventListener;
+    public:
+        NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId);
+        virtual ~NisseHandler() {}
         virtual void eventActivate(LibSocketId sockId, short eventType);
 };
 
-class ServerEvent
+class ServerHandler: public NisseHandler
 {
     private:
         ThorsAnvil::Socket::ServerSocket    socket;
-        NisseEvent                          eventListener;
     public:
-        ServerEvent(LibEventBase* base, int port);
+        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& socket);
+        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+};
+
+class DataHandlerReadMessage: public NisseHandler
+{
+    private:
+        ThorsAnvil::Socket::DataSocket      socket;
+        std::size_t                         readSizeObject;
+        std::size_t                         readBuffer;
+        std::size_t                         bufferSize;
+        std::string                         buffer;
+    public:
+        DataHandlerReadMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
+        virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
     }

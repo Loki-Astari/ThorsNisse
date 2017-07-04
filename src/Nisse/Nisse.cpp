@@ -7,7 +7,7 @@ int main()
     try
     {
         ThorsAnvil::Nisse::NisseService     service;
-        service.listenOn(40714);
+        service.listenOn(40715);
         service.start();
     }
     catch (std::exception const& e)

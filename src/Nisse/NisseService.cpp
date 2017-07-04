@@ -61,5 +61,5 @@ void NisseService::runLoop()
 
 void NisseService::listenOn(int port)
 {
-    new ServerEvent(eventBase, port);
+    addHandler<ServerHandler>(ThorsAnvil::Socket::ServerSocket(port));
 }
