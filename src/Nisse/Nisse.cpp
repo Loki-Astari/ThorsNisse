@@ -1,4 +1,6 @@
 #include "NisseService.h"
+#include "ProtocolSimpleNisse.h"
+#include "NisseHandler.h"
 
 #include <iostream>
 
@@ -6,8 +8,11 @@ int main()
 {
     try
     {
-        ThorsAnvil::Nisse::NisseService     service;
-        service.listenOn(40715);
+        using ThorsAnvil::Nisse::NisseService;
+        using ThorsAnvil::Nisse::DataHandlerReadMessage;
+
+        NisseService     service;
+        service.listenOn<DataHandlerReadMessage>(40715);
         service.start();
     }
     catch (std::exception const& e)

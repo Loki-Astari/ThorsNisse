@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_NISSE_SERVICE_H
 #define THORSANVIL_NISSE_NISSE_SERVICE_H
 
-#include "NisseHandler.h"
+#include "NisseEventUtil.h"
 #include "ThorsSocket/Socket.h"
 #include <memory>
 #include <vector>
@@ -32,24 +32,21 @@ class NisseService
         void start();
         void flagShutDown();
 
+        template<typename Handler>
         void listenOn(int port);
     private:
         void runLoop();
 
     public:
         template<typename H, typename... Args>
-        void addHandler(Args&&... args)
-        {
-            handlers.emplace_back(std::make_unique<H>(*this, eventBase, std::forward<Args>(args)...));
-        }
-
-        void delHandler(NisseHandler* oldHandler)
-        {
-            retiredHandlers.emplace_back(oldHandler);
-        }
+        void addHandler(Args&&... args);
+        void delHandler(NisseHandler* oldHandler);
 };
 
     }
 }
 
+#ifndef COVERAGE_TEST
+#include "NisseService.tpp"
+#endif
 #endif

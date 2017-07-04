@@ -39,41 +39,20 @@ class NisseHandler
         virtual void eventActivate(LibSocketId sockId, short eventType);
 };
 
+template<typename Handler>
 class ServerHandler: public NisseHandler
 {
     private:
         ThorsAnvil::Socket::ServerSocket    socket;
     public:
-        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& socket);
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
-};
-
-class DataHandlerReadMessage: public NisseHandler
-{
-    private:
-        ThorsAnvil::Socket::DataSocket      socket;
-        std::size_t                         readSizeObject;
-        std::size_t                         readBuffer;
-        std::size_t                         bufferSize;
-        std::string                         buffer;
-    public:
-        DataHandlerReadMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
-};
-
-class DataHandlerWriteMessage: public NisseHandler
-{
-    private:
-        ThorsAnvil::Socket::DataSocket      socket;
-        std::size_t                         writeSizeObject;
-        std::size_t                         writeBuffer;
-        std::string                         message;
-    public:
-        DataHandlerWriteMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, std::string const& message);
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so);
+        virtual void eventActivate(LibSocketId /*sockId*/, short /*eventType*/) override;
 };
 
     }
 }
 
+#ifndef COVERAGE_TEST
+#include "NisseHandler.tpp"
+#endif
 #endif

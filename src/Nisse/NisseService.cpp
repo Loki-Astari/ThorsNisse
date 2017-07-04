@@ -2,6 +2,7 @@
 #include "NisseHandler.h"
 
 #include <iostream>
+
 using namespace ThorsAnvil::Nisse;
 
 NisseService::NisseService()
@@ -59,7 +60,15 @@ void NisseService::runLoop()
     }
 }
 
-void NisseService::listenOn(int port)
+void NisseService::delHandler(NisseHandler* oldHandler)
 {
-    addHandler<ServerHandler>(ThorsAnvil::Socket::ServerSocket(port));
+    retiredHandlers.emplace_back(oldHandler);
 }
+
+#ifdef COVERAGE_TEST
+/*
+ * This code is only compiled into the unit tests for code coverage purposes
+ * It is not part of the live code.
+ */
+#include "NisseService.tpp"
+#endif
