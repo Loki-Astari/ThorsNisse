@@ -2,7 +2,7 @@
 THORSANVIL_ROOT				?= $(realpath ../../)
 
 TARGET						= Nisse.app
-LDLIBS						= -levent
+LDLIBS						= -levent -lboost_system
 LINK_LIBS					= ThorsSocket
 
 %/NisseService.o:			FILE_WARNING_FLAGS	+= -Wno-unknown-pragmas
