@@ -37,10 +37,10 @@ class NisseService
         void runLoop();
 
     public:
-        template<typename H, typename S>
-        void addHandler(S&& socket)
+        template<typename H, typename... Args>
+        void addHandler(Args&&... args)
         {
-            handlers.emplace_back(std::make_unique<H>(*this, eventBase, std::forward<S>(socket)));
+            handlers.emplace_back(std::make_unique<H>(*this, eventBase, std::forward<Args>(args)...));
         }
 
         void delHandler(NisseHandler* oldHandler)

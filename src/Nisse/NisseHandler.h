@@ -61,6 +61,18 @@ class DataHandlerReadMessage: public NisseHandler
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
+class DataHandlerWriteMessage: public NisseHandler
+{
+    private:
+        ThorsAnvil::Socket::DataSocket      socket;
+        std::size_t                         writeSizeObject;
+        std::size_t                         writeBuffer;
+        std::string                         message;
+    public:
+        DataHandlerWriteMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, std::string const& message);
+        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+};
+
     }
 }
 
