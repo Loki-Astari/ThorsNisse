@@ -210,8 +210,7 @@ std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size
                     // Connection broken.
                     // Return the data we have available and exit
                     // as if the connection was closed correctly.
-                    get = 0;
-                    break;
+                    return dataRead;
                 }
                 default:
                 {

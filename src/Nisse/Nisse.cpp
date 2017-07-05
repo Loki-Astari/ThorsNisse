@@ -12,7 +12,7 @@ int main()
         using ThorsAnvil::Nisse::HTTPHandlerAccept;
 
         NisseService     service;
-        service.listenOn<HTTPHandlerAccept>(40715);
+        service.listenOn<HTTPHandlerAccept>(40716);
         service.start();
     }
     catch (std::exception const& e)

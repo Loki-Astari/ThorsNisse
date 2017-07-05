@@ -97,6 +97,13 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
     {
         /* Handle error. Usually just close the connection. */
     }
+
+    if (recved == 0)
+    {
+        std::cerr << "No More Data\n";
+        eventListener.drop();
+        parent.delHandler(this);
+    }
 }
 
 void HTTPHandlerAccept::onHeadersComplete()
@@ -114,6 +121,27 @@ void HTTPHandlerAccept::onMessageComplete()
 void HTTPHandlerAccept::onUrl(char const* at, size_t length)
 {
     std::cerr << "onURL: " << std::string(at, at + length) << "\n";
+    std::cerr << "Type: " << parser.type << " -> ";
+    switch (parser.type)
+    {
+        case HTTP_REQUEST:      std::cerr << "HTTP_REQUEST\n";break;
+        case HTTP_RESPONSE:     std::cerr << "HTTP_RESPONSE\n";break;
+        case HTTP_BOTH:         std::cerr << "HTTP_BOTH\n";break;
+        default:
+            std::cerr << "Uknown\n";
+    }
+    std::cerr << "Method: " << parser.method << " -> ";
+    switch (parser.method)
+    {
+        case HTTP_DELETE:       std::cerr << "DELETE\n";break;
+        case HTTP_GET:          std::cerr << "GET\n";break;
+        case HTTP_HEAD:         std::cerr << "HEAD\n";break;
+        case HTTP_POST:         std::cerr << "POST\n";break;
+        case HTTP_PUT:          std::cerr << "PUT\n";break;
+        default:
+            std::cerr << "Unknown\n";
+    }
+
     uri.assign(at, length);
 }
 void HTTPHandlerAccept::onStatus(char const* at, size_t length)
