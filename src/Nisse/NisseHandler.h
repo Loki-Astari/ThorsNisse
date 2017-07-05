@@ -34,7 +34,7 @@ class NisseHandler
         NisseService&                       parent;
         NisseEvent                          eventListener;
     public:
-        NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId);
+        NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId, short eventType);
         virtual ~NisseHandler() {}
         virtual void eventActivate(LibSocketId sockId, short eventType);
 };

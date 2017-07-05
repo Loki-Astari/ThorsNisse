@@ -10,7 +10,7 @@ namespace ThorsAnvil
 
 template<typename Handler>
 inline ServerHandler<Handler>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so)
-    : NisseHandler(parent, base, so.getSocketId())
+    : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , socket(std::move(so))
 {}
 

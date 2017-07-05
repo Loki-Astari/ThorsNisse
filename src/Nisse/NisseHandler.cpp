@@ -37,9 +37,9 @@ void NisseEvent::drop()
     }
 }
 
-NisseHandler::NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId)
+NisseHandler::NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId, short eventType)
     : parent(parent)
-    , eventListener(base, socketId, *this, EV_READ)
+    , eventListener(base, socketId, *this, eventType)
 {}
 
 void NisseHandler::eventActivate(LibSocketId sockId, short eventType)
