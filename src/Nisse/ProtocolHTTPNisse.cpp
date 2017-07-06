@@ -1,8 +1,6 @@
 #include "ProtocolHTTPNisse.h"
 #include "NisseService.h"
 
-#include <iostream>
-
 using namespace ThorsAnvil::Nisse;
 
 int onHeadersComplete(HttpParser* parser)
@@ -24,31 +22,31 @@ int onMessageComplete(HttpParser* parser)
     return 0;
 }
 
-int onUrl(HttpParser* parser, const char *at, size_t length)
+int onUrl(HttpParser* parser, const char *at, std::size_t length)
 {
     HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
     parent->onUrl(at, length);
     return 0;
 }
-int onStatus(HttpParser* parser, const char *at, size_t length)
+int onStatus(HttpParser* parser, const char *at, std::size_t length)
 {
     HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
     parent->onStatus(at, length);
     return 0;
 }
-int onHeaderField(HttpParser* parser, const char *at, size_t length)
+int onHeaderField(HttpParser* parser, const char *at, std::size_t length)
 {
     HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
     parent->onHeaderField(at, length);
     return 0;
 }
-int onHeaderValue(HttpParser* parser, const char *at, size_t length)
+int onHeaderValue(HttpParser* parser, const char *at, std::size_t length)
 {
     HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
     parent->onHeaderValue(at, length);
     return 0;
 }
-int onBody(HttpParser* parser, const char *at, size_t length)
+int onBody(HttpParser* parser, const char *at, std::size_t length)
 {
     HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
     parent->onBody(at, length);
@@ -83,11 +81,8 @@ HTTPHandlerAccept::HTTPHandlerAccept(NisseService& parent, LibEventBase* base, T
 */
 void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    std::cerr << "eventActivate:\n";
     std::size_t recved  = socket.getMessageData(&buffer[0], bufferLen, 0);
-    std::cerr << "rec: " << recved << "\n";
     std::size_t nparsed = http_parser_execute(&parser, &settings, &buffer[0], recved);
-    std::cerr << "npar: " << nparsed << "\n";
 
     if (parser.upgrade)
     {
@@ -100,7 +95,6 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
 
     if (recved == 0)
     {
-        std::cerr << "No More Data\n";
         eventListener.drop();
         parent.delHandler(this);
     }
@@ -108,55 +102,114 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
 
 void HTTPHandlerAccept::onHeadersComplete()
 {
-    std::cerr << "onHeadersComplete\n";
+    addCurrentHeader();
+    parent.addHandler<HTTPHandlerRunResource>(std::move(socket), std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
+    eventListener.drop();
+    parent.delHandler(this);
 }
 void HTTPHandlerAccept::onMessageBegin()
 {
-    std::cerr << "onMessageBegin\n";
 }
 void HTTPHandlerAccept::onMessageComplete()
 {
-    std::cerr << "onMessageComplete\n";
 }
-void HTTPHandlerAccept::onUrl(char const* at, size_t length)
+void HTTPHandlerAccept::onUrl(char const* at, std::size_t length)
 {
-    std::cerr << "onURL: " << std::string(at, at + length) << "\n";
-    std::cerr << "Type: " << parser.type << " -> ";
-    switch (parser.type)
-    {
-        case HTTP_REQUEST:      std::cerr << "HTTP_REQUEST\n";break;
-        case HTTP_RESPONSE:     std::cerr << "HTTP_RESPONSE\n";break;
-        case HTTP_BOTH:         std::cerr << "HTTP_BOTH\n";break;
-        default:
-            std::cerr << "Uknown\n";
-    }
-    std::cerr << "Method: " << parser.method << " -> ";
     switch (parser.method)
     {
-        case HTTP_DELETE:       std::cerr << "DELETE\n";break;
-        case HTTP_GET:          std::cerr << "GET\n";break;
-        case HTTP_HEAD:         std::cerr << "HEAD\n";break;
-        case HTTP_POST:         std::cerr << "POST\n";break;
-        case HTTP_PUT:          std::cerr << "PUT\n";break;
+        case HTTP_DELETE:       method = HttpMethod::Delete;break;
+        case HTTP_GET:          method = HttpMethod::Get;   break;
+        case HTTP_HEAD:         method = HttpMethod::Head;  break;
+        case HTTP_POST:         method = HttpMethod::Post;  break;
+        case HTTP_PUT:          method = HttpMethod::Put;   break;
         default:
-            std::cerr << "Unknown\n";
+            throw std::runtime_error("ThorsAnvil::Nisse::HTTPHandlerAccept::onUrl: unknown HTTP Method");
     }
 
     uri.assign(at, length);
+    gotValue    = false;
 }
-void HTTPHandlerAccept::onStatus(char const* at, size_t length)
+void HTTPHandlerAccept::onStatus(char const* at, std::size_t length)
 {
-    std::cerr << "onStatus: " << std::string(at, at + length) << "\n";
 }
-void HTTPHandlerAccept::onHeaderField(char const* at, size_t length)
+void HTTPHandlerAccept::onHeaderField(char const* at, std::size_t length)
 {
-    std::cerr << "onHeaderField: " << std::string(at, at + length) << "\n";
+    addCurrentHeader();
+    currentHead.append(at, length);
 }
-void HTTPHandlerAccept::onHeaderValue(char const* at, size_t length)
+void HTTPHandlerAccept::onHeaderValue(char const* at, std::size_t length)
 {
-    std::cerr << "onHeaderValue: " << std::string(at, at + length) << "\n";
+    gotValue = true;
+    currentValue.append(at, length);
 }
-void HTTPHandlerAccept::onBody(char const* at, size_t length)
+void HTTPHandlerAccept::onBody(char const* at, std::size_t length)
 {
-    std::cerr << "onBody: " << std::string(at, at + length) << "\n";
+    bodyBegin   = at;
+    bodyEnd     = at + length;
+}
+
+void HTTPHandlerAccept::addCurrentHeader()
+{
+    if (gotValue)
+    {
+        headers[currentHead].emplace_back(std::move(currentValue));
+        gotValue = false;
+        currentHead.clear();
+        currentValue.clear();
+    }
+}
+
+// ------------------
+
+HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so,
+                                                std::vector<char>&& buffer, char const* bodyBegin, char const* bodyEnd,
+                                                HttpMethod method, std::string&& uri,
+                                                Headers&& headers)
+    : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
+    , socket(std::move(so))
+    , method(method)
+    , uri(std::move(uri))
+    , headers(std::move(headers))
+    , inputStream(std::move(buffer), bodyBegin, bodyEnd)
+    , alreadyPut(0)
+    , message(buildMessage())
+{
+    this->method = HttpMethod::Get;
+}
+
+void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+{
+    alreadyPut += socket.putMessageData(message.c_str(), message.size(), alreadyPut);
+    if (alreadyPut == message.size())
+    {
+        eventListener.drop();
+        parent.delHandler(this);
+    }
+}
+
+std::string HTTPHandlerRunResource::getTimeString()
+{
+    using TimeT = std::time_t;
+    using TimeI = std::tm;
+
+    TimeT   rawtime;
+    TimeI*  timeinfo;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    return asctime(timeinfo);
+}
+
+std::string HTTPHandlerRunResource::buildMessage()
+{
+    std::stringstream messageStream;
+    messageStream << "HTTP/1.1 404 Not Found\r\n"
+                  << "Date: " << getTimeString() << "\r\n"
+                  << "Server: Nisse\r\n"
+                  << "Content-Length: 44\r\n"
+                  << "Content-Type: text/html\r\n"
+                  << "Connection: Closed\r\n"
+                  << "\r\n"
+                  << "<html><body><h1>Not Found</h1></body></html>";
+    return messageStream.str();
 }
