@@ -4,7 +4,7 @@
 using namespace ThorsAnvil::Nisse;
 
 DataHandlerReadMessage::DataHandlerReadMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so)
-    : NisseHandler(parent, base, so.getSocketId())
+    : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , readSizeObject(0)
     , readBuffer(0)
@@ -32,7 +32,7 @@ void DataHandlerReadMessage::eventActivate(LibSocketId /*sockId*/, short /*event
 }
 
 DataHandlerWriteMessage::DataHandlerWriteMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
-    : NisseHandler(parent, base, so.getSocketId())
+    : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
     , writeSizeObject(0)
     , writeBuffer(0)

@@ -23,6 +23,10 @@ BaseSocket::BaseSocket(int socketId)
     {
         throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__, ": bad socket: ", errnoToName(), strerror(errno)));
     }
+    if (evutil_make_socket_nonblocking(socketId) != 0)
+    {
+        throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__, ": evutil_make_socket_nonblocking: failed to make non blocking: "));
+    }
 }
 
 BaseSocket::~BaseSocket()
@@ -118,11 +122,6 @@ ConnectSocket::ConnectSocket(std::string const& host, int port)
 ServerSocket::ServerSocket(int port)
     : BaseSocket(::socket(PF_INET, SOCK_STREAM, 0))
 {
-    if (evutil_make_socket_nonblocking(getSocketId()) != 0)
-    {
-        throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::ConnectSocket::", __func__, ": evutil_make_socket_nonblocking: failed"));
-    }
-
     SocketAddrIn serverAddr;
     bzero((char*)&serverAddr, sizeof(serverAddr));
     serverAddr.sin_family       = AF_INET;
@@ -191,15 +190,19 @@ std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size
                     throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__, ": read: resource failure: ", errnoToName(), strerror(errno)));
                 }
                 case EINTR:
+                {
                     // TODO: Check for user interrupt flags.
                     //       Beyond the scope of this project
                     //       so continue normal operations.
+                    continue;
+                }
                 case ETIMEDOUT:
                 case EAGAIN:
+                //case EWOULDBLOCK:
                 {
                     // Temporary error.
                     // Simply retry the read.
-                    continue;
+                    return dataRead;
                 }
                 case ECONNRESET:
                 case ENOTCONN:
@@ -207,8 +210,7 @@ std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size
                     // Connection broken.
                     // Return the data we have available and exit
                     // as if the connection was closed correctly.
-                    get = 0;
-                    break;
+                    return dataRead;
                 }
                 default:
                 {
@@ -257,14 +259,19 @@ std::size_t DataSocket::putMessageData(char const* buffer, std::size_t size, std
                     throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__, ": write: resource failure: ", errnoToName(), strerror(errno)));
                 }
                 case EINTR:
-                        // TODO: Check for user interrupt flags.
-                        //       Beyond the scope of this project
-                        //       so continue normal operations.
+                {
+                    // TODO: Check for user interrupt flags.
+                    //       Beyond the scope of this project
+                    //       so continue normal operations.
+                    continue;
+                }
+                case ETIMEDOUT:
                 case EAGAIN:
+                //case EWOULDBLOCK:
                 {
                     // Temporary error.
                     // Simply retry the read.
-                    continue;
+                    return dataWritten;
                 }
                 default:
                 {
