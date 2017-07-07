@@ -187,24 +187,40 @@ void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*event
     }
 }
 
-std::string HTTPHandlerRunResource::getTimeString()
+class TimePrinter
 {
-    using TimeT = std::time_t;
-    using TimeI = std::tm;
+    private:
+        char const* time;
+    public:
+        TimePrinter()
+            : time(getTimeString())
+        {}
+        friend std::ostream& operator<<(std::ostream& str, TimePrinter const& data)
+        {
+            str.write(data.time, 24);
+            return str;
+        }
+    private:
+        static char const* getTimeString()
+        {
+            using TimeT = std::time_t;
+            using TimeI = std::tm;
 
-    TimeT   rawtime;
-    TimeI*  timeinfo;
+            TimeT   rawtime;
+            TimeI*  timeinfo;
 
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
-    return asctime(timeinfo);
-}
+            ::time(&rawtime);
+            timeinfo = ::localtime(&rawtime);
+
+            return ::asctime(timeinfo);
+        }
+};
 
 std::string HTTPHandlerRunResource::buildMessage()
 {
     std::stringstream messageStream;
     messageStream << "HTTP/1.1 404 Not Found\r\n"
-                  << "Date: " << getTimeString() << "\r\n"
+                  << "Date: " << TimePrinter() << "\r\n"
                   << "Server: Nisse\r\n"
                   << "Content-Length: 44\r\n"
                   << "Content-Type: text/html\r\n"

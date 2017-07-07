@@ -85,8 +85,7 @@ class HTTPHandlerRunResource: public NisseHandler
                                 Headers&& headers);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
     private:
-        std::string getTimeString();
-        std::string buildMessage();
+        static std::string buildMessage();
 };
 
 
