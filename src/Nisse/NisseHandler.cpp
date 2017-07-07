@@ -11,40 +11,32 @@ void eventCB(LibSocketId socketId, short eventType, void* event)
     handler.eventActivate(socketId, eventType);
 }
 
-NisseEvent::NisseEvent(LibEventBase* base, LibSocketId socketId, NisseHandler& parent, short eventType)
-    : event(event_new(base, socketId,  eventType | EV_PERSIST, eventCB, &parent))
-{
-    if (event == nullptr)
-    {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::NisseEvent: event_new(): Failed");
-    }
-    if (event_add(event, nullptr) != 0)
-    {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::NisseEvent: event_add(): Failed");
-    }
-}
-
-NisseEvent::~NisseEvent()
-{
-    event_free(event);
-}
-
-void NisseEvent::drop()
-{
-    if (event_del(event) != 0)
-    {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::drop: event_del(): Failed");
-    }
-}
-
 NisseHandler::NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId, short eventType)
     : parent(parent)
-    , eventListener(base, socketId, *this, eventType)
-{}
+    , event(event_new(base, socketId, eventType | EV_PERSIST, eventCB, this), event_free)
+{
+    if (event.get() == nullptr)
+    {
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: event_new(): Failed");
+    }
+    if (event_add(event.get(), nullptr) != 0)
+    {
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: event_add(): Failed");
+    }
+}
 
 void NisseHandler::eventActivate(LibSocketId sockId, short eventType)
 {
     std::cerr << "Callback made: " << sockId << " For " << eventType << "\n";
+}
+
+void NisseHandler::dropHandler()
+{
+    if (event_del(event.get()) != 0)
+    {
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::dropHandler: event_del(): Failed");
+    }
+    parent.delHandler(this);
 }
 
 #ifdef COVERAGE_TEST

@@ -14,9 +14,11 @@ inline void NisseHandler::addHandler(Args&&... args)
     parent.addHandler<H>(std::forward<Args>(args)...);
 }
 
-inline void NisseHandler::delHandler()
+template<typename H, typename... Args>
+inline void NisseHandler::moveHandler(Args&&... args)
 {
-    parent.delHandler(this);
+    dropHandler();
+    parent.addHandler<H>(std::forward<Args>(args)...);
 }
 
 template<typename Handler>

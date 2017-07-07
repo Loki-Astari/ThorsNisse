@@ -11,37 +11,25 @@ namespace ThorsAnvil
     namespace Nisse
     {
 
+using EventDeleter  = decltype(&event_free);
+using NisseEvent    = std::unique_ptr<LibEvent, EventDeleter>;
+
 class NisseService;
-class NisseHandler;
-class NisseEvent
-{
-    LibEvent*   event;
-    public:
-        ~NisseEvent();
-        NisseEvent(LibEventBase* base, LibSocketId socketId, NisseHandler& parent, short eventType);
-
-        NisseEvent(NisseEvent const&)               = delete;
-        NisseEvent(NisseEvent&&)                    = delete;
-        NisseEvent& operator=(NisseEvent const&)    = delete;
-        NisseEvent& operator=(NisseEvent&&)         = delete;
-
-        void drop();
-};
-
 class NisseHandler
 {
-    protected:
+    private:
         NisseService&                       parent;
-        NisseEvent                          eventListener;
+        NisseEvent                          event;
     public:
         NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId, short eventType);
         virtual ~NisseHandler() {}
         virtual void eventActivate(LibSocketId sockId, short eventType);
     protected:
+        void dropHandler();
         template<typename H, typename... Args>
         void addHandler(Args&&... args);
-        void delHandler();
-
+        template<typename H, typename... Args>
+        void moveHandler(Args&&... args);
 };
 
 template<typename Handler>
@@ -51,7 +39,7 @@ class ServerHandler: public NisseHandler
         ThorsAnvil::Socket::ServerSocket    socket;
     public:
         ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so);
-        virtual void eventActivate(LibSocketId /*sockId*/, short /*eventType*/) override;
+        virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
     }
