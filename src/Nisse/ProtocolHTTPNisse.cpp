@@ -129,7 +129,7 @@ void HTTPHandlerAccept::onUrl(char const* at, std::size_t length)
     uri.assign(at, length);
     gotValue    = false;
 }
-void HTTPHandlerAccept::onStatus(char const* at, std::size_t length)
+void HTTPHandlerAccept::onStatus(char const* /*at*/, std::size_t /*length*/)
 {
 }
 void HTTPHandlerAccept::onHeaderField(char const* at, std::size_t length)
