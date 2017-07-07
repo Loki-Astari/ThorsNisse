@@ -20,7 +20,10 @@ inline void NisseService::listenOn(int port)
 template<typename H, typename... Args>
 inline void NisseService::addHandler(Args&&... args)
 {
-    handlers.emplace_back(std::make_unique<H>(*this, eventBase.get(), std::forward<Args>(args)...));
+    NisseManagHandler   value = std::make_unique<H>(*this, eventBase.get(), std::forward<Args>(args)...);
+    NisseHandler*       key   = value.get();
+    ((void)key);
+    handlers.emplace(key, std::move(value));
 }
 
     }

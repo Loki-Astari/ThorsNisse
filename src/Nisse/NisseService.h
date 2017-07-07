@@ -4,7 +4,7 @@
 #include "NisseEventUtil.h"
 #include "ThorsSocket/Socket.h"
 #include <memory>
-#include <vector>
+#include <unordered_map>
 
 namespace ThorsAnvil
 {
@@ -22,7 +22,18 @@ class NisseService
     private:
         bool                            running;
         EventHolder                     eventBase;
-        std::vector<NisseManagHandler>  handlers;
+        // The handlers are held by pointer because they are
+        // polymorphic (there can potentially be a lot of different
+        // handlers for different incoming streams).
+        // We use an unordered map to make it easy to find the handler
+        // when we want to delete it.
+        std::unordered_map<NisseHandler*, NisseManagHandler>  handlers;
+
+        // This vector is a non owning vector.
+        // It contains the pointers to handlers that need to be
+        // deleted. We don't want handlers to delete themselves
+        // so they register themselves for deletion and get purged
+        // in `runLoop()`.
         std::vector<NisseHandler*>      retiredHandlers;
     public:
         NisseService();
@@ -37,6 +48,7 @@ class NisseService
         void listenOn(int port);
     private:
         void runLoop();
+        void purgeRetiredHandlers();
         void swap(NisseService& ) noexcept;
 
         friend class NisseHandler;

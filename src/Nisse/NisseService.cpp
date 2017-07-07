@@ -29,6 +29,11 @@ NisseService& NisseService::operator=(NisseService&& move) noexcept
 
 void NisseService::swap(NisseService& other) noexcept
 {
+    if (running)
+    {
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseService::swap: move failed. Can't move a service once it has started.");
+    }
+
     using std::swap;
     swap(running,           other.running);
     swap(eventBase,         other.eventBase);
@@ -44,6 +49,7 @@ void NisseService::start()
     {
         std::cout << "Nisse Loop\n";
         runLoop();
+        purgeRetiredHandlers();
     }
     std::cout << "Nisse Stopped\n";
 }
@@ -76,6 +82,15 @@ void NisseService::runLoop()
         default:
             throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_dispatch(): Unknown Error");
     }
+}
+
+void NisseService::purgeRetiredHandlers()
+{
+    for (auto const& key: retiredHandlers)
+    {
+        handlers.erase(key);
+    }
+    retiredHandlers.clear();
 }
 
 void NisseService::delHandler(NisseHandler* oldHandler)
