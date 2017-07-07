@@ -96,16 +96,16 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
     if (recved == 0)
     {
         eventListener.drop();
-        parent.delHandler(this);
+        delHandler();
     }
 }
 
 void HTTPHandlerAccept::onHeadersComplete()
 {
     addCurrentHeader();
-    parent.addHandler<HTTPHandlerRunResource>(std::move(socket), std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
+    addHandler<HTTPHandlerRunResource>(std::move(socket), std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
     eventListener.drop();
-    parent.delHandler(this);
+    delHandler();
 }
 void HTTPHandlerAccept::onMessageBegin()
 {
@@ -183,7 +183,7 @@ void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*event
     if (alreadyPut == message.size())
     {
         eventListener.drop();
-        parent.delHandler(this);
+        delHandler();
     }
 }
 

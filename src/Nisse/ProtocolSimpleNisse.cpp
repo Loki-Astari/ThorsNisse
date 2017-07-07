@@ -27,8 +27,8 @@ void DataHandlerReadMessage::eventActivate(LibSocketId /*sockId*/, short /*event
         return;
     }
     eventListener.drop();
-    parent.delHandler(this);
-    parent.addHandler<DataHandlerWriteMessage>(std::move(socket), buffer);
+    delHandler();
+    addHandler<DataHandlerWriteMessage>(std::move(socket), buffer);
 }
 
 DataHandlerWriteMessage::DataHandlerWriteMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
@@ -58,5 +58,5 @@ void DataHandlerWriteMessage::eventActivate(LibSocketId /*sockId*/, short /*even
         return;
     }
     eventListener.drop();
-    parent.delHandler(this);
+    delHandler();
 }

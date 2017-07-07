@@ -11,23 +11,24 @@ namespace ThorsAnvil
     namespace Nisse
     {
 
+using EventBaseDeleter = decltype(&event_base_free);
+using EventHolder      = std::unique_ptr<LibEventBase, EventBaseDeleter>;
+
 class NisseHandler;
 class NisseService
 {
     private:
         using NisseManagHandler = std::unique_ptr<NisseHandler>;
         bool                            running;
-        LibEventBase*                   eventBase;
+        EventHolder                     eventBase;
         std::vector<NisseManagHandler>  handlers;
         std::vector<NisseHandler*>      retiredHandlers;
     public:
         ~NisseService();
         NisseService();
 
-        NisseService(NisseService const&)               = delete;
-        NisseService(NisseService&&)                    = delete;
-        NisseService& operator=(NisseService const&)    = delete;
-        NisseService& operator=(NisseService&&)         = delete;
+        NisseService(NisseService&&) noexcept;
+        NisseService& operator=(NisseService&&) noexcept;
 
         void start();
         void flagShutDown();
@@ -36,8 +37,10 @@ class NisseService
         void listenOn(int port);
     private:
         void runLoop();
+        void swap(NisseService& ) noexcept;
 
-    public:
+    private:
+        friend class NisseHandler;
         template<typename H, typename... Args>
         void addHandler(Args&&... args);
         void delHandler(NisseHandler* oldHandler);
