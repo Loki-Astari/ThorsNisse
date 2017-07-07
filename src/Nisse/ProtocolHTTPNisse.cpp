@@ -95,17 +95,14 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
 
     if (recved == 0)
     {
-        eventListener.drop();
-        parent.delHandler(this);
+        dropHandler();
     }
 }
 
 void HTTPHandlerAccept::onHeadersComplete()
 {
     addCurrentHeader();
-    parent.addHandler<HTTPHandlerRunResource>(std::move(socket), std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
-    eventListener.drop();
-    parent.delHandler(this);
+    moveHandler<HTTPHandlerRunResource>(std::move(socket), std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
 }
 void HTTPHandlerAccept::onMessageBegin()
 {
@@ -129,7 +126,7 @@ void HTTPHandlerAccept::onUrl(char const* at, std::size_t length)
     uri.assign(at, length);
     gotValue    = false;
 }
-void HTTPHandlerAccept::onStatus(char const* at, std::size_t length)
+void HTTPHandlerAccept::onStatus(char const* /*at*/, std::size_t /*length*/)
 {
 }
 void HTTPHandlerAccept::onHeaderField(char const* at, std::size_t length)
@@ -182,29 +179,44 @@ void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*event
     alreadyPut += socket.putMessageData(message.c_str(), message.size(), alreadyPut);
     if (alreadyPut == message.size())
     {
-        eventListener.drop();
-        parent.delHandler(this);
+        dropHandler();
     }
 }
 
-std::string HTTPHandlerRunResource::getTimeString()
+class TimePrinter
 {
-    using TimeT = std::time_t;
-    using TimeI = std::tm;
+    private:
+        char const* time;
+    public:
+        TimePrinter()
+            : time(getTimeString())
+        {}
+        friend std::ostream& operator<<(std::ostream& str, TimePrinter const& data)
+        {
+            str.write(data.time, 24);
+            return str;
+        }
+    private:
+        static char const* getTimeString()
+        {
+            using TimeT = std::time_t;
+            using TimeI = std::tm;
 
-    TimeT   rawtime;
-    TimeI*  timeinfo;
+            TimeT   rawtime;
+            TimeI*  timeinfo;
 
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
-    return asctime(timeinfo);
-}
+            ::time(&rawtime);
+            timeinfo = ::localtime(&rawtime);
+
+            return ::asctime(timeinfo);
+        }
+};
 
 std::string HTTPHandlerRunResource::buildMessage()
 {
     std::stringstream messageStream;
     messageStream << "HTTP/1.1 404 Not Found\r\n"
-                  << "Date: " << getTimeString() << "\r\n"
+                  << "Date: " << TimePrinter() << "\r\n"
                   << "Server: Nisse\r\n"
                   << "Content-Length: 44\r\n"
                   << "Content-Type: text/html\r\n"

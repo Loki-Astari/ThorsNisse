@@ -8,6 +8,19 @@ namespace ThorsAnvil
     namespace Nisse
     {
 
+template<typename H, typename... Args>
+inline void NisseHandler::addHandler(Args&&... args)
+{
+    parent.addHandler<H>(std::forward<Args>(args)...);
+}
+
+template<typename H, typename... Args>
+inline void NisseHandler::moveHandler(Args&&... args)
+{
+    dropHandler();
+    parent.addHandler<H>(std::forward<Args>(args)...);
+}
+
 template<typename Handler>
 inline ServerHandler<Handler>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so)
     : NisseHandler(parent, base, so.getSocketId(), EV_READ)
@@ -18,7 +31,7 @@ template<typename Handler>
 inline void ServerHandler<Handler>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     ThorsAnvil::Socket::DataSocket accepted = socket.accept();
-    parent.addHandler<Handler>(std::move(accepted));
+    addHandler<Handler>(std::move(accepted));
 }
 
     }

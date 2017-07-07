@@ -6,8 +6,8 @@
 using namespace ThorsAnvil::Nisse;
 
 NisseService::NisseService()
-    : running(true)
-    , eventBase(event_base_new())
+    : running(false)
+    , eventBase(event_base_new(), &event_base_free)
 {
     if (eventBase == nullptr)
     {
@@ -15,13 +15,31 @@ NisseService::NisseService()
     }
 }
 
-NisseService::~NisseService()
+NisseService::NisseService(NisseService&& move) noexcept
+    : eventBase(nullptr, &event_base_free)
 {
+    swap(move);
+}
+
+NisseService& NisseService::operator=(NisseService&& move) noexcept
+{
+    swap(move);
+    return *this;
+}
+
+void NisseService::swap(NisseService& other) noexcept
+{
+    using std::swap;
+    swap(running,           other.running);
+    swap(eventBase,         other.eventBase);
+    swap(handlers,          other.handlers);
+    swap(retiredHandlers,   other.retiredHandlers);
 }
 
 void NisseService::start()
 {
     std::cout << "Nisse Started\n";
+    running = true;
     while (running)
     {
         std::cout << "Nisse Loop\n";
@@ -33,7 +51,7 @@ void NisseService::start()
 void NisseService::flagShutDown()
 {
     running = false;
-    if (event_base_loopbreak(eventBase) != 0)
+    if (event_base_loopbreak(eventBase.get()) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::NisseService::flagShutDown: event_base_loopbreak(): Failed");
     }
@@ -43,11 +61,11 @@ void NisseService::runLoop()
 {
     static const TimeVal ten_sec{10,0};
 
-    if (event_base_loopexit(eventBase, &ten_sec) != 0)
+    if (event_base_loopexit(eventBase.get(), &ten_sec) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_loopexit(): Failed");
     }
-    switch (event_base_dispatch(eventBase))
+    switch (event_base_dispatch(eventBase.get()))
     {
         case -1:
             throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_dispatch(): Failed");
