@@ -6,7 +6,7 @@
 using namespace ThorsAnvil::Nisse;
 
 NisseService::NisseService()
-    : running(true)
+    : running(false)
     , eventBase(event_base_new(), &event_base_free)
 {
     if (eventBase == nullptr)
@@ -36,13 +36,10 @@ void NisseService::swap(NisseService& other) noexcept
     swap(retiredHandlers,   other.retiredHandlers);
 }
 
-NisseService::~NisseService()
-{
-}
-
 void NisseService::start()
 {
     std::cout << "Nisse Started\n";
+    running = true;
     while (running)
     {
         std::cout << "Nisse Loop\n";
