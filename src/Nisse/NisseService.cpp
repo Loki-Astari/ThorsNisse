@@ -29,6 +29,11 @@ NisseService& NisseService::operator=(NisseService&& move) noexcept
 
 void NisseService::swap(NisseService& other) noexcept
 {
+    if (running)
+    {
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseService::swap: move failed. Can't move a service once it has started.");
+    }
+
     using std::swap;
     swap(running,           other.running);
     swap(eventBase,         other.eventBase);
