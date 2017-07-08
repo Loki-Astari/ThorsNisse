@@ -2,6 +2,7 @@
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_NISSE_H
 
 #include "NisseHandler.h"
+#include "HttpTypes.h"
 #include <boost/coroutine/asymmetric_coroutine.hpp>
 #include <map>
 #include <vector>
@@ -17,9 +18,6 @@ using HttpParserSettings    = http_parser_settings;
 
 using CoRoutine = boost::coroutines::asymmetric_coroutine<void>::pull_type;
 using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
-
-enum class HttpMethod {Get, Put, Post, Delete, Head};
-using Headers = std::map<std::string, std::vector<std::string>>;
 
 class HTTPHandlerAccept: public NisseHandler
 {
@@ -60,29 +58,17 @@ class HTTPHandlerAccept: public NisseHandler
         void addCurrentHeader();
 };
 
-class SocketStream: public std::istream
-{
-    public:
-        SocketStream(std::vector<char>&&, char const*, char const*)
-            : std::istream(nullptr)
-        {}
-};
 class HTTPHandlerRunResource: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         DataSocket              socket;
-        HttpMethod              method;
-        std::string             uri;
-        Headers                 headers;
-        SocketStream            inputStream;
+        HTTPRequest             request;
+        HTTPResponse            response;
         std::size_t             alreadyPut;
         std::string             message;
     public:
-        HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so,
-                                std::vector<char>&& buffer, char const* bodyBegin, char const* bodyEnd,
-                                HttpMethod method, std::string&& uri,
-                                Headers&& headers);
+        HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPRequest&& request);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
     private:
         static std::string buildMessage();

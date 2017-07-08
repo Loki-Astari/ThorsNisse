@@ -102,7 +102,10 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
 void HTTPHandlerAccept::onHeadersComplete()
 {
     addCurrentHeader();
-    moveHandler<HTTPHandlerRunResource>(std::move(socket), std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
+    moveHandler<HTTPHandlerRunResource>(std::move(socket),
+                                        HTTPRequest(method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd)
+                                       );
+    //std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
 }
 void HTTPHandlerAccept::onMessageBegin()
 {
@@ -158,21 +161,14 @@ void HTTPHandlerAccept::addCurrentHeader()
 
 // ------------------
 
-HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so,
-                                                std::vector<char>&& buffer, char const* bodyBegin, char const* bodyEnd,
-                                                HttpMethod method, std::string&& uri,
-                                                Headers&& headers)
+HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPRequest&& request)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
-    , method(method)
-    , uri(std::move(uri))
-    , headers(std::move(headers))
-    , inputStream(std::move(buffer), bodyBegin, bodyEnd)
+    , request(std::move(request))
+    , response()
     , alreadyPut(0)
     , message(buildMessage())
-{
-    this->method = HttpMethod::Get;
-}
+{}
 
 void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
