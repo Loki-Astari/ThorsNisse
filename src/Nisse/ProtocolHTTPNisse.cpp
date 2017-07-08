@@ -53,9 +53,10 @@ int onBody(HttpParser* parser, const char *at, std::size_t length)
     return 0;
 }
 
-HTTPHandlerAccept::HTTPHandlerAccept(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so)
+HTTPHandlerAccept::HTTPHandlerAccept(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPBinder const& binder)
     : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , socket(std::move(so))
+    , binder(binder)
     , buffer(bufferLen)
 {
     settings.on_headers_complete    = ::onHeadersComplete;
@@ -103,6 +104,7 @@ void HTTPHandlerAccept::onHeadersComplete()
 {
     addCurrentHeader();
     moveHandler<HTTPHandlerRunResource>(std::move(socket),
+                                        binder,
                                         HTTPRequest(method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd)
                                        );
     //std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
@@ -161,9 +163,10 @@ void HTTPHandlerAccept::addCurrentHeader()
 
 // ------------------
 
-HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPRequest&& request)
+HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPBinder const& binder, HTTPRequest&& request)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
+    , binder(binder)
     , request(std::move(request))
     , response()
     , alreadyPut(0)
@@ -177,6 +180,7 @@ void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*event
     {
         dropHandler();
     }
+    binder.find(".");
 }
 
 class TimePrinter

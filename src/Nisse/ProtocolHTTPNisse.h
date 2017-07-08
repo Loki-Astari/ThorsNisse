@@ -2,6 +2,7 @@
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_NISSE_H
 
 #include "NisseHandler.h"
+#include "HttpBinder.h"
 #include "HttpTypes.h"
 #include <boost/coroutine/asymmetric_coroutine.hpp>
 #include <map>
@@ -24,6 +25,7 @@ class HTTPHandlerAccept: public NisseHandler
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         DataSocket              socket;
+        HTTPBinder const&       binder;
         HttpParserSettings      settings;
         HttpParser              parser;
         std::vector<char>       buffer;
@@ -41,7 +43,7 @@ class HTTPHandlerAccept: public NisseHandler
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        HTTPHandlerAccept(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
+        HTTPHandlerAccept(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, HTTPBinder const& binder);
         void headerParser(Yield& yield);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 
@@ -63,12 +65,13 @@ class HTTPHandlerRunResource: public NisseHandler
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         DataSocket              socket;
+        HTTPBinder const&       binder;
         HTTPRequest             request;
         HTTPResponse            response;
         std::size_t             alreadyPut;
         std::string             message;
     public:
-        HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPRequest&& request);
+        HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPBinder const& binder, HTTPRequest&& request);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
     private:
         static std::string buildMessage();
