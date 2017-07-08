@@ -1,6 +1,7 @@
 #ifndef THORSANVIL_NISSE_HTTP_TYPES_H
 #define THORSANVIL_NISSE_HTTP_TYPES_H
 
+#include <boost/coroutine/asymmetric_coroutine.hpp>
 #include <istream>
 #include <ostream>
 #include <string>
@@ -11,6 +12,9 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+
+using CoRoutine = boost::coroutines::asymmetric_coroutine<void>::pull_type;
+using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
 
 enum class HttpMethod {Get, Put, Post, Delete, Head};
 
@@ -50,32 +54,42 @@ class Headers
 
 class ISocketStream: public std::istream
 {
+    Yield&      yield;
     public:
-        ISocketStream(std::vector<char>&&, char const*, char const*)
+        ISocketStream(Yield& yield, std::vector<char>&&, char const*, char const*)
             : std::istream(nullptr)
+            , yield(yield)
         {}
-        ISocketStream(ISocketStream&&)
+        ISocketStream(ISocketStream&& move)
             : std::istream(nullptr)
+            , yield(move.yield)
         {}
+        /*
         ISocketStream& operator=(ISocketStream&&)
         {
             return *this;
         }
+        */
 };
 
 class OSocketStream: public std::ostream
 {
+    Yield&      yield;
     public:
-        OSocketStream()
+        OSocketStream(Yield& yield)
             : std::ostream(nullptr)
+            , yield(yield)
         {}
-        OSocketStream(OSocketStream&&)
+        OSocketStream(OSocketStream&& move)
             : std::ostream(nullptr)
+            , yield(move.yield)
         {}
+        /*
         OSocketStream& operator=(OSocketStream&&)
         {
             return *this;
         }
+        */
 };
 
 
@@ -108,11 +122,11 @@ class HTTPRequest
         const Headers       headers;
         ISocketStream       body;
 
-        HTTPRequest(HttpMethod method, URI&& uri, Headers&& headers, std::vector<char>&& data, char const* beg, char const* end)
+        HTTPRequest(Yield& yield, HttpMethod method, URI&& uri, Headers&& headers, std::vector<char>&& data, char const* beg, char const* end)
             : method(method)
             , uri(uri)
             , headers(std::move(headers))
-            , body(std::move(data), beg, end)
+            , body(yield, std::move(data), beg, end)
         {}
 };
 
@@ -124,9 +138,10 @@ class HTTPResponse
         Headers         headers;
         OSocketStream   body;
 
-        HTTPResponse(short resultCode = 200, std::string const& resultMessage = "OK")
+        HTTPResponse(Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
             : resultCode(resultCode)
             , resultMessage(resultMessage)
+            , body(yield)
         {}
 };
 

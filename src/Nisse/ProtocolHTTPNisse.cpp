@@ -105,7 +105,11 @@ void HTTPHandlerAccept::onHeadersComplete()
     addCurrentHeader();
     moveHandler<HTTPHandlerRunResource>(std::move(socket),
                                         binder,
-                                        HTTPRequest(method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd)
+                                        method,
+                                        std::move(uri),
+                                        std::move(headers),
+                                        std::move(buffer),
+                                        bodyBegin, bodyEnd
                                        );
     //std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
 }
@@ -163,24 +167,41 @@ void HTTPHandlerAccept::addCurrentHeader()
 
 // ------------------
 
-HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, HTTPBinder const& binder, HTTPRequest&& request)
+HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base,
+                                                ThorsAnvil::Socket::DataSocket&& so,
+                                                HTTPBinder const& binder,
+                                                HttpMethod methodParam,
+                                                std::string&& uriParam,
+                                                Headers&& headersParam,
+                                                std::vector<char>&& bufferParam,
+                                                char const* bodyBeginParam,
+                                                char const* bodyEndParam)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
+    , worker([  &action     = binder.find("/listBeer"),
+                method      = methodParam,
+                uri         = std::move(uriParam),
+                headers     = std::move(headersParam),
+                buffer      = std::move(bufferParam),
+                bodyBegin   = bodyBeginParam,
+                bodyEnd     = bodyEndParam
+             ](Yield& yield) mutable
+                {
+                    HTTPRequest     request(yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
+                    HTTPResponse    response(yield);
+                    yield();
+                    action(request, response);
+                }
+            )
     , socket(std::move(so))
-    , binder(binder)
-    , request(std::move(request))
-    , response()
-    , alreadyPut(0)
-    , message(buildMessage())
 {}
 
 void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    alreadyPut += socket.putMessageData(message.c_str(), message.size(), alreadyPut);
-    if (alreadyPut == message.size())
+    worker();
+    if (!worker)
     {
         dropHandler();
     }
-    binder.find(".");
 }
 
 class TimePrinter
