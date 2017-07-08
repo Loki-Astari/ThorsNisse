@@ -63,7 +63,6 @@ class WriteResponseHandler: public NisseHandler
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         CoRoutine               worker;
-        DataSocket              socket;
     public:
         WriteResponseHandler(NisseService& parent, LibEventBase* base,
                              ThorsAnvil::Socket::DataSocket&& socket,

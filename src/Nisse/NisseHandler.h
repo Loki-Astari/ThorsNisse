@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_NISSE_HANDLER_H
 
 #include "NisseEventUtil.h"
-#include "ThorsSocket/Socket.h"
+#include "ThorsNisseSocket/Socket.h"
 
 extern "C" void eventCB(ThorsAnvil::Nisse::LibSocketId socketId, short eventType, void* event);
 

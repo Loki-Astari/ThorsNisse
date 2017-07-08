@@ -82,7 +82,9 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, LibEventBase* base,
 */
 void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    std::size_t recved  = socket.getMessageData(&buffer[0], bufferLen, 0);
+    bool        more;
+    std::size_t recved;
+    std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
     std::size_t nparsed = http_parser_execute(&parser, &settings, &buffer[0], recved);
 
     if (parser.upgrade)
@@ -94,7 +96,7 @@ void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
         /* Handle error. Usually just close the connection. */
     }
 
-    if (recved == 0)
+    if (!more)
     {
         dropHandler();
     }
@@ -177,7 +179,8 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent, LibEventBase* b
                                            char const* bodyBeginParam,
                                            char const* bodyEndParam)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
-    , worker([  &action     = binder.find("/listBeer"),
+    , worker([  socket      = std::move(so),
+                &action     = binder.find("/listBeer"),
                 method      = methodParam,
                 uri         = std::move(uriParam),
                 headers     = std::move(headersParam),
@@ -186,13 +189,12 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent, LibEventBase* b
                 bodyEnd     = bodyEndParam
              ](Yield& yield) mutable
                 {
-                    Request     request(yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
+                    Request     request(socket, yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
                     Response    response(yield);
                     yield();
                     action(request, response);
                 }
             )
-    , socket(std::move(so))
 {}
 
 void WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)

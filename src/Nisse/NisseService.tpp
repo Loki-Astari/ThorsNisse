@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_NISSE_SERVICE_TPP
 
 #include "NisseHandler.h"
-#include "ThorsSocket/Socket.h"
+#include "ThorsNisseSocket/Socket.h"
 #include <memory>
 #include <vector>
 

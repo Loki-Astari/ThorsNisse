@@ -45,8 +45,8 @@ class DataSocket: public BaseSocket
             : BaseSocket(socketId, blocking)
         {}
 
-        std::size_t getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot = 0);
-        std::size_t putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut = 0);
+        std::pair<bool, std::size_t> getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot = 0);
+        std::pair<bool, std::size_t> putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut = 0);
         void        putMessageClose();
 };
 

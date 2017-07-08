@@ -158,7 +158,7 @@ DataSocket ServerSocket::accept(bool blocking)
     return DataSocket(newSocket, blocking);
 }
 
-std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot)
+std::pair<bool, std::size_t> DataSocket::getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot)
 {
     if (getSocketId() == 0)
     {
@@ -202,7 +202,7 @@ std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size
                 {
                     // Temporary error.
                     // Simply retry the read.
-                    return dataRead;
+                    return {true, dataRead};
                 }
                 case ECONNRESET:
                 case ENOTCONN:
@@ -210,7 +210,7 @@ std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size
                     // Connection broken.
                     // Return the data we have available and exit
                     // as if the connection was closed correctly.
-                    return dataRead;
+                    return {false, dataRead};
                 }
                 default:
                 {
@@ -220,15 +220,15 @@ std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size
         }
         if (get == 0)
         {
-            break;
+            return {false, dataRead};
         }
         dataRead += get;
     }
 
-    return dataRead;
+    return {true, dataRead};
 }
 
-std::size_t DataSocket::putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut)
+std::pair<bool, std::size_t> DataSocket::putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut)
 {
     std::size_t     dataWritten = alreadyPut;
 
@@ -271,7 +271,7 @@ std::size_t DataSocket::putMessageData(char const* buffer, std::size_t size, std
                 {
                     // Temporary error.
                     // Simply retry the read.
-                    return dataWritten;
+                    return {true, dataWritten};
                 }
                 default:
                 {
@@ -281,7 +281,7 @@ std::size_t DataSocket::putMessageData(char const* buffer, std::size_t size, std
         }
         dataWritten += put;
     }
-    return dataWritten;
+    return {true, dataWritten};
 }
 
 void DataSocket::putMessageClose()

@@ -1,6 +1,8 @@
 #ifndef THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
 #define THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
 
+#include "ThorsNisseSocket/Socket.h"
+#include "ThorsNisseSocket/SocketStream.h"
 #include <boost/coroutine/asymmetric_coroutine.hpp>
 #include <istream>
 #include <ostream>
@@ -54,47 +56,6 @@ class Headers
         ConstIterator end()   const {return std::end(data);}
 };
 
-class ISocketStream: public std::istream
-{
-    Yield&      yield;
-    public:
-        ISocketStream(Yield& yield, std::vector<char>&&, char const*, char const*)
-            : std::istream(nullptr)
-            , yield(yield)
-        {}
-        ISocketStream(ISocketStream&& move)
-            : std::istream(nullptr)
-            , yield(move.yield)
-        {}
-        /*
-        ISocketStream& operator=(ISocketStream&&)
-        {
-            return *this;
-        }
-        */
-};
-
-class OSocketStream: public std::ostream
-{
-    Yield&      yield;
-    public:
-        OSocketStream(Yield& yield)
-            : std::ostream(nullptr)
-            , yield(yield)
-        {}
-        OSocketStream(OSocketStream&& move)
-            : std::ostream(nullptr)
-            , yield(move.yield)
-        {}
-        /*
-        OSocketStream& operator=(OSocketStream&&)
-        {
-            return *this;
-        }
-        */
-};
-
-
 class URI
 {
     public:
@@ -119,31 +80,31 @@ class URI
 class Request
 {
     public:
-        const Method    method;
-        const URI           uri;
-        const Headers       headers;
-        ISocketStream       body;
+        const Method            method;
+        const URI               uri;
+        const Headers           headers;
+        Socket::ISocketStream   body;
 
-        Request(Yield& yield, Method method, URI&& uri, Headers&& headers, std::vector<char>&& data, char const* beg, char const* end)
+        Request(Socket::DataSocket& stream, Yield& yield, Method method, URI&& uri, Headers&& headers, std::vector<char>&& data, char const* beg, char const* end)
             : method(method)
             , uri(uri)
             , headers(std::move(headers))
-            , body(yield, std::move(data), beg, end)
+            , body(stream, [&yield](){yield();}, std::move(data), beg, end)
         {}
 };
 
 class Response
 {
     public:
-        short           resultCode;
-        std::string     resultMessage;
-        Headers         headers;
-        OSocketStream   body;
+        short                   resultCode;
+        std::string             resultMessage;
+        Headers                 headers;
+        Socket::OSocketStream   body;
 
         Response(Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
             : resultCode(resultCode)
             , resultMessage(resultMessage)
-            , body(yield)
+            , body([&yield](){yield();})
         {}
 };
 

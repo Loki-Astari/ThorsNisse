@@ -12,16 +12,27 @@ ReadMessageHandler::ReadMessageHandler(NisseService& parent, LibEventBase* base,
 
 void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
+    bool more;
     if (readSizeObject != sizeof(readSizeObject))
     {
-        readSizeObject = socket.getMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), readSizeObject);
+        std::tie(more, readSizeObject) = socket.getMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), readSizeObject);
+        if (!more)
+        {
+            dropHandler();
+            return;
+        }
         if (readSizeObject != sizeof(readSizeObject))
         {
             return;
         }
         buffer.resize(bufferSize);
     }
-    readBuffer = socket.getMessageData(&buffer[0], bufferSize, readBuffer);
+    std::tie(more, readBuffer) = socket.getMessageData(&buffer[0], bufferSize, readBuffer);
+    if (!more)
+    {
+        dropHandler();
+        return;
+    }
     if (readBuffer != bufferSize)
     {
         return;
@@ -41,16 +52,27 @@ WriteMessageHandler::WriteMessageHandler(NisseService& parent, LibEventBase* bas
 
 void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
+    bool        more;
     if (writeSizeObject != sizeof(writeSizeObject))
     {
         std::size_t bufferSize = message.size();
-        writeSizeObject = socket.putMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), writeSizeObject);
+        std::tie(more, writeSizeObject) = socket.putMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), writeSizeObject);
+        if (!more)
+        {
+            dropHandler();
+            return;
+        }
         if (writeSizeObject != sizeof(writeSizeObject))
         {
             return;
         }
     }
-    writeBuffer = socket.putMessageData(message.c_str(), message.size(), writeBuffer);
+    std::tie(more, writeBuffer) = socket.putMessageData(message.c_str(), message.size(), writeBuffer);
+    if (!more)
+    {
+        dropHandler();
+        return;
+    }
     if (writeBuffer != message.size())
     {
         return;
