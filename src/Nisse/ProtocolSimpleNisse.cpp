@@ -1,16 +1,16 @@
 #include "ProtocolSimpleNisse.h"
 #include "NisseService.h"
 
-using namespace ThorsAnvil::Nisse;
+using namespace ThorsAnvil::Nisse::ProtocolSimple;
 
-DataHandlerReadMessage::DataHandlerReadMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so)
+ReadMessageHandler::ReadMessageHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so)
     : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , readSizeObject(0)
     , readBuffer(0)
 {}
 
-void DataHandlerReadMessage::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     if (readSizeObject != sizeof(readSizeObject))
     {
@@ -26,10 +26,10 @@ void DataHandlerReadMessage::eventActivate(LibSocketId /*sockId*/, short /*event
     {
         return;
     }
-    moveHandler<DataHandlerWriteMessage>(std::move(socket), buffer);
+    moveHandler<WriteMessageHandler>(std::move(socket), buffer);
 }
 
-DataHandlerWriteMessage::DataHandlerWriteMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
+WriteMessageHandler::WriteMessageHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
     , writeSizeObject(0)
@@ -39,7 +39,7 @@ DataHandlerWriteMessage::DataHandlerWriteMessage(NisseService& parent, LibEventB
     message += " -> OK";
 }
 
-void DataHandlerWriteMessage::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     if (writeSizeObject != sizeof(writeSizeObject))
     {

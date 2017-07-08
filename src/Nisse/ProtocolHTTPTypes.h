@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_HTTP_TYPES_H
-#define THORSANVIL_NISSE_HTTP_TYPES_H
+#ifndef THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
+#define THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
 
 #include <boost/coroutine/asymmetric_coroutine.hpp>
 #include <istream>
@@ -12,11 +12,13 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace ProtocolHTTP
+        {
 
 using CoRoutine = boost::coroutines::asymmetric_coroutine<void>::pull_type;
 using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
 
-enum class HttpMethod {Get, Put, Post, Delete, Head};
+enum class Method {Get, Put, Post, Delete, Head};
 
 class Headers
 {
@@ -114,15 +116,15 @@ class URI
         {}
 };
 
-class HTTPRequest
+class Request
 {
     public:
-        const HttpMethod    method;
+        const Method    method;
         const URI           uri;
         const Headers       headers;
         ISocketStream       body;
 
-        HTTPRequest(Yield& yield, HttpMethod method, URI&& uri, Headers&& headers, std::vector<char>&& data, char const* beg, char const* end)
+        Request(Yield& yield, Method method, URI&& uri, Headers&& headers, std::vector<char>&& data, char const* beg, char const* end)
             : method(method)
             , uri(uri)
             , headers(std::move(headers))
@@ -130,7 +132,7 @@ class HTTPRequest
         {}
 };
 
-class HTTPResponse
+class Response
 {
     public:
         short           resultCode;
@@ -138,13 +140,14 @@ class HTTPResponse
         Headers         headers;
         OSocketStream   body;
 
-        HTTPResponse(Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
+        Response(Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
             : resultCode(resultCode)
             , resultMessage(resultMessage)
             , body(yield)
         {}
 };
 
+        }
     }
 }
 

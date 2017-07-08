@@ -1,8 +1,8 @@
 #include "NisseService.h"
 #include "ProtocolSimpleNisse.h"
 #include "ProtocolHTTPNisse.h"
-#include "HttpBinder.h"
-#include "HttpTypes.h"
+#include "ProtocolHTTPBinder.h"
+#include "ProtocolHTTPTypes.h"
 #include "NisseHandler.h"
 
 #include <iostream>
@@ -12,21 +12,21 @@ int main()
     try
     {
         using ThorsAnvil::Nisse::NisseService;
-        using ThorsAnvil::Nisse::HTTPHandlerAccept;
-        using ThorsAnvil::Nisse::HTTPBinder;
-        using ThorsAnvil::Nisse::HTTPRequest;
-        using ThorsAnvil::Nisse::HTTPResponse;
+        using ThorsAnvil::Nisse::ProtocolHTTP::Binder;
+        using ThorsAnvil::Nisse::ProtocolHTTP::Request;
+        using ThorsAnvil::Nisse::ProtocolHTTP::Response;
 
         NisseService    service;
-        HTTPBinder      binder;
 
-        binder.add("/listBeer",[](HTTPRequest& /*request*/, HTTPResponse& /*response*/){std::cerr << "ListBeer\n";});
-        binder.add("/addBeer", [](HTTPRequest& /*request*/, HTTPResponse&/* response*/){std::cerr << "AddBeer\n";});
+        Binder          binder;
+        binder.add("/listBeer",[](Request& /*request*/, Response& /*response*/){std::cerr << "ListBeer\n";});
+        binder.add("/addBeer", [](Request& /*request*/, Response&/* response*/){std::cerr << "AddBeer\n";});
 
-        service.listenOn<HTTPHandlerAccept>(40716, binder);
+        using ThorsAnvil::Nisse::ProtocolHTTP::ReadRequestHandler;
+        service.listenOn<ReadRequestHandler>(40716, binder);
 
-        using ThorsAnvil::Nisse::DataHandlerReadMessage;
-        service.listenOn<DataHandlerReadMessage>(40717);
+        using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;
+        service.listenOn<ReadMessageHandler>(40717);
 
         service.start();
     }

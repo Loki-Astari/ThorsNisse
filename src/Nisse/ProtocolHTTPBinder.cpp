@@ -1,13 +1,13 @@
-#include "HttpBinder.h"
+#include "ProtocolHTTPBinder.h"
 
-using namespace ThorsAnvil::Nisse;
+using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
-void HTTPBinder::add(std::string const& path, HttpAction action)
+void Binder::add(std::string const& path, Action action)
 {
     actionMap.emplace(path, action);
 }
 
-HttpAction& HTTPBinder::find(std::string const& path) const
+Action& Binder::find(std::string const& path) const
 {
     auto find = actionMap.find(path);
     if (find == actionMap.end())

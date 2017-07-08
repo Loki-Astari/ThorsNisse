@@ -2,8 +2,8 @@
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_NISSE_H
 
 #include "NisseHandler.h"
-#include "HttpBinder.h"
-#include "HttpTypes.h"
+#include "ProtocolHTTPBinder.h"
+#include "ProtocolHTTPTypes.h"
 #include <map>
 #include <vector>
 #include "http_parser.h"
@@ -12,20 +12,22 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace ProtocolHTTP
+        {
 
 using HttpParser            = http_parser;
 using HttpParserSettings    = http_parser_settings;
 
-class HTTPHandlerAccept: public NisseHandler
+class ReadRequestHandler: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         DataSocket              socket;
-        HTTPBinder const&       binder;
+        Binder const&           binder;
         HttpParserSettings      settings;
         HttpParser              parser;
         std::vector<char>       buffer;
-        HttpMethod              method;
+        Method                  method;
         std::string             uri;
         std::string             version;
         Headers                 headers;
@@ -39,7 +41,7 @@ class HTTPHandlerAccept: public NisseHandler
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        HTTPHandlerAccept(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, HTTPBinder const& binder);
+        ReadRequestHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
         void headerParser(Yield& yield);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 
@@ -56,28 +58,28 @@ class HTTPHandlerAccept: public NisseHandler
         void addCurrentHeader();
 };
 
-class HTTPHandlerRunResource: public NisseHandler
+class WriteResponseHandler: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         CoRoutine               worker;
         DataSocket              socket;
     public:
-        HTTPHandlerRunResource(NisseService& parent, LibEventBase* base,
-                               ThorsAnvil::Socket::DataSocket&& socket,
-                               HTTPBinder const& binder,
-                               HttpMethod method,
-                               std::string&& uri,
-                               Headers&& headers,
-                               std::vector<char>&& buffer,
-                               char const* bodyBegin,
-                               char const* bodyEnd);
+        WriteResponseHandler(NisseService& parent, LibEventBase* base,
+                             ThorsAnvil::Socket::DataSocket&& socket,
+                             Binder const& binder,
+                             Method method,
+                             std::string&& uri,
+                             Headers&& headers,
+                             std::vector<char>&& buffer,
+                             char const* bodyBegin,
+                             char const* bodyEnd);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
     private:
         static std::string buildMessage();
 };
 
-
+        }
     }
 }
 
