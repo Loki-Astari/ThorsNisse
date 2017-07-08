@@ -32,16 +32,26 @@ class NisseHandler
         void moveHandler(Args&&... args);
 };
 
-template<typename Handler>
+template<typename Handler, typename Param>
 class ServerHandler: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket    socket;
+        ThorsAnvil::Socket::ServerSocket            socket;
+        Param&                                      param;
+    public:
+        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
+        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+};
+
+template<typename Handler>
+class ServerHandler<Handler, void>: public NisseHandler
+{
+    private:
+        ThorsAnvil::Socket::ServerSocket            socket;
     public:
         ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
-
     }
 }
 

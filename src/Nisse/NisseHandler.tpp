@@ -21,14 +21,28 @@ inline void NisseHandler::moveHandler(Args&&... args)
     parent.addHandler<H>(std::forward<Args>(args)...);
 }
 
+template<typename Handler, typename Param>
+inline ServerHandler<Handler, Param>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so, Param& param)
+    : NisseHandler(parent, base, so.getSocketId(), EV_READ)
+    , socket(std::move(so))
+    , param(param)
+{}
+
+template<typename Handler, typename Param>
+inline void ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+{
+    ThorsAnvil::Socket::DataSocket accepted = socket.accept();
+    addHandler<Handler>(std::move(accepted), param);
+}
+
 template<typename Handler>
-inline ServerHandler<Handler>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so)
+inline ServerHandler<Handler, void>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so)
     : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , socket(std::move(so))
 {}
 
 template<typename Handler>
-inline void ServerHandler<Handler>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+inline void ServerHandler<Handler, void>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     ThorsAnvil::Socket::DataSocket accepted = socket.accept();
     addHandler<Handler>(std::move(accepted));

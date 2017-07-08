@@ -1,6 +1,8 @@
 #ifndef THORSANVIL_NISSE_HTTP_TYPES_H
 #define THORSANVIL_NISSE_HTTP_TYPES_H
 
+#include <istream>
+#include <ostream>
 #include <string>
 #include <vector>
 #include <map>
