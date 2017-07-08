@@ -16,14 +16,14 @@ using SocketStorage = struct sockaddr_storage;
 using SocketAddrIn  = struct sockaddr_in;
 #pragma vera_pop
 
-BaseSocket::BaseSocket(int socketId)
+BaseSocket::BaseSocket(int socketId, bool blocking)
     : socketId(socketId)
 {
     if (socketId == -1)
     {
         throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__, ": bad socket: ", errnoToName(), strerror(errno)));
     }
-    if (evutil_make_socket_nonblocking(socketId) != 0)
+    if (!blocking && evutil_make_socket_nonblocking(socketId) != 0)
     {
         throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__, ": evutil_make_socket_nonblocking: failed to make non blocking: "));
     }
@@ -60,7 +60,7 @@ void BaseSocket::close()
     return;
     if (socketId == invalidSocketId)
     {
-        throw std::logic_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__, ": accept called on a bad socket object (this object was moved)"));
+        throw std::logic_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__, ": accept called on a bad socket object (this object was moved)"));
     }
     while (true)
     {
@@ -104,8 +104,8 @@ BaseSocket& BaseSocket::operator=(BaseSocket&& move) noexcept
     return *this;
 }
 
-ConnectSocket::ConnectSocket(std::string const& host, int port)
-    : DataSocket(::socket(PF_INET, SOCK_STREAM, 0))
+ConnectSocket::ConnectSocket(std::string const& host, int port, bool blocking)
+    : DataSocket(::socket(PF_INET, SOCK_STREAM, 0), blocking)
 {
     SocketAddrIn serverAddr{};
     serverAddr.sin_family       = AF_INET;
@@ -119,8 +119,8 @@ ConnectSocket::ConnectSocket(std::string const& host, int port)
     }
 }
 
-ServerSocket::ServerSocket(int port)
-    : BaseSocket(::socket(PF_INET, SOCK_STREAM, 0))
+ServerSocket::ServerSocket(int port, bool blocking)
+    : BaseSocket(::socket(PF_INET, SOCK_STREAM, 0), blocking)
 {
     SocketAddrIn serverAddr;
     bzero((char*)&serverAddr, sizeof(serverAddr));
@@ -141,7 +141,7 @@ ServerSocket::ServerSocket(int port)
     }
 }
 
-DataSocket ServerSocket::accept()
+DataSocket ServerSocket::accept(bool blocking)
 {
     if (getSocketId() == invalidSocketId)
     {
@@ -155,7 +155,7 @@ DataSocket ServerSocket::accept()
     {
         throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::ServerSocket:", __func__, ": accept: ", errnoToName(), strerror(errno)));
     }
-    return DataSocket(newSocket);
+    return DataSocket(newSocket, blocking);
 }
 
 std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot)
