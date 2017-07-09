@@ -89,7 +89,7 @@ class Request
             : method(method)
             , uri(uri)
             , headers(std::move(headers))
-            , body(stream, [&yield](){yield();}, std::move(data), beg, end)
+            , body(stream, [&yield](){yield();}, [](){}, std::move(data), beg, end)
         {}
 };
 
@@ -104,7 +104,7 @@ class Response
         Response(Socket::DataSocket& stream, Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
             : resultCode(resultCode)
             , resultMessage(resultMessage)
-            , body(stream, [&yield](){yield();})
+            , body(stream, [&yield](){yield();}, [&parent = *this](){})
         {}
 };
 

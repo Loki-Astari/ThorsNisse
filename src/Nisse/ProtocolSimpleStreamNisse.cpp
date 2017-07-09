@@ -7,7 +7,7 @@ ReadMessageStreamHandler::ReadMessageStreamHandler(NisseService& parent, LibEven
     : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , worker([&parent = *this, socket = std::move(so)](Yield& yield) mutable
                 {
-                    Socket::ISocketStream   stream(socket, [&yield](){yield();});
+                    Socket::ISocketStream   stream(socket, [&yield](){yield();}, [](){});
                     Message                 message;
                     stream >> message;
                     parent.moveHandler<WriteMessageStreamHandler>(std::move(socket), std::move(message));
@@ -24,7 +24,7 @@ WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, LibEv
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
     , worker([&parent = *this, socket = std::move(so), message = std::move(ms)](Yield& yield) mutable
                 {
-                    Socket::OSocketStream   stream(socket, [&yield](){yield();});
+                    Socket::OSocketStream   stream(socket, [&yield](){yield();}, [](){});
                     message.message += " -> OK <-";
                     stream << message;
                     parent.dropHandler();
