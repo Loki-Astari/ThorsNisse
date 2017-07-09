@@ -37,7 +37,7 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
     {
         return;
     }
-    moveHandler<WriteMessageHandler>(std::move(socket), buffer);
+    moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer));
 }
 
 WriteMessageHandler::WriteMessageHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
