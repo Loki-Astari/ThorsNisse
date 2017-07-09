@@ -101,10 +101,10 @@ class Response
         Headers                 headers;
         Socket::OSocketStream   body;
 
-        Response(Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
+        Response(Socket::DataSocket& stream, Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
             : resultCode(resultCode)
             , resultMessage(resultMessage)
-            , body([&yield](){yield();})
+            , body(stream, [&yield](){yield();})
         {}
 };
 

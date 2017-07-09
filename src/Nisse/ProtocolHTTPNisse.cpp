@@ -190,7 +190,7 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent, LibEventBase* b
              ](Yield& yield) mutable
                 {
                     Request     request(socket, yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
-                    Response    response(yield);
+                    Response    response(socket, yield);
                     yield();
                     action(request, response);
                 }
