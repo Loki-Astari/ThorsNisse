@@ -122,8 +122,7 @@ ConnectSocket::ConnectSocket(std::string const& host, int port, bool blocking)
 ServerSocket::ServerSocket(int port, bool blocking)
     : BaseSocket(::socket(PF_INET, SOCK_STREAM, 0), blocking)
 {
-    SocketAddrIn serverAddr;
-    bzero((char*)&serverAddr, sizeof(serverAddr));
+    SocketAddrIn    serverAddr = {};
     serverAddr.sin_family       = AF_INET;
     serverAddr.sin_port         = htons(port);
     serverAddr.sin_addr.s_addr  = INADDR_ANY;
