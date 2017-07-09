@@ -1,5 +1,6 @@
 #include "NisseService.h"
 #include "ProtocolSimpleNisse.h"
+#include "ProtocolSimpleStreamNisse.h"
 #include "ProtocolHTTPNisse.h"
 #include "ProtocolHTTPBinder.h"
 #include "ProtocolHTTPTypes.h"
@@ -27,6 +28,9 @@ int main()
 
         using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;
         service.listenOn<ReadMessageHandler>(40717);
+
+        using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageStreamHandler;
+        service.listenOn<ReadMessageStreamHandler>(40718);
 
         service.start();
     }
