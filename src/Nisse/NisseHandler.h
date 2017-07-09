@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_NISSE_HANDLER_H
 
 #include "NisseEventUtil.h"
-#include "ThorsSocket/Socket.h"
+#include "ThorsNisseSocket/Socket.h"
 
 extern "C" void eventCB(ThorsAnvil::Nisse::LibSocketId socketId, short eventType, void* event);
 
@@ -32,16 +32,26 @@ class NisseHandler
         void moveHandler(Args&&... args);
 };
 
-template<typename Handler>
+template<typename Handler, typename Param>
 class ServerHandler: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket    socket;
+        ThorsAnvil::Socket::ServerSocket            socket;
+        Param&                                      param;
+    public:
+        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
+        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+};
+
+template<typename Handler>
+class ServerHandler<Handler, void>: public NisseHandler
+{
+    private:
+        ThorsAnvil::Socket::ServerSocket            socket;
     public:
         ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
-
     }
 }
 

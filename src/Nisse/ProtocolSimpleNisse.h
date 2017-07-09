@@ -7,8 +7,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace ProtocolSimple
+        {
 
-class DataHandlerReadMessage: public NisseHandler
+class ReadMessageHandler: public NisseHandler
 {
     private:
         ThorsAnvil::Socket::DataSocket      socket;
@@ -17,11 +19,11 @@ class DataHandlerReadMessage: public NisseHandler
         std::size_t                         bufferSize;
         std::string                         buffer;
     public:
-        DataHandlerReadMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
+        ReadMessageHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
-class DataHandlerWriteMessage: public NisseHandler
+class WriteMessageHandler: public NisseHandler
 {
     private:
         ThorsAnvil::Socket::DataSocket      socket;
@@ -29,10 +31,11 @@ class DataHandlerWriteMessage: public NisseHandler
         std::size_t                         writeBuffer;
         std::string                         message;
     public:
-        DataHandlerWriteMessage(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, std::string const& message);
+        WriteMessageHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, std::string const& message);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
+        }
     }
 }
 

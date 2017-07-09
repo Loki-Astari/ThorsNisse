@@ -1,61 +1,62 @@
 #include "ProtocolHTTPNisse.h"
 #include "NisseService.h"
 
-using namespace ThorsAnvil::Nisse;
+using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
 int onHeadersComplete(HttpParser* parser)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onHeadersComplete();
     return 0;
 }
 int onMessageBegin(HttpParser* parser)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onMessageBegin();
     return 0;
 }
 int onMessageComplete(HttpParser* parser)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onMessageComplete();
     return 0;
 }
 
 int onUrl(HttpParser* parser, const char *at, std::size_t length)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onUrl(at, length);
     return 0;
 }
 int onStatus(HttpParser* parser, const char *at, std::size_t length)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onStatus(at, length);
     return 0;
 }
 int onHeaderField(HttpParser* parser, const char *at, std::size_t length)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onHeaderField(at, length);
     return 0;
 }
 int onHeaderValue(HttpParser* parser, const char *at, std::size_t length)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onHeaderValue(at, length);
     return 0;
 }
 int onBody(HttpParser* parser, const char *at, std::size_t length)
 {
-    HTTPHandlerAccept* parent = reinterpret_cast<HTTPHandlerAccept*>(parser->data);
+    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
     parent->onBody(at, length);
     return 0;
 }
 
-HTTPHandlerAccept::HTTPHandlerAccept(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so)
+ReadRequestHandler::ReadRequestHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, Binder const& binder)
     : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , socket(std::move(so))
+    , binder(binder)
     , buffer(bufferLen)
 {
     settings.on_headers_complete    = ::onHeadersComplete;
@@ -79,9 +80,11 @@ HTTPHandlerAccept::HTTPHandlerAccept(NisseService& parent, LibEventBase* base, T
         std::string                                     version
         std::map<std::string, std::vector<std::string>> headers;
 */
-void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    std::size_t recved  = socket.getMessageData(&buffer[0], bufferLen, 0);
+    bool        more;
+    std::size_t recved;
+    std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
     std::size_t nparsed = http_parser_execute(&parser, &settings, &buffer[0], recved);
 
     if (parser.upgrade)
@@ -93,63 +96,71 @@ void HTTPHandlerAccept::eventActivate(LibSocketId /*sockId*/, short /*eventType*
         /* Handle error. Usually just close the connection. */
     }
 
-    if (recved == 0)
+    if (!more)
     {
         dropHandler();
     }
 }
 
-void HTTPHandlerAccept::onHeadersComplete()
+void ReadRequestHandler::onHeadersComplete()
 {
     addCurrentHeader();
-    moveHandler<HTTPHandlerRunResource>(std::move(socket), std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
+    moveHandler<WriteResponseHandler>(std::move(socket),
+                                      binder,
+                                      method,
+                                      std::move(uri),
+                                      std::move(headers),
+                                      std::move(buffer),
+                                      bodyBegin, bodyEnd
+                                     );
+    //std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
 }
-void HTTPHandlerAccept::onMessageBegin()
+void ReadRequestHandler::onMessageBegin()
 {
 }
-void HTTPHandlerAccept::onMessageComplete()
+void ReadRequestHandler::onMessageComplete()
 {
 }
-void HTTPHandlerAccept::onUrl(char const* at, std::size_t length)
+void ReadRequestHandler::onUrl(char const* at, std::size_t length)
 {
     switch (parser.method)
     {
-        case HTTP_DELETE:       method = HttpMethod::Delete;break;
-        case HTTP_GET:          method = HttpMethod::Get;   break;
-        case HTTP_HEAD:         method = HttpMethod::Head;  break;
-        case HTTP_POST:         method = HttpMethod::Post;  break;
-        case HTTP_PUT:          method = HttpMethod::Put;   break;
+        case HTTP_DELETE:       method = Method::Delete;break;
+        case HTTP_GET:          method = Method::Get;   break;
+        case HTTP_HEAD:         method = Method::Head;  break;
+        case HTTP_POST:         method = Method::Post;  break;
+        case HTTP_PUT:          method = Method::Put;   break;
         default:
-            throw std::runtime_error("ThorsAnvil::Nisse::HTTPHandlerAccept::onUrl: unknown HTTP Method");
+            throw std::runtime_error("ThorsAnvil::Nisse::ReadRequestHandler::onUrl: unknown HTTP Method");
     }
 
     uri.assign(at, length);
     gotValue    = false;
 }
-void HTTPHandlerAccept::onStatus(char const* /*at*/, std::size_t /*length*/)
+void ReadRequestHandler::onStatus(char const* /*at*/, std::size_t /*length*/)
 {
 }
-void HTTPHandlerAccept::onHeaderField(char const* at, std::size_t length)
+void ReadRequestHandler::onHeaderField(char const* at, std::size_t length)
 {
     addCurrentHeader();
     currentHead.append(at, length);
 }
-void HTTPHandlerAccept::onHeaderValue(char const* at, std::size_t length)
+void ReadRequestHandler::onHeaderValue(char const* at, std::size_t length)
 {
     gotValue = true;
     currentValue.append(at, length);
 }
-void HTTPHandlerAccept::onBody(char const* at, std::size_t length)
+void ReadRequestHandler::onBody(char const* at, std::size_t length)
 {
     bodyBegin   = at;
     bodyEnd     = at + length;
 }
 
-void HTTPHandlerAccept::addCurrentHeader()
+void ReadRequestHandler::addCurrentHeader()
 {
     if (gotValue)
     {
-        headers[currentHead].emplace_back(std::move(currentValue));
+        headers[currentHead]    = std::move(currentValue);
         gotValue = false;
         currentHead.clear();
         currentValue.clear();
@@ -158,70 +169,39 @@ void HTTPHandlerAccept::addCurrentHeader()
 
 // ------------------
 
-HTTPHandlerRunResource::HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so,
-                                                std::vector<char>&& buffer, char const* bodyBegin, char const* bodyEnd,
-                                                HttpMethod method, std::string&& uri,
-                                                Headers&& headers)
+WriteResponseHandler::WriteResponseHandler(NisseService& parent, LibEventBase* base,
+                                           ThorsAnvil::Socket::DataSocket&& so,
+                                           Binder const& binder,
+                                           Method methodParam,
+                                           std::string&& uriParam,
+                                           Headers&& headersParam,
+                                           std::vector<char>&& bufferParam,
+                                           char const* bodyBeginParam,
+                                           char const* bodyEndParam)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
-    , socket(std::move(so))
-    , method(method)
-    , uri(std::move(uri))
-    , headers(std::move(headers))
-    , inputStream(std::move(buffer), bodyBegin, bodyEnd)
-    , alreadyPut(0)
-    , message(buildMessage())
-{
-    this->method = HttpMethod::Get;
-}
+    , worker([  socket      = std::move(so),
+                &action     = binder.find(uriParam),
+                method      = methodParam,
+                uri         = std::move(uriParam),
+                headers     = std::move(headersParam),
+                buffer      = std::move(bufferParam),
+                bodyBegin   = bodyBeginParam,
+                bodyEnd     = bodyEndParam
+             ](Yield& yield) mutable
+                {
+                    Request     request(socket, yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
+                    Response    response(socket, yield);
+                    yield();
+                    action(request, response);
+                }
+            )
+{}
 
-void HTTPHandlerRunResource::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+void WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    alreadyPut += socket.putMessageData(message.c_str(), message.size(), alreadyPut);
-    if (alreadyPut == message.size())
+    worker();
+    if (!worker)
     {
         dropHandler();
     }
-}
-
-class TimePrinter
-{
-    private:
-        char const* time;
-    public:
-        TimePrinter()
-            : time(getTimeString())
-        {}
-        friend std::ostream& operator<<(std::ostream& str, TimePrinter const& data)
-        {
-            str.write(data.time, 24);
-            return str;
-        }
-    private:
-        static char const* getTimeString()
-        {
-            using TimeT = std::time_t;
-            using TimeI = std::tm;
-
-            TimeT   rawtime;
-            TimeI*  timeinfo;
-
-            ::time(&rawtime);
-            timeinfo = ::localtime(&rawtime);
-
-            return ::asctime(timeinfo);
-        }
-};
-
-std::string HTTPHandlerRunResource::buildMessage()
-{
-    std::stringstream messageStream;
-    messageStream << "HTTP/1.1 404 Not Found\r\n"
-                  << "Date: " << TimePrinter() << "\r\n"
-                  << "Server: Nisse\r\n"
-                  << "Content-Length: 44\r\n"
-                  << "Content-Type: text/html\r\n"
-                  << "Connection: Closed\r\n"
-                  << "\r\n"
-                  << "<html><body><h1>Not Found</h1></body></html>";
-    return messageStream.str();
 }

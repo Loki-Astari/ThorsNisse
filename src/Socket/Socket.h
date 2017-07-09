@@ -20,7 +20,7 @@ class BaseSocket
         static constexpr int invalidSocketId      = -1;
 
         // Designed to be a base class not used used directly.
-        BaseSocket(int socketId);
+        BaseSocket(int socketId, bool blocking = false);
     public:
         int getSocketId() const {return socketId;}
     public:
@@ -41,12 +41,12 @@ class BaseSocket
 class DataSocket: public BaseSocket
 {
     public:
-        DataSocket(int socketId)
-            : BaseSocket(socketId)
+        DataSocket(int socketId, bool blocking = false)
+            : BaseSocket(socketId, blocking)
         {}
 
-        std::size_t getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot = 0);
-        std::size_t putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut = 0);
+        std::pair<bool, std::size_t> getMessageData(char* buffer, std::size_t size, std::size_t alreadyGot = 0);
+        std::pair<bool, std::size_t> putMessageData(char const* buffer, std::size_t size, std::size_t alreadyPut = 0);
         void        putMessageClose();
 };
 
@@ -55,7 +55,7 @@ class DataSocket: public BaseSocket
 class ConnectSocket: public DataSocket
 {
     public:
-        ConnectSocket(std::string const& host, int port);
+        ConnectSocket(std::string const& host, int port, bool blocking = false);
 };
 
 // A server socket that listens on a port for a connection
@@ -63,11 +63,11 @@ class ServerSocket: public BaseSocket
 {
     static constexpr int maxConnectionBacklog = 5;
     public:
-        ServerSocket(int port);
+        ServerSocket(int port, bool blocking = false);
 
         // An accepts waits for a connection and returns a socket
         // object that can be used by the client for communication
-        DataSocket accept();
+        DataSocket accept(bool blocking = false);
 };
 
     }

@@ -46,7 +46,9 @@ void ProtocolSimple::recvMessage(std::string& message)
         std::size_t const  dataMax  = message.capacity() - 1;
         char*              buffer   = &message[0];
 
-        std::size_t got = socket.getMessageData(buffer + dataRead, dataMax - dataRead);
+        bool        more;
+        std::size_t got;
+        std::tie(more, got) = socket.getMessageData(buffer + dataRead, dataMax - dataRead);
         dataRead    += got;
         if (got == 0)
         {

@@ -2,7 +2,8 @@
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_NISSE_H
 
 #include "NisseHandler.h"
-#include <boost/coroutine/asymmetric_coroutine.hpp>
+#include "ProtocolHTTPBinder.h"
+#include "ProtocolHTTPTypes.h"
 #include <map>
 #include <vector>
 #include "http_parser.h"
@@ -11,25 +12,22 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace ProtocolHTTP
+        {
 
 using HttpParser            = http_parser;
 using HttpParserSettings    = http_parser_settings;
 
-using CoRoutine = boost::coroutines::asymmetric_coroutine<void>::pull_type;
-using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
-
-enum class HttpMethod {Get, Put, Post, Delete, Head};
-using Headers = std::map<std::string, std::vector<std::string>>;
-
-class HTTPHandlerAccept: public NisseHandler
+class ReadRequestHandler: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         DataSocket              socket;
+        Binder const&           binder;
         HttpParserSettings      settings;
         HttpParser              parser;
         std::vector<char>       buffer;
-        HttpMethod              method;
+        Method                  method;
         std::string             uri;
         std::string             version;
         Headers                 headers;
@@ -43,7 +41,7 @@ class HTTPHandlerAccept: public NisseHandler
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        HTTPHandlerAccept(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
+        ReadRequestHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
         void headerParser(Yield& yield);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 
@@ -60,35 +58,25 @@ class HTTPHandlerAccept: public NisseHandler
         void addCurrentHeader();
 };
 
-class SocketStream: public std::istream
-{
-    public:
-        SocketStream(std::vector<char>&&, char const*, char const*)
-            : std::istream(nullptr)
-        {}
-};
-class HTTPHandlerRunResource: public NisseHandler
+class WriteResponseHandler: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
-        DataSocket              socket;
-        HttpMethod              method;
-        std::string             uri;
-        Headers                 headers;
-        SocketStream            inputStream;
-        std::size_t             alreadyPut;
-        std::string             message;
+        CoRoutine               worker;
     public:
-        HTTPHandlerRunResource(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so,
-                                std::vector<char>&& buffer, char const* bodyBegin, char const* bodyEnd,
-                                HttpMethod method, std::string&& uri,
-                                Headers&& headers);
+        WriteResponseHandler(NisseService& parent, LibEventBase* base,
+                             ThorsAnvil::Socket::DataSocket&& socket,
+                             Binder const& binder,
+                             Method method,
+                             std::string&& uri,
+                             Headers&& headers,
+                             std::vector<char>&& buffer,
+                             char const* bodyBegin,
+                             char const* bodyEnd);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
-    private:
-        static std::string buildMessage();
 };
 
-
+        }
     }
 }
 

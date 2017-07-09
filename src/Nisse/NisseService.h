@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_NISSE_SERVICE_H
 
 #include "NisseEventUtil.h"
-#include "ThorsSocket/Socket.h"
+#include "ThorsNisseSocket/Socket.h"
 #include <memory>
 #include <unordered_map>
 
@@ -46,6 +46,8 @@ class NisseService
 
         template<typename Handler>
         void listenOn(int port);
+        template<typename Handler, typename Param>
+        void listenOn(int port, Param& param);
     private:
         void runLoop();
         void purgeRetiredHandlers();
