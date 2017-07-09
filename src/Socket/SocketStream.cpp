@@ -2,9 +2,10 @@
 
 using namespace ThorsAnvil::Socket;
 
-SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream, NoDataAction noAvailableData, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
+SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream, Notifier noAvailableData, Notifier flushing, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : stream(stream)
     , noAvailableData(noAvailableData)
+    , flushing(flushing)
     , buffer(std::move(bufData))
 {
     char* newStart = const_cast<char*>(currentStart);
@@ -126,6 +127,7 @@ SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
         pbump(1);
     }
 
+    flushing();
     std::streamsize toWrite = pptr() - pbase();
     std::streamsize written = 0;
     while (toWrite != written)
@@ -190,16 +192,16 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
 }
 // ------------------------
 
-ISocketStream::ISocketStream(DataSocket& stream, NoDataAction noAvailableData)
+ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing)
     : std::istream(nullptr)
-    , buffer(stream, noAvailableData)
+    , buffer(stream, noAvailableData, flushing)
 {
     std::istream::rdbuf(&buffer);
 }
 
-ISocketStream::ISocketStream(DataSocket& stream, NoDataAction noAvailableData, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
+ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : std::istream(nullptr)
-    , buffer(stream, noAvailableData, std::move(bufData), currentStart, currentEnd)
+    , buffer(stream, noAvailableData, flushing, std::move(bufData), currentStart, currentEnd)
 {
     rdbuf(&buffer);
 }
@@ -213,9 +215,9 @@ ISocketStream::ISocketStream(ISocketStream&& move) noexcept
 
 // ------------------------
 
-OSocketStream::OSocketStream(DataSocket& stream, NoDataAction noAvailableData)
+OSocketStream::OSocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing)
     : std::ostream(nullptr)
-    , buffer(stream, noAvailableData)
+    , buffer(stream, noAvailableData, flushing)
 {
     rdbuf(&buffer);
 }
