@@ -160,7 +160,7 @@ void ReadRequestHandler::addCurrentHeader()
 {
     if (gotValue)
     {
-        headers[currentHead].emplace_back(std::move(currentValue));
+        headers[currentHead]    = std::move(currentValue);
         gotValue = false;
         currentHead.clear();
         currentValue.clear();

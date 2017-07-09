@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 namespace ThorsAnvil
 {
@@ -31,8 +32,24 @@ class Headers
         Container data;
     public:
         typedef ConstIterator const_iterator;
+        class Inserter
+        {
+            private:
+                ValueStore&  valueStore;
+            public:
+                Inserter(ValueStore& valueStore)
+                    : valueStore(valueStore)
+                {}
 
-        ValueStore& operator[](std::string const& key)    {return data[key];}
+                void operator=(std::string&& value)
+                {
+                    valueStore.emplace_back(std::move(value));
+                    auto& item = valueStore.back();
+                    std::transform(std::begin(item), std::end(item), std::begin(item), [](char x){return x == '\n' ? ' ' : x;});
+                }
+        };
+
+        Inserter operator[](std::string const& key)    {return data[key];}
 
         std::size_t        getVersions(std::string const& key) const
         {
