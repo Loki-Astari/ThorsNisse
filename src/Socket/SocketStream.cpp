@@ -109,14 +109,17 @@ SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
      * updates to the put area in the case of exhaustion.
      */
 
-    /* Note: When we set the "put" pointers we delibrately leave an extra space that is not buffer.
-     * When overflow is called the normal buffer is used up, but there is an extra space in the real
-     * underlying buffer that we can use.
-     *
-     * So: *pptr = ch; // will never fail.
-     */
-    *pptr() = ch;
-    pbump(1);
+    if (ch != traits::eof())
+    {
+        /* Note: When we set the "put" pointers we delibrately leave an extra space that is not buffer.
+         * When overflow is called the normal buffer is used up, but there is an extra space in the real
+         * underlying buffer that we can use.
+         *
+         * So: *pptr = ch; // will never fail.
+         */
+        *pptr() = ch;
+        pbump(1);
+    }
 
     std::streamsize toWrite = pptr() - pbase();
     std::streamsize written = 0;
@@ -150,15 +153,15 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
         while (count != written)
         {
             bool        moreSpace;
-            std::size_t count;
-            std::tie(moreSpace, count) = stream.putMessageData(source, count, written);
-            if (moreSpace && count == 0)
+            std::size_t dataWritten;
+            std::tie(moreSpace, dataWritten) = stream.putMessageData(source, count, written);
+            if (moreSpace && dataWritten == 0)
             {
                 noAvailableData();
             }
             else if (moreSpace)
             {
-                written += count;
+                written += dataWritten;
             }
             else
             {
