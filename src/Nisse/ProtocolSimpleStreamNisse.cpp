@@ -10,7 +10,6 @@ ReadMessageStreamHandler::ReadMessageStreamHandler(NisseService& parent, LibEven
                     Socket::ISocketStream   stream(socket, [&yield](){yield();});
                     Message                 message;
                     stream >> message;
-                    message.message += " -> OK";
                     parent.moveHandler<WriteMessageStreamHandler>(std::move(socket), std::move(message));
                 }
             )
@@ -21,40 +20,19 @@ void ReadMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*eve
     worker();
 }
 
-WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, Message&& message)
+WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, Message&& ms)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
-    , socket(std::move(so))
-    , writeSizeObject(0)
-    , writeBuffer(0)
-    , message(std::move(message))
+    , worker([&parent = *this, socket = std::move(so), message = std::move(ms)](Yield& yield) mutable
+                {
+                    Socket::OSocketStream   stream(socket, [&yield](){yield();});
+                    message.message += " -> OK <-";
+                    stream << message;
+                    parent.dropHandler();
+                }
+            )
 {}
 
 void WriteMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    bool        more;
-    if (writeSizeObject != sizeof(writeSizeObject))
-    {
-        std::size_t bufferSize = message.message.size();
-        std::tie(more, writeSizeObject) = socket.putMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), writeSizeObject);
-        if (!more)
-        {
-            dropHandler();
-            return;
-        }
-        if (writeSizeObject != sizeof(writeSizeObject))
-        {
-            return;
-        }
-    }
-    std::tie(more, writeBuffer) = socket.putMessageData(message.message.c_str(), message.message.size(), writeBuffer);
-    if (!more)
-    {
-        dropHandler();
-        return;
-    }
-    if (writeBuffer != message.message.size())
-    {
-        return;
-    }
-    dropHandler();
+    worker();
 }

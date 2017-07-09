@@ -18,9 +18,14 @@ using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
 class Message
 {
     public:
-        std::size_t             size;
-        std::string             message;
+        std::size_t     size;
+        std::string     message;
     public:
+        Message() = default;
+        Message(Message&& move)
+            : size(std::move(move.size))
+            , message(std::move(move.message))
+        {}
         friend std::istream& operator>>(std::istream& stream, Message& info)
         {
             if (stream.read(reinterpret_cast<char*>(&info.size), sizeof(info.size)))
@@ -30,12 +35,21 @@ class Message
             }
             return stream;
         }
+        friend std::ostream& operator<<(std::ostream& stream, Message& info)
+        {
+            info.size = info.message.size();
+            if (stream.write(reinterpret_cast<char*>(&info.size), sizeof(info.size)))
+            {
+                stream.write(&info.message[0], info.size);
+            }
+            return stream;
+        }
 };
 
 class ReadMessageStreamHandler: public NisseHandler
 {
     private:
-        CoRoutine                           worker;
+        CoRoutine       worker;
     public:
         ReadMessageStreamHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
@@ -44,10 +58,7 @@ class ReadMessageStreamHandler: public NisseHandler
 class WriteMessageStreamHandler: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::DataSocket      socket;
-        std::size_t                         writeSizeObject;
-        std::size_t                         writeBuffer;
-        Message                             message;
+        CoRoutine       worker;
     public:
         WriteMessageStreamHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
