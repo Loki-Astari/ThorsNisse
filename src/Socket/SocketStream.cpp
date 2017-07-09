@@ -28,6 +28,11 @@ SocketStreamBuffer::SocketStreamBuffer(SocketStreamBuffer&& move) noexcept
     move.setp(nullptr, nullptr);
 }
 
+SocketStreamBuffer::~SocketStreamBuffer()
+{
+    overflow();
+}
+
 SocketStreamBuffer::int_type SocketStreamBuffer::underflow()
 {
     /*
@@ -148,24 +153,36 @@ SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
 std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streamsize count)
 {
     std::streamsize written = 0;
-    if (overflow() != traits::eof())
+    if (epptr() - pptr() > count)
     {
-        while (count != written)
+        // If we have space in the internal buffer then just place it there.
+        std::copy(source, source + count, pptr());
+        pbump(count);
+        written = count;
+    }
+    else
+    {
+        // Not enough room in the internal buffer.
+        // So write everything to the output stream.
+        if (overflow() != traits::eof())
         {
-            bool        moreSpace;
-            std::size_t dataWritten;
-            std::tie(moreSpace, dataWritten) = stream.putMessageData(source, count, written);
-            if (moreSpace && dataWritten == 0)
+            while (count != written)
             {
-                noAvailableData();
-            }
-            else if (moreSpace)
-            {
-                written += dataWritten;
-            }
-            else
-            {
-                break;
+                bool        moreSpace;
+                std::size_t dataWritten;
+                std::tie(moreSpace, dataWritten) = stream.putMessageData(source, count, written);
+                if (moreSpace && dataWritten == 0)
+                {
+                    noAvailableData();
+                }
+                else if (moreSpace)
+                {
+                    written += dataWritten;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
     }

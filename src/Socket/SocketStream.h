@@ -24,6 +24,7 @@ class SocketStreamBuffer: public std::streambuf
         std::vector<char>       buffer;
 
     public:
+        virtual ~SocketStreamBuffer() override;
         SocketStreamBuffer(DataSocket& stream, NoDataAction noAvailableData, std::vector<char>&& bufData = std::vector<char>(4000), char const* currentStart = nullptr, char const* currentEnd = nullptr);
         SocketStreamBuffer(SocketStreamBuffer&& move) noexcept;
 
