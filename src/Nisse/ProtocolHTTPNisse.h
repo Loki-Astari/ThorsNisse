@@ -74,8 +74,6 @@ class WriteResponseHandler: public NisseHandler
                              char const* bodyBegin,
                              char const* bodyEnd);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
-    private:
-        static std::string buildMessage();
 };
 
         }
