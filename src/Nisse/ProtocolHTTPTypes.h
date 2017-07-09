@@ -112,6 +112,10 @@ class Request
 
 class Response
 {
+    private:
+        bool                    headerWritten;
+        Socket::DataSocket&     stream;
+        Yield&                  yield;
     public:
         short                   resultCode;
         std::string             resultMessage;
@@ -119,10 +123,31 @@ class Response
         Socket::OSocketStream   body;
 
         Response(Socket::DataSocket& stream, Yield& yield, short resultCode = 200, std::string const& resultMessage = "OK")
-            : resultCode(resultCode)
+            : headerWritten(false)
+            , stream(stream)
+            , yield(yield)
+            , resultCode(resultCode)
             , resultMessage(resultMessage)
-            , body(stream, [&yield](){yield();}, [&parent = *this](){})
+            , body(stream, [&yield](){yield();}, [&parent = *this](){parent.flushing();})
         {}
+        void flushing()
+        {
+            if (!headerWritten)
+            {
+                headerWritten = true;
+                Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){});
+
+                headerStream << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
+                for (auto const& header: headers)
+                {
+                    for (auto const& value: header.second)
+                    {
+                        headerStream << header.first << ": " << value << "\r\n";
+                    }
+                }
+                headerStream << "\r\n";
+            }
+        }
 };
 
         }
