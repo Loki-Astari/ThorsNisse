@@ -28,11 +28,11 @@ class Headers
     using Container     = std::map<std::string, ValueStore>;
     using ConstIterator = Container::const_iterator;
     private:
-        std::map<std::string, std::vector<std::string>> data;
+        Container data;
     public:
         typedef ConstIterator const_iterator;
 
-        std::vector<std::string>& operator[](std::string const& key)    {return data[key];}
+        ValueStore& operator[](std::string const& key)    {return data[key];}
 
         std::size_t        getVersions(std::string const& key) const
         {
@@ -52,8 +52,8 @@ class Headers
             return version >= find->second.size() ? empty : find->second[version];
         }
 
-        ConstIterator begin() const {return std::begin(data);}
-        ConstIterator end()   const {return std::end(data);}
+        ConstIterator begin() const {return std::cbegin(data);}
+        ConstIterator end()   const {return std::cend(data);}
 };
 
 class URI

@@ -205,4 +205,3 @@ void WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTy
         dropHandler();
     }
 }
-
