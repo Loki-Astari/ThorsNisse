@@ -5,8 +5,6 @@
 #include "ThorsNisseSocket/SocketStream.h"
 #include <boost/coroutine/asymmetric_coroutine.hpp>
 
-#include <iostream>
-
 namespace ThorsAnvil
 {
     namespace Nisse
@@ -25,13 +23,10 @@ class Message
     public:
         friend std::istream& operator>>(std::istream& stream, Message& info)
         {
-            std::cerr << "Reading message\n";
             if (stream.read(reinterpret_cast<char*>(&info.size), sizeof(info.size)))
             {
-                std::cerr << "Got Size: " << info.size << "\n";
                 info.message.resize(info.size);
                 stream.read(reinterpret_cast<char*>(&info.message[0]), info.size);
-                std::cerr << "Got Message: " << info.message << "\n";
             }
             return stream;
         }
