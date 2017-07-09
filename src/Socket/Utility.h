@@ -5,6 +5,7 @@
 #include <sstream>
 #include <utility>
 #include <cstddef>
+#include <cerrno>
 
 namespace ThorsAnvil
 {
@@ -41,6 +42,7 @@ inline std::string errnoToName()
         case EADDRNOTAVAIL:     return "EADDRNOTAVAIL ";
         case EAFNOSUPPORT:      return "EAFNOSUPPORT ";
         case EAGAIN:            return "EAGAIN ";
+        // TODO: Add configuration test
         //case EWOULDBLOCK:       return "EWOULDBLOCK ";
         case EBADF:             return "EBADF ";
         case ECONNABORTED:      return "ECONNABORTED ";
@@ -84,6 +86,13 @@ inline std::string errnoToName()
             break;
     }
     return "Unknown: ";
+}
+
+inline std::string systemErrorMessage()
+{
+    std::string result = errnoToName();
+    result += strerror(errno);
+    return result;
 }
 
     }
