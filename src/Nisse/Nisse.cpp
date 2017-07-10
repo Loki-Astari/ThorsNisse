@@ -20,8 +20,8 @@ int main()
         NisseService    service;
 
         Binder          binder;
-        binder.add("/listBeer",[](Request& /*request*/, Response& response){response.body << "<html><head><title>Beer List</title></head><body><h1>Beer List</h1></body></html>";});
-        binder.add("/addBeer", [](Request& /*request*/, Response& /*response*/){std::cerr << "AddBeer\n";});
+        binder.get("/listBeer",[](Request& /*request*/, Response& response){response.body << "<html><head><title>Beer List</title></head><body><h1>Beer List</h1></body></html>";});
+        binder.post("/addBeer", [](Request& /*request*/, Response& /*response*/){std::cerr << "AddBeer\n";});
 
         using ThorsAnvil::Nisse::ProtocolHTTP::ReadRequestHandler;
         service.listenOn<ReadRequestHandler>(40716, binder);
