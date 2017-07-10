@@ -4,6 +4,7 @@
 #include "ProtocolHTTPTypes.h"
 
 #include <map>
+#include <array>
 #include <string>
 #include <functional>
 
@@ -20,10 +21,14 @@ class Binder
 {
     public:
 
-        void add(std::string const& path, Action action);
-        Action& find(std::string const& path) const;
+        void get(std::string const& path, Action action)    {add(Method::Get,    path, action);}
+        void put(std::string const& path, Action action)    {add(Method::Put,    path, action);}
+        void del(std::string const& path, Action action)    {add(Method::Delete, path, action);}
+        void post(std::string const& path, Action action)   {add(Method::Post,   path, action);}
+        Action& find(Method method, std::string const& path) const;
     private:
-        mutable std::map<std::string, Action>   actionMap;
+        void add(Method method, std::string const& path, Action action);
+        mutable std::array<std::map<std::string, Action>, 4>   actionMap;
 };
 
         }

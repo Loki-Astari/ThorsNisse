@@ -180,7 +180,7 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent, LibEventBase* b
                                            char const* bodyEndParam)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
     , worker([  socket      = std::move(so),
-                &action     = binder.find(uriParam),
+                &action     = binder.find(Method::Get, uriParam),
                 method      = methodParam,
                 uri         = std::move(uriParam),
                 headers     = std::move(headersParam),

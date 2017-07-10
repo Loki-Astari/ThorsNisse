@@ -16,12 +16,12 @@ static char const* getTimeString()
     return ::asctime(timeinfo);
 }
 
-void Binder::add(std::string const& path, Action action)
+void Binder::add(Method method, std::string const& path, Action action)
 {
-    actionMap.emplace(path, action);
+    actionMap[static_cast<int>(method)].emplace(path, action);
 }
 
-Action& Binder::find(std::string const& path) const
+Action& Binder::find(Method method, std::string const& path) const
 {
     static Action   action404([](Request&, Response& response)
                                 {
@@ -36,8 +36,8 @@ Action& Binder::find(std::string const& path) const
                                 }
                              );
 
-    auto find = actionMap.find(path);
-    if (find == actionMap.end())
+    auto find = actionMap[static_cast<int>(method)].find(path);
+    if (find == actionMap[static_cast<int>(method)].end())
     {
         return action404;
     }
