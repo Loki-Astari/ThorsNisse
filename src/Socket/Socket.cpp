@@ -57,7 +57,6 @@ BaseSocket::~BaseSocket()
 
 void BaseSocket::close()
 {
-    return;
     if (socketId == invalidSocketId)
     {
         throw std::logic_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__, ": accept called on a bad socket object (this object was moved)"));

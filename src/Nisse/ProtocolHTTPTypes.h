@@ -106,7 +106,7 @@ class Request
             : method(method)
             , uri(uri)
             , headers(std::move(headers))
-            , body(stream, [&yield](){yield();}, [](){}, std::move(data), beg, end)
+            , body(stream, [&yield](){yield();}, [](){}, false, std::move(data), beg, end)
         {}
 };
 
@@ -135,7 +135,7 @@ class Response
             if (!headerWritten)
             {
                 headerWritten = true;
-                Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){});
+                Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){}, false);
 
                 headerStream << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
                 for (auto const& header: headers)

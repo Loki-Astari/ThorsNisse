@@ -2,11 +2,12 @@
 
 using namespace ThorsAnvil::Socket;
 
-SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream, Notifier noAvailableData, Notifier flushing, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
+SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : stream(stream)
     , noAvailableData(noAvailableData)
     , flushing(flushing)
     , buffer(std::move(bufData))
+    , closeSocketOnDestruction(closeSocketOnDestruction)
 {
     char* newStart = const_cast<char*>(currentStart);
     char* newEnd   = const_cast<char*>(currentEnd);
@@ -24,6 +25,7 @@ SocketStreamBuffer::SocketStreamBuffer(SocketStreamBuffer&& move) noexcept
     : stream(move.stream)
     , noAvailableData(move.noAvailableData)
     , buffer(std::move(move.buffer))
+    , closeSocketOnDestruction(move.closeSocketOnDestruction)
 {
     move.setg(nullptr, nullptr, nullptr);
     move.setp(nullptr, nullptr);
@@ -32,6 +34,10 @@ SocketStreamBuffer::SocketStreamBuffer(SocketStreamBuffer&& move) noexcept
 SocketStreamBuffer::~SocketStreamBuffer()
 {
     overflow();
+    if (closeSocketOnDestruction)
+    {
+        stream.putMessageClose();
+    }
 }
 
 SocketStreamBuffer::int_type SocketStreamBuffer::underflow()
@@ -192,16 +198,16 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
 }
 // ------------------------
 
-ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing)
+ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
     : std::istream(nullptr)
-    , buffer(stream, noAvailableData, flushing)
+    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction)
 {
     std::istream::rdbuf(&buffer);
 }
 
-ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
+ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : std::istream(nullptr)
-    , buffer(stream, noAvailableData, flushing, std::move(bufData), currentStart, currentEnd)
+    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction, std::move(bufData), currentStart, currentEnd)
 {
     rdbuf(&buffer);
 }
@@ -215,9 +221,9 @@ ISocketStream::ISocketStream(ISocketStream&& move) noexcept
 
 // ------------------------
 
-OSocketStream::OSocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing)
+OSocketStream::OSocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
     : std::ostream(nullptr)
-    , buffer(stream, noAvailableData, flushing)
+    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction)
 {
     rdbuf(&buffer);
 }
