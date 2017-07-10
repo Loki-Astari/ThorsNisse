@@ -16,12 +16,28 @@ static char const* getTimeString()
     return ::asctime(timeinfo);
 }
 
-void Binder::add(Method method, std::string const& path, Action action)
+void Site::add(Method method, std::string const& path, Action action)
 {
     actionMap[static_cast<int>(method)].emplace(path, action);
 }
 
-Action& Binder::find(Method method, std::string const& path) const
+std::pair<bool, Action&> Site::find(Method method, std::string const& path) const
+{
+    auto find = actionMap[static_cast<int>(method)].find(path);
+    if (find == actionMap[static_cast<int>(method)].end())
+    {
+        static Action noAction;
+        return {false, noAction};
+    }
+    return {true, find->second};
+}
+
+void Binder::addSite(std::string const& host, Site&& site)
+{
+    siteMap.emplace(host, std::move(site));
+}
+
+Action& Binder::find(Method method, std::string const& host, std::string const& path) const
 {
     static Action   action404([](Request&, Response& response)
                                 {
@@ -36,10 +52,26 @@ Action& Binder::find(Method method, std::string const& path) const
                                 }
                              );
 
-    auto find = actionMap[static_cast<int>(method)].find(path);
-    if (find == actionMap[static_cast<int>(method)].end())
+    if (host != "")
     {
-        return action404;
+        auto findHost = siteMap.find(host);
+        if (findHost != siteMap.end())
+        {
+            auto action = findHost->second.find(method, path);
+            if (action.first)
+            {
+                return action.second;
+            }
+        }
     }
-    return find->second;
+    auto blindHost = siteMap.find("");
+    if (blindHost != siteMap.end())
+    {
+        auto action = blindHost->second.find(method, path);
+        if (action.first)
+        {
+            return action.second;
+        }
+    }
+    return action404;
 }

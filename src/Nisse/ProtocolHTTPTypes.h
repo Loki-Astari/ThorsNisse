@@ -76,22 +76,33 @@ class Headers
 class URI
 {
     public:
-        const std::string original;
-        const std::string normalized;
+        std::string original;
+        std::string normalized;
 
-        const std::string schema;
-        const std::string host;
-        const std::string path;
-        const std::string query;
-        const std::string fragment;
-        const short       port;
+        std::string schema;
+        std::string host;
+        std::string path;
+        std::string query;
+        std::string fragment;
+        short       port;
 
-        const Headers     queryParam;
+        Headers     queryParam;
 
-        URI(std::string&& original)
-            : original(original)
-            , port(80)
-        {}
+        URI(std::string const& hostAndPort, std::string&& pathAndQuery)
+            : port(80)
+        {
+            auto find = hostAndPort.find(':');
+            if (find != std::string::npos)
+            {
+                host    = hostAndPort.substr(0, find);
+                port    = atoi(hostAndPort.substr(find).c_str());
+            }
+            else
+            {
+                host    = hostAndPort;
+            }
+            path    = std::move(pathAndQuery);
+        }
 };
 
 class Request

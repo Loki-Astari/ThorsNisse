@@ -12,25 +12,26 @@ int main()
 {
     try
     {
-        using ThorsAnvil::Nisse::NisseService;
-        using ThorsAnvil::Nisse::ProtocolHTTP::Binder;
-        using ThorsAnvil::Nisse::ProtocolHTTP::Request;
-        using ThorsAnvil::Nisse::ProtocolHTTP::Response;
+        namespace Nisse = ThorsAnvil::Nisse;
+        namespace HTTP  = ThorsAnvil::Nisse::ProtocolHTTP;
 
-        NisseService    service;
+        HTTP::Site      site;
+        site.get("/listBeer",[](HTTP::Request& /*request*/, HTTP::Response& response){response.body << "<html><head><title>Beer List</title></head><body><h1>Beer List</h1></body></html>";});
+        site.post("/addBeer", [](HTTP::Request& /*request*/, HTTP::Response& /*response*/){std::cerr << "AddBeer\n";});
 
-        Binder          binder;
-        binder.get("/listBeer",[](Request& /*request*/, Response& response){response.body << "<html><head><title>Beer List</title></head><body><h1>Beer List</h1></body></html>";});
-        binder.post("/addBeer", [](Request& /*request*/, Response& /*response*/){std::cerr << "AddBeer\n";});
+        HTTP::Binder    binder;
+        binder.addSite("test.com", std::move(site));
 
-        using ThorsAnvil::Nisse::ProtocolHTTP::ReadRequestHandler;
-        service.listenOn<ReadRequestHandler>(40716, binder);
+        Nisse::NisseService    service;
+        service.listenOn<HTTP::ReadRequestHandler>(40716, binder);
 
+        /*
         using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;
         service.listenOn<ReadMessageHandler>(40717);
 
         using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageStreamHandler;
         service.listenOn<ReadMessageStreamHandler>(40718);
+        */
 
         service.start();
     }
