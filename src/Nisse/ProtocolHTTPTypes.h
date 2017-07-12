@@ -76,22 +76,70 @@ class Headers
 class URI
 {
     public:
-        const std::string original;
-        const std::string normalized;
+        std::string original;
+        std::string normalized;
 
-        const std::string schema;
-        const std::string host;
-        const std::string path;
-        const std::string query;
-        const std::string fragment;
-        const short       port;
+        std::string schema;
+        std::string host;
+        std::string path;
+        std::string query;
+        std::string fragment;
+        short       port;
 
-        const Headers     queryParam;
+        Headers     queryParam;
 
-        URI(std::string&& original)
-            : original(original)
-            , port(80)
-        {}
+        URI(std::string const& hostAndPort, std::string&& pathAndQuery)
+            : port(80)
+        {
+            auto find = hostAndPort.find(':');
+            if (find == std::string::npos)
+            {
+                host    = hostAndPort;
+            }
+            else
+            {
+                host    = hostAndPort.substr(0, find);
+                port    = atoi(hostAndPort.substr(find + 1).c_str());
+            }
+
+            auto nextSection = pathAndQuery.find_first_of("?&#", 0, 3);
+            if (nextSection == std::string::npos)
+            {
+                path    = std::move(pathAndQuery);
+            }
+            else
+            {
+                path    = pathAndQuery.substr(0, nextSection);
+                if (pathAndQuery[nextSection] != '#')
+                {
+                    auto querySection = nextSection;
+                    nextSection = findSection(pathAndQuery, '#', querySection);
+                    query    = pathAndQuery.substr(querySection, (nextSection - querySection));
+                }
+                fragment = pathAndQuery.substr(nextSection);
+            }
+
+            if (!query.empty())
+            {
+                std::string::size_type lastPart = 0;
+                for(auto nextPart = findSection(query, '&', 0); nextPart != lastPart; lastPart = nextPart, nextPart = findSection(query, '&', lastPart))
+                {
+                    auto split = findSection(query, '=', lastPart);
+                    split = split > nextPart ? nextPart - 1 : split;
+                    queryParam[query.substr(lastPart + 1, (split - lastPart - 1))] = query.substr(split, (nextPart - split));
+                }
+            }
+        }
+    private:
+        std::string::size_type findSection(std::string const& s, char value, std::string::size_type pos)
+        {
+            if (pos == s.size())
+            {
+                return pos;
+            }
+            auto find = s.find(value, pos + 1);
+            return find == std::string::npos ? s.size() : find;
+        }
 };
 
 class Request
@@ -106,7 +154,7 @@ class Request
             : method(method)
             , uri(uri)
             , headers(std::move(headers))
-            , body(stream, [&yield](){yield();}, [](){}, std::move(data), beg, end)
+            , body(stream, [&yield](){yield();}, [](){}, false, std::move(data), beg, end)
         {}
 };
 
@@ -135,7 +183,7 @@ class Response
             if (!headerWritten)
             {
                 headerWritten = true;
-                Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){});
+                Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){}, false);
 
                 headerStream << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
                 for (auto const& header: headers)

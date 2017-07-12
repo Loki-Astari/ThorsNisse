@@ -4,6 +4,7 @@
 #include "ProtocolHTTPTypes.h"
 
 #include <map>
+#include <array>
 #include <string>
 #include <functional>
 
@@ -16,15 +17,28 @@ namespace ThorsAnvil
 
 using Action = std::function<void(Request&, Response&)>;
 
-class Binder
+class Site
 {
     public:
-
-        void add(std::string const& path, Action action);
-        Action& find(std::string const& path) const;
+        void get(std::string const& path, Action action)    {add(Method::Get,    path, action);}
+        void put(std::string const& path, Action action)    {add(Method::Put,    path, action);}
+        void del(std::string const& path, Action action)    {add(Method::Delete, path, action);}
+        void post(std::string const& path, Action action)   {add(Method::Post,   path, action);}
+        std::pair<bool, Action&> find(Method method, std::string const& path) const;
     private:
-        mutable std::map<std::string, Action>   actionMap;
+        void add(Method method, std::string const& path, Action action);
+        mutable std::array<std::map<std::string, Action>, 4>   actionMap;
 };
+
+class Binder
+{
+    private:
+        std::map<std::string, Site> siteMap;
+    public:
+        void addSite(std::string const& host, Site&& site);
+        Action& find(Method method, std::string const& host, std::string const& path) const;
+};
+
 
         }
     }

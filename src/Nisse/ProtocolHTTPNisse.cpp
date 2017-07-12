@@ -74,12 +74,6 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, LibEventBase* base,
 
 }
 
-/*
-        std::string                                     method;
-        std::string                                     uri;
-        std::string                                     version
-        std::map<std::string, std::vector<std::string>> headers;
-*/
 void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     bool        more;
@@ -113,7 +107,6 @@ void ReadRequestHandler::onHeadersComplete()
                                       std::move(buffer),
                                       bodyBegin, bodyEnd
                                      );
-    //std::move(buffer), bodyBegin, bodyEnd, method, std::move(uri), std::move(headers));
 }
 void ReadRequestHandler::onMessageBegin()
 {
@@ -180,15 +173,17 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent, LibEventBase* b
                                            char const* bodyEndParam)
     : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
     , worker([  socket      = std::move(so),
-                &action     = binder.find(uriParam),
+                &binder     = binder,
                 method      = methodParam,
-                uri         = std::move(uriParam),
+                uriParam    = std::move(uriParam),
                 headers     = std::move(headersParam),
                 buffer      = std::move(bufferParam),
                 bodyBegin   = bodyBeginParam,
                 bodyEnd     = bodyEndParam
              ](Yield& yield) mutable
                 {
+                    URI const   uri(headers.get("Host"), std::move(uriParam));
+                    Action&     action(binder.find(Method::Get, uri.host, uri.path));
                     Request     request(socket, yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
                     Response    response(socket, yield);
                     yield();
