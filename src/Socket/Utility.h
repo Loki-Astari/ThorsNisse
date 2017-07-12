@@ -16,7 +16,7 @@ template<typename... Args>
 int print(std::ostream& s, Args&... args)
 {
     using Expander = int[];
-    return Expander{ 0, ((s << std::forward<Args>(args)), 0)...}[0];
+    return Expander{ 0, (s << args, 0)...}[0];
 }
 
 template<typename... Args>
