@@ -13,10 +13,11 @@ namespace ThorsAnvil
     {
 
 template<typename... Args>
-int print(std::ostream& s, Args&... args)
+void print(std::ostream& s, Args&... args)
 {
     using Expander = int[];
-    return Expander{ 0, (s << args, 0)...}[0];
+    Expander ignore{ 0, (s << args, 0)...};
+    (void)ignore; // Cast to ignore to avoid compiler warnings.
 }
 
 template<typename... Args>
