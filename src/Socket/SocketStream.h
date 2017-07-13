@@ -27,7 +27,10 @@ class SocketStreamBuffer: public std::streambuf
 
     public:
         virtual ~SocketStreamBuffer() override;
-        SocketStreamBuffer(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true, std::vector<char>&& bufData = std::vector<char>(4000), char const* currentStart = nullptr, char const* currentEnd = nullptr);
+        SocketStreamBuffer(DataSocket& stream,
+                           Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true,
+                           std::vector<char>&& bufData = std::vector<char>(4000),
+                           char const* currentStart = nullptr, char const* currentEnd = nullptr);
         SocketStreamBuffer(SocketStreamBuffer&& move) noexcept;
 
     protected:
@@ -36,6 +39,9 @@ class SocketStreamBuffer: public std::streambuf
 
         virtual int_type        overflow(int_type ch = traits::eof()) override;
         virtual std::streamsize xsputn(char_type const* s,std::streamsize count) override;
+    private:
+        std::streamsize writeToStream(char_type const* source, std::streamsize count);
+        std::streamsize readFromStream(char_type* dest, std::streamsize count, bool fill = true);
 };
 
 class ISocketStream: public std::istream
@@ -43,8 +49,11 @@ class ISocketStream: public std::istream
     SocketStreamBuffer buffer;
 
     public:
-        ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd);
-        ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
+        ISocketStream(DataSocket& stream,
+                      Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction,
+                      std::vector<char>&& bufData, char const* currentStart, char const* currentEnd);
+        ISocketStream(DataSocket& stream,
+                      Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
         ISocketStream(ISocketStream&& move) noexcept;
 };
 
@@ -53,7 +62,8 @@ class OSocketStream: public std::ostream
     SocketStreamBuffer buffer;
 
     public:
-        OSocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
+        OSocketStream(DataSocket& stream,
+                      Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
         OSocketStream(OSocketStream&& move) noexcept;
 };
 
