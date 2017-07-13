@@ -33,6 +33,7 @@ SocketStreamBuffer::SocketStreamBuffer(SocketStreamBuffer&& move) noexcept
 
 SocketStreamBuffer::~SocketStreamBuffer()
 {
+    // Force the buffer to be output to the socket
     overflow();
     if (closeSocketOnDestruction)
     {
@@ -51,25 +52,9 @@ SocketStreamBuffer::int_type SocketStreamBuffer::underflow()
      * The base class version of the function does nothing. The derived classes may override this function to allow updates to the get area in the case of exhaustion.
      */
 
-    while (gptr() == egptr())
-    {
-        bool    moreData;
-        size_t  count;
-        std::tie(moreData, count) = stream.getMessageData(&buffer[0], buffer.size());
-        if (moreData && count == 0)
-        {
-            noAvailableData();
-        }
-        else if (count != 0)
-        {
-            setg(&buffer[0], &buffer[0], &buffer[count]);
-        }
-        else if (!moreData)
-        {
-            break;
-        }
-    }
-    return (gptr() == egptr()) ? traits::eof() : traits::to_int_type(*gptr());
+    std::streamsize retrievedData = readFromStream(&buffer[0], buffer.size(), false);
+    setg(&buffer[0], &buffer[0], &buffer[retrievedData]);
+    return (retrievedData == 0) ? traits::eof() : traits::to_int_type(*gptr());
 }
 
 std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize count)
@@ -82,30 +67,33 @@ std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize coun
      */
 
     std::streamsize currentBufferSize = egptr() - gptr();
-    std::streamsize movedCharacter    = std::min(count, currentBufferSize);
-    std::copy(gptr(), gptr() + movedCharacter, dest);
+    std::streamsize nextChunkSize    = std::min(count, currentBufferSize);
+    std::copy_n(gptr(), nextChunkSize, dest);
+    gbump(nextChunkSize);
 
-    dest  += movedCharacter;
-    count -= movedCharacter;
+    std::streamsize       retrieved  = nextChunkSize;
+    std::streamsize const bufferSize = static_cast<std::streamsize>(buffer.size());
 
-    while (count > 0)
+    while (retrieved != count)
     {
-        bool    moreData;
-        size_t  dataRead;
-        std::tie(moreData, dataRead) = stream.getMessageData(dest, count);
-        if (moreData && dataRead == 0)
+        nextChunkSize    = std::min((count - retrieved), bufferSize);
+        
+        // A significant chunk
+        if (nextChunkSize > (bufferSize / 2))
         {
-            noAvailableData();
+            std::streamsize read = readFromStream(dest + retrieved, count - retrieved);
+            retrieved += read;
         }
-        else if (!moreData)
+        else
         {
-            break;
+            underflow();
+            nextChunkSize    = std::min(nextChunkSize, egptr() - gptr());
+            std::copy_n(gptr(), nextChunkSize, dest);
+            gbump(nextChunkSize);
+            retrieved += nextChunkSize;
         }
-        dest  += dataRead;
-        count -= dataRead;
-        movedCharacter += dataRead;
     }
-    return movedCharacter;
+    return retrieved;
 }
 
 SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
@@ -123,7 +111,7 @@ SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
 
     if (ch != traits::eof())
     {
-        /* Note: When we set the "put" pointers we delibrately leave an extra space that is not buffer.
+        /* Note: When we set the "put" pointers we deliberately leave an extra space that is not buffer.
          * When overflow is called the normal buffer is used up, but there is an extra space in the real
          * underlying buffer that we can use.
          *
@@ -134,80 +122,132 @@ SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
     }
 
     flushing();
-    std::streamsize toWrite = pptr() - pbase();
-    std::streamsize written = 0;
-    while (toWrite != written)
+    std::streamsize written = writeToStream(pbase(), pptr() - pbase());
+    if (written != (pptr() - pbase()))
     {
-        bool        moreSpace;
-        std::size_t count;
-        std::tie(moreSpace, count) = stream.putMessageData(pbase(), pptr() - pbase(), written);
-        if (moreSpace && count == 0)
-        {
-            noAvailableData();
-        }
-        else if (moreSpace)
-        {
-            written += count;
-        }
-        else
-        {
-            return traits::eof();
-        }
+        setp(&buffer[0], &buffer[0]);
     }
-    setp(&buffer[0], &buffer[buffer.size() - 1]);
+    else
+    {
+        setp(&buffer[0], &buffer[buffer.size() - 1]);
+    }
     return written;
 }
 
 std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streamsize count)
 {
-    std::streamsize written = 0;
-    if (epptr() - pptr() > count)
+    /*
+     * Writes count characters to the output sequence from the character array whose first element is pointed to by s.
+     * The characters are written as if by repeated calls to sputc().
+     * Writing stops when either count characters are written or a call to sputc() would have returned Traits::eof().
+     * If the put area becomes full (pptr() == epptr()), this function may call overflow(),
+     * or achieve the effect of calling overflow() by some other, unspecified, means.
+     */
+    std::streamsize spaceInBuffer = epptr() - pptr();
+    if (spaceInBuffer > count)
     {
         // If we have space in the internal buffer then just place it there.
-        std::copy(source, source + count, pptr());
+        // We want a lot of little writtes to be buffered so we only talk to the stream
+        // chunks of a resonable size.
+        std::copy_n(source, count, pptr());
         pbump(count);
-        written = count;
+        return count;
     }
-    else
+
+    // Not enough room in the internal buffer.
+    // So write everything to the output stream.
+    if (overflow() == traits::eof())
     {
-        // Not enough room in the internal buffer.
-        // So write everything to the output stream.
-        if (overflow() != traits::eof())
+        return 0;
+    }
+    std::streamsize       exported   = 0;
+    std::streamsize const bufferSize = static_cast<std::streamsize>(buffer.size());
+    while (exported != count)
+    {
+        std::streamsize nextChunk = count - exported;
+        if (nextChunk > (bufferSize / 2))
         {
-            while (count != written)
-            {
-                bool        moreSpace;
-                std::size_t dataWritten;
-                std::tie(moreSpace, dataWritten) = stream.putMessageData(source, count, written);
-                if (moreSpace && dataWritten == 0)
-                {
-                    noAvailableData();
-                }
-                else if (moreSpace)
-                {
-                    written += dataWritten;
-                }
-                else
-                {
-                    break;
-                }
-            }
+            std::streamsize written = writeToStream(source, nextChunk);
+            exported += written;
+        }
+        else
+        {
+            std::copy_n(source + exported, nextChunk, pptr());
+            pbump(nextChunk);
+            exported += nextChunk;
+        }
+    }
+    return exported;
+}
+
+std::streamsize SocketStreamBuffer::writeToStream(char_type const* source, std::streamsize count)
+{
+    std::streamsize written = 0;
+    while (written != count)
+    {
+        bool        moreSpace;
+        std::size_t dataWritten;
+        std::tie(moreSpace, dataWritten) = stream.putMessageData(source, count, written);
+        if (dataWritten != 0)
+        {
+            written += dataWritten;
+        }
+        else if (moreSpace)
+        {
+            noAvailableData();
+        }
+        else
+        {
+            break;
         }
     }
     return written;
 }
+
+std::streamsize SocketStreamBuffer::readFromStream(char_type* dest, std::streamsize count, bool fill)
+{
+    std::streamsize read = 0;
+    while (read != count)
+    {
+        bool    moreData;
+        size_t  dataRead;
+        std::tie(moreData, dataRead) = stream.getMessageData(dest, count, read);
+        if (dataRead != 0)
+        {
+            read += dataRead;
+            if (!fill)
+            {
+                break;
+            }
+        }
+        else if (moreData)
+        {
+            noAvailableData();
+        }
+        else
+        {
+            break;
+        }
+    }
+    return read;
+}
 // ------------------------
 
-ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
+ISocketStream::ISocketStream(DataSocket& stream,
+                             Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
     : std::istream(nullptr)
     , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction)
 {
     std::istream::rdbuf(&buffer);
 }
 
-ISocketStream::ISocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
+ISocketStream::ISocketStream(DataSocket& stream,
+                             Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction,
+                             std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : std::istream(nullptr)
-    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction, std::move(bufData), currentStart, currentEnd)
+    , buffer(stream,
+             noAvailableData, flushing, closeSocketOnDestruction,
+             std::move(bufData), currentStart, currentEnd)
 {
     rdbuf(&buffer);
 }
@@ -221,9 +261,11 @@ ISocketStream::ISocketStream(ISocketStream&& move) noexcept
 
 // ------------------------
 
-OSocketStream::OSocketStream(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
+OSocketStream::OSocketStream(DataSocket& stream,
+                             Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
     : std::ostream(nullptr)
-    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction)
+    , buffer(stream,
+             noAvailableData, flushing, closeSocketOnDestruction)
 {
     rdbuf(&buffer);
 }

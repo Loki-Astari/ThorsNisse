@@ -20,7 +20,7 @@ class BaseSocket
         static constexpr int invalidSocketId      = -1;
 
         // Designed to be a base class not used used directly.
-        BaseSocket(int socketId, bool blocking = false);
+        BaseSocket(int socketId, bool blocking = false) noexcept;
     public:
         int getSocketId() const {return socketId;}
     public:
@@ -35,6 +35,8 @@ class BaseSocket
 
         // User can manually call close
         void close();
+    private:
+        static void makeSocketNonBlocking(int socketId);
 };
 
 // A class that can read/write to a socket

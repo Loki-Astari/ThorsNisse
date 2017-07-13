@@ -122,7 +122,7 @@ class URI
             if (!query.empty())
             {
                 std::string::size_type lastPart = 0;
-                for(auto nextPart = findSection(query, '&', 0); nextPart != lastPart; lastPart = nextPart, nextPart = findSection(query, '&', lastPart))
+                for (auto nextPart = findSection(query, '&', 0); nextPart != lastPart; lastPart = nextPart, nextPart = findSection(query, '&', lastPart))
                 {
                     auto split = findSection(query, '=', lastPart);
                     split = split > nextPart ? nextPart - 1 : split;
