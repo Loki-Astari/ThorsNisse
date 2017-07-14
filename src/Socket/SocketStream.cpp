@@ -2,7 +2,9 @@
 
 using namespace ThorsAnvil::Socket;
 
-SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream, Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction, std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
+SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream,
+                                       Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction,
+                                       std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : stream(stream)
     , noAvailableData(noAvailableData)
     , flushing(flushing)
@@ -52,12 +54,19 @@ SocketStreamBuffer::~SocketStreamBuffer()
 SocketStreamBuffer::int_type SocketStreamBuffer::underflow()
 {
     /*
-     * Ensures that at least one character is available in the input area by updating the pointers to the input area (if needed)
-     * and reading more data in from the input sequence (if applicable).
-     * Returns the value of that character (converted to int_type with Traits::to_int_type(c)) on success or Traits::eof() on failure.
-     * The function may update gptr, egptr and eback pointers to define the location of newly loaded data (if any).
+     * Ensures that at least one character is available in the input area by updating the pointers
+     * to the input area (if needed) * and reading more data in from the input sequence
+     * (if applicable).
+     *
+     * Returns the value of that character (converted to int_type with Traits::to_int_type(c)) on success
+     * or Traits::eof() on failure.
+     *
+     * The function may update gptr, egptr and eback pointers to define the location of newly
+     * loaded data (if any).
+     *
      * On failure, the function ensures that either gptr() == nullptr or gptr() == egptr.
-     * The base class version of the function does nothing. The derived classes may override this function to allow updates to the get area in the case of exhaustion.
+     * The base class version of the function does nothing. The derived classes may override this function
+     * to allow updates to the get area in the case of exhaustion.
      */
 
     std::streamsize retrievedData = readFromStream(&buffer[0], buffer.size(), false);
@@ -70,8 +79,9 @@ std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize coun
     /*
      * Reads count characters from the input sequence and stores them into a character array pointed to by s.
      * The characters are read as if by repeated calls to sbumpc().
-     * That is, if less than count characters are immediately available, the function calls uflow() to provide more until traits::eof() is returned.
-     * Classes derived from std::basic_streambuf are permitted to provide more efficient implementations of this function.
+     * That is, if less than count characters are immediately available, the function calls uflow() to
+     * provide more until traits::eof() is returned. Classes derived from std::basic_streambuf are permitted
+     * to provide more efficient implementations of this function.
      */
 
 
@@ -179,7 +189,7 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
         std::streamsize nextChunk = count - exported;
         if (nextChunk > (bufferSize / 2))
         {
-            std::streamsize written = writeToStream(source, nextChunk);
+            std::streamsize written = writeToStream(source + exported, nextChunk);
             exported += written;
         }
         else
