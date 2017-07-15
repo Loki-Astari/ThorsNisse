@@ -1,7 +1,7 @@
-#ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_NISSE_H
-#define THORSANVIL_NISSE_PROTOCOL_SIMPLE_NISSE_H
+#ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_HANDLERS_H
+#define THORSANVIL_NISSE_PROTOCOL_SIMPLE_HANDLERS_H
 
-#include "NisseHandler.h"
+#include "ThorsNisse/NisseHandler.h"
 
 namespace ThorsAnvil
 {

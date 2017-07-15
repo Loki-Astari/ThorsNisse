@@ -1,9 +1,9 @@
-#ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_NISSE_H
-#define THORSANVIL_NISSE_PROTOCOL_HTTP_NISSE_H
+#ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_HANDLERS_H
+#define THORSANVIL_NISSE_PROTOCOL_HTTP_HANDLERS_H
 
-#include "NisseHandler.h"
-#include "ProtocolHTTPBinder.h"
-#include "ProtocolHTTPTypes.h"
+#include "Binder.h"
+#include "Types.h"
+#include "ThorsNisse/NisseHandler.h"
 #include <map>
 #include <vector>
 #include "http_parser.h"

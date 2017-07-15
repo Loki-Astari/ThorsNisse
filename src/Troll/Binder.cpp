@@ -1,4 +1,4 @@
-#include "ProtocolHTTPBinder.h"
+#include "Binder.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 

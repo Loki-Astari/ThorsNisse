@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
 
-#include "NisseHandler.h"
+#include "ThorsNisse/NisseHandler.h"
 #include "ThorsNisseSocket/SocketStream.h"
 #include <boost/coroutine/asymmetric_coroutine.hpp>
 

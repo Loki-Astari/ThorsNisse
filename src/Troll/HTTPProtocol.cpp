@@ -1,5 +1,5 @@
-#include "ProtocolHTTPNisse.h"
-#include "NisseService.h"
+#include "HTTPProtocol.h"
+#include "ThorsNisse/NisseService.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 

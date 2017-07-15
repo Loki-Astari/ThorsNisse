@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_PROTOCOLHTTP_BINDER_H
 #define THORSANVIL_NISSE_PROTOCOLHTTP_BINDER_H
 
-#include "ProtocolHTTPTypes.h"
+#include "Types.h"
 
 #include <map>
 #include <array>

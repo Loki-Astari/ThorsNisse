@@ -1,4 +1,4 @@
-#include "ProtocolHTTPTypes.h"
+#include "Types.h"
 
 /*
 #include "ThorsNisseSocket/Socket.h"
