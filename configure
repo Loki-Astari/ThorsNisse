@@ -595,7 +595,7 @@ PACKAGE_STRING='ThorsAnvil 0.1'
 PACKAGE_BUGREPORT='Loki.Astari+ThorsAnvil@gmail.com'
 PACKAGE_URL=''
 
-ac_unique_file="src/Nisse/Nisse.cpp"
+ac_unique_file="src/Nisse/NisseService.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -15544,7 +15544,7 @@ fi
 
 
 
-        minLangFeature=14
+        minLangFeature=17
         if test "" = ""; then :
   maxLangFeature=17
 else

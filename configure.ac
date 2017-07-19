@@ -8,7 +8,7 @@ AX_THOR_FUNC_BUILD
 AC_CONFIG_AUX_DIR([build/autotools/build])
 
 
-AC_CONFIG_SRCDIR([src/Nisse/Nisse.cpp])
+AC_CONFIG_SRCDIR([src/Nisse/NisseService.cpp])
 AC_PROG_CXX
 AX_THOR_PROG_COV
 LT_INIT([disable-static])
@@ -17,7 +17,7 @@ AX_THOR_LIB_SELECT
 
 AX_CHECK_COMPILE_FLAG([-ansi], [AC_SUBST([CXXFLAGS], ["$CXXFLAGS -ansi"])])
 
-AX_THOR_FUNC_LANG_FLAG(14)
+AX_THOR_FUNC_LANG_FLAG(17)
 
 
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
