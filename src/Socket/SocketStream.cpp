@@ -23,9 +23,10 @@ SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream, Notifier noAvailableD
 
 SocketStreamBuffer::SocketStreamBuffer(SocketStreamBuffer&& move) noexcept
     : stream(move.stream)
-    , noAvailableData(move.noAvailableData)
+    , noAvailableData(std::move(move.noAvailableData))
+    , flushing(std::move(move.flushing))
     , buffer(std::move(move.buffer))
-    , closeSocketOnDestruction(move.closeSocketOnDestruction)
+    , closeSocketOnDestruction(std::move(move.closeSocketOnDestruction))
 {
     move.setg(nullptr, nullptr, nullptr);
     move.setp(nullptr, nullptr);
@@ -34,10 +35,17 @@ SocketStreamBuffer::SocketStreamBuffer(SocketStreamBuffer&& move) noexcept
 SocketStreamBuffer::~SocketStreamBuffer()
 {
     // Force the buffer to be output to the socket
-    overflow();
-    if (closeSocketOnDestruction)
+    try
     {
-        stream.putMessageClose();
+        overflow();
+        if (closeSocketOnDestruction)
+        {
+            stream.putMessageClose();
+        }
+    }
+    catch (...)
+    {
+        // Catch and drop exceptions
     }
 }
 
@@ -66,6 +74,7 @@ std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize coun
      * Classes derived from std::basic_streambuf are permitted to provide more efficient implementations of this function.
      */
 
+
     std::streamsize currentBufferSize = egptr() - gptr();
     std::streamsize nextChunkSize    = std::min(count, currentBufferSize);
     std::copy_n(gptr(), nextChunkSize, dest);
@@ -86,9 +95,12 @@ std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize coun
         }
         else
         {
-            underflow();
+            if (underflow() == traits::eof())
+            {
+                break;
+            }
             nextChunkSize    = std::min(nextChunkSize, egptr() - gptr());
-            std::copy_n(gptr(), nextChunkSize, dest);
+            std::copy_n(gptr(), nextChunkSize, dest + retrieved);
             gbump(nextChunkSize);
             retrieved += nextChunkSize;
         }
@@ -233,6 +245,13 @@ std::streamsize SocketStreamBuffer::readFromStream(char_type* dest, std::streams
 }
 // ------------------------
 
+ISocketStream::ISocketStream(DataSocket& stream, bool closeSocketOnDestruction)
+    : std::istream(nullptr)
+    , buffer(stream, noActionNotifier, noActionNotifier, closeSocketOnDestruction)
+{
+    std::istream::rdbuf(&buffer);
+}
+
 ISocketStream::ISocketStream(DataSocket& stream,
                              Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
     : std::istream(nullptr)
@@ -261,11 +280,17 @@ ISocketStream::ISocketStream(ISocketStream&& move) noexcept
 
 // ------------------------
 
+OSocketStream::OSocketStream(DataSocket& stream, bool closeSocketOnDestruction)
+    : std::ostream(nullptr)
+    , buffer(stream, noActionNotifier, noActionNotifier, closeSocketOnDestruction)
+{
+    rdbuf(&buffer);
+}
+
 OSocketStream::OSocketStream(DataSocket& stream,
                              Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
     : std::ostream(nullptr)
-    , buffer(stream,
-             noAvailableData, flushing, closeSocketOnDestruction)
+    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction)
 {
     rdbuf(&buffer);
 }

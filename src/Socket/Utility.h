@@ -38,7 +38,7 @@ inline std::string errnoToName()
 {
     switch (errno)
     {
-#define  THOR_CASE(x)  case x: return #x ""
+#define  THOR_CASE(x)  case x: return #x " "
         THOR_CASE( EACCES );
         THOR_CASE( EADDRINUSE );
         THOR_CASE( EADDRNOTAVAIL );
