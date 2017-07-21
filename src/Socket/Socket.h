@@ -19,8 +19,9 @@ class BaseSocket
     protected:
         static constexpr int invalidSocketId      = -1;
 
+        BaseSocket();
         // Designed to be a base class not used used directly.
-        BaseSocket(int socketId, bool blocking = false) noexcept;
+        BaseSocket(int socketId, bool blocking = false);
     public:
         int getSocketId() const {return socketId;}
     public:
@@ -57,7 +58,7 @@ class DataSocket: public BaseSocket
 class ConnectSocket: public DataSocket
 {
     public:
-        ConnectSocket(std::string const& host, int port, bool blocking = false);
+        ConnectSocket(std::string const& host, int port);
 };
 
 // A server socket that listens on a port for a connection

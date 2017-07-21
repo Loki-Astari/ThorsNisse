@@ -12,6 +12,8 @@ namespace ThorsAnvil
 
 using Notifier = std::function<void()>;
 
+inline void noActionNotifier(){}
+
 class SocketStreamBuffer: public std::streambuf
 {
     private:
@@ -54,6 +56,7 @@ class ISocketStream: public std::istream
                       std::vector<char>&& bufData, char const* currentStart, char const* currentEnd);
         ISocketStream(DataSocket& stream,
                       Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
+        ISocketStream(DataSocket& stream, bool closeSocketOnDestruction = true);
         ISocketStream(ISocketStream&& move) noexcept;
 };
 
@@ -64,6 +67,7 @@ class OSocketStream: public std::ostream
     public:
         OSocketStream(DataSocket& stream,
                       Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
+        OSocketStream(DataSocket& stream, bool closeSocketOnDestruction = true);
         OSocketStream(OSocketStream&& move) noexcept;
 };
 

@@ -14,15 +14,20 @@ using namespace ThorsAnvil::Socket;
 using SocketAddr    = struct sockaddr;
 using SocketStorage = struct sockaddr_storage;
 using SocketAddrIn  = struct sockaddr_in;
+using HostEnt       = struct hostent;
 #pragma vera_pop
 
-BaseSocket::BaseSocket(int socketId, bool blocking) noexcept
+BaseSocket::BaseSocket()
+    : socketId(invalidSocketId)
+{}
+
+BaseSocket::BaseSocket(int socketId, bool blocking)
     : socketId(socketId)
 {
     if (socketId == invalidSocketId)
     {
-        throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
-                                                   ": bad socket: ", systemErrorMessage()));
+        throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
+                                                  ": bad socket: ", systemErrorMessage()));
     }
     if (!blocking)
     {
@@ -34,8 +39,8 @@ void BaseSocket::makeSocketNonBlocking(int socketId)
 {
     if (fcntl(socketId, F_SETFL, O_NONBLOCK) == -1)
     {
-        throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
-                                                   ": fcntl: ", systemErrorMessage()));
+        throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
+                                                  ": fcntl: ", systemErrorMessage()));
     }
 }
 
@@ -78,9 +83,11 @@ void BaseSocket::close()
         {
             switch (errno)
             {
-                case EBADF: throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
+                case EBADF: socketId = invalidSocketId;
+                            throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
                                                                       ": close: ", socketId, " ", systemErrorMessage()));
-                case EIO:   throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
+                case EIO:   socketId = invalidSocketId;
+                            throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
                                                                        ": close: ", socketId, " ", systemErrorMessage()));
                 case EINTR:
                 {
@@ -89,10 +96,12 @@ void BaseSocket::close()
                     //       so continue normal operations.
                     continue;
                 }
-                default:    throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
+                default:    socketId = invalidSocketId;
+                            throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
                                                                        ": close: ", socketId, " ", systemErrorMessage()));
             }
         }
+        break;
     }
     socketId = invalidSocketId;
 }
@@ -115,18 +124,36 @@ BaseSocket& BaseSocket::operator=(BaseSocket&& move) noexcept
     return *this;
 }
 
-ConnectSocket::ConnectSocket(std::string const& host, int port, bool blocking)
-    : DataSocket(::socket(PF_INET, SOCK_STREAM, 0), blocking)
+ConnectSocket::ConnectSocket(std::string const& host, int port)
+    : DataSocket(::socket(PF_INET, SOCK_STREAM, 0), true)
 {
     SocketAddrIn serverAddr{};
+
     serverAddr.sin_family       = AF_INET;
     serverAddr.sin_port         = htons(port);
-    serverAddr.sin_addr.s_addr  = inet_addr(host.c_str());
+    //serverAddr.sin_addr.s_addr  = inet_addr(host.c_str());
+
+    HostEnt* serv;
+    while (true)
+    {
+        serv = ::gethostbyname(host.c_str());
+        if (serv == NULL)
+        {
+            if (h_errno == TRY_AGAIN)
+            {
+                continue;
+            }
+            throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::ConnectSocket::", __func__,
+                                                       ": gethostbyname: ", systemErrorMessage()));
+        }
+        break;
+    }
+    bcopy((char *)serv->h_addr, (char *)&serverAddr.sin_addr.s_addr, serv->h_length);
 
     if (::connect(getSocketId(), reinterpret_cast<SocketAddr*>(&serverAddr), sizeof(serverAddr)) != 0)
     {
         close();
-        throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::ConnectSocket::", __func__,
+        throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::ConnectSocket::", __func__,
                                                    ": connect: ", systemErrorMessage()));
     }
 }
@@ -192,6 +219,7 @@ std::pair<bool, std::size_t> DataSocket::getMessageData(char* buffer, std::size_
                 case EFAULT:
                 case EINVAL:
                 case ENXIO:
+                case ENOMEM:
                 {
                     // Fatal error. Programming bug
                     throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__,
@@ -199,7 +227,6 @@ std::pair<bool, std::size_t> DataSocket::getMessageData(char* buffer, std::size_
                 }
                 case EIO:
                 case ENOBUFS:
-                case ENOMEM:
                 {
                    // Resource acquisition failure or device error
                     throw std::runtime_error(buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__,
