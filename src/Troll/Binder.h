@@ -1,7 +1,8 @@
 #ifndef THORSANVIL_NISSE_PROTOCOLHTTP_BINDER_H
 #define THORSANVIL_NISSE_PROTOCOLHTTP_BINDER_H
 
-#include "ProtocolHTTPTypes.h"
+#include "Types.h"
+#include "Route.h"
 
 #include <map>
 #include <array>
@@ -20,14 +21,14 @@ using Action = std::function<void(Request&, Response&)>;
 class Site
 {
     public:
-        void get(std::string const& path, Action action)    {add(Method::Get,    path, action);}
-        void put(std::string const& path, Action action)    {add(Method::Put,    path, action);}
-        void del(std::string const& path, Action action)    {add(Method::Delete, path, action);}
-        void post(std::string const& path, Action action)   {add(Method::Post,   path, action);}
+        void get(std::string&& path, Action&& action)    {add(Method::Get,    std::move(path), std::move(action));}
+        void put(std::string&& path, Action&& action)    {add(Method::Put,    std::move(path), std::move(action));}
+        void del(std::string&& path, Action&& action)    {add(Method::Delete, std::move(path), std::move(action));}
+        void post(std::string&& path, Action&& action)   {add(Method::Post,   std::move(path), std::move(action));}
         std::pair<bool, Action&> find(Method method, std::string const& path) const;
     private:
-        void add(Method method, std::string const& path, Action action);
-        mutable std::array<std::map<std::string, Action>, 4>   actionMap;
+        void add(Method method, std::string&& path, Action&& action);
+        mutable std::array<std::map<Route, Action, RouteTester>, 4>   actionMap;
 };
 
 class Binder

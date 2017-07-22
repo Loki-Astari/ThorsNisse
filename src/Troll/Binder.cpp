@@ -1,4 +1,4 @@
-#include "ProtocolHTTPBinder.h"
+#include "Binder.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
@@ -16,9 +16,11 @@ static char const* getTimeString()
     return ::asctime(timeinfo);
 }
 
-void Site::add(Method method, std::string const& path, Action action)
+void Site::add(Method method, std::string&& path, Action&& action)
 {
-    actionMap[static_cast<int>(method)].emplace(path, action);
+    actionMap[static_cast<int>(method)].emplace(std::piecewise_construct,
+                                                std::forward_as_tuple(std::move(path)),
+                                                std::forward_as_tuple(std::move(action)));
 }
 
 std::pair<bool, Action&> Site::find(Method method, std::string const& path) const
@@ -51,6 +53,10 @@ Action& Binder::find(Method method, std::string const& host, std::string const& 
                                     response.body << "<html><body><h1>Not Found</h1></body></html>";
                                 }
                              );
+    if (method == Method::Head)
+    {
+        method = Method::Get;
+    }
 
     if (host != "")
     {

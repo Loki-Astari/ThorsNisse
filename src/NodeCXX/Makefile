@@ -1,11 +1,9 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../)
 
-TARGET						= ThorsNisse.slib
+TARGET						= NodeCXX.app
+LINK_LIBS					= ThorsNisse ThorsTroll ThorsImp ThorsNisseSocket
 LDLIBS						= -levent -lboost_system -lboost_coroutine
-LINK_LIBS					= ThorsNisseSocket
-
-%/NisseService.o:			FILE_WARNING_FLAGS	+= -Wno-unknown-pragmas
 
 include $(THORSANVIL_ROOT)/build/tools/Makefile
 

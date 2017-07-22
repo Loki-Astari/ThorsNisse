@@ -1,10 +1,10 @@
-#include "NisseService.h"
-#include "ProtocolSimpleNisse.h"
-#include "ProtocolSimpleStreamNisse.h"
-#include "ProtocolHTTPNisse.h"
-#include "ProtocolHTTPBinder.h"
-#include "ProtocolHTTPTypes.h"
-#include "NisseHandler.h"
+#include "ThorsNisse/NisseService.h"
+#include "ThorsNisse/NisseHandler.h"
+#include "ThorsImp/ProtocolSimple.h"
+#include "ThorsImp/ProtocolSimpleStream.h"
+#include "ThorsTroll/HTTPProtocol.h"
+#include "ThorsTroll/Binder.h"
+#include "ThorsTroll/Types.h"
 
 #include <iostream>
 

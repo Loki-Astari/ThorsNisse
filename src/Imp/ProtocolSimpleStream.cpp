@@ -1,5 +1,5 @@
-#include "ProtocolSimpleStreamNisse.h"
-#include "NisseService.h"
+#include "ProtocolSimpleStream.h"
+#include "ThorsNisse/NisseService.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolSimple;
 
