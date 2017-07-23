@@ -45,4 +45,8 @@ void NisseHandler::dropHandler()
  * It is not part of the live code.
  */
 #include "NisseHandler.tpp"
+#include "test/Action.h"
+#include "ThorsNisseSocket/Socket.h"
+template ThorsAnvil::Nisse::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, event_base*, ThorsAnvil::Socket::ServerSocket&&);
+template ThorsAnvil::Nisse::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, event_base*, ThorsAnvil::Socket::ServerSocket&&);
 #endif

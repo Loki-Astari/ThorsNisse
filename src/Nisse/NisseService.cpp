@@ -7,6 +7,7 @@ using namespace ThorsAnvil::Nisse;
 
 NisseService::NisseService()
     : running(false)
+    , shutDownNext(false)
     , eventBase(event_base_new(), &event_base_free)
 {
     if (eventBase == nullptr)
@@ -15,27 +16,30 @@ NisseService::NisseService()
     }
 }
 
-NisseService::NisseService(NisseService&& move) noexcept
-    : eventBase(nullptr, &event_base_free)
+NisseService::NisseService(NisseService&& move)
+    : running(false)
+    , shutDownNext(false)
+    , eventBase(nullptr, &event_base_free)
 {
     swap(move);
 }
 
-NisseService& NisseService::operator=(NisseService&& move) noexcept
+NisseService& NisseService::operator=(NisseService&& move)
 {
     swap(move);
     return *this;
 }
 
-void NisseService::swap(NisseService& other) noexcept
+void NisseService::swap(NisseService& other)
 {
-    if (running)
+    if (running || other.running)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::NisseService::swap: move failed. Can't move a service once it has started.");
     }
 
     using std::swap;
     swap(running,           other.running);
+    swap(shutDownNext,      other.shutDownNext);
     swap(eventBase,         other.eventBase);
     swap(handlers,          other.handlers);
     swap(retiredHandlers,   other.retiredHandlers);
@@ -45,18 +49,19 @@ void NisseService::start()
 {
     std::cout << "Nisse Started\n";
     running = true;
-    while (running)
+    while (!shutDownNext)
     {
         std::cout << "Nisse Loop\n";
         runLoop();
         purgeRetiredHandlers();
     }
+    running = false;
     std::cout << "Nisse Stopped\n";
 }
 
 void NisseService::flagShutDown()
 {
-    running = false;
+    shutDownNext = true;
     if (event_base_loopbreak(eventBase.get()) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::NisseService::flagShutDown: event_base_loopbreak(): Failed");
@@ -104,4 +109,10 @@ void NisseService::delHandler(NisseHandler* oldHandler)
  * It is not part of the live code.
  */
 #include "NisseService.tpp"
+#include "test/Action.h"
+template void ThorsAnvil::Nisse::NisseService::listenOn<Action>(int);
+template void ThorsAnvil::Nisse::NisseService::listenOn<ActionUnReg>(int);
+template void ThorsAnvil::Nisse::NisseService::addHandler<Action, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
+template void ThorsAnvil::Nisse::NisseService::addHandler<ActionUnReg, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
+
 #endif

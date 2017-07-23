@@ -21,6 +21,7 @@ class NisseService
 {
     private:
         bool                            running;
+        bool                            shutDownNext;
         EventHolder                     eventBase;
         // The handlers are held by pointer because they are
         // polymorphic (there can potentially be a lot of different
@@ -38,8 +39,8 @@ class NisseService
     public:
         NisseService();
 
-        NisseService(NisseService&&) noexcept;
-        NisseService& operator=(NisseService&&) noexcept;
+        NisseService(NisseService&&);
+        NisseService& operator=(NisseService&&);
 
         void start();
         void flagShutDown();
@@ -51,7 +52,7 @@ class NisseService
     private:
         void runLoop();
         void purgeRetiredHandlers();
-        void swap(NisseService& ) noexcept;
+        void swap(NisseService& );
 
         friend class NisseHandler;
         template<typename H, typename... Args>
