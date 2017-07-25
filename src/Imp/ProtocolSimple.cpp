@@ -100,4 +100,3 @@ void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
     }
     dropHandler();
 }
-

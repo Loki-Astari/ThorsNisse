@@ -40,7 +40,7 @@ TEST(NisseServiceTest, MoveConstructFail)
 {
     NisseService    service1;
     bool            serviceStarted = false;
-    auto            future = std::async(std::launch::async, [&service1, &serviceStarted](){while(!serviceStarted){std::this_thread::yield();};sleep(1);service1.flagShutDown();NisseService service2(std::move(service1));});
+    auto            future = std::async(std::launch::async, [&service1, &serviceStarted](){while(!serviceStarted){std::this_thread::yield();};sleep(2);service1.flagShutDown();NisseService service2(std::move(service1));});
     serviceStarted = true;
     service1.start(1);
 
