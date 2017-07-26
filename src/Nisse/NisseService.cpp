@@ -45,14 +45,14 @@ void NisseService::swap(NisseService& other)
     swap(retiredHandlers,   other.retiredHandlers);
 }
 
-void NisseService::start()
+void NisseService::start(double check)
 {
     std::cout << "Nisse Started\n";
     running = true;
     while (!shutDownNext)
     {
         std::cout << "Nisse Loop\n";
-        runLoop();
+        runLoop(check);
         purgeRetiredHandlers();
     }
     running = false;
@@ -68,9 +68,11 @@ void NisseService::flagShutDown()
     }
 }
 
-void NisseService::runLoop()
+void NisseService::runLoop(double check)
 {
-    static const TimeVal ten_sec{10,0};
+    int seconds   = static_cast<int>(check);
+    int microSecs = (check - seconds) * 1'000'000;
+    static const TimeVal ten_sec{seconds, microSecs};
 
     if (event_base_loopexit(eventBase.get(), &ten_sec) != 0)
     {

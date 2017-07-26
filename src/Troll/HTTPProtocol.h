@@ -41,7 +41,7 @@ class ReadRequestHandler: public NisseHandler
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        ReadRequestHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
+        ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
         void headerParser(Yield& yield);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 
@@ -64,7 +64,7 @@ class WriteResponseHandler: public NisseHandler
     private:
         CoRoutine               worker;
     public:
-        WriteResponseHandler(NisseService& parent, LibEventBase* base,
+        WriteResponseHandler(NisseService& parent,
                              ThorsAnvil::Socket::DataSocket&& socket,
                              Binder const& binder,
                              Method method,

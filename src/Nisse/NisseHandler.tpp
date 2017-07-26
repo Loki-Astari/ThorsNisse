@@ -22,10 +22,14 @@ inline void NisseHandler::moveHandler(Args&&... args)
 }
 
 template<typename Handler, typename Param>
-inline ServerHandler<Handler, Param>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so, Param& param)
-    : NisseHandler(parent, base, so.getSocketId(), EV_READ)
+inline ServerHandler<Handler, Param>::ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so, Param& param)
+    : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , param(param)
+{}
+
+template<typename Handler, typename Param>
+inline ServerHandler<Handler, Param>::~ServerHandler()
 {}
 
 template<typename Handler, typename Param>
@@ -36,9 +40,13 @@ inline void ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/,
 }
 
 template<typename Handler>
-inline ServerHandler<Handler, void>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so)
-    : NisseHandler(parent, base, so.getSocketId(), EV_READ)
+inline ServerHandler<Handler, void>::ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so)
+    : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
+{}
+
+template<typename Handler>
+inline ServerHandler<Handler, void>::~ServerHandler()
 {}
 
 template<typename Handler>

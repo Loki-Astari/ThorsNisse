@@ -32,7 +32,7 @@ TEST(NisseServiceTest, StartAndShutDown)
     bool            serviceFinished = false;
     auto            future = std::async(std::launch::async, [&service, &serviceFinished](){while(!serviceFinished){service.flagShutDown(); std::this_thread::yield();}});
 
-    service.start();
+    service.start(1);
     serviceFinished = true;
     future.wait();
 }
@@ -42,7 +42,7 @@ TEST(NisseServiceTest, MoveConstructFail)
     bool            serviceStarted = false;
     auto            future = std::async(std::launch::async, [&service1, &serviceStarted](){while(!serviceStarted){std::this_thread::yield();};sleep(1);service1.flagShutDown();NisseService service2(std::move(service1));});
     serviceStarted = true;
-    service1.start();
+    service1.start(1);
 
     ASSERT_THROW(
         future.get(),
@@ -56,7 +56,7 @@ TEST(NisseServiceTest, AddListener)
 
     service.listenOn<Action>(9876);
     auto future = std::async(std::launch::async, [&serviceFinished](){sleep(2);while(!serviceFinished){ConnectSocket socket("127.0.0.1", 9876);}});
-    service.start();
+    service.start(1);
     serviceFinished = true;
     future.wait();
 }
@@ -67,7 +67,7 @@ TEST(NisseServiceTest, AddListenerPurge)
 
     service.listenOn<ActionUnReg>(9876);
     auto future = std::async(std::launch::async, [&serviceFinished](){sleep(2);while(!serviceFinished){ConnectSocket socket("127.0.0.1", 9876);}});
-    service.start();
+    service.start(1);
     serviceFinished = true;
     future.wait();
 }

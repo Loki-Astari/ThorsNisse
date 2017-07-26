@@ -42,15 +42,18 @@ class NisseService
         NisseService(NisseService&&);
         NisseService& operator=(NisseService&&);
 
-        void start();
+        void start(double check = 10.0);
         void flagShutDown();
 
         template<typename Handler>
         void listenOn(int port);
         template<typename Handler, typename Param>
         void listenOn(int port, Param& param);
+
+        template<typename Func>
+        void addTimer(double timeOut, Func&& action);
     private:
-        void runLoop();
+        void runLoop(double check);
         void purgeRetiredHandlers();
         void swap(NisseService& );
 

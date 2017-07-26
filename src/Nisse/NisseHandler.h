@@ -21,8 +21,8 @@ class NisseHandler
         NisseService&                       parent;
         NisseEvent                          event;
     public:
-        NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId, short eventType);
-        virtual ~NisseHandler() {}
+        NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeout = 0);
+        virtual ~NisseHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType);
     protected:
         void dropHandler();
@@ -30,16 +30,19 @@ class NisseHandler
         void addHandler(Args&&... args);
         template<typename H, typename... Args>
         void moveHandler(Args&&... args);
+    public:
+        void dropEvent();
 };
 
 template<typename Handler, typename Param>
 class ServerHandler: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket            socket;
-        Param&                                      param;
+        ThorsAnvil::Socket::ServerSocket    socket;
+        Param&                              param;
     public:
-        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
+        ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
+        ~ServerHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
@@ -47,11 +50,28 @@ template<typename Handler>
 class ServerHandler<Handler, void>: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket            socket;
+        ThorsAnvil::Socket::ServerSocket    socket;
     public:
-        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so);
+        ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so);
+        ~ServerHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
+
+template<typename Func>
+class TimerHandler: public NisseHandler
+{
+    Func        action;
+    public:
+        TimerHandler(NisseService& parent, double timeOut, Func&& action)
+            : NisseHandler(parent, -1, EV_PERSIST, timeOut)
+            , action(std::move(action))
+        {}
+        virtual void eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+        {
+            action();
+        }
+};
+
     }
 }
 

@@ -23,12 +23,17 @@ inline void NisseService::listenOn(int port, Param& param)
     addHandler<ServerHandler<Handler, Param>>(ThorsAnvil::Socket::ServerSocket(port), param);
 }
 
+template<typename Func>
+void NisseService::addTimer(double timeOut, Func&& action)
+{
+    addHandler<TimerHandler>(timeOut, std::move(action));
+}
+
 template<typename H, typename... Args>
 inline void NisseService::addHandler(Args&&... args)
 {
-    NisseManagHandler   value = std::make_unique<H>(*this, eventBase.get(), std::forward<Args>(args)...);
+    NisseManagHandler   value = std::make_unique<H>(*this, std::forward<Args>(args)...);
     NisseHandler*       key   = value.get();
-    ((void)key);
     handlers.emplace(key, std::move(value));
 }
 
