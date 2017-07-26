@@ -25,6 +25,9 @@ NisseHandler::NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId
     }
 }
 
+NisseHandler::~NisseHandler()
+{}
+
 void NisseHandler::eventActivate(LibSocketId sockId, short eventType)
 {
     std::cerr << "Callback made: " << sockId << " For " << eventType << "\n";

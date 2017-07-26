@@ -29,6 +29,10 @@ inline ServerHandler<Handler, Param>::ServerHandler(NisseService& parent, LibEve
 {}
 
 template<typename Handler, typename Param>
+inline ServerHandler<Handler, Param>::~ServerHandler()
+{}
+
+template<typename Handler, typename Param>
 inline void ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     ThorsAnvil::Socket::DataSocket accepted = socket.accept();
@@ -39,6 +43,10 @@ template<typename Handler>
 inline ServerHandler<Handler, void>::ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so)
     : NisseHandler(parent, base, so.getSocketId(), EV_READ)
     , socket(std::move(so))
+{}
+
+template<typename Handler>
+inline ServerHandler<Handler, void>::~ServerHandler()
 {}
 
 template<typename Handler>
