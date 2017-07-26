@@ -21,7 +21,7 @@ class NisseHandler
         NisseService&                       parent;
         NisseEvent                          event;
     public:
-        NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId, short eventType);
+        NisseHandler(NisseService& parent, LibSocketId socketId, short eventType);
         virtual ~NisseHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType);
     protected:
@@ -41,7 +41,7 @@ class ServerHandler: public NisseHandler
         ThorsAnvil::Socket::ServerSocket            socket;
         Param&                                      param;
     public:
-        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
+        ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
         ~ServerHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
@@ -52,7 +52,7 @@ class ServerHandler<Handler, void>: public NisseHandler
     private:
         ThorsAnvil::Socket::ServerSocket            socket;
     public:
-        ServerHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::ServerSocket&& so);
+        ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so);
         ~ServerHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };

@@ -11,9 +11,9 @@ void eventCB(LibSocketId socketId, short eventType, void* event)
     handler.eventActivate(socketId, eventType);
 }
 
-NisseHandler::NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId socketId, short eventType)
+NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeOut)
     : parent(parent)
-    , event(event_new(base, socketId, eventType | EV_PERSIST, eventCB, this), event_free)
+    , event(event_new(parent.eventBase.get(), socketId, eventType | EV_PERSIST, eventCB, this), event_free)
 {
     if (event.get() == nullptr)
     {
@@ -57,6 +57,6 @@ void NisseHandler::dropEvent()
 #include "NisseHandler.tpp"
 #include "test/Action.h"
 #include "ThorsNisseSocket/Socket.h"
-template ThorsAnvil::Nisse::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, event_base*, ThorsAnvil::Socket::ServerSocket&&);
-template ThorsAnvil::Nisse::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, event_base*, ThorsAnvil::Socket::ServerSocket&&);
+template ThorsAnvil::Nisse::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
+template ThorsAnvil::Nisse::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
 #endif

@@ -10,8 +10,8 @@ class Action: public ThorsAnvil::Nisse::NisseHandler
 	ThorsAnvil::Nisse::NisseService&	service;
     ThorsAnvil::Socket::DataSocket      dataSocket;
     public:
-        Action(ThorsAnvil::Nisse::NisseService& parent, ThorsAnvil::Nisse::LibEventBase* base, ThorsAnvil::Socket::DataSocket&& ds)
-			: NisseHandler(parent, base, ds.getSocketId(), EV_READ)
+        Action(ThorsAnvil::Nisse::NisseService& parent, ThorsAnvil::Socket::DataSocket&& ds)
+			: NisseHandler(parent, ds.getSocketId(), EV_READ)
             , service(parent)
             , dataSocket(std::move(ds))
 		{
@@ -28,8 +28,8 @@ class ActionUnReg: public ThorsAnvil::Nisse::NisseHandler
 	ThorsAnvil::Nisse::NisseService&	service;
     ThorsAnvil::Socket::DataSocket      dataSocket;
     public:
-        ActionUnReg(ThorsAnvil::Nisse::NisseService& parent, ThorsAnvil::Nisse::LibEventBase* base, ThorsAnvil::Socket::DataSocket&& ds)
-			: NisseHandler(parent, base, ds.getSocketId(), EV_READ)
+        ActionUnReg(ThorsAnvil::Nisse::NisseService& parent, ThorsAnvil::Socket::DataSocket&& ds)
+			: NisseHandler(parent, ds.getSocketId(), EV_READ)
             , service(parent)
             , dataSocket(std::move(ds))
 		{
