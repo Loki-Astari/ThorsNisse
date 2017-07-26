@@ -3,8 +3,8 @@
 
 using namespace ThorsAnvil::Nisse::ProtocolSimple;
 
-ReadMessageHandler::ReadMessageHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so)
-    : NisseHandler(parent, base, so.getSocketId(), EV_READ)
+ReadMessageHandler::ReadMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so)
+    : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , readSizeObject(0)
     , readBuffer(0)
@@ -40,8 +40,8 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
     moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer));
 }
 
-WriteMessageHandler::WriteMessageHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
-    : NisseHandler(parent, base, so.getSocketId(), EV_WRITE)
+WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
+    : NisseHandler(parent, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
     , writeSizeObject(0)
     , writeBuffer(0)

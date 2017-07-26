@@ -51,7 +51,7 @@ class ReadMessageStreamHandler: public NisseHandler
     private:
         CoRoutine       worker;
     public:
-        ReadMessageStreamHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket);
+        ReadMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
@@ -60,7 +60,7 @@ class WriteMessageStreamHandler: public NisseHandler
     private:
         CoRoutine       worker;
     public:
-        WriteMessageStreamHandler(NisseService& parent, LibEventBase* base, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
+        WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
