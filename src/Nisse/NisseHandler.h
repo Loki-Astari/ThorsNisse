@@ -30,6 +30,8 @@ class NisseHandler
         void addHandler(Args&&... args);
         template<typename H, typename... Args>
         void moveHandler(Args&&... args);
+    public:
+        void dropEvent();
 };
 
 template<typename Handler, typename Param>

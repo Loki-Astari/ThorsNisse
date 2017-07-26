@@ -26,7 +26,9 @@ NisseHandler::NisseHandler(NisseService& parent, LibEventBase* base, LibSocketId
 }
 
 NisseHandler::~NisseHandler()
-{}
+{
+    dropEvent();
+}
 
 void NisseHandler::eventActivate(LibSocketId sockId, short eventType)
 {
@@ -35,11 +37,16 @@ void NisseHandler::eventActivate(LibSocketId sockId, short eventType)
 
 void NisseHandler::dropHandler()
 {
+    dropEvent();
+    parent.delHandler(this);
+}
+
+void NisseHandler::dropEvent()
+{
     if (event_del(event.get()) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::dropHandler: event_del(): Failed");
     }
-    parent.delHandler(this);
 }
 
 #ifdef COVERAGE_TEST
