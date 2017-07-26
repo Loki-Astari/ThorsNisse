@@ -4,6 +4,7 @@
 #include <iostream>
 
 using namespace ThorsAnvil::Nisse;
+using TimeVal = struct timeval;
 
 void eventCB(LibSocketId socketId, short eventType, void* event)
 {
@@ -19,7 +20,17 @@ NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eve
     {
         throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: event_new(): Failed");
     }
-    if (event_add(event.get(), nullptr) != 0)
+
+    TimeVal* timeVal = nullptr;
+    TimeVal  timer;
+    if (timeOut != 0)
+    {
+        timer.tv_sec    = static_cast<std::time_t>(timeOut);
+        timer.tv_usec   = static_cast<long>((timeOut - timer.tv_sec) * 1'000'000);
+        timeVal         = &timer;
+    }
+
+    if (event_add(event.get(), timeVal) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: event_add(): Failed");
     }

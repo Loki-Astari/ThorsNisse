@@ -21,7 +21,7 @@ class NisseHandler
         NisseService&                       parent;
         NisseEvent                          event;
     public:
-        NisseHandler(NisseService& parent, LibSocketId socketId, short eventType);
+        NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeout = 0);
         virtual ~NisseHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType);
     protected:
@@ -38,8 +38,8 @@ template<typename Handler, typename Param>
 class ServerHandler: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket            socket;
-        Param&                                      param;
+        ThorsAnvil::Socket::ServerSocket    socket;
+        Param&                              param;
     public:
         ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
         ~ServerHandler();
@@ -50,7 +50,7 @@ template<typename Handler>
 class ServerHandler<Handler, void>: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket            socket;
+        ThorsAnvil::Socket::ServerSocket    socket;
     public:
         ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so);
         ~ServerHandler();
