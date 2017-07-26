@@ -56,6 +56,22 @@ class ServerHandler<Handler, void>: public NisseHandler
         ~ServerHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
+
+template<typename Func>
+class TimerHandler: public NisseHandler
+{
+    Func        action;
+    public:
+        TimerHandler(NisseService& parent, double timeOut, Func&& action)
+            : NisseHandler(parent, -1, EV_PERSIST, timeOut)
+            , action(std::move(action))
+        {}
+        virtual void eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+        {
+            action();
+        }
+};
+
     }
 }
 
