@@ -105,6 +105,11 @@ void NisseService::delHandler(NisseHandler* oldHandler)
     retiredHandlers.emplace_back(oldHandler);
 }
 
+void NisseService::addTimer(double timeOut, std::function<void()>&& action)
+{
+    addHandler<TimerHandler>(std::move(timeOut), std::move(action));
+}
+
 #ifdef COVERAGE_TEST
 /*
  * This code is only compiled into the unit tests for code coverage purposes
@@ -116,5 +121,4 @@ template void ThorsAnvil::Nisse::NisseService::listenOn<Action>(int);
 template void ThorsAnvil::Nisse::NisseService::listenOn<ActionUnReg>(int);
 template void ThorsAnvil::Nisse::NisseService::addHandler<Action, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
 template void ThorsAnvil::Nisse::NisseService::addHandler<ActionUnReg, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
-
 #endif
