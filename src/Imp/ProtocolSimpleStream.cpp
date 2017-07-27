@@ -39,6 +39,18 @@ WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, Thors
       })
 {}
 
+WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Message const& ms)
+    : NisseHandler(parent, so.getSocketId(), EV_WRITE)
+    , worker([&parent = *this, socket = std::move(so), message(ms)](Yield& yield) mutable
+      {
+          Socket::OSocketStream   stream(socket, [&yield](){yield();}, [](){});
+          yield();
+          message.message += messageSuffix;
+          stream << message;
+          parent.dropHandler();
+      })
+{}
+
 WriteMessageStreamHandler::~WriteMessageStreamHandler()
 {}
 
@@ -56,6 +68,7 @@ void WriteMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*ev
 #include "ThorsNisse/NisseHandler.tpp"
 #include "ProtocolSimple.h"
 template void ThorsAnvil::Nisse::NisseService::listenOn<ReadMessageStreamHandler>(int);
+template void ThorsAnvil::Nisse::NisseService::listenOn<WriteMessageStreamHandler, Message>(int, Message&);
 template ThorsAnvil::Nisse::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
 template void ThorsAnvil::Nisse::NisseHandler::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Socket::DataSocket, Message>(ThorsAnvil::Socket::DataSocket&&, Message&&);
 template void ThorsAnvil::Nisse::NisseHandler::moveHandler<WriteMessageHandler, ThorsAnvil::Socket::DataSocket, std::string, bool>(ThorsAnvil::Socket::DataSocket&&, std::string&&, bool&&);

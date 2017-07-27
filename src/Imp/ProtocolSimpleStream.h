@@ -4,6 +4,7 @@
 #include "ThorsNisse/NisseHandler.h"
 #include "ThorsNisseSocket/SocketStream.h"
 #include <boost/coroutine/asymmetric_coroutine.hpp>
+#include <ios>
 
 namespace ThorsAnvil
 {
@@ -22,16 +23,28 @@ class Message
         std::string     message;
     public:
         Message() = default;
+        Message(Message const& move)
+            : size(move.size)
+            , message(move.message)
+        {}
         Message(Message&& move)
             : size(std::move(move.size))
             , message(std::move(move.message))
         {}
         friend std::istream& operator>>(std::istream& stream, Message& info)
         {
-            if (stream.read(reinterpret_cast<char*>(&info.size), sizeof(info.size)))
+            bool goodRead = false;
+            if (stream.read(reinterpret_cast<char*>(&info.size), sizeof(info.size)) && stream.gcount() == sizeof(info.size))
             {
                 info.message.resize(info.size);
-                stream.read(reinterpret_cast<char*>(&info.message[0]), info.size);
+                if (stream.read(reinterpret_cast<char*>(&info.message[0]), info.size) && static_cast<std::size_t>(stream.gcount()) == info.size)
+                {
+                    goodRead = true;
+                }
+            }
+            if (!goodRead)
+            {
+                stream.setstate(std::ios::failbit);
             }
             return stream;
         }
@@ -63,6 +76,7 @@ class WriteMessageStreamHandler: public NisseHandler
         CoRoutine       worker;
     public:
         WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
+        WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
     public:
