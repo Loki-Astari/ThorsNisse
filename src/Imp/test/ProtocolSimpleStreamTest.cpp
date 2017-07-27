@@ -41,7 +41,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
         
     auto future = std::async([&finished]()
     {
-        std::string message = "This is a test Message";
+        std::string message = "Test function ReadMessageHandler";
         size    = message.size();
 
         ConnectSocket connect("127.0.0.1", testPort);
@@ -60,7 +60,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
 	service.start(1);
     std::string result = future.get();
 
-    ASSERT_EQ("This is a test Message" + WriteMessageStreamHandler::messageSuffix, result);
+    ASSERT_EQ("Test function ReadMessageHandler" + WriteMessageStreamHandler::messageSuffix, result);
 }
 
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
@@ -80,7 +80,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
 	auto future = std::async([&finished](){
         sleep(1);
 		ConnectSocket connect("127.0.0.1", testPort);
-		std::string message = "This is a test Message";
+		std::string message = "Test function ReadMessageHandlerPartialSize";
 		std::size_t size    = message.size();
 		connect.putMessageData(reinterpret_cast<char*>(&size), 2);
         connect.putMessageClose();
@@ -115,7 +115,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSizeInTwoChunks)
         
 	auto future = std::async([&finished](){
 		ConnectSocket connect("127.0.0.1", testPort);
-		std::string message = "This is a test Message";
+		std::string message = "Test fucntion ReadMessageHandlerPartialSizeInTwoChunks";
 		std::size_t size    = message.size();
 		connect.putMessageData(reinterpret_cast<char*>(&size), 2);
         sleep(1);
@@ -151,7 +151,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
         
 	auto future = std::async([&finished](){
 		ConnectSocket connect("127.0.0.1", testPort);
-		std::string message = "This is a test Message";
+		std::string message = "Test function ReadMessageHandlerSizeInTwoChunks";
 		std::size_t size    = message.size();
 		connect.putMessageData(reinterpret_cast<char*>(&size), 2);
         sleep(1);
@@ -169,7 +169,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
 	service.start(1);
     std::string result = future.get();
 
-    ASSERT_EQ("This is a test Message" + WriteMessageStreamHandler::messageSuffix, result);
+    ASSERT_EQ("Test function ReadMessageHandlerSizeInTwoChunks" + WriteMessageStreamHandler::messageSuffix, result);
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
 {
@@ -187,7 +187,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
         
 	auto future = std::async([&finished](){
 		ConnectSocket connect("127.0.0.1", testPort);
-		std::string message = "This is a test Message";
+		std::string message = "Test function ReadMessageHandlerPartialMessage";
 		std::size_t size    = message.size();
 		connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
 		connect.putMessageData(message.c_str(), size/2);
@@ -222,7 +222,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessageInTwoChunks)
         
 	auto future = std::async([&finished](){
 		ConnectSocket connect("127.0.0.1", testPort);
-		std::string message = "This is a test Message";
+		std::string message = "Test function ReadMessageHandlerPartialMessageInTwoChunks";
 		std::size_t size    = message.size();
 		connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
 		connect.putMessageData(message.c_str(), size/2);
@@ -259,7 +259,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerMessageInTwoChunks)
 
 	auto future = std::async([&finished](){
 		ConnectSocket connect("127.0.0.1", testPort);
-		std::string message = "This is a test Message";
+		std::string message = "Test function ReadMessageHandlerMessageInTwoChunks";
 		std::size_t size    = message.size();
 		connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
 		connect.putMessageData(message.c_str(), size/2);
@@ -278,7 +278,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerMessageInTwoChunks)
 	service.start(1);
 
     std::string result = future.get();
-    ASSERT_EQ("This is a test Message" + WriteMessageStreamHandler::messageSuffix, result);
+    ASSERT_EQ("Test function ReadMessageHandlerMessageInTwoChunks" + WriteMessageStreamHandler::messageSuffix, result);
 }
 TEST(ProtocolSimpleStreamTest, WriteMessageHandler)
 {

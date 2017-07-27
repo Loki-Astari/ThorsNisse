@@ -5,6 +5,7 @@ using namespace ThorsAnvil::Nisse::ProtocolSimple;
 
 std::string const ReadMessageHandler::failSizeMessage       = "Failed: Reading Size Object";
 std::string const ReadMessageHandler::failIncompleteMessage = "Failed: Size OK. But message incomplete";
+std::string const WriteMessageHandler::messageSuffix        = "-> 200 OK Replied";
 
 ReadMessageHandler::ReadMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
@@ -66,7 +67,7 @@ WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socke
 {
     if (ok)
     {
-        message += " -> OK";
+        message += messageSuffix;
     }
 }
 
