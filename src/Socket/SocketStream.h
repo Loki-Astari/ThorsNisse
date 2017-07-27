@@ -25,12 +25,11 @@ class SocketStreamBuffer: public std::streambuf
         Notifier                noAvailableData;
         Notifier                flushing;
         std::vector<char>       buffer;
-        bool                    closeSocketOnDestruction;
 
     public:
         virtual ~SocketStreamBuffer() override;
         SocketStreamBuffer(DataSocket& stream,
-                           Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true,
+                           Notifier noAvailableData, Notifier flushing,
                            std::vector<char>&& bufData = std::vector<char>(4000),
                            char const* currentStart = nullptr, char const* currentEnd = nullptr);
         SocketStreamBuffer(SocketStreamBuffer&& move) noexcept;
@@ -52,11 +51,11 @@ class ISocketStream: public std::istream
 
     public:
         ISocketStream(DataSocket& stream,
-                      Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction,
+                      Notifier noAvailableData, Notifier flushing,
                       std::vector<char>&& bufData, char const* currentStart, char const* currentEnd);
         ISocketStream(DataSocket& stream,
-                      Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
-        ISocketStream(DataSocket& stream, bool closeSocketOnDestruction = true);
+                      Notifier noAvailableData, Notifier flushing);
+        ISocketStream(DataSocket& stream);
         ISocketStream(ISocketStream&& move) noexcept;
 };
 
@@ -66,8 +65,8 @@ class OSocketStream: public std::ostream
 
     public:
         OSocketStream(DataSocket& stream,
-                      Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction = true);
-        OSocketStream(DataSocket& stream, bool closeSocketOnDestruction = true);
+                      Notifier noAvailableData, Notifier flushing);
+        OSocketStream(DataSocket& stream);
         OSocketStream(OSocketStream&& move) noexcept;
 };
 

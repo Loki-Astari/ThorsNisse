@@ -3,13 +3,12 @@
 using namespace ThorsAnvil::Socket;
 
 SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream,
-                                       Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction,
+                                       Notifier noAvailableData, Notifier flushing,
                                        std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : stream(stream)
     , noAvailableData(noAvailableData)
     , flushing(flushing)
     , buffer(std::move(bufData))
-    , closeSocketOnDestruction(closeSocketOnDestruction)
 {
     char* newStart = const_cast<char*>(currentStart);
     char* newEnd   = const_cast<char*>(currentEnd);
@@ -28,7 +27,6 @@ SocketStreamBuffer::SocketStreamBuffer(SocketStreamBuffer&& move) noexcept
     , noAvailableData(std::move(move.noAvailableData))
     , flushing(std::move(move.flushing))
     , buffer(std::move(move.buffer))
-    , closeSocketOnDestruction(std::move(move.closeSocketOnDestruction))
 {
     move.setg(nullptr, nullptr, nullptr);
     move.setp(nullptr, nullptr);
@@ -40,10 +38,6 @@ SocketStreamBuffer::~SocketStreamBuffer()
     try
     {
         overflow();
-        if (closeSocketOnDestruction)
-        {
-            stream.putMessageClose();
-        }
     }
     catch (...)
     {
@@ -153,7 +147,7 @@ SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
     {
         setp(&buffer[0], &buffer[buffer.size() - 1]);
     }
-    return written;
+    return int_type(ch);
 }
 
 std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streamsize count)
@@ -178,10 +172,8 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
 
     // Not enough room in the internal buffer.
     // So write everything to the output stream.
-    if (overflow() == traits::eof())
-    {
-        return 0;
-    }
+    overflow();
+
     std::streamsize       exported   = 0;
     std::streamsize const bufferSize = static_cast<std::streamsize>(buffer.size());
     while (exported != count)
@@ -255,27 +247,27 @@ std::streamsize SocketStreamBuffer::readFromStream(char_type* dest, std::streams
 }
 // ------------------------
 
-ISocketStream::ISocketStream(DataSocket& stream, bool closeSocketOnDestruction)
+ISocketStream::ISocketStream(DataSocket& stream)
     : std::istream(nullptr)
-    , buffer(stream, noActionNotifier, noActionNotifier, closeSocketOnDestruction)
+    , buffer(stream, noActionNotifier, noActionNotifier)
 {
     std::istream::rdbuf(&buffer);
 }
 
 ISocketStream::ISocketStream(DataSocket& stream,
-                             Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
+                             Notifier noAvailableData, Notifier flushing)
     : std::istream(nullptr)
-    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction)
+    , buffer(stream, noAvailableData, flushing)
 {
     std::istream::rdbuf(&buffer);
 }
 
 ISocketStream::ISocketStream(DataSocket& stream,
-                             Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction,
+                             Notifier noAvailableData, Notifier flushing,
                              std::vector<char>&& bufData, char const* currentStart, char const* currentEnd)
     : std::istream(nullptr)
     , buffer(stream,
-             noAvailableData, flushing, closeSocketOnDestruction,
+             noAvailableData, flushing,
              std::move(bufData), currentStart, currentEnd)
 {
     rdbuf(&buffer);
@@ -290,17 +282,17 @@ ISocketStream::ISocketStream(ISocketStream&& move) noexcept
 
 // ------------------------
 
-OSocketStream::OSocketStream(DataSocket& stream, bool closeSocketOnDestruction)
+OSocketStream::OSocketStream(DataSocket& stream)
     : std::ostream(nullptr)
-    , buffer(stream, noActionNotifier, noActionNotifier, closeSocketOnDestruction)
+    , buffer(stream, noActionNotifier, noActionNotifier)
 {
     rdbuf(&buffer);
 }
 
 OSocketStream::OSocketStream(DataSocket& stream,
-                             Notifier noAvailableData, Notifier flushing, bool closeSocketOnDestruction)
+                             Notifier noAvailableData, Notifier flushing)
     : std::ostream(nullptr)
-    , buffer(stream, noAvailableData, flushing, closeSocketOnDestruction)
+    , buffer(stream, noAvailableData, flushing)
 {
     rdbuf(&buffer);
 }
