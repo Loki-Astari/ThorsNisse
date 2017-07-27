@@ -105,7 +105,7 @@ Request::Request(Socket::DataSocket& stream,
     : method(method)
     , uri(uri)
     , headers(std::move(headers))
-    , body(stream, [&yield](){yield();}, [](){}, false, std::move(data), beg, end)
+    , body(stream, [&yield](){yield();}, [](){}, std::move(data), beg, end)
 {}
 
 Response::Response(Socket::DataSocket& stream,
@@ -125,7 +125,7 @@ void Response::flushing()
     if (!headerWritten)
     {
         headerWritten = true;
-        Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){}, false);
+        Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){});
 
         headerStream << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
         for (auto const& header: headers)

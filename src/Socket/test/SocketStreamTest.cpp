@@ -15,7 +15,7 @@ TEST(SocketStreamTest, ReadNormal)
 {
     int             socket  = open("test/data/SocketStreamTest-ReadNormal", O_RDONLY);
     DataSocket      dataSocket(socket);
-    ISocketStream   stream(dataSocket, false);
+    ISocketStream   stream(dataSocket);
 
     char data[16];
     stream.read(data,16);
@@ -26,7 +26,7 @@ TEST(SocketStreamTest, ReadNormalButHugeChunk)
 {
     int             socket  = open("test/data/SocketStreamTest-ReadLarge", O_RDONLY);
     DataSocket      dataSocket(socket);
-    ISocketStream   stream(dataSocket, false);
+    ISocketStream   stream(dataSocket);
 
     std::vector<char>   data(8000);
     stream.read(&data[0], 8000);
@@ -36,7 +36,7 @@ TEST(SocketStreamTest, MoveASocketStream)
 {
     int             socket  = open("test/data/SocketStreamTest-ReadNormal", O_RDONLY);
     DataSocket      dataSocket(socket);
-    ISocketStream   streamOriginal(dataSocket, false);
+    ISocketStream   streamOriginal(dataSocket);
     ISocketStream   stream(std::move(streamOriginal));
 
     char data[16];
@@ -66,7 +66,7 @@ TEST(SocketStreamTest, ReadFromSlowStreamToGetEAGAIN)
     });
 
     DataSocket      dataSocket(pipes[0], true);
-    ISocketStream   stream(dataSocket, false);
+    ISocketStream   stream(dataSocket);
     stream.read(reinterpret_cast<char*>(&resultData), sizeof(resultData));
     EXPECT_EQ(sizeof(resultData), stream.gcount());
 
@@ -78,7 +78,7 @@ TEST(SocketStreamTest, ReadPastEOF)
 {
     int             socket  = open("test/data/SocketStreamTest-ReadNormal", O_RDONLY);
     DataSocket      dataSocket(socket, true);
-    ISocketStream   stream(dataSocket, false);
+    ISocketStream   stream(dataSocket);
 
     char data[16];
     stream.read(data,16);
@@ -91,7 +91,7 @@ TEST(SocketStreamTest, ReadFail)
 {
     int             socket  = open("test/data/SocketStreamTest-ReadNormal", O_RDONLY);
     DataSocket      dataSocket(socket, true);
-    ISocketStream   stream(dataSocket, false);
+    ISocketStream   stream(dataSocket);
     close(socket);
 
     char data[16];
@@ -103,7 +103,7 @@ TEST(SocketStreamTest, WriteNormal)
     int         socket  = open("test/data/SocketStreamTest-WriteNormal", O_WRONLY | O_CREAT | O_TRUNC, 0777 );
     {
         DataSocket      dataSocket(socket, true);
-        OSocketStream   stream(dataSocket, false);
+        OSocketStream   stream(dataSocket);
 
         char data[16] = "12345678";
         stream.write(data, 8);
@@ -121,7 +121,7 @@ TEST(SocketStreamTest, WriteNormalWithMove)
     int         socket  = open("test/data/SocketStreamTest-WriteNormal", O_WRONLY | O_CREAT | O_TRUNC, 0777 );
     {
         DataSocket      dataSocket(socket, true);
-        OSocketStream   streamOriginal(dataSocket, false);
+        OSocketStream   streamOriginal(dataSocket);
         OSocketStream   stream(std::move(streamOriginal));
 
         char data[16] = "12345678";
@@ -139,7 +139,7 @@ TEST(SocketStreamTest, WriteLarge)
 {
     int         socket  = open("test/data/SocketStreamTest-WriteLarge", O_WRONLY | O_CREAT | O_TRUNC, 0777 );
     DataSocket      dataSocket(socket, true);
-    OSocketStream   stream(dataSocket, false);
+    OSocketStream   stream(dataSocket);
 
     std::vector<char> data(8000);
     stream.write(&data[0], 8000);
@@ -149,7 +149,7 @@ TEST(SocketStreamTest, WriteFail)
 {
     int             socket  = open("test/data/SocketStreamTest-WriteNormal", O_WRONLY | O_CREAT | O_TRUNC, 0777 );
     DataSocket      dataSocket(socket, true);
-    OSocketStream   stream(dataSocket, false);
+    OSocketStream   stream(dataSocket);
     close(socket);
 
     char data[16] = "12345678";
@@ -199,7 +199,7 @@ TEST(SocketStreamTest, WriteToSlowStreamToGetEAGAIN)
     });
 
     DataSocket      dataSocket(pipes[1], true);
-    OSocketStream   stream(dataSocket, false);
+    OSocketStream   stream(dataSocket);
     for(int blockLoop = 0; blockLoop < blocks; ++blockLoop)
     {
         for(int loop=0;loop < actCount; ++loop)

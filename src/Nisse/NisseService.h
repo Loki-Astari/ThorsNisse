@@ -50,8 +50,7 @@ class NisseService
         template<typename Handler, typename Param>
         void listenOn(int port, Param& param);
 
-        template<typename Func>
-        void addTimer(double timeOut, Func&& action);
+        void addTimer(double timeOut, std::function<void()>&& action);
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();
