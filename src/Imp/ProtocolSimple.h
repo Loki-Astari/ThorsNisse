@@ -35,7 +35,7 @@ class WriteMessageHandler: public NisseHandler
         std::size_t                         writeBuffer;
         std::string                         message;
     public:
-        WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, std::string const& message);
+        WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, std::string const& message, bool ok = false);
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 

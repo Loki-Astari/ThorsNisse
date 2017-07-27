@@ -1,5 +1,6 @@
 #include "ProtocolSimpleStream.h"
 #include "ThorsNisse/NisseService.h"
+#include "ThorsNisse/NisseHAndler.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolSimple;
 
@@ -10,7 +11,7 @@ ReadMessageStreamHandler::ReadMessageStreamHandler(NisseService& parent, ThorsAn
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , worker([&parent = *this, socket = std::move(so)](Yield& yield) mutable
                 {
-                    Socket::ISocketStream   stream(socket, [&yield](){yield();}, [](){}, false);
+                    Socket::ISocketStream   stream(socket, [&yield](){yield();}, [](){});
                     yield();
                     Message                 message;
                     if (!(stream >> message))
@@ -47,3 +48,19 @@ void WriteMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*ev
 {
     worker();
 }
+
+#ifdef COVERAGE_TEST
+/*
+ * This code is only compiled into the unit tests for code coverage purposes
+ * It is not part of the live code.
+ */
+#include "ThorsNisse/NisseService.tpp"
+#include "ThorsNisse/NisseHandler.tpp"
+#include "ProtocolSimple.h"
+template void ThorsAnvil::Nisse::NisseService::listenOn<ReadMessageStreamHandler>(int);
+template ThorsAnvil::Nisse::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
+template void ThorsAnvil::Nisse::NisseHandler::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Socket::DataSocket, Message>(ThorsAnvil::Socket::DataSocket&&, Message&&);
+template void ThorsAnvil::Nisse::NisseHandler::moveHandler<WriteMessageHandler, ThorsAnvil::Socket::DataSocket, std::string, bool>(ThorsAnvil::Socket::DataSocket&&, std::string&&, bool&&);
+template void ThorsAnvil::Nisse::NisseService::addHandler<WriteMessageHandler, ThorsAnvil::Socket::DataSocket, std::string, bool>(ThorsAnvil::Socket::DataSocket&&, std::string&&, bool&&);
+template ThorsAnvil::Nisse::ServerHandler<WriteMessageHandler, std::string>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&, std::string&);
+#endif

@@ -54,10 +54,10 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
         // try and read more when this function is re-called.
         return;
     }
-    moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer));
+    moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer), true);
 }
 
-WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, std::string const& m)
+WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, std::string const& m, bool ok)
     : NisseHandler(parent, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
     , writeSizeObject(0)
@@ -100,3 +100,13 @@ void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
     }
     dropHandler();
 }
+
+#ifdef COVERAGE_TEST
+/*
+ * This code is only compiled into the unit tests for code coverage purposes
+ * It is not part of the live code.
+ */
+#include "ThorsNisse/NisseService.tpp"
+template void ThorsAnvil::Nisse::NisseService::listenOn<ReadMessageHandler>(int);
+template void ThorsAnvil::Nisse::NisseService::listenOn<WriteMessageHandler, std::string>(int, std::string&);
+#endif
