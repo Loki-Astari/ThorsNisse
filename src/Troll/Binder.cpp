@@ -25,6 +25,10 @@ void Site::add(Method method, std::string&& path, Action&& action)
 
 std::pair<bool, Action&> Site::find(Method method, std::string const& path) const
 {
+    if (method == Method::Head)
+    {
+        method = Method::Get;
+    }
     auto find = actionMap[static_cast<int>(method)].find(path);
     if (find == actionMap[static_cast<int>(method)].end())
     {
@@ -34,12 +38,16 @@ std::pair<bool, Action&> Site::find(Method method, std::string const& path) cons
     return {true, find->second};
 }
 
+Binder::Binder()
+    : action404(getDefault404Action())
+{}
+
 void Binder::addSite(std::string const& host, Site&& site)
 {
     siteMap.emplace(host, std::move(site));
 }
 
-Action& Binder::find(Method method, std::string const& host, std::string const& path) const
+Action& Binder::getDefault404Action()
 {
     static Action   action404([](Request&, Response& response)
                                 {
@@ -53,11 +61,15 @@ Action& Binder::find(Method method, std::string const& host, std::string const& 
                                     response.body << "<html><body><h1>Not Found</h1></body></html>";
                                 }
                              );
-    if (method == Method::Head)
-    {
-        method = Method::Get;
-    }
+    return action404;
+}
+void Binder::setCustome404Action(Action&& action)
+{
+    action404 = std::move(action);
+};
 
+Action const& Binder::find(Method method, std::string const& host, std::string const& path) const
+{
     if (host != "")
     {
         auto findHost = siteMap.find(host);

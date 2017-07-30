@@ -4,6 +4,16 @@
 using ThorsAnvil::Nisse::ProtocolHTTP::Route;
 using ThorsAnvil::Nisse::ProtocolHTTP::RouteTester;
 
+TEST(RouteTestBug, Bug1)
+{
+    Route           r1("/pathSpecific");
+    std::string     s2("/pathSpecific-Missing");
+
+    RouteTester     test;
+    ASSERT_FALSE(test(r1,s2));
+    ASSERT_TRUE(test(s2, r1));
+}
+
 TEST(RouteTest, ConstructBuild)
 {
     std::string route("/This/is/a/normal/path");

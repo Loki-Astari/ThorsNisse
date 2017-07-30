@@ -182,10 +182,10 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                 bodyEnd     = bodyEndParam
              ](Yield& yield) mutable
                 {
-                    URI const   uri(headers.get("Host"), std::move(uriParam));
-                    Action&     action(binder.find(Method::Get, uri.host, uri.path));
-                    Request     request(socket, yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
-                    Response    response(socket, yield);
+                    URI const     uri(headers.get("Host"), std::move(uriParam));
+                    Action const& action(binder.find(Method::Get, uri.host, uri.path));
+                    Request       request(socket, yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
+                    Response      response(socket, yield);
                     yield();
                     action(request, response);
                 }
