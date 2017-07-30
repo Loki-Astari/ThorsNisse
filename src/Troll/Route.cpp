@@ -69,20 +69,3 @@ int Route::compare(std::string const& rhs) const
     }
     return start - rhs.size();
 }
-
-int Route::XXX(std::string const& lhs, std::string const& rhs) const
-{
-    std::size_t const len = std::min(lhs.size(), rhs.size());
-    for (std::size_t loop = 0; loop < len; ++loop)
-    {
-        int test = lhs[loop] - rhs[loop];
-        if (test != 0)
-        {
-            return test;
-        }
-    }
-    // Notice this is opposite of the normal test.
-    // If the prefix of the string is equal then we want the longer string to be less
-    // So that it gets sorted first in a map.
-    return rhs.size() - lhs.size();
-}
