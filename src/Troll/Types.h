@@ -86,16 +86,13 @@ class Response
 {
     private:
         bool                    headerWritten;
-        Socket::DataSocket&     stream;
-        Yield&                  yield;
     public:
         short                   resultCode;
         std::string             resultMessage;
         Headers                 headers;
-        Socket::OSocketStream   body;
+        std::ostream&           body;
 
-        Response(Socket::DataSocket& stream,
-                 Yield& yield,
+        Response(std::ostream& body,
                  short resultCode = 200,
                  std::string const& resultMessage = "OK");
         void flushing();

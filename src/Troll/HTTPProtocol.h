@@ -70,6 +70,7 @@ class WriteResponseHandler: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
+        Response*               flusher;
         CoRoutine               worker;
     public:
         WriteResponseHandler(NisseService& parent,
@@ -81,6 +82,8 @@ class WriteResponseHandler: public NisseHandler
                              std::vector<char>&& buffer,
                              char const* bodyBegin,
                              char const* bodyEnd);
+        void setFlusher(Response* f){flusher = f;}
+        void flushing()             {flusher->flushing();}
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 

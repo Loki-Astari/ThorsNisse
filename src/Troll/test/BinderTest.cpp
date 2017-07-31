@@ -3,8 +3,6 @@
 #include "Types.h"
 #include "ThorsNisseSocket/Socket.h"
 #include <vector>
-#include <sys/stat.h> 
-#include <fcntl.h>
 
 using ThorsAnvil::Nisse::ProtocolHTTP::Site;
 using ThorsAnvil::Nisse::ProtocolHTTP::Binder;
@@ -27,14 +25,11 @@ void callMethod(Method method, Site& site, std::string const& host, std::string&
     auto find = site.find(method, "/The/Path/Line");
     ASSERT_TRUE(find.first);
 
-    int                 fd = open("test/data/bind", O_RDONLY);
-    DataSocket          stream(fd);
-    Yield               yield;
     URI                 uri(host, std::move(path));
     Headers             headers;
     std::stringstream   body;
     Request             request(Method::Get, std::move(uri), headers, body);
-    Response            response(stream, yield);
+    Response            response(body);
 
     find.second(request, response);
 }
@@ -145,14 +140,11 @@ TEST(BinderTest, AddSites)
     binder.addSite("", std::move(site3));
 
 
-    int                 fd = open("test/data/bind", O_RDONLY);
-    DataSocket          stream(fd);
-    Yield               yield;
     URI                 uri("Ignored", "Ignored");
     Headers             headers;
     std::stringstream   body;
     Request             request(Method::Get, std::move(uri), headers, body);
-    Response            response(stream, yield);
+    Response            response(body);
 
     auto action = binder.find(Method::Get, "ThorsAnvil.com", "/pathSpecific");
     action(request, response);

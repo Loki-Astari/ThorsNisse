@@ -199,8 +199,10 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                                            char const* bodyBeginParam,
                                            char const* bodyEndParam)
     : NisseHandler(parent, so.getSocketId(), EV_WRITE)
-    , worker([  socket      = std::move(so),
-                &binder     = binder,
+    , flusher(nullptr)
+    , worker([ &parent      = *this,
+                socket      = std::move(so),
+               &binder      = binder,
                 method      = methodParam,
                 uriParam    = std::move(uriParam),
                 headers     = std::move(headersParam),
@@ -211,9 +213,11 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                 {
                     URI const     uri(headers.get("Host"), std::move(uriParam));
                     Action const& action(binder.find(Method::Get, uri.host, uri.path));
-                    Socket::ISocketStream	body(socket, [&yield](){yield();}, [](){}, std::move(buffer), bodyBegin, bodyEnd);
-                    Request       request(method, URI(std::move(uri)), headers, body);
-                    Response      response(socket, yield);
+                    Socket::ISocketStream	input(socket, [&yield](){yield();}, [](){}, std::move(buffer), bodyBegin, bodyEnd);
+                    Socket::OSocketStream   output(socket, [&yield](){yield();}, [&parent](){parent.flushing();});
+                    Request       request(method, URI(std::move(uri)), headers, input);
+                    Response      response(output);
+                    parent.setFlusher(&response);
                     yield();
                     action(request, response);
                 }
