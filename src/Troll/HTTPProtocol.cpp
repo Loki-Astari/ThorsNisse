@@ -58,6 +58,10 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
     , socket(std::move(so))
     , binder(binder)
     , buffer(bufferLen)
+    , bodyBegin(nullptr)
+    , bodyEnd(nullptr)
+    , gotValue(false)
+    , messageComplete(false)
 {
     settings.on_headers_complete    = ::onHeadersComplete;
     settings.on_message_begin       = ::onMessageBegin;
@@ -90,15 +94,32 @@ void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
         /* Handle error. Usually just close the connection. */
     }
 
-    if (!more)
+    if (messageComplete)
+    {
+        requestComplete(std::move(socket),
+                        binder,
+                        method,
+                        std::move(uri),
+                        std::move(headers),
+                        std::move(buffer),
+                        bodyBegin, bodyEnd
+                       );
+    }
+    else if (!more)
     {
         dropHandler();
     }
 }
 
-void ReadRequestHandler::onHeadersComplete()
+void ReadRequestHandler::requestComplete(
+                     DataSocket&&    socket,
+                     Binder const&   binder,
+                     Method          method,
+                     std::string&&   uri,
+                     Headers&&       headers,
+                     std::vector<char>&& buffer,
+                     char const* bodyBegin, char const* bodyEnd)
 {
-    addCurrentHeader();
     moveHandler<WriteResponseHandler>(std::move(socket),
                                       binder,
                                       method,
@@ -107,6 +128,12 @@ void ReadRequestHandler::onHeadersComplete()
                                       std::move(buffer),
                                       bodyBegin, bodyEnd
                                      );
+}
+
+void ReadRequestHandler::onHeadersComplete()
+{
+    addCurrentHeader();
+    messageComplete = true;
 }
 void ReadRequestHandler::onMessageBegin()
 {
@@ -200,3 +227,35 @@ void WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTy
         dropHandler();
     }
 }
+
+#ifdef COVERAGE_TEST
+/*
+ * This code is only compiled into the unit tests for code coverage purposes
+ * It is not part of the live code.
+ */
+#include "ThorsNisse/NisseHandler.h"
+#include "ThorsNisse/NisseService.tpp"
+#include "ThorsNisse/NisseHandler.tpp"
+#include "Types.h"
+template void ThorsAnvil::Nisse::NisseHandler::moveHandler
+    <WriteResponseHandler,
+     ThorsAnvil::Socket::DataSocket,
+     Binder const&,
+     Method,
+     std::string,
+     Headers,
+     std::vector<char>,
+     char const*,
+     char const*>
+    (ThorsAnvil::Socket::DataSocket&&,
+     Binder const&,
+     Method&&,
+     std::string&&,
+     Headers&&,
+     std::vector<char>&&,
+     char const*&&,
+     char const*&&);
+
+
+template void ThorsAnvil::Nisse::NisseService::addHandler<WriteResponseHandler, ThorsAnvil::Socket::DataSocket, Binder const&, Method, std::string, Headers, std::vector<char>, char const*, char const*>(ThorsAnvil::Socket::DataSocket&&, Binder const&, Method&&, std::string&&, Headers&&, std::vector<char>&&, char const*&&, char const*&&);
+#endif

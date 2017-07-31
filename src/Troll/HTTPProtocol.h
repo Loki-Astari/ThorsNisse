@@ -32,13 +32,21 @@ class ReadRequestHandler: public NisseHandler
         std::string             version;
         Headers                 headers;
 
-        bool                    gotValue;
         std::string             currentHead;
         std::string             currentValue;
         char const*             bodyBegin;
         char const*             bodyEnd;
+        bool                    gotValue;
+        bool                    messageComplete;
 
         static constexpr std::size_t bufferLen = 80 * 1024;
+        virtual void requestComplete(
+                                DataSocket&&    socket,
+                                Binder const&   binder,
+                                Method          method,
+                                std::string&&   uri,
+                                Headers&&       headers,
+                                std::vector<char>&& buffer, char const* bodyBegin, char const* bodyEnd);
 
     public:
         ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
