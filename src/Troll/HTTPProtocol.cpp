@@ -211,7 +211,8 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                 {
                     URI const     uri(headers.get("Host"), std::move(uriParam));
                     Action const& action(binder.find(Method::Get, uri.host, uri.path));
-                    Request       request(socket, yield, method, URI(std::move(uri)), std::move(headers), std::move(buffer), bodyBegin, bodyEnd);
+                    Socket::ISocketStream	body(socket, [&yield](){yield();}, [](){}, std::move(buffer), bodyBegin, bodyEnd);
+                    Request       request(method, URI(std::move(uri)), headers, body);
                     Response      response(socket, yield);
                     yield();
                     action(request, response);

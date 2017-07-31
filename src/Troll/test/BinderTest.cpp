@@ -32,8 +32,8 @@ void callMethod(Method method, Site& site, std::string const& host, std::string&
     Yield               yield;
     URI                 uri(host, std::move(path));
     Headers             headers;
-    std::vector<char>   data;
-    Request             request(stream, yield, Method::Get, std::move(uri), std::move(headers), std::move(data), nullptr, nullptr);
+    std::stringstream   body;
+    Request             request(Method::Get, std::move(uri), headers, body);
     Response            response(stream, yield);
 
     find.second(request, response);
@@ -150,8 +150,8 @@ TEST(BinderTest, AddSites)
     Yield               yield;
     URI                 uri("Ignored", "Ignored");
     Headers             headers;
-    std::vector<char>   data;
-    Request             request(stream, yield, Method::Get, std::move(uri), std::move(headers), std::move(data), nullptr, nullptr);
+    std::stringstream   body;
+    Request             request(Method::Get, std::move(uri), headers, body);
     Response            response(stream, yield);
 
     auto action = binder.find(Method::Get, "ThorsAnvil.com", "/pathSpecific");
