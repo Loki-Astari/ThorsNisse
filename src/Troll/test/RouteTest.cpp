@@ -617,3 +617,10 @@ TEST(RouteTest, RouteTesterGreaterRouteStringIsNotLess_SubGreater)
     ASSERT_FALSE(tester(r1,s2));
     ASSERT_FALSE(tester(s1,r2));
 }
+TEST(RouteTest, InvalidNameInRoute)
+{
+    ASSERT_THROW(
+        Route       r1("/This/ThisIsNotAllowed:is/a/normal/sath"),
+        std::runtime_error
+    );
+}

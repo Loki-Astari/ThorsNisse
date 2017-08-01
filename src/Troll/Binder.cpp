@@ -32,7 +32,7 @@ std::pair<bool, Action&> Site::find(Method method, std::string const& path) cons
     auto find = actionMap[static_cast<int>(method)].find(path);
     if (find == actionMap[static_cast<int>(method)].end())
     {
-        static Action noAction;
+        static Action noAction = [](Request&, Response&){};
         return {false, noAction};
     }
     return {true, find->second};

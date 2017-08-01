@@ -57,6 +57,43 @@ TEST(BinderTest, AddAGetMethod)
     callMethod(Method::Head,   site, "ThorsAnvil.com", "/The/Path/Line");
     ASSERT_TRUE(called);
 }
+TEST(BinderTest, TestSite404)
+{
+    Site        site;
+    auto action = site.find(Method::Get, "/Miss");
+    ASSERT_FALSE(action.first);
+
+
+    URI                 uri("THorsAnvil.com", "/Miss");
+    Headers             headers;
+    std::stringstream   body;
+    Request             request(Method::Get, std::move(uri), headers, body);
+    Response            response(body);
+    action.second(request, response);
+    ASSERT_EQ("", body.str());
+}
+TEST(BinderTest, TestBinder404)
+{
+    Binder              binder;
+    auto action = binder.find(Method::Get, "ThorsAnvil.com", "/Miss");
+
+
+    URI                 uri("THorsAnvil.com", "/Miss");
+    Headers             headers;
+    std::stringstream   body;
+    Request             request(Method::Get, std::move(uri), headers, body);
+    Response            response(body);
+    action(request, response);
+    ASSERT_EQ("<html><body><h1>Not Found</h1></body></html>", body.str());
+
+	ASSERT_EQ(404, response.resultCode);
+	ASSERT_EQ("Not Found", response.resultMessage);
+	//ASSERT_EQ(">Date String<", response.headers.get("Date"));
+	ASSERT_EQ("Nisse", 		response.headers.get("Server"));
+	ASSERT_EQ("44", 		response.headers.get("Content-Length"));
+	ASSERT_EQ("text/html",	response.headers.get("Content-Type"));
+	ASSERT_EQ("Closed",		response.headers.get("Connection"));
+}
 TEST(BinderTest, AddAPutMethod)
 {
     Site        site;
