@@ -73,31 +73,26 @@ class Request
     public:
         const Method            method;
         const URI               uri;
-        const Headers           headers;
-        Socket::ISocketStream   body;
+        const Headers&          headers;
+        std::istream&           body;
 
-        Request(Socket::DataSocket& stream,
-                Yield& yield,
-                Method method,
+        Request(Method method,
                 URI&& uri,
-                Headers&& headers,
-                std::vector<char>&& data, char const* beg, char const* end);
+                Headers& headers,
+                std::istream& body);
 };
 
 class Response
 {
     private:
         bool                    headerWritten;
-        Socket::DataSocket&     stream;
-        Yield&                  yield;
     public:
         short                   resultCode;
         std::string             resultMessage;
         Headers                 headers;
-        Socket::OSocketStream   body;
+        std::ostream&           body;
 
-        Response(Socket::DataSocket& stream,
-                 Yield& yield,
+        Response(std::ostream& body,
                  short resultCode = 200,
                  std::string const& resultMessage = "OK");
         void flushing();

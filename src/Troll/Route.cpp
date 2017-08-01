@@ -59,30 +59,39 @@ int Route::compare(std::string const& rhs) const
     std::size_t start = 0;
     for (std::size_t loop = 0; loop < route.size(); ++loop)
     {
+        // Check the current segment against the route.
         auto test = route[loop].compare(stx::string_view(rhs).substr(start, route[loop].size()));
         if (test != 0)
         {
+            // They are not equal so can quit
             return test;
         }
-        start = rhs.find('/', start + route[loop].size() + 1);
-        start = start == std::string::npos ? rhs.size() : start;
+
+        // The rhs matched equal to part of the route we just checked.
+        // So move the start position along that amount we matched.
+        std::size_t newStart = start + route[loop].size();
+        if (newStart == rhs.size())
+        {
+            // There is no more rhs.
+            // So if there is no names to match they are equal.
+            //    Note: If there is no more names then there is no more route
+            // If there is a name section to match then the rhs is smaller as it does not have a name
+            return names.size() <= loop ? 0 : -1;
+        }
+        else
+        {
+            // There is more rhs to match.
+            if (rhs[newStart - 1] != '/')
+            {
+                // If the last character is not a '/' then we have a route segments that is longer
+                // rhs that is longer. So we return +1
+                return +1;
+            }
+            // The path matched an exact route segment. So the next part is a name.
+            // We ignore the name on the rhs (as any text matches a name).
+            start = rhs.find('/', newStart + 1);
+            start = start == std::string::npos ? rhs.size() : start;
+        }
     }
     return start - rhs.size();
-}
-
-int Route::XXX(std::string const& lhs, std::string const& rhs) const
-{
-    std::size_t const len = std::min(lhs.size(), rhs.size());
-    for (std::size_t loop = 0; loop < len; ++loop)
-    {
-        int test = lhs[loop] - rhs[loop];
-        if (test != 0)
-        {
-            return test;
-        }
-    }
-    // Notice this is opposite of the normal test.
-    // If the prefix of the string is equal then we want the longer string to be less
-    // So that it gets sorted first in a map.
-    return rhs.size() - lhs.size();
 }

@@ -1,0 +1,6 @@
+{
+    "name":  "Loki",
+    "age":   98765,
+    "good":  true,
+    "bad":   false
+}

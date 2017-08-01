@@ -96,28 +96,23 @@ std::string::size_type URI::findSection(std::string const& s, char value, std::s
     return find == std::string::npos ? s.size() : find;
 }
 
-Request::Request(Socket::DataSocket& stream,
-                 Yield& yield,
-                 Method method,
+Request::Request(Method method,
                  URI&& uri,
-                 Headers&& headers,
-                 std::vector<char>&& data, char const* beg, char const* end)
+                 Headers& headers,
+                 std::istream& body)
     : method(method)
-    , uri(uri)
-    , headers(std::move(headers))
-    , body(stream, [&yield](){yield();}, [](){}, std::move(data), beg, end)
+    , uri(std::move(uri))
+    , headers(headers)
+    , body(body)
 {}
 
-Response::Response(Socket::DataSocket& stream,
-                   Yield& yield,
+Response::Response(std::ostream& body,
                    short resultCode,
                    std::string const& resultMessage)
     : headerWritten(false)
-    , stream(stream)
-    , yield(yield)
     , resultCode(resultCode)
     , resultMessage(resultMessage)
-    , body(stream, [&yield](){yield();}, [&parent = *this](){parent.flushing();})
+    , body(body)
 {}
 
 void Response::flushing()
@@ -125,16 +120,15 @@ void Response::flushing()
     if (!headerWritten)
     {
         headerWritten = true;
-        Socket::OSocketStream headerStream(stream, [&yield = this->yield](){yield();}, [](){});
 
-        headerStream << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
+        body << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
         for (auto const& header: headers)
         {
             for (auto const& value: header.second)
             {
-                headerStream << header.first << ": " << value << "\r\n";
+                body << header.first << ": " << value << "\r\n";
             }
         }
-        headerStream << "\r\n";
+        body << "\r\n";
     }
 }

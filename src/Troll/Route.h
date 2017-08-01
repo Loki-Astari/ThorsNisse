@@ -49,7 +49,7 @@ class Route
      * Two routes are equal if all the elements in `route` match.
      * The param obejct will be available via the request object.
      */
-    const std::string                      fullRoute;
+    const std::string                fullRoute;
     std::vector<stx::string_view>    route;
     std::vector<stx::string_view>    names;
 
@@ -66,11 +66,10 @@ class Route
 
     private:
         int compare(std::string const& rhs) const;
-        int XXX(std::string const& lhs, std::string const& rhs) const;
 
         friend std::ostream& operator<<(std::ostream& s, Route const& r)
         {
-            return s << "ROUTE: " << r.fullRoute;
+            return s << r.fullRoute;
         }
 };
 

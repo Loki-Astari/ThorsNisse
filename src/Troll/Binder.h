@@ -18,6 +18,29 @@ namespace ThorsAnvil
 
 using Action = std::function<void(Request&, Response&)>;
 
+/*
+ * A site represents the paths on a particular domain.
+ * So you have a site object for each domain that your server is hosting.
+ *
+ * You then bind the site object to a domain using the Binder.
+ * You can bind multiple domains in the binder. Then you pass the binder as
+ * a parameter to the `listenOn()` method of the NisseServer. When a request is
+ * received and `ReadRequestHandler` object is created it is passed the binder
+ * object as a parameter.
+ *
+ *      Site        thorsAnvil;
+ *      thorsAnvil.get("/user/", [](Request& request, Response& response) {
+ *                                          response.responseCode            = 200;
+ *                                          response.message                 = "OK";
+ *                                          response.header["Content-Type:"] = "text/json";
+ *                                          response.body << "{user: " << getUserId << "}"
+ *                    );
+ *      Binder      host;
+ *      host.addSite("ThorsAnvil.com", thorsAnvil);
+ *
+ *      NisseServer server;
+ *      server.listenOn<ReadRequestHandler>(80, host);
+ */
 class Site
 {
     public:
@@ -33,11 +56,15 @@ class Site
 
 class Binder
 {
+    static Action& getDefault404Action();
     private:
+        Action                      action404;
         std::map<std::string, Site> siteMap;
     public:
+        Binder();
+        void setCustome404Action(Action&& action);
         void addSite(std::string const& host, Site&& site);
-        Action& find(Method method, std::string const& host, std::string const& path) const;
+        Action const& find(Method method, std::string const& host, std::string const& path) const;
 };
 
 
