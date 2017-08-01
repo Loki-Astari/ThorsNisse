@@ -82,9 +82,11 @@ class Request
                 std::istream& body);
 };
 
+class WriteResponseHandler;
 class Response
 {
     private:
+        WriteResponseHandler*   flusher;
         bool                    headerWritten;
     public:
         short                   resultCode;
@@ -95,6 +97,11 @@ class Response
         Response(std::ostream& body,
                  short resultCode = 200,
                  std::string const& resultMessage = "OK");
+        Response(WriteResponseHandler& flusher,
+                 std::ostream& body,
+                 short resultCode = 200,
+                 std::string const& resultMessage = "OK");
+        ~Response();
         void flushing();
 };
 

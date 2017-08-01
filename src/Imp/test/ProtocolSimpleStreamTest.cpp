@@ -1,7 +1,6 @@
 #include "ProtocolSimpleStream.h"
 #include "ProtocolSimple.h"
 #include "ThorsNisse/NisseService.h"
-#include "ThorsNisse/NisseTimer.h"
 #include "ThorsNisseSocket/Socket.h"
 #include "ThorsNisseSocket/Utility.h"
 #include <gtest/gtest.h>
@@ -11,7 +10,6 @@
 #include <boost/coroutine/asymmetric_coroutine.hpp>
 
 using ThorsAnvil::Nisse::NisseService;
-using ThorsAnvil::Nisse::NisseTimer;
 using ThorsAnvil::Nisse::ProtocolSimple::Message;
 using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;
 using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageStreamHandler;

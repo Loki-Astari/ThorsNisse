@@ -1,16 +1,5 @@
 #include "Types.h"
-
-/*
-#include "ThorsNisseSocket/Socket.h"
-#include "ThorsNisseSocket/SocketStream.h"
-#include <boost/coroutine/asymmetric_coroutine.hpp>
-#include <istream>
-#include <ostream>
-#include <string>
-#include <vector>
-#include <map>
-#include <algorithm>
-*/
+#include "HTTPProtocol.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
@@ -106,14 +95,36 @@ Request::Request(Method method,
     , body(body)
 {}
 
+Response::Response(WriteResponseHandler& fl,
+                   std::ostream& body,
+                   short resultCode,
+                   std::string const& resultMessage)
+    : flusher(&fl)
+    , headerWritten(false)
+    , resultCode(resultCode)
+    , resultMessage(resultMessage)
+    , body(body)
+{
+    flusher->setFlusher(this);
+}
 Response::Response(std::ostream& body,
                    short resultCode,
                    std::string const& resultMessage)
-    : headerWritten(false)
+    : flusher(nullptr)
+    , headerWritten(false)
     , resultCode(resultCode)
     , resultMessage(resultMessage)
     , body(body)
 {}
+
+Response::~Response()
+{
+    if (flusher)
+    {
+        flusher->setFlusher(nullptr);
+    }
+    flushing();
+}
 
 void Response::flushing()
 {

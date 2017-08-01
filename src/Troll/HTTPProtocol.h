@@ -83,7 +83,7 @@ class WriteResponseHandler: public NisseHandler
                              char const* bodyBegin,
                              char const* bodyEnd);
         void setFlusher(Response* f){flusher = f;}
-        void flushing()             {flusher->flushing();}
+        void flushing()             {if (flusher){flusher->flushing();}}
         virtual void eventActivate(LibSocketId sockId, short eventType) override;
 };
 
