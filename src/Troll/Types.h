@@ -102,7 +102,7 @@ class Response
                  short resultCode = 200,
                  std::string const& resultMessage = "OK");
         ~Response();
-        void flushing();
+        void flushing(bool allDone = false);
 };
 
         }

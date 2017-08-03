@@ -123,14 +123,23 @@ Response::~Response()
     {
         flusher->setFlusher(nullptr);
     }
-    flushing();
+    flushing(true);
 }
 
-void Response::flushing()
+void Response::flushing(bool allDone)
 {
     if (!headerWritten)
     {
         headerWritten = true;
+        if (headers.getVersions("Content-Length") == 0)
+        {
+            std::string size = "-1";
+            if (allDone)
+            {
+                size = std::to_string(body.tellp());
+            }
+            headers["Content-Length"] = std::move(size);
+        }
 
         body << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
         for (auto const& header: headers)

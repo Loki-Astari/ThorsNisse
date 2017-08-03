@@ -245,6 +245,15 @@ std::streamsize SocketStreamBuffer::readFromStream(char_type* dest, std::streams
     }
     return read;
 }
+std::streampos SocketStreamBuffer::seekoff(std::streamoff off, std::ios_base::seekdir way, std::ios_base::openmode which)
+{
+    if (which == std::ios_base::out && way == std::ios_base::cur)
+    {
+        pbump(off);
+        return pptr() - pbase();
+    }
+    return -1;
+}
 // ------------------------
 
 ISocketStream::ISocketStream(DataSocket& stream)
