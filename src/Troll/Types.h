@@ -32,8 +32,8 @@ static std::string const Connection_Closed  = "Closed";
 static std::string const ServerName         = "Nisse V1.0";
 
 
-using CoRoutine = boost::coroutines::asymmetric_coroutine<void>::pull_type;
-using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
+using CoRoutine = boost::coroutines::asymmetric_coroutine<short>::pull_type;
+using Yield     = boost::coroutines::asymmetric_coroutine<short>::push_type;
 
 enum class Method {Get, Put, Post, Delete, Head};
 

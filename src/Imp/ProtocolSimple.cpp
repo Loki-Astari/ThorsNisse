@@ -14,7 +14,7 @@ ReadMessageHandler::ReadMessageHandler(NisseService& parent, ThorsAnvil::Socket:
     , readBuffer(0)
 {}
 
-void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     bool more;
     std::size_t read;
@@ -30,11 +30,12 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
                 // And the stream was closed.
                 std::string fail = failSizeMessage;
                 moveHandler<WriteMessageHandler>(std::move(socket), std::move(fail), false);
+                return 0;
             }
             // We have not received all of the size object
             // Return for now. When more data arrives we will
             // try and read more when this function is re-called.
-            return;
+            return EV_READ;
         }
         buffer.resize(bufferSize);
     }
@@ -49,13 +50,15 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
             // We are going to give up and drop the
             std::string fail = failIncompleteMessage;
             moveHandler<WriteMessageHandler>(std::move(socket), std::move(fail), false);
+            return 0;
         }
         // We have not received all of the message
         // Return for now. When more data arrives we will
         // try and read more when this function is re-called.
-        return;
+        return EV_READ;
     }
     moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer), true);
+    return 0;
 }
 
 WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, std::string const& m, bool ok)
@@ -71,7 +74,7 @@ WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socke
     }
 }
 
-void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     bool        more;
     std::size_t written;
@@ -85,8 +88,9 @@ void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
             if (!more)
             {
                 dropHandler();
+                return 0;
             }
-            return;
+            return EV_WRITE;
         }
     }
     std::tie(more, written) = socket.putMessageData(message.c_str(), message.size(), writeBuffer);
@@ -96,10 +100,12 @@ void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
         if (!more)
         {
             dropHandler();
+            return 0;
         }
-        return;
+        return EV_WRITE;
     }
     dropHandler();
+    return 0;
 }
 
 #ifdef COVERAGE_TEST

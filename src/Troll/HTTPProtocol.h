@@ -51,7 +51,7 @@ class ReadRequestHandler: public NisseHandler
     public:
         ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
         void headerParser(Yield& yield);
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
 
         void onHeadersComplete();
         void onMessageBegin();
@@ -84,7 +84,7 @@ class WriteResponseHandler: public NisseHandler
                              char const* bodyEnd);
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
 
         }

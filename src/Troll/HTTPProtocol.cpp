@@ -78,7 +78,7 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
 
 }
 
-void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     bool        more;
     std::size_t recved;
@@ -104,11 +104,14 @@ void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
                         std::move(buffer),
                         bodyBegin, bodyEnd
                        );
+        return 0;
     }
     else if (!more)
     {
         dropHandler();
+        return 0;
     }
+    return EV_READ;
 }
 
 void ReadRequestHandler::requestComplete(
@@ -227,7 +230,7 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                                            std::vector<char>&& bufferParam,
                                            char const* bodyBeginParam,
                                            char const* bodyEndParam)
-    : NisseHandler(parent, so.getSocketId(), EV_WRITE)
+    : NisseHandler(parent, so.getSocketId(), EV_WRITE | EV_READ)
     , flusher(nullptr)
     , worker([ &parent      = *this,
                 socket      = std::move(so),
@@ -242,8 +245,8 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                 {
                     URI const     uri(headers.get("Host"), std::move(uriParam));
                     Action const& action(binder.find(method, uri.host, uri.path));
-                    Socket::ISocketStream   input(socket, [&yield](){yield();}, [](){}, std::move(buffer), bodyBegin, bodyEnd);
-                    Socket::OSocketStream   output(socket, [&yield](){yield();}, [&parent](){parent.flushing();});
+                    Socket::ISocketStream   input(socket, [&yield](){yield(EV_READ);}, [](){}, std::move(buffer), bodyBegin, bodyEnd);
+                    Socket::OSocketStream   output(socket, [&yield](){yield(EV_WRITE);}, [&parent](){parent.flushing();});
                     DevNullStreamBuf        devNullBuffer;
                     if (method == Method::Head)
                     {
@@ -252,19 +255,21 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
 
                     Request       request(method, URI(std::move(uri)), headers, input);
                     Response      response(parent, socket, output);
-                    yield();
+                    yield(EV_READ | EV_WRITE);
                     action(request, response);
                 }
             )
 {}
 
-void WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     worker();
     if (!worker)
     {
         dropHandler();
+        return 0;
     }
+    return worker.get();
 }
 
 #ifdef COVERAGE_TEST

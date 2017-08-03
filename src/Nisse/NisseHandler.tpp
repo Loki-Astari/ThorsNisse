@@ -33,10 +33,11 @@ inline ServerHandler<Handler, Param>::~ServerHandler()
 {}
 
 template<typename Handler, typename Param>
-inline void ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+inline short ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     ThorsAnvil::Socket::DataSocket accepted = socket.accept();
     addHandler<Handler>(std::move(accepted), param);
+    return EV_READ;
 }
 
 template<typename Handler>
@@ -50,10 +51,11 @@ inline ServerHandler<Handler, void>::~ServerHandler()
 {}
 
 template<typename Handler>
-inline void ServerHandler<Handler, void>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+inline short ServerHandler<Handler, void>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     ThorsAnvil::Socket::DataSocket accepted = socket.accept();
     addHandler<Handler>(std::move(accepted));
+    return EV_READ;
 }
 
     }
