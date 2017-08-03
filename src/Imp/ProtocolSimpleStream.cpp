@@ -8,11 +8,11 @@ std::string const ReadMessageStreamHandler::failToReadMessage = "Message Read Fa
 std::string const WriteMessageStreamHandler::messageSuffix    = " -> OK <-";
 
 ReadMessageStreamHandler::ReadMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so)
-    : NisseHandler(parent, so.getSocketId(), EV_READ | EV_PERSIST)
+    : NisseHandler(parent, so.getSocketId(), EV_READ)
     , worker([&parent = *this, socket = std::move(so)](Yield& yield) mutable
       {
-          Socket::ISocketStream   stream(socket, [&yield](){yield();}, [](){});
-          yield();
+          Socket::ISocketStream   stream(socket, [&yield](){yield(EV_READ);}, [](){});
+          yield(EV_READ);
           Message                 message;
           if (!(stream >> message))
           {
@@ -24,19 +24,24 @@ ReadMessageStreamHandler::ReadMessageStreamHandler(NisseService& parent, ThorsAn
 
 short ReadMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    worker();
-    return 0;
+    if (!worker())
+    {
+        // The co-routine has completed.
+        return 0;
+    }
+    return worker.get();
 }
 
 WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Message&& ms)
     : NisseHandler(parent, so.getSocketId(), EV_WRITE | EV_PERSIST)
     , worker([&parent = *this, socket = std::move(so), message = std::move(ms)](Yield& yield) mutable
       {
-          Socket::OSocketStream   stream(socket, [&yield](){yield();}, [](){});
-          yield();
+          Socket::OSocketStream   stream(socket, [&yield](){yield(0);}, [](){});
+          yield(0);
           message.message += messageSuffix;
           stream << message;
           parent.dropHandler();
+          return 0;
       })
 {}
 
@@ -44,8 +49,8 @@ WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, Thors
     : NisseHandler(parent, so.getSocketId(), EV_WRITE | EV_PERSIST)
     , worker([&parent = *this, socket = std::move(so), message(ms)](Yield& yield) mutable
       {
-          Socket::OSocketStream   stream(socket, [&yield](){yield();}, [](){});
-          yield();
+          Socket::OSocketStream   stream(socket, [&yield](){yield(0);}, [](){});
+          yield(0);
           message.message += messageSuffix;
           stream << message;
           parent.dropHandler();

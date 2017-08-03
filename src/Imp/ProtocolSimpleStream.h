@@ -13,8 +13,8 @@ namespace ThorsAnvil
         namespace ProtocolSimple
         {
 
-using CoRoutine = boost::coroutines::asymmetric_coroutine<void>::pull_type;
-using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
+using CoRoutine = boost::coroutines::asymmetric_coroutine<short>::pull_type;
+using Yield     = boost::coroutines::asymmetric_coroutine<short>::push_type;
 
 class Message
 {
