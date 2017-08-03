@@ -54,7 +54,7 @@ int onBody(HttpParser* parser, const char *at, std::size_t length)
 }
 
 ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Binder const& binder)
-    : NisseHandler(parent, so.getSocketId(), EV_READ)
+    : NisseHandler(parent, so.getSocketId(), EV_READ | EV_PERSIST)
     , socket(std::move(so))
     , binder(binder)
     , buffer(bufferLen)
@@ -227,7 +227,7 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                                            std::vector<char>&& bufferParam,
                                            char const* bodyBeginParam,
                                            char const* bodyEndParam)
-    : NisseHandler(parent, so.getSocketId(), EV_WRITE)
+    : NisseHandler(parent, so.getSocketId(), EV_WRITE | EV_PERSIST)
     , flusher(nullptr)
     , worker([ &parent      = *this,
                 socket      = std::move(so),

@@ -14,7 +14,7 @@ void eventCB(LibSocketId socketId, short eventType, void* event)
 
 NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeOut)
     : parent(parent)
-    , event(event_new(parent.eventBase.get(), socketId, eventType | EV_PERSIST, eventCB, this), event_free)
+    , event(event_new(parent.eventBase.get(), socketId, eventType, eventCB, this), event_free)
 {
     if (event.get() == nullptr)
     {

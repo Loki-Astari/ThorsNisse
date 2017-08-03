@@ -8,7 +8,7 @@ std::string const ReadMessageHandler::failIncompleteMessage = "Failed: Size OK. 
 std::string const WriteMessageHandler::messageSuffix        = "-> 200 OK Replied";
 
 ReadMessageHandler::ReadMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so)
-    : NisseHandler(parent, so.getSocketId(), EV_READ)
+    : NisseHandler(parent, so.getSocketId(), EV_READ | EV_PERSIST)
     , socket(std::move(so))
     , readSizeObject(0)
     , readBuffer(0)
@@ -59,7 +59,7 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
 }
 
 WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, std::string const& m, bool ok)
-    : NisseHandler(parent, so.getSocketId(), EV_WRITE)
+    : NisseHandler(parent, so.getSocketId(), EV_WRITE | EV_PERSIST)
     , socket(std::move(so))
     , writeSizeObject(0)
     , writeBuffer(0)
