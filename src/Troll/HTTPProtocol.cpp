@@ -5,51 +5,61 @@ using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
 int onHeadersComplete(HttpParser* parser)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onHeadersComplete();
+    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
+    data->addCurrentHeader();
+    data->messageComplete = true;
     return 0;
 }
-int onMessageBegin(HttpParser* parser)
+int onMessageBegin(HttpParser* /*parser*/)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onMessageBegin();
     return 0;
 }
-int onMessageComplete(HttpParser* parser)
+int onMessageComplete(HttpParser* /*parser*/)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onMessageComplete();
     return 0;
 }
 
 int onUrl(HttpParser* parser, const char *at, std::size_t length)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onUrl(at, length);
+    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
+    switch (parser->method)
+    {
+        case HTTP_DELETE:       data->method = Method::Delete;break;
+        case HTTP_GET:          data->method = Method::Get;   break;
+        case HTTP_HEAD:         data->method = Method::Head;  break;
+        case HTTP_POST:         data->method = Method::Post;  break;
+        case HTTP_PUT:          data->method = Method::Put;   break;
+        default:
+            throw std::runtime_error("ThorsAnvil::Nisse::ReadRequestHandler::onUrl: unknown HTTP Method");
+    }
+
+    data->uri.assign(at, length);
+    data->gotValue    = false;
     return 0;
 }
-int onStatus(HttpParser* parser, const char *at, std::size_t length)
+int onStatus(HttpParser* /*parser*/, const char* /*at*/, std::size_t /*length*/)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onStatus(at, length);
     return 0;
 }
 int onHeaderField(HttpParser* parser, const char *at, std::size_t length)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onHeaderField(at, length);
+    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
+    data->addCurrentHeader();
+    data->currentHead.append(at, length);
     return 0;
 }
 int onHeaderValue(HttpParser* parser, const char *at, std::size_t length)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onHeaderValue(at, length);
+    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
+    data->gotValue = true;
+    data->currentValue.append(at, length);
     return 0;
 }
 int onBody(HttpParser* parser, const char *at, std::size_t length)
 {
-    ReadRequestHandler* parent = reinterpret_cast<ReadRequestHandler*>(parser->data);
-    parent->onBody(at, length);
+    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
+    data->bodyBegin   = at;
+    data->bodyEnd     = at + length;
     return 0;
 }
 
@@ -57,7 +67,6 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , binder(binder)
-    , data(parser)
     , buffer(bufferLen)
 {
     settings.on_headers_complete    = ::onHeadersComplete;
@@ -71,7 +80,7 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
     settings.on_body                = ::onBody;
 
     http_parser_init(&parser, HTTP_REQUEST);
-    parser.data                     = this;
+    parser.data                     = &data;
 
 }
 
@@ -128,52 +137,6 @@ void ReadRequestHandler::requestComplete(
                                       std::move(buffer),
                                       bodyBegin, bodyEnd
                                      );
-}
-
-void ReadRequestHandler::onHeadersComplete()
-{
-    data.addCurrentHeader();
-    data.messageComplete = true;
-}
-void ReadRequestHandler::onMessageBegin()
-{
-}
-void ReadRequestHandler::onMessageComplete()
-{
-}
-void ReadRequestHandler::onUrl(char const* at, std::size_t length)
-{
-    switch (data.parser.method)
-    {
-        case HTTP_DELETE:       data.method = Method::Delete;break;
-        case HTTP_GET:          data.method = Method::Get;   break;
-        case HTTP_HEAD:         data.method = Method::Head;  break;
-        case HTTP_POST:         data.method = Method::Post;  break;
-        case HTTP_PUT:          data.method = Method::Put;   break;
-        default:
-            throw std::runtime_error("ThorsAnvil::Nisse::ReadRequestHandler::onUrl: unknown HTTP Method");
-    }
-
-    data.uri.assign(at, length);
-    data.gotValue    = false;
-}
-void ReadRequestHandler::onStatus(char const* /*at*/, std::size_t /*length*/)
-{
-}
-void ReadRequestHandler::onHeaderField(char const* at, std::size_t length)
-{
-    data.addCurrentHeader();
-    data.currentHead.append(at, length);
-}
-void ReadRequestHandler::onHeaderValue(char const* at, std::size_t length)
-{
-    data.gotValue = true;
-    data.currentValue.append(at, length);
-}
-void ReadRequestHandler::onBody(char const* at, std::size_t length)
-{
-    data.bodyBegin   = at;
-    data.bodyEnd     = at + length;
 }
 
 // ------------------

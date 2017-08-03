@@ -19,9 +19,8 @@ using HttpParser            = http_parser;
 using HttpParserSettings    = http_parser_settings;
 struct HttpParserData
 {
-    HttpParserData(HttpParser& parser)
-        : parser(parser)
-        , bodyBegin(nullptr)
+    HttpParserData()
+        : bodyBegin(nullptr)
         , bodyEnd(nullptr)
         , messageComplete(false)
         , gotValue(false)
@@ -37,7 +36,6 @@ struct HttpParserData
         }
     }
 
-        HttpParser&             parser;
         Headers                 headers;
         std::string             currentHead;
         std::string             currentValue;
@@ -74,16 +72,6 @@ class ReadRequestHandler: public NisseHandler
         ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
         void headerParser(Yield& yield);
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
-
-        void onHeadersComplete();
-        void onMessageBegin();
-        void onMessageComplete();
-        void onUrl(char const* at, std::size_t length);
-        void onStatus(char const* at, std::size_t length);
-        void onHeaderField(char const* at, std::size_t length);
-        void onHeaderValue(char const* at, std::size_t length);
-        void onBody(char const* at, std::size_t length);
-
     private:
 };
 
