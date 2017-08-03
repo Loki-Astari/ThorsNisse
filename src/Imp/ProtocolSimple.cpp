@@ -8,7 +8,7 @@ std::string const ReadMessageHandler::failIncompleteMessage = "Failed: Size OK. 
 std::string const WriteMessageHandler::messageSuffix        = "-> 200 OK Replied";
 
 ReadMessageHandler::ReadMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so)
-    : NisseHandler(parent, so.getSocketId(), EV_READ | EV_PERSIST)
+    : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , readSizeObject(0)
     , readBuffer(0)
@@ -30,11 +30,12 @@ short ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
                 // And the stream was closed.
                 std::string fail = failSizeMessage;
                 moveHandler<WriteMessageHandler>(std::move(socket), std::move(fail), false);
+                return 0;
             }
             // We have not received all of the size object
             // Return for now. When more data arrives we will
             // try and read more when this function is re-called.
-            return 0;
+            return EV_READ;
         }
         buffer.resize(bufferSize);
     }
@@ -49,11 +50,12 @@ short ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
             // We are going to give up and drop the
             std::string fail = failIncompleteMessage;
             moveHandler<WriteMessageHandler>(std::move(socket), std::move(fail), false);
+            return 0;
         }
         // We have not received all of the message
         // Return for now. When more data arrives we will
         // try and read more when this function is re-called.
-        return 0;
+        return EV_READ;
     }
     moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer), true);
     return 0;
