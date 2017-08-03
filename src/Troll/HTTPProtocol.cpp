@@ -189,6 +189,35 @@ void ReadRequestHandler::addCurrentHeader()
 
 // ------------------
 
+class DevNullStreamBuf: public std::streambuf
+{
+    private:
+        typedef std::streambuf::traits_type traits;
+        typedef traits::int_type            int_type;
+        typedef traits::char_type           char_type;
+
+        std::size_t written;
+
+    protected:
+        virtual std::streamsize xsputn(char_type const* /*s*/,std::streamsize count) override
+        {
+            written += count;
+            return count;
+        }
+
+        virtual std::streampos seekoff(std::streamoff /*off*/,
+                                       std::ios_base::seekdir /*way*/,
+                                       std::ios_base::openmode which = std::ios_base::in | std::ios_base::out) override
+        {
+            ((void)which);
+            return written;
+        }
+    public:
+        DevNullStreamBuf()
+            : written(0)
+        {}
+};
+
 WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                                            ThorsAnvil::Socket::DataSocket&& so,
                                            Binder const& binder,
@@ -212,9 +241,15 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
              ](Yield& yield) mutable
                 {
                     URI const     uri(headers.get("Host"), std::move(uriParam));
-                    Action const& action(binder.find(Method::Get, uri.host, uri.path));
+                    Action const& action(binder.find(method, uri.host, uri.path));
                     Socket::ISocketStream   input(socket, [&yield](){yield();}, [](){}, std::move(buffer), bodyBegin, bodyEnd);
                     Socket::OSocketStream   output(socket, [&yield](){yield();}, [&parent](){parent.flushing();});
+                    DevNullStreamBuf        devNullBuffer;
+                    if (method == Method::Head)
+                    {
+                        output.rdbuf(&devNullBuffer);
+                    }
+
                     Request       request(method, URI(std::move(uri)), headers, input);
                     Response      response(parent, socket, output);
                     yield();
