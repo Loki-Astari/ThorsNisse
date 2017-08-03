@@ -13,6 +13,12 @@ void Headers::Inserter::operator=(std::string&& value)
     auto& item = valueStore.back();
     std::transform(std::begin(item), std::end(item), std::begin(item), [](char x){return x == '\n' ? ' ' : x;});
 }
+void Headers::Inserter::operator=(std::string const& value)
+{
+    valueStore.emplace_back(value);
+    auto& item = valueStore.back();
+    std::transform(std::begin(item), std::end(item), std::begin(item), [](char x){return x == '\n' ? ' ' : x;});
+}
 
 std::size_t Headers::getVersions(std::string const& key) const
 {
@@ -108,6 +114,11 @@ Response::Response(WriteResponseHandler& fl,
     , body(body)
 {
     flusher->setFlusher(this);
+    headers[Head_Date]            = getTimeString();
+    headers[Head_Server]          = ServerName;
+    headers[Head_Connection]      = Connection_Closed;
+    // Content Length set in `flushing()` when we know the amount of data
+    // headers["Content-Length"]
 }
 Response::Response(std::ostream& body)
     : flusher(nullptr)

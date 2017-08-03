@@ -18,10 +18,39 @@ namespace ThorsAnvil
         namespace ProtocolHTTP
         {
 
+static std::string const Head_Server        = "Server";
+static std::string const Head_Date          = "Date";
+static std::string const Head_ContentLen    = "Content-Length";
+static std::string const Head_ContentType   = "Content-Type";
+static std::string const Head_Connection    = "Connection";
+
+static std::string const Resp_200           = "OK";
+static std::string const Resp_404           = "Not Found";
+
+static std::string const Connection_Closed  = "Closed";
+
+static std::string const ServerName         = "Nisse V1.0";
+
+
 using CoRoutine = boost::coroutines::asymmetric_coroutine<void>::pull_type;
 using Yield     = boost::coroutines::asymmetric_coroutine<void>::push_type;
 
 enum class Method {Get, Put, Post, Delete, Head};
+
+inline char const* getTimeString()
+{
+    using TimeT = std::time_t;
+    using TimeI = std::tm;
+
+    TimeT   rawtime;
+    TimeI*  timeinfo;
+
+    ::time(&rawtime);
+    timeinfo = ::localtime(&rawtime);
+
+    return ::asctime(timeinfo);
+}
+
 
 class Headers
 {
@@ -38,6 +67,7 @@ class Headers
             public:
                 Inserter(ValueStore& valueStore);
                 void operator=(std::string&& value);
+                void operator=(std::string const& value);
         };
 
         ConstIterator begin() const {return std::cbegin(data);}
