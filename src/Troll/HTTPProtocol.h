@@ -17,6 +17,37 @@ namespace ThorsAnvil
 
 using HttpParser            = http_parser;
 using HttpParserSettings    = http_parser_settings;
+struct HttpParserData
+{
+    HttpParserData(HttpParser& parser)
+        : parser(parser)
+        , bodyBegin(nullptr)
+        , bodyEnd(nullptr)
+        , messageComplete(false)
+        , gotValue(false)
+    {}
+    void addCurrentHeader()
+    {
+        if (gotValue)
+        {
+            headers[currentHead]    = std::move(currentValue);
+            gotValue = false;
+            currentHead.clear();
+            currentValue.clear();
+        }
+    }
+
+        HttpParser&             parser;
+        Headers                 headers;
+        std::string             currentHead;
+        std::string             currentValue;
+        std::string             uri;
+        char const*             bodyBegin;
+        char const*             bodyEnd;
+        Method                  method;
+        bool                    messageComplete;
+        bool                    gotValue;
+};
 
 class ReadRequestHandler: public NisseHandler
 {
@@ -26,18 +57,9 @@ class ReadRequestHandler: public NisseHandler
         Binder const&           binder;
         HttpParserSettings      settings;
         HttpParser              parser;
+        HttpParserData          data;
         std::vector<char>       buffer;
-        Method                  method;
-        std::string             uri;
         std::string             version;
-        Headers                 headers;
-
-        std::string             currentHead;
-        std::string             currentValue;
-        char const*             bodyBegin;
-        char const*             bodyEnd;
-        bool                    gotValue;
-        bool                    messageComplete;
 
         static constexpr std::size_t bufferLen = 80 * 1024;
         virtual void requestComplete(
@@ -63,7 +85,6 @@ class ReadRequestHandler: public NisseHandler
         void onBody(char const* at, std::size_t length);
 
     private:
-        void addCurrentHeader();
 };
 
 class WriteResponseHandler: public NisseHandler
