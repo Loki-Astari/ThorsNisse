@@ -19,11 +19,13 @@ class NisseHandler
 {
     private:
         NisseService&                       parent;
-        NisseEvent                          event;
+        NisseEvent                          readEvent;
+        NisseEvent                          writeEvent;
     public:
         NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeout = 0);
         virtual ~NisseHandler();
-        virtual void eventActivate(LibSocketId sockId, short eventType);
+        virtual short eventActivate(LibSocketId sockId, short eventType);
+        void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:
         void dropHandler();
         template<typename H, typename... Args>
@@ -43,7 +45,7 @@ class ServerHandler: public NisseHandler
     public:
         ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
         ~ServerHandler();
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
 
 template<typename Handler>
@@ -54,7 +56,7 @@ class ServerHandler<Handler, void>: public NisseHandler
     public:
         ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so);
         ~ServerHandler();
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
 
 class TimerHandler: public NisseHandler
@@ -65,9 +67,10 @@ class TimerHandler: public NisseHandler
             : NisseHandler(parent, -1, EV_PERSIST, timeOut)
             , action(std::move(action))
         {}
-        virtual void eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
         {
             action();
+            return 0;
         }
 };
 

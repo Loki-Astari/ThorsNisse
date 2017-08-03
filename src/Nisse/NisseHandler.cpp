@@ -9,16 +9,27 @@ using TimeVal = struct timeval;
 void eventCB(LibSocketId socketId, short eventType, void* event)
 {
     NisseHandler& handler = *reinterpret_cast<NisseHandler*>(event);
-    handler.eventActivate(socketId, eventType);
+    short newEventType = handler.eventActivate(socketId, eventType);
+    handler.setHandlers(newEventType);
 }
 
 NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeOut)
     : parent(parent)
-    , event(event_new(parent.eventBase.get(), socketId, eventType, eventCB, this), event_free)
+    , readEvent(nullptr, event_free)
+    , writeEvent(nullptr, event_free)
 {
-    if (event.get() == nullptr)
+    short persistType = eventType & EV_PERSIST;
+    short readType    = eventType & EV_READ;
+
+    readEvent.reset(event_new(parent.eventBase.get(), socketId, readType | persistType, eventCB, this));
+    if (readEvent.get() == nullptr)
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: event_new(): Failed");
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: readEvent: event_new(): Failed");
+    }
+    writeEvent.reset(event_new(parent.eventBase.get(), socketId, EV_WRITE | persistType, eventCB, this));
+    if (writeEvent.get() == nullptr)
+    {
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: writeEvent: event_new(): Failed");
     }
 
     TimeVal* timeVal = nullptr;
@@ -29,21 +40,19 @@ NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eve
         timer.tv_usec   = static_cast<long>((timeOut - timer.tv_sec) * 1'000'000);
         timeVal         = &timer;
     }
-
-    if (event_add(event.get(), timeVal) != 0)
-    {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: event_add(): Failed");
-    }
+    setHandlers(eventType, timeVal);
 }
+
 
 NisseHandler::~NisseHandler()
 {
     dropEvent();
 }
 
-void NisseHandler::eventActivate(LibSocketId sockId, short eventType)
+short NisseHandler::eventActivate(LibSocketId sockId, short eventType)
 {
     std::cerr << "Callback made: " << sockId << " For " << eventType << "\n";
+    return 0;
 }
 
 void NisseHandler::dropHandler()
@@ -54,9 +63,31 @@ void NisseHandler::dropHandler()
 
 void NisseHandler::dropEvent()
 {
-    if (event_del(event.get()) != 0)
+    if (event_del(readEvent.get()) != 0)
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::dropHandler: event_del(): Failed");
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::dropHandler: readEvent event_del(): Failed");
+    }
+    if (event_del(writeEvent.get()) != 0)
+    {
+        throw std::runtime_error("ThorsAnvil::Nisse::NisseEvent::dropHandler: writeEvent event_del(): Failed");
+    }
+}
+
+void NisseHandler::setHandlers(short eventType, TimeVal* timeVal)
+{
+    if (timeVal != nullptr || (eventType & EV_READ))
+    {
+        if (event_add(readEvent.get(), timeVal) != 0)
+        {
+            throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: readEvent: event_add(): Failed");
+        }
+    }
+    if (eventType & EV_WRITE)
+    {
+        if (event_add(writeEvent.get(), timeVal) != 0)
+        {
+            throw std::runtime_error("ThorsAnvil::Nisse::NisseHandler::NisseHandler: writeEvent: event_add(): Failed");
+        }
     }
 }
 

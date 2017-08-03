@@ -14,7 +14,7 @@ ReadMessageHandler::ReadMessageHandler(NisseService& parent, ThorsAnvil::Socket:
     , readBuffer(0)
 {}
 
-void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     bool more;
     std::size_t read;
@@ -34,7 +34,7 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
             // We have not received all of the size object
             // Return for now. When more data arrives we will
             // try and read more when this function is re-called.
-            return;
+            return 0;
         }
         buffer.resize(bufferSize);
     }
@@ -53,9 +53,10 @@ void ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
         // We have not received all of the message
         // Return for now. When more data arrives we will
         // try and read more when this function is re-called.
-        return;
+        return 0;
     }
     moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer), true);
+    return 0;
 }
 
 WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, std::string const& m, bool ok)
@@ -71,7 +72,7 @@ WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socke
     }
 }
 
-void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     bool        more;
     std::size_t written;
@@ -86,7 +87,7 @@ void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
             {
                 dropHandler();
             }
-            return;
+            return 0;
         }
     }
     std::tie(more, written) = socket.putMessageData(message.c_str(), message.size(), writeBuffer);
@@ -97,9 +98,10 @@ void WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
         {
             dropHandler();
         }
-        return;
+        return 0;
     }
     dropHandler();
+    return 0;
 }
 
 #ifdef COVERAGE_TEST

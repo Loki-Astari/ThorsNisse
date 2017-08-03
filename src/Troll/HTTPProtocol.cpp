@@ -78,7 +78,7 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
 
 }
 
-void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     bool        more;
     std::size_t recved;
@@ -109,6 +109,7 @@ void ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType
     {
         dropHandler();
     }
+    return 0;
 }
 
 void ReadRequestHandler::requestComplete(
@@ -258,13 +259,14 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
             )
 {}
 
-void WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short WriteResponseHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     worker();
     if (!worker)
     {
         dropHandler();
     }
+    return 0;
 }
 
 #ifdef COVERAGE_TEST

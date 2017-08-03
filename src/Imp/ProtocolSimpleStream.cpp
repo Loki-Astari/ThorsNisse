@@ -22,9 +22,10 @@ ReadMessageStreamHandler::ReadMessageStreamHandler(NisseService& parent, ThorsAn
       })
 {}
 
-void ReadMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short ReadMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     worker();
+    return 0;
 }
 
 WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Message&& ms)
@@ -54,9 +55,10 @@ WriteMessageStreamHandler::WriteMessageStreamHandler(NisseService& parent, Thors
 WriteMessageStreamHandler::~WriteMessageStreamHandler()
 {}
 
-void WriteMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short WriteMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     worker();
+    return 0;
 }
 
 #ifdef COVERAGE_TEST

@@ -65,7 +65,7 @@ class ReadMessageStreamHandler: public NisseHandler
         CoRoutine       worker;
     public:
         ReadMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket);
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
     public:
         static std::string const failToReadMessage;
 };
@@ -78,7 +78,7 @@ class WriteMessageStreamHandler: public NisseHandler
         WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
         WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
     public:
         static std::string const messageSuffix;
 };

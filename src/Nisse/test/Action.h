@@ -14,9 +14,10 @@ class Action: public ThorsAnvil::Nisse::NisseHandler
             , service(parent)
             , dataSocket(std::move(ds))
 		{}
-        virtual void eventActivate(ThorsAnvil::Nisse::LibSocketId /*sockId*/, short /*eventType*/) override
+        virtual short eventActivate(ThorsAnvil::Nisse::LibSocketId /*sockId*/, short /*eventType*/) override
 		{
 			service.flagShutDown();
+            return 0;
 		}
 };
 class ActionUnReg: public ThorsAnvil::Nisse::NisseHandler
@@ -29,10 +30,11 @@ class ActionUnReg: public ThorsAnvil::Nisse::NisseHandler
             , service(parent)
             , dataSocket(std::move(ds))
 		{}
-        virtual void eventActivate(ThorsAnvil::Nisse::LibSocketId /*sockId*/, short /*eventType*/) override
+        virtual short eventActivate(ThorsAnvil::Nisse::LibSocketId /*sockId*/, short /*eventType*/) override
 		{
 			service.flagShutDown();
             dropHandler();
+            return 0;
 		}
 };
 
