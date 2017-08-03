@@ -62,7 +62,7 @@ short ReadMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
 }
 
 WriteMessageHandler::WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, std::string const& m, bool ok)
-    : NisseHandler(parent, so.getSocketId(), EV_WRITE | EV_PERSIST)
+    : NisseHandler(parent, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
     , writeSizeObject(0)
     , writeBuffer(0)
@@ -88,8 +88,9 @@ short WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTy
             if (!more)
             {
                 dropHandler();
+                return 0;
             }
-            return 0;
+            return EV_WRITE;
         }
     }
     std::tie(more, written) = socket.putMessageData(message.c_str(), message.size(), writeBuffer);
@@ -99,8 +100,9 @@ short WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTy
         if (!more)
         {
             dropHandler();
+            return 0;
         }
-        return 0;
+        return EV_WRITE;
     }
     dropHandler();
     return 0;
