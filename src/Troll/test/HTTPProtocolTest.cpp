@@ -285,9 +285,8 @@ TEST(HTTPProtocolTest, ConstructWriter)
 
     int     readFD  = fd[0];
     int     writeFD = fd[1];
-    ::close(writeFD);
 
-    DataSocket              socket(readFD);
+    DataSocket              socket(writeFD);
     NisseService            service;
     Binder                  binder;
 	std::string				uri = "thorsanvil.com/index.html";
@@ -302,7 +301,6 @@ TEST(HTTPProtocolTest, WriterProcesses)
 
     int     readFD  = fd[0];
     int     writeFD = fd[1];
-    ::close(writeFD);
 
     bool        hitThorsAnvil = false;;
     Site        thorsAnvil;
@@ -319,12 +317,12 @@ TEST(HTTPProtocolTest, WriterProcesses)
 	Headers					headers;
     headers["Host"] = "ThorsAnvil.com";
 
-    DataSocket              socket(readFD);
+    DataSocket              socket(writeFD);
     NisseService            service;
 	std::string				uri = "/index.html";
 	std::vector<char>		buffer;
     WriteResponseHandler  writer(service, std::move(socket), binder, Method::Get, std::move(uri), std::move(headers), std::move(buffer), nullptr, nullptr);
-    writer.eventActivate(readFD, EV_READ);
+    writer.eventActivate(writeFD, EV_READ);
 
     ASSERT_FALSE(hitDefault);
     ASSERT_TRUE(hitThorsAnvil);

@@ -87,6 +87,7 @@ class Response
 {
     private:
         WriteResponseHandler*   flusher;
+        Socket::DataSocket*     socket;
         bool                    headerWritten;
     public:
         short                   resultCode;
@@ -94,10 +95,9 @@ class Response
         Headers                 headers;
         std::ostream&           body;
 
-        Response(std::ostream& body,
-                 short resultCode = 200,
-                 std::string const& resultMessage = "OK");
+        Response(std::ostream& body);
         Response(WriteResponseHandler& flusher,
+                 Socket::DataSocket& socket,
                  std::ostream& body,
                  short resultCode = 200,
                  std::string const& resultMessage = "OK");

@@ -96,10 +96,12 @@ Request::Request(Method method,
 {}
 
 Response::Response(WriteResponseHandler& fl,
+                   Socket::DataSocket& socket,
                    std::ostream& body,
                    short resultCode,
                    std::string const& resultMessage)
     : flusher(&fl)
+    , socket(&socket)
     , headerWritten(false)
     , resultCode(resultCode)
     , resultMessage(resultMessage)
@@ -107,13 +109,12 @@ Response::Response(WriteResponseHandler& fl,
 {
     flusher->setFlusher(this);
 }
-Response::Response(std::ostream& body,
-                   short resultCode,
-                   std::string const& resultMessage)
+Response::Response(std::ostream& body)
     : flusher(nullptr)
+    , socket(nullptr)
     , headerWritten(false)
-    , resultCode(resultCode)
-    , resultMessage(resultMessage)
+    , resultCode(200)
+    , resultMessage("OK")
     , body(body)
 {}
 
@@ -128,7 +129,7 @@ Response::~Response()
 
 void Response::flushing(bool allDone)
 {
-    if (!headerWritten)
+    if ((!headerWritten) && (socket != nullptr))
     {
         headerWritten = true;
         if (headers.getVersions("Content-Length") == 0)
@@ -141,14 +142,16 @@ void Response::flushing(bool allDone)
             headers["Content-Length"] = std::move(size);
         }
 
-        body << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
+        std::stringstream head;
+        head << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
         for (auto const& header: headers)
         {
             for (auto const& value: header.second)
             {
-                body << header.first << ": " << value << "\r\n";
+                head << header.first << ": " << value << "\r\n";
             }
         }
-        body << "\r\n";
+        head << "\r\n";
+        socket->putMessageData(head.str().c_str(), head.str().size());
     }
 }

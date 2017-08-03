@@ -216,7 +216,7 @@ WriteResponseHandler::WriteResponseHandler(NisseService& parent,
                     Socket::ISocketStream   input(socket, [&yield](){yield();}, [](){}, std::move(buffer), bodyBegin, bodyEnd);
                     Socket::OSocketStream   output(socket, [&yield](){yield();}, [&parent](){parent.flushing();});
                     Request       request(method, URI(std::move(uri)), headers, input);
-                    Response      response(parent, output);
+                    Response      response(parent, socket, output);
                     yield();
                     action(request, response);
                 }
