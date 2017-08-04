@@ -7,7 +7,6 @@
 
 
 using ThorsAnvil::Nisse::ProtocolHTTP::ReadRequestHandler;
-using ThorsAnvil::Nisse::ProtocolHTTP::WriteResponseHandler;
 using ThorsAnvil::Nisse::ProtocolHTTP::Request;
 using ThorsAnvil::Nisse::ProtocolHTTP::Response;
 using ThorsAnvil::Nisse::ProtocolHTTP::Method;
@@ -278,6 +277,7 @@ TEST(HTTPProtocolTest, CheckBody)
     reader.eventActivate(readFD, EV_READ);
 }
 
+/*
 TEST(HTTPProtocolTest, ConstructWriter)
 {
     int                 fd[2];
@@ -327,3 +327,4 @@ TEST(HTTPProtocolTest, WriterProcesses)
     ASSERT_FALSE(hitDefault);
     ASSERT_TRUE(hitThorsAnvil);
 }
+*/

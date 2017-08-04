@@ -112,11 +112,11 @@ class Request
                 std::istream& body);
 };
 
-class WriteResponseHandler;
+class ReadRequestHandler;
 class Response
 {
     private:
-        WriteResponseHandler*   flusher;
+        ReadRequestHandler*   flusher;
         Socket::DataSocket*     socket;
         bool                    headerWritten;
     public:
@@ -126,7 +126,7 @@ class Response
         std::ostream&           body;
 
         Response(std::ostream& body);
-        Response(WriteResponseHandler& flusher,
+        Response(ReadRequestHandler& flusher,
                  Socket::DataSocket& socket,
                  std::ostream& body,
                  short resultCode = 200,
