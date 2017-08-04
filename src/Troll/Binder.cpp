@@ -2,20 +2,6 @@
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
-static char const* getTimeString()
-{
-    using TimeT = std::time_t;
-    using TimeI = std::tm;
-
-    TimeT   rawtime;
-    TimeI*  timeinfo;
-
-    ::time(&rawtime);
-    timeinfo = ::localtime(&rawtime);
-
-    return ::asctime(timeinfo);
-}
-
 void Site::add(Method method, std::string&& path, Action&& action)
 {
     actionMap[static_cast<int>(method)].emplace(std::piecewise_construct,
@@ -52,12 +38,12 @@ Action& Binder::getDefault404Action()
     static Action   action404([](Request&, Response& response)
                                 {
                                     response.resultCode                 = 404;
-                                    response.resultMessage              = "Not Found";
-                                    response.headers["Date"]            = getTimeString();
-                                    response.headers["Server"]          = "Nisse";
-                                    response.headers["Content-Length"]  = "44";
-                                    response.headers["Content-Type"]    = "text/html";
-                                    response.headers["Connection"]      = "Closed";
+                                    response.resultMessage              = Resp_404;
+                                    response.headers[Head_Date]         = getTimeString();
+                                    response.headers[Head_Server]       = ServerName;
+                                    response.headers[Head_ContentLen]   = "44";
+                                    response.headers[Head_ContentType]  = "text/html";
+                                    response.headers[Head_Connection]   = Connection_Closed;
                                     response.body << "<html><body><h1>Not Found</h1></body></html>";
                                 }
                              );

@@ -13,6 +13,12 @@ void Headers::Inserter::operator=(std::string&& value)
     auto& item = valueStore.back();
     std::transform(std::begin(item), std::end(item), std::begin(item), [](char x){return x == '\n' ? ' ' : x;});
 }
+void Headers::Inserter::operator=(std::string const& value)
+{
+    valueStore.emplace_back(value);
+    auto& item = valueStore.back();
+    std::transform(std::begin(item), std::end(item), std::begin(item), [](char x){return x == '\n' ? ' ' : x;});
+}
 
 std::size_t Headers::getVersions(std::string const& key) const
 {
@@ -95,25 +101,31 @@ Request::Request(Method method,
     , body(body)
 {}
 
-Response::Response(WriteResponseHandler& fl,
+Response::Response(ReadRequestHandler& fl,
+                   Socket::DataSocket& socket,
                    std::ostream& body,
                    short resultCode,
                    std::string const& resultMessage)
     : flusher(&fl)
+    , socket(&socket)
     , headerWritten(false)
     , resultCode(resultCode)
     , resultMessage(resultMessage)
     , body(body)
 {
     flusher->setFlusher(this);
+    headers[Head_Date]            = getTimeString();
+    headers[Head_Server]          = ServerName;
+    headers[Head_Connection]      = Connection_Closed;
+    // Content Length set in `flushing()` when we know the amount of data
+    // headers["Content-Length"]
 }
-Response::Response(std::ostream& body,
-                   short resultCode,
-                   std::string const& resultMessage)
+Response::Response(std::ostream& body)
     : flusher(nullptr)
+    , socket(nullptr)
     , headerWritten(false)
-    , resultCode(resultCode)
-    , resultMessage(resultMessage)
+    , resultCode(200)
+    , resultMessage("OK")
     , body(body)
 {}
 
@@ -123,23 +135,34 @@ Response::~Response()
     {
         flusher->setFlusher(nullptr);
     }
-    flushing();
+    flushing(true);
 }
 
-void Response::flushing()
+void Response::flushing(bool allDone)
 {
-    if (!headerWritten)
+    if ((!headerWritten) && (socket != nullptr))
     {
         headerWritten = true;
+        if (headers.getVersions("Content-Length") == 0)
+        {
+            std::string size = "-1";
+            if (allDone)
+            {
+                size = std::to_string(body.tellp());
+            }
+            headers["Content-Length"] = std::move(size);
+        }
 
-        body << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
+        std::stringstream head;
+        head << "HTTP/1.1 " << resultCode << " " << resultMessage << "\r\n";
         for (auto const& header: headers)
         {
             for (auto const& value: header.second)
             {
-                body << header.first << ": " << value << "\r\n";
+                head << header.first << ": " << value << "\r\n";
             }
         }
-        body << "\r\n";
+        head << "\r\n";
+        socket->putMessageData(head.str().c_str(), head.str().size());
     }
 }

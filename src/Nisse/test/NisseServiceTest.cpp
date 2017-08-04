@@ -29,25 +29,31 @@ TEST(NisseServiceTest, MoveAssignment)
 TEST(NisseServiceTest, StartAndShutDown)
 {
     NisseService    service;
-    bool            serviceFinished = false;
-    auto            future = std::async(std::launch::async, [&service, &serviceFinished](){while(!serviceFinished){service.flagShutDown(); std::this_thread::yield();}});
+    bool            finished = false;
+    service.addTimer(1, [&service, &finished]()
+    {
+        service.flagShutDown();
+        finished = true;
+    });
 
     service.start(1);
-    serviceFinished = true;
-    future.wait();
+    ASSERT_TRUE(finished);
 }
 TEST(NisseServiceTest, MoveConstructFail)
 {
     NisseService    service1;
-    bool            serviceStarted = false;
-    auto            future = std::async(std::launch::async, [&service1, &serviceStarted](){while(!serviceStarted){std::this_thread::yield();};sleep(2);service1.flagShutDown();NisseService service2(std::move(service1));});
-    serviceStarted = true;
+    bool            finished = false;
+    service1.addTimer(1, [&service1, &finished]()
+    {
+        ASSERT_THROW(
+            NisseService service2(std::move(service1)),
+            std::runtime_error
+        );
+        service1.flagShutDown();
+        finished = true;
+    });
     service1.start(1);
-
-    ASSERT_THROW(
-        future.get(),
-        std::runtime_error
-    );
+    ASSERT_TRUE(finished);
 }
 TEST(NisseServiceTest, AddListener)
 {

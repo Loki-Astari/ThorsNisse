@@ -20,7 +20,7 @@ class ReadMessageHandler: public NisseHandler
         std::string                         buffer;
     public:
         ReadMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket);
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
 
     public:
         static std::string const failSizeMessage;
@@ -36,7 +36,7 @@ class WriteMessageHandler: public NisseHandler
         std::string                         message;
     public:
         WriteMessageHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, std::string const& message, bool ok = false);
-        virtual void eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(LibSocketId sockId, short eventType) override;
     public:
         static std::string const messageSuffix;
 };
