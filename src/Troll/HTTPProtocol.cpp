@@ -36,16 +36,13 @@ class DevNullStreamBuf: public std::streambuf
 ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Binder const& binder)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , flusher(nullptr)
-    , socket(std::move(so))
-    , binder(binder)
-    , buffer(bufferLen)
     , worker([ &parent = *this
-             , &socket = this->socket
-             , &scanner = this->scanner
-             , &binder = this->binder
-             , &buffer = this->buffer
+             , socket = std::move(so)
+             , &binder
              ](Yield& yield) mutable
         {
+            HttpScanner         scanner;
+            std::vector<char>   buffer(bufferLen);
             yield(EV_READ);
             while (!scanner.data.messageComplete)
             {
@@ -60,8 +57,6 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
                 }
                 yield(EV_READ);
             }
-            URI const     uri(scanner.data.headers.get("Host"), std::move(scanner.data.uri));
-            Action const& action(binder.find(scanner.data.method, uri.host, uri.path));
             Socket::ISocketStream   input(socket, [&yield](){yield(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
             Socket::OSocketStream   output(socket, [&yield](){yield(EV_WRITE);}, [&parent](){parent.flushing();});
             DevNullStreamBuf        devNullBuffer;
@@ -70,7 +65,8 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
                 output.rdbuf(&devNullBuffer);
             }
 
-            yield(EV_READ | EV_WRITE);
+            URI const     uri(scanner.data.headers.get("Host"), std::move(scanner.data.uri));
+            Action const& action(binder.find(scanner.data.method, uri.host, uri.path));
             Request       request(scanner.data.method, URI(std::move(uri)), scanner.data.headers, input);
             Response      response(parent, socket, output);
 
