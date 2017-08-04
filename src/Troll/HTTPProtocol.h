@@ -3,10 +3,10 @@
 
 #include "Binder.h"
 #include "Types.h"
+#include "HttpScanner.h"
 #include "ThorsNisse/NisseHandler.h"
 #include <map>
 #include <vector>
-#include "http_parser.h"
 
 namespace ThorsAnvil
 {
@@ -15,49 +15,15 @@ namespace ThorsAnvil
         namespace ProtocolHTTP
         {
 
-using HttpParser            = http_parser;
-using HttpParserSettings    = http_parser_settings;
-struct HttpParserData
-{
-    HttpParserData()
-        : bodyBegin(nullptr)
-        , bodyEnd(nullptr)
-        , messageComplete(false)
-        , gotValue(false)
-    {}
-    void addCurrentHeader()
-    {
-        if (gotValue)
-        {
-            headers[currentHead]    = std::move(currentValue);
-            gotValue = false;
-            currentHead.clear();
-            currentValue.clear();
-        }
-    }
-
-        Headers                 headers;
-        std::string             currentHead;
-        std::string             currentValue;
-        std::string             uri;
-        char const*             bodyBegin;
-        char const*             bodyEnd;
-        Method                  method;
-        bool                    messageComplete;
-        bool                    gotValue;
-};
-
 class ReadRequestHandler: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         DataSocket              socket;
         Binder const&           binder;
-        HttpParserSettings      settings;
-        HttpParser              parser;
-        HttpParserData          data;
         std::vector<char>       buffer;
         std::string             version;
+        HttpScanner             scanner;
 
         static constexpr std::size_t bufferLen = 80 * 1024;
         virtual void requestComplete(

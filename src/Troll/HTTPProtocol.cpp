@@ -1,67 +1,8 @@
 #include "HTTPProtocol.h"
+#include "HttpScanner.h"
 #include "ThorsNisse/NisseService.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
-
-int onHeadersComplete(HttpParser* parser)
-{
-    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
-    data->addCurrentHeader();
-    data->messageComplete = true;
-    return 0;
-}
-int onMessageBegin(HttpParser* /*parser*/)
-{
-    return 0;
-}
-int onMessageComplete(HttpParser* /*parser*/)
-{
-    return 0;
-}
-
-int onUrl(HttpParser* parser, const char *at, std::size_t length)
-{
-    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
-    switch (parser->method)
-    {
-        case HTTP_DELETE:       data->method = Method::Delete;break;
-        case HTTP_GET:          data->method = Method::Get;   break;
-        case HTTP_HEAD:         data->method = Method::Head;  break;
-        case HTTP_POST:         data->method = Method::Post;  break;
-        case HTTP_PUT:          data->method = Method::Put;   break;
-        default:
-            throw std::runtime_error("ThorsAnvil::Nisse::ReadRequestHandler::onUrl: unknown HTTP Method");
-    }
-
-    data->uri.assign(at, length);
-    data->gotValue    = false;
-    return 0;
-}
-int onStatus(HttpParser* /*parser*/, const char* /*at*/, std::size_t /*length*/)
-{
-    return 0;
-}
-int onHeaderField(HttpParser* parser, const char *at, std::size_t length)
-{
-    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
-    data->addCurrentHeader();
-    data->currentHead.append(at, length);
-    return 0;
-}
-int onHeaderValue(HttpParser* parser, const char *at, std::size_t length)
-{
-    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
-    data->gotValue = true;
-    data->currentValue.append(at, length);
-    return 0;
-}
-int onBody(HttpParser* parser, const char *at, std::size_t length)
-{
-    HttpParserData* data = reinterpret_cast<HttpParserData*>(parser->data);
-    data->bodyBegin   = at;
-    data->bodyEnd     = at + length;
-    return 0;
-}
 
 ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Binder const& binder)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
@@ -69,19 +10,6 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
     , binder(binder)
     , buffer(bufferLen)
 {
-    settings.on_headers_complete    = ::onHeadersComplete;
-    settings.on_message_begin       = ::onMessageBegin;
-    settings.on_message_complete    = ::onMessageComplete;
-
-    settings.on_header_field        = ::onHeaderField;
-    settings.on_header_value        = ::onHeaderValue;
-    settings.on_url                 = ::onUrl;
-    settings.on_status              = ::onStatus;
-    settings.on_body                = ::onBody;
-
-    http_parser_init(&parser, HTTP_REQUEST);
-    parser.data                     = &data;
-
 }
 
 short ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
@@ -89,26 +17,17 @@ short ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
     bool        more;
     std::size_t recved;
     std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
-    std::size_t nparsed = http_parser_execute(&parser, &settings, &buffer[0], recved);
+    scanner.scan(&buffer[0], recved);
 
-    if (parser.upgrade)
-    {
-        /* handle new protocol */
-    }
-    else if (nparsed != recved)
-    {
-        /* Handle error. Usually just close the connection. */
-    }
-
-    if (data.messageComplete)
+    if (scanner.data.messageComplete)
     {
         requestComplete(std::move(socket),
                         binder,
-                        data.method,
-                        std::move(data.uri),
-                        std::move(data.headers),
+                        scanner.data.method,
+                        std::move(scanner.data.uri),
+                        std::move(scanner.data.headers),
                         std::move(buffer),
-                        data.bodyBegin, data.bodyEnd
+                        scanner.data.bodyBegin, scanner.data.bodyEnd
                        );
         return 0;
     }
