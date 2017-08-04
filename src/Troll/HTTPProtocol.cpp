@@ -9,34 +9,51 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
     , socket(std::move(so))
     , binder(binder)
     , buffer(bufferLen)
-{
-}
+    , worker([ &socket = this->socket
+             , &scanner = this->scanner
+             , &binder = this->binder
+             , &buffer = this->buffer
+             ](Yield& yield) mutable
+        {
+            yield(EV_READ);
+            while (!scanner.data.messageComplete)
+            {
+                bool                more;
+                std::size_t         recved;
+                std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
+                scanner.scan(&buffer[0], recved);
+
+                if (scanner.data.messageComplete || !more)
+                {
+                    break;
+                }
+                yield(EV_READ);
+            }
+        })
+{}
 
 short ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    bool        more;
-    std::size_t recved;
-    std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
-    scanner.scan(&buffer[0], recved);
-
-    if (scanner.data.messageComplete)
+    if (!worker())
     {
-        requestComplete(std::move(socket),
-                        binder,
-                        scanner.data.method,
-                        std::move(scanner.data.uri),
-                        std::move(scanner.data.headers),
-                        std::move(buffer),
-                        scanner.data.bodyBegin, scanner.data.bodyEnd
-                       );
+        if (scanner.data.messageComplete)
+        {
+            requestComplete(std::move(socket),
+                            binder,
+                            scanner.data.method,
+                            std::move(scanner.data.uri),
+                            std::move(scanner.data.headers),
+                            std::move(buffer),
+                            scanner.data.bodyBegin, scanner.data.bodyEnd
+                           );
+        }
+        else
+        {
+            dropHandler();
+        }
         return 0;
     }
-    else if (!more)
-    {
-        dropHandler();
-        return 0;
-    }
-    return EV_READ;
+    return worker.get();
 }
 
 void ReadRequestHandler::requestComplete(

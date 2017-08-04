@@ -19,11 +19,11 @@ class ReadRequestHandler: public NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
-        DataSocket              socket;
-        Binder const&           binder;
-        std::vector<char>       buffer;
-        std::string             version;
-        HttpScanner             scanner;
+        DataSocket          socket;
+        HttpScanner         scanner;
+        Binder const&       binder;
+        std::vector<char>   buffer;
+        CoRoutine           worker;
 
         static constexpr std::size_t bufferLen = 80 * 1024;
         virtual void requestComplete(
