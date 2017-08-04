@@ -48,10 +48,12 @@ class Site
         void put(std::string&& path, Action&& action)    {add(Method::Put,    std::move(path), std::move(action));}
         void del(std::string&& path, Action&& action)    {add(Method::Delete, std::move(path), std::move(action));}
         void post(std::string&& path, Action&& action)   {add(Method::Post,   std::move(path), std::move(action));}
+        void all(std::string&& path, Action&& action)    {add(4,              std::move(path), std::move(action));}
         std::pair<bool, Action&> find(Method method, std::string const& path) const;
     private:
         void add(Method method, std::string&& path, Action&& action);
-        mutable std::array<std::map<Route, Action, RouteTester>, 4>   actionMap;
+        void add(int index, std::string&& path, Action&& action);
+        mutable std::array<std::map<Route, Action, RouteTester>, 5>   actionMap;
 };
 
 class Binder

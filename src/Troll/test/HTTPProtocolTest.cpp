@@ -221,7 +221,6 @@ TEST_F(HTTPProtocolTest, WriterProcesses)
         output << input.rdbuf();
     }
     int         fd = ::open("XX", O_RDWR | O_CREAT);
-    std::cerr << "FD -> " << fd << "\n\n";
 
     bool        hitThorsAnvil = false;;
     Site        thorsAnvil;
