@@ -101,7 +101,7 @@ Request::Request(Method method,
     , body(body)
 {}
 
-Response::Response(WriteResponseHandler& fl,
+Response::Response(ReadRequestHandler& fl,
                    Socket::DataSocket& socket,
                    std::ostream& body,
                    short resultCode,
