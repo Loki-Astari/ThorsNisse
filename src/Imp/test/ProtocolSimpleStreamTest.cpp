@@ -28,7 +28,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         std::string message = "Test function ReadMessageHandler";
@@ -66,7 +66,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished](){
         sleep(1);
         ConnectSocket connect("127.0.0.1", 9871);
@@ -102,7 +102,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSizeInTwoChunks)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished](){
         ConnectSocket connect("127.0.0.1", 9872);
         std::string message = "Test fucntion ReadMessageHandlerPartialSizeInTwoChunks";
@@ -138,7 +138,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished](){
         ConnectSocket connect("127.0.0.1", 9873);
         std::string message = "Test function ReadMessageHandlerSizeInTwoChunks";
@@ -174,7 +174,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished](){
         ConnectSocket connect("127.0.0.1", 9874);
         std::string message = "Test function ReadMessageHandlerPartialMessage";
@@ -209,7 +209,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessageInTwoChunks)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished](){
         ConnectSocket connect("127.0.0.1", 9875);
         std::string message = "Test function ReadMessageHandlerPartialMessageInTwoChunks";
@@ -286,7 +286,7 @@ TEST(ProtocolSimpleStreamTest, WriteMessageHandler)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished](){
         ConnectSocket connect("127.0.0.1", 9877);
         std::string message;

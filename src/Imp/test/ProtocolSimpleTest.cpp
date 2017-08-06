@@ -22,7 +22,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandler)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9878);
@@ -57,7 +57,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSize)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9879);
@@ -92,7 +92,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9880);
@@ -129,7 +129,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9881);
@@ -166,7 +166,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessage)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9882);
@@ -202,7 +202,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9883);
@@ -240,7 +240,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9884);
@@ -279,7 +279,7 @@ TEST(ProtocolSimpleTest, WriteMessageHandler)
             service.flagShutDown();
         }
     });
-        
+
     auto future = std::async([&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9885);
