@@ -1,26 +1,43 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define if building universal (internal helper macro) */
-#undef AC_APPLE_UNIVERSAL_BUILD
+/* Define which version of the boost co-routines we are using */
+#undef BOOST_COROUTINE_VERSION
 
-/* Name of the 64/128 bit endian swapping function */
-#undef BSWAP64
+/* define if the Boost library is available */
+#undef HAVE_BOOST
 
-/* Define to 1 if you have the <asm/byteorder.h> header file. */
-#undef HAVE_ASM_BYTEORDER_H
+/* define if the Boost::Context library is available */
+#undef HAVE_BOOST_CONTEXT
 
-/* Define to 1 if BSWAP64 is defined to the name of a valid 64 bit endian
-   swapping function */
-#undef HAVE_BSWAP64
+/* define if the Boost::Coroutine library is available */
+#undef HAVE_BOOST_COROUTINE
+
+/* define if the Boost::Python library is available */
+#undef HAVE_BOOST_PYTHON
+
+/* define if the Boost::System library is available */
+#undef HAVE_BOOST_SYSTEM
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
+/* We have found libevent library */
+#undef HAVE_EVENT
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define to 1 if you have the `tcl' library (-ltcl). */
+#undef HAVE_LIBTCL
+
+/* Define to 1 if you have the `tk' library (-ltk). */
+#undef HAVE_LIBTK
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
+
+/* If available, contains the Python version number currently in use. */
+#undef HAVE_PYTHON
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
@@ -34,9 +51,6 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define to 1 if you have the <sys/endian.h> header file. */
-#undef HAVE_SYS_ENDIAN_H
-
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
 
@@ -46,15 +60,8 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* When on Yaml Serialization code will be compiled */
-#undef HAVE_YAML
-
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
-
-/* We have functions to convert host to network byte order for 64/128 bit
-   values */
-#undef NETWORK_BYTE_ORDER
 
 /* Name of package */
 #undef PACKAGE
@@ -82,19 +89,3 @@
 
 /* Version number of package */
 #undef VERSION
-
-/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
-   significant byte first (like Motorola and SPARC, unlike Intel). */
-#if defined AC_APPLE_UNIVERSAL_BUILD
-# if defined __BIG_ENDIAN__
-#  define WORDS_BIGENDIAN 1
-# endif
-#else
-# ifndef WORDS_BIGENDIAN
-#  undef WORDS_BIGENDIAN
-# endif
-#endif
-
-/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
-   `char[]'. */
-#undef YYTEXT_POINTER

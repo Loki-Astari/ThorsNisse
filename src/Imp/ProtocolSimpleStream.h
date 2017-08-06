@@ -1,9 +1,32 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
 
+#include "ImpConfig.h"
 #include "ThorsNisse/NisseHandler.h"
 #include "ThorsNisseSocket/SocketStream.h"
+#if BOOST_COROUTINE_VERSION == 1
 #include <boost/coroutine/asymmetric_coroutine.hpp>
+namespace ThorsAnvil
+{
+    namespace CoRoutine
+    {
+        template<typename R>
+        using Context = typename boost::coroutines::asymmetric_coroutine<R>;
+    }
+}
+#elif BOOST_COROUTINE_VERSION == 2
+#include <boost/coroutine2/all.hpp>
+namespace ThorsAnvil
+{
+    namespace CoRoutine
+    {
+        template<typename R>
+        using Context = typename boost::coroutines2::coroutine<R>;
+    }
+}
+#else
+#error "Unknown Co-Routine Version"
+#endif
 #include <ios>
 
 namespace ThorsAnvil
@@ -13,8 +36,8 @@ namespace ThorsAnvil
         namespace ProtocolSimple
         {
 
-using CoRoutine = boost::coroutines::asymmetric_coroutine<short>::pull_type;
-using Yield     = boost::coroutines::asymmetric_coroutine<short>::push_type;
+using CoRoutine = ThorsAnvil::CoRoutine::Context<short>::pull_type;
+using Yield     = ThorsAnvil::CoRoutine::Context<short>::push_type;
 
 class Message
 {

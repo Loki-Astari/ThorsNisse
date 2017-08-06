@@ -90,7 +90,7 @@ std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize coun
     while (retrieved != count)
     {
         nextChunkSize    = std::min((count - retrieved), bufferSize);
-        
+
         // A significant chunk
         if (nextChunkSize > (bufferSize / 2))
         {

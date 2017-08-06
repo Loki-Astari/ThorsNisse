@@ -2,7 +2,8 @@
 THORSANVIL_ROOT				?= $(realpath ../../)
 
 TARGET						= ThorsImp.slib
-LDLIBS						= -levent -lboost_system -lboost_coroutine
+CXXFLAGS					+= -I$(event_ROOT_DIR)/include
+LDLIBS						+= -L$(event_ROOT_DIR)/lib -l$(event_ROOT_LIB) $(BOOST_SYSTEM_LIB) $(BOOST_CONTEXT_LIB) $(BOOST_COROUTINE_LIB)
 LINK_LIBS					= ThorsNisse ThorsNisseSocket
 UNITTEST_LINK_LIBS			= ThorsNisse ThorsNisseSocket
 

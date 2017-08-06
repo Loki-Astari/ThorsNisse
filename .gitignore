@@ -6,10 +6,11 @@ Makefile.extra
 
 config.log
 config.status
+config.h
 
 libtool
 
 debug/
 release/
 coverage/
-stamp-h1
+stamp-h?
