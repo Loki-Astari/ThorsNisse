@@ -59,7 +59,7 @@ TEST(SocketStreamTest, ReadFromSlowStreamToGetEAGAIN)
     ASSERT_NE(-1, sysres);
 
     std::thread slowStream([&testData, &pipes](){
-        for(int loop=0;loop < sizeof(testData); ++loop) {
+        for(std::size_t loop=0;loop < sizeof(testData); ++loop) {
             sleep(1);
             ::write(pipes[1], reinterpret_cast<char const*>(&testData)+loop, 1);
         }

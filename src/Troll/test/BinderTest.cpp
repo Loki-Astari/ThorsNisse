@@ -15,7 +15,7 @@ using ThorsAnvil::Nisse::ProtocolHTTP::URI;
 using ThorsAnvil::Nisse::ProtocolHTTP::Headers;
 using ThorsAnvil::Socket::DataSocket;
 
-void callMethodExpectFail(Method method, Site& site, std::string const& host, std::string&& path)
+void callMethodExpectFail(Method method, Site& site, std::string const& /*host*/, std::string&& /*path*/)
 {
     auto find = site.find(method, "/The/Path/Line");
     ASSERT_FALSE(find.first);

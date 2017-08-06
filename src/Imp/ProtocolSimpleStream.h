@@ -3,7 +3,11 @@
 
 #include "ThorsNisse/NisseHandler.h"
 #include "ThorsNisseSocket/SocketStream.h"
+# if 0
 #include <boost/coroutine/asymmetric_coroutine.hpp>
+# else
+#include <boost/coroutine2/all.hpp>
+#endif
 #include <ios>
 
 namespace ThorsAnvil
@@ -13,8 +17,13 @@ namespace ThorsAnvil
         namespace ProtocolSimple
         {
 
+#if 0
 using CoRoutine = boost::coroutines::asymmetric_coroutine<short>::pull_type;
 using Yield     = boost::coroutines::asymmetric_coroutine<short>::push_type;
+#else
+using CoRoutine = boost::coroutines2::coroutine<short>::pull_type;
+using Yield     = boost::coroutines2::coroutine<short>::push_type;
+#endif
 
 class Message
 {

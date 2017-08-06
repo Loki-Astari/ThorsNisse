@@ -3,7 +3,11 @@
 
 #include "ThorsNisseSocket/Socket.h"
 #include "ThorsNisseSocket/SocketStream.h"
+#if 0
 #include <boost/coroutine/asymmetric_coroutine.hpp>
+#else
+#include <boost/coroutine2/all.hpp>
+#endif
 #include <istream>
 #include <ostream>
 #include <string>
@@ -32,8 +36,13 @@ static std::string const Connection_Closed  = "Closed";
 static std::string const ServerName         = "Nisse V1.0";
 
 
+#if 0
 using CoRoutine = boost::coroutines::asymmetric_coroutine<short>::pull_type;
 using Yield     = boost::coroutines::asymmetric_coroutine<short>::push_type;
+#else
+using CoRoutine = boost::coroutines2::coroutine<short>::pull_type;
+using Yield     = boost::coroutines2::coroutine<short>::push_type;
+#endif
 
 enum class Method {Get, Put, Post, Delete, Head};
 
