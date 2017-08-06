@@ -14,6 +14,7 @@ AX_BOOST_SYSTEM
 AX_BOOST_COROUTINE
 CXXFLAGS="${CXXFLAGS} -std=c++11"
 AX_BOOST_CONTEXT
+AX_THOR_FUNC_TEST_BOOST_COROUTINE_VERSION
 
 AX_THOR_FUNC_USE_EVENT
 
@@ -32,6 +33,6 @@ AX_THOR_FUNC_LANG_FLAG(17)
 
 
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
-AC_CONFIG_HEADERS([ src/Nisse/NisseConfig.h ])
+AC_CONFIG_HEADERS([config.h src/Nisse/NisseConfig.h:config.h.in src/Imp/ImpConfig.h:config.h.in src/Troll/TrollConfig.h:config.h.in ])
 AC_CONFIG_FILES([Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in Makefile.config.local])
 AC_OUTPUT

@@ -111,7 +111,9 @@ DIST_COMMON = $(srcdir)/Makefile.extra.am $(top_srcdir)/configure \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = $(top_builddir)/src/Nisse/NisseConfig.h
+CONFIG_HEADER = config.h $(top_builddir)/src/Nisse/NisseConfig.h \
+	$(top_builddir)/src/Imp/ImpConfig.h \
+	$(top_builddir)/src/Troll/TrollConfig.h
 CONFIG_CLEAN_FILES = Makefile.config Makefile.config.local
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
@@ -149,7 +151,8 @@ am__recursive_targets = \
   $(am__extra_recursive_targets)
 AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
 	cscope distdir dist dist-all distcheck
-am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
+am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
+	$(LISP)config.h.in config.h.in config.h.in config.h.in
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
 # *not* preserved.
@@ -171,7 +174,7 @@ CTAGS = ctags
 CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.config.local.in \
-	$(srcdir)/Makefile.extra.in \
+	$(srcdir)/Makefile.extra.in $(srcdir)/config.h.in \
 	$(top_srcdir)/build/autotools/build/Makefile.config.in \
 	$(top_srcdir)/build/autotools/build/compile \
 	$(top_srcdir)/build/autotools/build/config.guess \
@@ -179,7 +182,6 @@ am__DIST_COMMON = $(srcdir)/Makefile.config.local.in \
 	$(top_srcdir)/build/autotools/build/install-sh \
 	$(top_srcdir)/build/autotools/build/ltmain.sh \
 	$(top_srcdir)/build/autotools/build/missing \
-	$(top_srcdir)/src/Nisse/NisseConfig.h.in \
 	build/autotools/build/ar-lib build/autotools/build/compile \
 	build/autotools/build/config.guess \
 	build/autotools/build/config.sub \
@@ -382,7 +384,8 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = src
-all: all-recursive
+all: config.h
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 am--refresh: Makefile.extra
@@ -419,20 +422,44 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
-src/Nisse/NisseConfig.h: src/Nisse/stamp-h1
-	@test -f $@ || rm -f src/Nisse/stamp-h1
-	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) src/Nisse/stamp-h1
+config.h: stamp-h1
+	@test -f $@ || rm -f stamp-h1
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) stamp-h1
 
-src/Nisse/stamp-h1: $(top_srcdir)/src/Nisse/NisseConfig.h.in $(top_builddir)/config.status
-	@rm -f src/Nisse/stamp-h1
-	cd $(top_builddir) && $(SHELL) ./config.status src/Nisse/NisseConfig.h
-$(top_srcdir)/src/Nisse/NisseConfig.h.in:  $(am__configure_deps) 
+stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status config.h
+$(srcdir)/config.h.in:  $(am__configure_deps) 
 	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
-	rm -f src/Nisse/stamp-h1
+	rm -f stamp-h1
 	touch $@
 
+src/Nisse/NisseConfig.h: src/Nisse/stamp-h2
+	@test -f $@ || rm -f src/Nisse/stamp-h2
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) src/Nisse/stamp-h2
+
+src/Nisse/stamp-h2: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f src/Nisse/stamp-h2
+	cd $(top_builddir) && $(SHELL) ./config.status src/Nisse/NisseConfig.h
+
+src/Imp/ImpConfig.h: src/Imp/stamp-h3
+	@test -f $@ || rm -f src/Imp/stamp-h3
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) src/Imp/stamp-h3
+
+src/Imp/stamp-h3: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f src/Imp/stamp-h3
+	cd $(top_builddir) && $(SHELL) ./config.status src/Imp/ImpConfig.h
+
+src/Troll/TrollConfig.h: src/Troll/stamp-h4
+	@test -f $@ || rm -f src/Troll/stamp-h4
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) src/Troll/stamp-h4
+
+src/Troll/stamp-h4: $(srcdir)/config.h.in $(top_builddir)/config.status
+	@rm -f src/Troll/stamp-h4
+	cd $(top_builddir) && $(SHELL) ./config.status src/Troll/TrollConfig.h
+
 distclean-hdr:
-	-rm -f src/Nisse/NisseConfig.h src/Nisse/stamp-h1
+	-rm -f config.h stamp-h1 src/Nisse/NisseConfig.h src/Nisse/stamp-h2 src/Imp/ImpConfig.h src/Imp/stamp-h3 src/Troll/TrollConfig.h src/Troll/stamp-h4
 Makefile.config: $(top_builddir)/config.status $(top_srcdir)/build/autotools/build/Makefile.config.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 Makefile.config.local: $(top_builddir)/config.status $(srcdir)/Makefile.config.local.in
@@ -743,7 +770,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile.extra
+all-am: Makefile.extra config.h
 installdirs: installdirs-recursive
 installdirs-am:
 install: install-recursive
@@ -846,7 +873,7 @@ ps-am:
 
 uninstall-am:
 
-.MAKE: $(am__recursive_targets) install-am install-strip
+.MAKE: $(am__recursive_targets) all install-am install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--refresh check check-am clean clean-cscope clean-generic \

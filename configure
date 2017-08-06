@@ -6007,6 +6007,72 @@ fi
 	fi
 
 
+        ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+        CXXFLAGS_SAVE=$CXXFLAGS
+        CXXFLAGS+=" -std=c++11 -Werror ${BOOST_CPPFLAGS}"
+
+        thor_boost_coroutine_versoin=no
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <boost/coroutine/all.hpp>
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  thor_boost_coroutine_versoin=1
+
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <boost/coroutine2/all.hpp>
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  thor_boost_coroutine_versoin=2
+
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+        CXXFLAGS=$CXXFLAGS_SAVE
+        ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+        if test "x${thor_boost_coroutine_versoin}" == "xno"; then :
+  as_fn_error $? "
+
+Error: Can not tell the type of the boost coroutine library.
+
+                            " "$LINENO" 5
+
+else
+
+                if test "x${thor_boost_coroutine_versoin}" == "x1"; then :
+
+$as_echo "#define BOOST_COROUTINE_VERSION 1" >>confdefs.h
+
+else
+
+                        if test "x${thor_boost_coroutine_versoin}" == "x2"; then :
+
+$as_echo "#define BOOST_COROUTINE_VERSION 2" >>confdefs.h
+
+
+fi
+
+
+fi
+
+
+fi
+
+
+
 
 
 # Check whether --with-eventroot was given.
@@ -20094,7 +20160,7 @@ END
   fi
 fi
 
-ac_config_headers="$ac_config_headers src/Nisse/NisseConfig.h"
+ac_config_headers="$ac_config_headers config.h src/Nisse/NisseConfig.h:config.h.in src/Imp/ImpConfig.h:config.h.in src/Troll/TrollConfig.h:config.h.in"
 
 ac_config_files="$ac_config_files Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in Makefile.config.local"
 
@@ -21210,7 +21276,10 @@ do
   case $ac_config_target in
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
-    "src/Nisse/NisseConfig.h") CONFIG_HEADERS="$CONFIG_HEADERS src/Nisse/NisseConfig.h" ;;
+    "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
+    "src/Nisse/NisseConfig.h") CONFIG_HEADERS="$CONFIG_HEADERS src/Nisse/NisseConfig.h:config.h.in" ;;
+    "src/Imp/ImpConfig.h") CONFIG_HEADERS="$CONFIG_HEADERS src/Imp/ImpConfig.h:config.h.in" ;;
+    "src/Troll/TrollConfig.h") CONFIG_HEADERS="$CONFIG_HEADERS src/Troll/TrollConfig.h:config.h.in" ;;
     "Makefile.extra") CONFIG_FILES="$CONFIG_FILES Makefile.extra" ;;
     "Makefile.config") CONFIG_FILES="$CONFIG_FILES Makefile.config:build/autotools/build/Makefile.config.in" ;;
     "Makefile.config.local") CONFIG_FILES="$CONFIG_FILES Makefile.config.local" ;;
