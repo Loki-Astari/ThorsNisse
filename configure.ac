@@ -4,9 +4,9 @@ AC_PREREQ([2.65])
 
 # Set up the build system
 AC_CONFIG_MACRO_DIR([build/autotools/m4])
-AX_THOR_FUNC_BUILD
 AC_CONFIG_AUX_DIR([build/autotools/build])
 
+AX_THOR_FUNC_BUILD
 
 AC_CONFIG_SRCDIR([src/Nisse/NisseService.cpp])
 AC_PROG_CXX
