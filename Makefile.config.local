@@ -2,4 +2,6 @@
 BOOST_CONTEXT_LIB=-lboost_context-mt
 BOOST_SYSTEM_LIB=-lboost_system
 BOOST_COROUTINE_LIB=-lboost_coroutine-mt
+event_ROOT_DIR=/usr/local
+event_ROOT_LIB=event
 

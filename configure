@@ -714,6 +714,8 @@ GREP
 SED
 LIBTOOL
 COV
+event_ROOT_LIB
+event_ROOT_DIR
 BOOST_CONTEXT_LIB
 BOOST_COROUTINE_LIB
 BOOST_SYSTEM_LIB
@@ -799,6 +801,7 @@ enable_vera
 with_boost_system
 with_boost_coroutine
 with_boost_context
+with_eventroot
 enable_static
 enable_shared
 with_pic
@@ -1486,6 +1489,9 @@ Optional Packages:
                           use the Context library from boost - it is possible
                           to specify a certain library for the linker e.g.
                           --with-boost-context=boost_context-gcc-mt
+  --with-eventroot=<location>
+                          Directory of EVENT_ROOT
+
   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
                           both]
   --with-aix-soname=aix|svr4|both
@@ -5999,6 +6005,84 @@ fi
 		CPPFLAGS="$CPPFLAGS_SAVED"
 		LDFLAGS="$LDFLAGS_SAVED"
 	fi
+
+
+
+
+# Check whether --with-eventroot was given.
+if test "${with_eventroot+set}" = set; then :
+  withval=$with_eventroot;
+fi
+
+    if test "${with_eventroot}" == ""; then
+        with_eventroot="/usr/local"
+    fi
+    ORIG_LDFLAGS="${LDFLAGS}"
+    LDFLAGS="$LDFLAGS -L$with_eventroot/lib"
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for event_dispatch in -levent" >&5
+$as_echo_n "checking for event_dispatch in -levent... " >&6; }
+if ${ac_cv_lib_event_event_dispatch+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-levent  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char event_dispatch ();
+int
+main ()
+{
+return event_dispatch ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_event_event_dispatch=yes
+else
+  ac_cv_lib_event_event_dispatch=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_event_event_dispatch" >&5
+$as_echo "$ac_cv_lib_event_event_dispatch" >&6; }
+if test "x$ac_cv_lib_event_event_dispatch" = xyes; then :
+
+
+$as_echo "#define HAVE_EVENT 1" >>confdefs.h
+
+            event_ROOT_DIR=$with_eventroot
+
+            event_ROOT_LIB=event
+
+
+else
+  as_fn_error 1 "
+
+Error: Could not find libevent
+
+You can solve this by installing libevent
+see http://libevent.org/
+
+If libevent is not installed in the default location (/usr/local) then you will need to specify its location.
+--with-eventroot=<location of event installation>
+
+            " "$LINENO" 5
+
+fi
+
+
+    LDFLAGS="${ORIG_LDFLAGS}"
 
 
 
