@@ -17,10 +17,10 @@ using ThorsAnvil::Socket::ConnectSocket;
 
 TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
 
-	service.listenOn<ReadMessageStreamHandler>(9870);
+    service.listenOn<ReadMessageStreamHandler>(9870);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -47,7 +47,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
         return message;
     });
 
-	service.start(1);
+    service.start(1);
     std::string result = future.get();
 
     ASSERT_EQ("Test function ReadMessageHandler" + WriteMessageStreamHandler::messageSuffix, result);
@@ -55,10 +55,10 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
 
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
 
-	service.listenOn<ReadMessageStreamHandler>(9871);
+    service.listenOn<ReadMessageStreamHandler>(9871);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -67,12 +67,12 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
         }
     });
         
-	auto future = std::async([&finished](){
+    auto future = std::async([&finished](){
         sleep(1);
-		ConnectSocket connect("127.0.0.1", 9871);
-		std::string message = "Test function ReadMessageHandlerPartialSize";
-		std::size_t size    = message.size();
-		connect.putMessageData(reinterpret_cast<char*>(&size), 2);
+        ConnectSocket connect("127.0.0.1", 9871);
+        std::string message = "Test function ReadMessageHandlerPartialSize";
+        std::size_t size    = message.size();
+        connect.putMessageData(reinterpret_cast<char*>(&size), 2);
         connect.putMessageClose();
 
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -81,9 +81,9 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
 
         finished = true;
         return message;
-	});
+    });
 
-	service.start(1);
+    service.start(1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageStreamHandler::failToReadMessage + WriteMessageStreamHandler::messageSuffix, result);
@@ -91,10 +91,10 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
 
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSizeInTwoChunks)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
 
-	service.listenOn<ReadMessageStreamHandler>(9872);
+    service.listenOn<ReadMessageStreamHandler>(9872);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -103,13 +103,13 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSizeInTwoChunks)
         }
     });
         
-	auto future = std::async([&finished](){
-		ConnectSocket connect("127.0.0.1", 9872);
-		std::string message = "Test fucntion ReadMessageHandlerPartialSizeInTwoChunks";
-		std::size_t size    = message.size();
-		connect.putMessageData(reinterpret_cast<char*>(&size), 2);
+    auto future = std::async([&finished](){
+        ConnectSocket connect("127.0.0.1", 9872);
+        std::string message = "Test fucntion ReadMessageHandlerPartialSizeInTwoChunks";
+        std::size_t size    = message.size();
+        connect.putMessageData(reinterpret_cast<char*>(&size), 2);
         sleep(1);
-		connect.putMessageData(reinterpret_cast<char*>(&size), 1, 2);
+        connect.putMessageData(reinterpret_cast<char*>(&size), 1, 2);
         connect.putMessageClose();
 
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -118,19 +118,19 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSizeInTwoChunks)
 
         finished = true;
         return message;
-	});
+    });
 
-	service.start(1);
+    service.start(1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageStreamHandler::failToReadMessage + WriteMessageStreamHandler::messageSuffix, result);
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
 
-	service.listenOn<ReadMessageStreamHandler>(9873);
+    service.listenOn<ReadMessageStreamHandler>(9873);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -139,14 +139,14 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
         }
     });
         
-	auto future = std::async([&finished](){
-		ConnectSocket connect("127.0.0.1", 9873);
-		std::string message = "Test function ReadMessageHandlerSizeInTwoChunks";
-		std::size_t size    = message.size();
-		connect.putMessageData(reinterpret_cast<char*>(&size), 2);
+    auto future = std::async([&finished](){
+        ConnectSocket connect("127.0.0.1", 9873);
+        std::string message = "Test function ReadMessageHandlerSizeInTwoChunks";
+        std::size_t size    = message.size();
+        connect.putMessageData(reinterpret_cast<char*>(&size), 2);
         sleep(1);
-		connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size), 2);
-		connect.putMessageData(message.c_str(), size);
+        connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size), 2);
+        connect.putMessageData(message.c_str(), size);
 
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
         message.resize(size);
@@ -154,19 +154,19 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
 
         finished = true;
         return message;
-	});
+    });
 
-	service.start(1);
+    service.start(1);
     std::string result = future.get();
 
     ASSERT_EQ("Test function ReadMessageHandlerSizeInTwoChunks" + WriteMessageStreamHandler::messageSuffix, result);
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
 
-	service.listenOn<ReadMessageStreamHandler>(9874);
+    service.listenOn<ReadMessageStreamHandler>(9874);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -175,12 +175,12 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
         }
     });
         
-	auto future = std::async([&finished](){
-		ConnectSocket connect("127.0.0.1", 9874);
-		std::string message = "Test function ReadMessageHandlerPartialMessage";
-		std::size_t size    = message.size();
-		connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
-		connect.putMessageData(message.c_str(), size/2);
+    auto future = std::async([&finished](){
+        ConnectSocket connect("127.0.0.1", 9874);
+        std::string message = "Test function ReadMessageHandlerPartialMessage";
+        std::size_t size    = message.size();
+        connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
+        connect.putMessageData(message.c_str(), size/2);
         connect.putMessageClose();
 
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -189,19 +189,19 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
 
         finished = true;
         return message;
-	});
+    });
 
-	service.start(1);
+    service.start(1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageStreamHandler::failToReadMessage + WriteMessageStreamHandler::messageSuffix, result);
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessageInTwoChunks)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
 
-	service.listenOn<ReadMessageStreamHandler>(9875);
+    service.listenOn<ReadMessageStreamHandler>(9875);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -210,14 +210,14 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessageInTwoChunks)
         }
     });
         
-	auto future = std::async([&finished](){
-		ConnectSocket connect("127.0.0.1", 9875);
-		std::string message = "Test function ReadMessageHandlerPartialMessageInTwoChunks";
-		std::size_t size    = message.size();
-		connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
-		connect.putMessageData(message.c_str(), size/2);
+    auto future = std::async([&finished](){
+        ConnectSocket connect("127.0.0.1", 9875);
+        std::string message = "Test function ReadMessageHandlerPartialMessageInTwoChunks";
+        std::size_t size    = message.size();
+        connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
+        connect.putMessageData(message.c_str(), size/2);
         sleep(1);
-		connect.putMessageData(message.c_str(), size, size/4*3);
+        connect.putMessageData(message.c_str(), size, size/4*3);
         connect.putMessageClose();
 
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -226,19 +226,19 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessageInTwoChunks)
 
         finished = true;
         return message;
-	});
+    });
 
-	service.start(1);
+    service.start(1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageStreamHandler::failToReadMessage + WriteMessageStreamHandler::messageSuffix, result);
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerMessageInTwoChunks)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
 
-	service.listenOn<ReadMessageStreamHandler>(9876);
+    service.listenOn<ReadMessageStreamHandler>(9876);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -247,14 +247,14 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerMessageInTwoChunks)
         }
     });
 
-	auto future = std::async([&finished](){
-		ConnectSocket connect("127.0.0.1", 9876);
-		std::string message = "Test function ReadMessageHandlerMessageInTwoChunks";
-		std::size_t size    = message.size();
-		connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
-		connect.putMessageData(message.c_str(), size/2);
+    auto future = std::async([&finished](){
+        ConnectSocket connect("127.0.0.1", 9876);
+        std::string message = "Test function ReadMessageHandlerMessageInTwoChunks";
+        std::size_t size    = message.size();
+        connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
+        connect.putMessageData(message.c_str(), size/2);
         sleep(1);
-		connect.putMessageData(message.c_str(), size, size/2);
+        connect.putMessageData(message.c_str(), size, size/2);
         connect.putMessageClose();
 
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -263,22 +263,22 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerMessageInTwoChunks)
 
         finished = true;
         return message;
-	});
+    });
 
-	service.start(1);
+    service.start(1);
 
     std::string result = future.get();
     ASSERT_EQ("Test function ReadMessageHandlerMessageInTwoChunks" + WriteMessageStreamHandler::messageSuffix, result);
 }
 TEST(ProtocolSimpleStreamTest, WriteMessageHandler)
 {
-	NisseService	service;
+    NisseService    service;
     bool            finished = false;
     Message         message;
 
     message.message = "A Write Test";
 
-	service.listenOn<WriteMessageStreamHandler>(9877, message);
+    service.listenOn<WriteMessageStreamHandler>(9877, message);
     service.addTimer(1, [&service, &finished]()
     {
         if (finished)
@@ -287,19 +287,19 @@ TEST(ProtocolSimpleStreamTest, WriteMessageHandler)
         }
     });
         
-	auto future = std::async([&finished](){
-		ConnectSocket connect("127.0.0.1", 9877);
-		std::string message;
-		std::size_t size    = message.size();
+    auto future = std::async([&finished](){
+        ConnectSocket connect("127.0.0.1", 9877);
+        std::string message;
+        std::size_t size    = message.size();
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
         message.resize(size);
         connect.getMessageData(&message[0], size);
 
         finished = true;
         return message;
-	});
+    });
 
-	service.start(1);
+    service.start(1);
     std::string result = future.get();
 
     ASSERT_EQ("A Write Test" + WriteMessageStreamHandler::messageSuffix, result);

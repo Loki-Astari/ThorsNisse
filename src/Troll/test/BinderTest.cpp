@@ -86,13 +86,13 @@ TEST(BinderTest, TestBinder404)
     action(request, response);
     ASSERT_EQ("<html><body><h1>Not Found</h1></body></html>", body.str());
 
-	ASSERT_EQ(404, response.resultCode);
-	ASSERT_EQ("Not Found", response.resultMessage);
-	//ASSERT_EQ(">Date String<", response.headers.get("Date"));
-	ASSERT_EQ(ThorsAnvil::Nisse::ProtocolHTTP::ServerName, 		 response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_Server));
-	ASSERT_EQ(ThorsAnvil::Nisse::ProtocolHTTP::Connection_Closed,response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_Connection));
-	ASSERT_EQ("44", 		    response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_ContentLen));
-	ASSERT_EQ("text/html",	    response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_ContentType));
+    ASSERT_EQ(404, response.resultCode);
+    ASSERT_EQ("Not Found", response.resultMessage);
+    //ASSERT_EQ(">Date String<", response.headers.get("Date"));
+    ASSERT_EQ(ThorsAnvil::Nisse::ProtocolHTTP::ServerName,       response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_Server));
+    ASSERT_EQ(ThorsAnvil::Nisse::ProtocolHTTP::Connection_Closed,response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_Connection));
+    ASSERT_EQ("44",             response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_ContentLen));
+    ASSERT_EQ("text/html",      response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_ContentType));
 }
 TEST(BinderTest, AddAPutMethod)
 {

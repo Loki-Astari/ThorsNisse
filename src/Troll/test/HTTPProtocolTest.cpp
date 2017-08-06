@@ -184,9 +184,9 @@ TEST(HTTPProtocolTest, ConstructWriter)
     DataSocket              socket(readFD);
     NisseService            service;
     Binder                  binder;
-	std::string				uri = "thorsanvil.com/index.html";
-	Headers					headers;
-	std::vector<char>		buffer;
+    std::string             uri = "thorsanvil.com/index.html";
+    Headers                 headers;
+    std::vector<char>       buffer;
     WriteResponseHandler  writer(service, std::move(socket), binder, Method::Get, std::move(uri), std::move(headers), std::move(buffer), nullptr, nullptr);
     unlink("XX");
 }
@@ -215,13 +215,13 @@ TEST(HTTPProtocolTest, WriterProcesses)
     binder.addSite("", std::move(defaultSite));
     binder.addSite("ThorsAnvil.com", std::move(thorsAnvil));
 
-	Headers					headers;
+    Headers                 headers;
     headers["Host"] = "ThorsAnvil.com";
 
     DataSocket              socket(fd);
     NisseService            service;
-	std::string				uri = "/index.html";
-	std::vector<char>		buffer;
+    std::string             uri = "/index.html";
+    std::vector<char>       buffer;
     ReadRequestHandler      writer(service, std::move(socket), binder);
     writer.eventActivate(fd, EV_READ);
 
