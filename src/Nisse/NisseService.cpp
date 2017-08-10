@@ -5,10 +5,12 @@
 
 using namespace ThorsAnvil::Nisse;
 
+NisseService::EventConfig* NisseService::cfg = nullptr;
+
 NisseService::NisseService()
     : running(false)
     , shutDownNext(false)
-    , eventBase(event_base_new(), &event_base_free)
+    , eventBase(event_base_new_with_config(cfg), &event_base_free)
 {
     if (eventBase == nullptr)
     {

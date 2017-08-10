@@ -21,7 +21,24 @@ using ThorsAnvil::Nisse::ProtocolHTTP::Site;
 using ThorsAnvil::Nisse::NisseService;
 using ThorsAnvil::Socket::DataSocket;
 
-TEST(HTTPProtocolTest, Construct)
+using namespace std;
+ 
+// A new one of these is created for each test
+class HTTPProtocolTest : public testing::Test
+{
+    public:
+        virtual void SetUp()
+        {
+            NisseService::ignore("epoll");
+        }
+
+        virtual void TearDown()
+        {
+            NisseService::ignore();
+        }
+};
+ 
+TEST_F(HTTPProtocolTest, Construct)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -32,7 +49,7 @@ TEST(HTTPProtocolTest, Construct)
     ReadRequestHandler      reader(service, std::move(socket), binder);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, GetRequest)
+TEST_F(HTTPProtocolTest, GetRequest)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -49,7 +66,7 @@ TEST(HTTPProtocolTest, GetRequest)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, PutRequest)
+TEST_F(HTTPProtocolTest, PutRequest)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -66,7 +83,7 @@ TEST(HTTPProtocolTest, PutRequest)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, PostRequest)
+TEST_F(HTTPProtocolTest, PostRequest)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -83,7 +100,7 @@ TEST(HTTPProtocolTest, PostRequest)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, DeleteRequest)
+TEST_F(HTTPProtocolTest, DeleteRequest)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -100,7 +117,7 @@ TEST(HTTPProtocolTest, DeleteRequest)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, HeadRequest)
+TEST_F(HTTPProtocolTest, HeadRequest)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -117,7 +134,7 @@ TEST(HTTPProtocolTest, HeadRequest)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, CeckHeaders)
+TEST_F(HTTPProtocolTest, CeckHeaders)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -136,7 +153,7 @@ TEST(HTTPProtocolTest, CeckHeaders)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, CeckHeadersMultipleValue)
+TEST_F(HTTPProtocolTest, CeckHeadersMultipleValue)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -158,7 +175,7 @@ TEST(HTTPProtocolTest, CeckHeadersMultipleValue)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-TEST(HTTPProtocolTest, CheckBody)
+TEST_F(HTTPProtocolTest, CheckBody)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -179,7 +196,7 @@ TEST(HTTPProtocolTest, CheckBody)
 }
 
 /*
-TEST(HTTPProtocolTest, ConstructWriter)
+TEST_F(HTTPProtocolTest, ConstructWriter)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
@@ -195,7 +212,7 @@ TEST(HTTPProtocolTest, ConstructWriter)
 }
 */
 
-TEST(HTTPProtocolTest, WriterProcesses)
+TEST_F(HTTPProtocolTest, WriterProcesses)
 {
     unlink("XX");
     {
