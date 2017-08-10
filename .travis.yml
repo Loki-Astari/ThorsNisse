@@ -18,6 +18,9 @@ install:
     - if [ "$TRAVIS_OS_NAME" == "linux" -a "$CXX" == "g++" ];     then ./b2 cxxflags="-Wno-strict-aliasing -Wno-unused-local-typedefs -Wno-maybe-uninitialized -Wno-deprecated-declarations -Wno-placement-new" --with-system --with-context --with-coroutine;fi
     - if [ "$TRAVIS_OS_NAME" == "linux" -a "$CXX" == "g++" ];     then sudo ./b2 --with-system --with-context --with-coroutine install;fi
     - if [ "$TRAVIS_OS_NAME" == "linux" -a "$CXX" == "g++" ];     then cd ..;fi
+before_script:
+    - mv .gitmodules gitmodules.old
+    - sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
 script:
     - ./configure --with-boost=/tmp/extra --with-thor-build-on-travis
     - LD_LIBRARY_PATH=/tmp/extra/lib make
