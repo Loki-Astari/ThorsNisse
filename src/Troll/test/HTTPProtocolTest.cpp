@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 
 using ThorsAnvil::Nisse::ProtocolHTTP::ReadRequestHandler;

@@ -5,6 +5,8 @@
 #include "ThorsNisseSocket/Socket.h"
 #include <memory>
 #include <unordered_map>
+#include <functional>
+#include <string>
 
 namespace ThorsAnvil
 {
