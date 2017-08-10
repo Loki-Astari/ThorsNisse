@@ -4812,7 +4812,7 @@ fi
 
 
 
-    if test "${with_thor-build-on-travis}" == ""; then :
+    if test "${with_thor_build_on_travis}" == ""; then :
 
 else
 
@@ -4825,7 +4825,7 @@ fi
 
 (
     cd .
-    if test "${with_thor-build-on-travis}" == ""; then :
+    if test "${with_thor_build_on_travis}" == ""; then :
 
 else
 
@@ -4861,7 +4861,7 @@ fi
 
 (
     cd build
-    if test "${with_thor-build-on-travis}" == ""; then :
+    if test "${with_thor_build_on_travis}" == ""; then :
 
 else
 
@@ -4895,17 +4895,7 @@ fi
 )
 
 
-    if test "${with_thor-build-on-travis}" == ""; then :
-
-else
-
-(
     ./build/third/vera-install
-)
-
-
-
-fi
 
 
 
