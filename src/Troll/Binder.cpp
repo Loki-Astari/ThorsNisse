@@ -52,7 +52,7 @@ Action& Binder::getDefault404Action()
 void Binder::setCustome404Action(Action&& action)
 {
     action404 = std::move(action);
-};
+}
 
 Action const& Binder::find(Method method, std::string const& host, std::string const& path) const
 {
