@@ -4981,15 +4981,6 @@ fi
 
 
 
-# Check whether --with-thor-build-on-travis was given.
-if test "${with_thor_build_on_travis+set}" = set; then :
-  withval=$with_thor_build_on_travis;
-fi
-
-
-
-
-
 # Check whether --with-boost was given.
 if test "${with_boost+set}" = set; then :
   withval=$with_boost;

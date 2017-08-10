@@ -7,8 +7,6 @@ AC_CONFIG_MACRO_DIR([build/autotools/m4])
 AC_CONFIG_AUX_DIR([build/autotools/build])
 AX_THOR_FUNC_BUILD
 
-AX_THOR_BUILD_ON_TRAVIS_OPTION
-
 AX_BOOST_BASE([1.54], [], [AC_MSG_ERROR([Nisse uses boost Please install it.])])
 AX_BOOST_SYSTEM
 AX_BOOST_COROUTINE
