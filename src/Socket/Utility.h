@@ -6,6 +6,7 @@
 #include <utility>
 #include <cstddef>
 #include <cerrno>
+#include <cstring>
 
 namespace ThorsAnvil
 {

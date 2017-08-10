@@ -2,6 +2,7 @@
 #include "NisseService.h"
 
 #include <iostream>
+#include <ctime>
 
 using namespace ThorsAnvil::Nisse;
 using TimeVal = struct timeval;

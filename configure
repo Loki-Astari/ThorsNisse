@@ -716,6 +716,7 @@ LIBTOOL
 COV
 event_ROOT_LIB
 event_ROOT_DIR
+BOOST_COROUTINE_VERSION
 BOOST_CONTEXT_LIB
 BOOST_COROUTINE_LIB
 BOOST_SYSTEM_LIB
@@ -2336,6 +2337,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 # Set up the build system
+git submodule init
+git submodule update
 
 ac_aux_dir=
 for ac_dir in build/autotools/build "$srcdir"/build/autotools/build; do
@@ -4809,9 +4812,20 @@ fi
 
 
 
+    if test "${with_thor_build_on_travis}" == ""; then :
+
+else
+
+            git submodule deinit --all
+            rm .git/modules/build/config
+
+
+fi
+
+
 (
     cd .
-    if test "${with_thor-build-on-travis}" == ""; then :
+    if test "${with_thor_build_on_travis}" == ""; then :
 
 else
 
@@ -4847,7 +4861,7 @@ fi
 
 (
     cd build
-    if test "${with_thor-build-on-travis}" == ""; then :
+    if test "${with_thor_build_on_travis}" == ""; then :
 
 else
 
@@ -4881,17 +4895,7 @@ fi
 )
 
 
-    if test "${with_thor-build-on-travis}" == ""; then :
-
-else
-
-(
     ./build/third/vera-install
-)
-
-
-
-fi
 
 
 
@@ -4980,15 +4984,6 @@ fi
 
 
 
-# Check whether --with-thor-build-on-travis was given.
-if test "${with_thor_build_on_travis+set}" = set; then :
-  withval=$with_thor_build_on_travis;
-fi
-
-
-
-
-
 # Check whether --with-boost was given.
 if test "${with_boost+set}" = set; then :
   withval=$with_boost;
@@ -5026,7 +5021,7 @@ fi
 
 
 if test "x$want_boost" = "xyes"; then
-    boost_lib_version_req=1.54
+    boost_lib_version_req=1.56
     boost_lib_version_req_shorten=`expr $boost_lib_version_req : '\([0-9]*\.[0-9]*\)'`
     boost_lib_version_req_major=`expr $boost_lib_version_req : '\([0-9]*\)'`
     boost_lib_version_req_minor=`expr $boost_lib_version_req : '[0-9]*\.\([0-9]*\)'`
@@ -5810,11 +5805,11 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 			cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-#include <boost/context/all.hpp>
+#include <boost/context/all.hpp>namespace boost{namespace context{namespace detail{}}}using namespace boost::context;using namespace boost::context::detail;
 int
 main ()
 {
-boost::context::detail::fcontext_t fc = boost::context::detail::make_fcontext(0, 0, 0);
+auto fc = make_fcontext(0, 0, 0);
   ;
   return 0;
 }
@@ -6014,15 +6009,34 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
         CXXFLAGS_SAVE=$CXXFLAGS
-        CXXFLAGS+=" -std=c++11 -Werror ${BOOST_CPPFLAGS}"
+        CXXFLAGS+=" -std=c++11 ${BOOST_CPPFLAGS}"
 
         thor_boost_coroutine_versoin=no
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Checking Boost CoRoutine Version" >&5
+$as_echo "$as_me: Checking Boost CoRoutine Version" >&6;}
         cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 #include <boost/coroutine/all.hpp>
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  thor_boost_coroutine_versoin=1
+
+                thor_boost_coroutine_versoin=1
+                { $as_echo "$as_me:${as_lineno-$LINENO}: Checking Boost CoRoutine Version V1 OK" >&5
+$as_echo "$as_me: Checking Boost CoRoutine Version V1 OK" >&6;}
+
+
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <boost/coroutine/all.hpp>
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+
+                thor_boost_coroutine_versoin=2
+                { $as_echo "$as_me:${as_lineno-$LINENO}: Checking Boost CoRoutine Version V2 OK" >&5
+$as_echo "$as_me: Checking Boost CoRoutine Version V2 OK" >&6;}
+
 
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
@@ -6031,7 +6045,11 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 #include <boost/coroutine2/all.hpp>
 _ACEOF
 if ac_fn_cxx_try_compile "$LINENO"; then :
-  thor_boost_coroutine_versoin=2
+
+                thor_boost_coroutine_versoin=3
+                { $as_echo "$as_me:${as_lineno-$LINENO}: Checking Boost CoRoutine Version V3 OK" >&5
+$as_echo "$as_me: Checking Boost CoRoutine Version V3 OK" >&6;}
+
 
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
@@ -6052,21 +6070,13 @@ Error: Can not tell the type of the boost coroutine library.
 
 else
 
-                if test "x${thor_boost_coroutine_versoin}" == "x1"; then :
 
-$as_echo "#define BOOST_COROUTINE_VERSION 1" >>confdefs.h
+cat >>confdefs.h <<_ACEOF
+#define BOOST_COROUTINE_VERSION $thor_boost_coroutine_versoin
+_ACEOF
 
-else
+                BOOST_COROUTINE_VERSION=$thor_boost_coroutine_versoin
 
-                        if test "x${thor_boost_coroutine_versoin}" == "x2"; then :
-
-$as_echo "#define BOOST_COROUTINE_VERSION 2" >>confdefs.h
-
-
-fi
-
-
-fi
 
 
 fi
@@ -6149,1089 +6159,6 @@ fi
 
 
     LDFLAGS="${ORIG_LDFLAGS}"
-
-
-
-    for ac_prog in wget
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_WGET+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$WGET"; then
-  ac_cv_prog_WGET="$WGET" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_WGET="$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-WGET=$ac_cv_prog_WGET
-if test -n "$WGET"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $WGET" >&5
-$as_echo "$WGET" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$WGET" && break
-done
-test -n "$WGET" || WGET=":"
-
-    if test "$WGET" = :; then
-        as_fn_error $? "The build tools needs wget. Please install it." "$LINENO" 5
-    fi
-    for ac_prog in unzip
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_UNZIP+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$UNZIP"; then
-  ac_cv_prog_UNZIP="$UNZIP" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_UNZIP="$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-UNZIP=$ac_cv_prog_UNZIP
-if test -n "$UNZIP"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $UNZIP" >&5
-$as_echo "$UNZIP" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$UNZIP" && break
-done
-test -n "$UNZIP" || UNZIP=":"
-
-    if test "$UNZIP" = :; then
-        as_fn_error $? "The build tools needs unzip. Please install it." "$LINENO" 5
-    fi
-    for ac_prog in cmake
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_CMAKE+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$CMAKE"; then
-  ac_cv_prog_CMAKE="$CMAKE" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_CMAKE="$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-CMAKE=$ac_cv_prog_CMAKE
-if test -n "$CMAKE"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $CMAKE" >&5
-$as_echo "$CMAKE" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$CMAKE" && break
-done
-test -n "$CMAKE" || CMAKE=":"
-
-    if test "$CMAKE" = :; then
-        as_fn_error $? "The build tools needs cmake. Please install it." "$LINENO" 5
-    fi
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Tcl_Init in -ltcl" >&5
-$as_echo_n "checking for Tcl_Init in -ltcl... " >&6; }
-if ${ac_cv_lib_tcl_Tcl_Init+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-ltcl  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char Tcl_Init ();
-int
-main ()
-{
-return Tcl_Init ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_tcl_Tcl_Init=yes
-else
-  ac_cv_lib_tcl_Tcl_Init=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_tcl_Tcl_Init" >&5
-$as_echo "$ac_cv_lib_tcl_Tcl_Init" >&6; }
-if test "x$ac_cv_lib_tcl_Tcl_Init" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBTCL 1
-_ACEOF
-
-  LIBS="-ltcl $LIBS"
-
-else
-  as_fn_error $? "The build tools needs libtcl. Please install it." "$LINENO" 5
-fi
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Tk_Init in -ltk" >&5
-$as_echo_n "checking for Tk_Init in -ltk... " >&6; }
-if ${ac_cv_lib_tk_Tk_Init+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-ltk  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char Tk_Init ();
-int
-main ()
-{
-return Tk_Init ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_tk_Tk_Init=yes
-else
-  ac_cv_lib_tk_Tk_Init=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_tk_Tk_Init" >&5
-$as_echo "$ac_cv_lib_tk_Tk_Init" >&6; }
-if test "x$ac_cv_lib_tk_Tk_Init" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBTK 1
-_ACEOF
-
-  LIBS="-ltk $LIBS"
-
-else
-  as_fn_error $? "The build tools needs libtk. Please install it." "$LINENO" 5
-fi
-
-
-
-# Check whether --with-boost was given.
-if test "${with_boost+set}" = set; then :
-  withval=$with_boost;
-    if test "$withval" = "no"; then
-        want_boost="no"
-    elif test "$withval" = "yes"; then
-        want_boost="yes"
-        ac_boost_path=""
-    else
-        want_boost="yes"
-        ac_boost_path="$withval"
-    fi
-
-else
-  want_boost="yes"
-fi
-
-
-
-
-# Check whether --with-boost-libdir was given.
-if test "${with_boost_libdir+set}" = set; then :
-  withval=$with_boost_libdir;
-        if test -d "$withval"
-        then
-                ac_boost_lib_path="$withval"
-        else
-                as_fn_error $? "--with-boost-libdir expected directory name" "$LINENO" 5
-        fi
-
-else
-  ac_boost_lib_path=""
-
-fi
-
-
-if test "x$want_boost" = "xyes"; then
-    boost_lib_version_req=1.54
-    boost_lib_version_req_shorten=`expr $boost_lib_version_req : '\([0-9]*\.[0-9]*\)'`
-    boost_lib_version_req_major=`expr $boost_lib_version_req : '\([0-9]*\)'`
-    boost_lib_version_req_minor=`expr $boost_lib_version_req : '[0-9]*\.\([0-9]*\)'`
-    boost_lib_version_req_sub_minor=`expr $boost_lib_version_req : '[0-9]*\.[0-9]*\.\([0-9]*\)'`
-    if test "x$boost_lib_version_req_sub_minor" = "x" ; then
-        boost_lib_version_req_sub_minor="0"
-        fi
-    WANT_BOOST_VERSION=`expr $boost_lib_version_req_major \* 100000 \+  $boost_lib_version_req_minor \* 100 \+ $boost_lib_version_req_sub_minor`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for boostlib >= $boost_lib_version_req" >&5
-$as_echo_n "checking for boostlib >= $boost_lib_version_req... " >&6; }
-    succeeded=no
-
-                        libsubdirs="lib"
-    ax_arch=`uname -m`
-    case $ax_arch in
-      x86_64)
-        libsubdirs="lib64 libx32 lib lib64"
-        ;;
-      ppc64|s390x|sparc64|aarch64|ppc64le)
-        libsubdirs="lib64 lib lib64 ppc64le"
-        ;;
-    esac
-
-
-    libsubdirs="lib/${host_cpu}-${host_os} $libsubdirs"
-
-    case ${host_cpu} in
-      i?86)
-        libsubdirs="lib/i386-${host_os} $libsubdirs"
-        ;;
-    esac
-
-                if test "$ac_boost_path" != ""; then
-        BOOST_CPPFLAGS="-I$ac_boost_path/include"
-        for ac_boost_path_tmp in $libsubdirs; do
-                if test -d "$ac_boost_path"/"$ac_boost_path_tmp" ; then
-                        BOOST_LDFLAGS="-L$ac_boost_path/$ac_boost_path_tmp"
-                        break
-                fi
-        done
-    elif test "$cross_compiling" != yes; then
-        for ac_boost_path_tmp in /usr /usr/local /opt /opt/local ; do
-            if test -d "$ac_boost_path_tmp/include/boost" && test -r "$ac_boost_path_tmp/include/boost"; then
-                for libsubdir in $libsubdirs ; do
-                    if ls "$ac_boost_path_tmp/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
-                done
-                BOOST_LDFLAGS="-L$ac_boost_path_tmp/$libsubdir"
-                BOOST_CPPFLAGS="-I$ac_boost_path_tmp/include"
-                break;
-            fi
-        done
-    fi
-
-            if test "$ac_boost_lib_path" != ""; then
-       BOOST_LDFLAGS="-L$ac_boost_lib_path"
-    fi
-
-    CPPFLAGS_SAVED="$CPPFLAGS"
-    CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
-    export CPPFLAGS
-
-    LDFLAGS_SAVED="$LDFLAGS"
-    LDFLAGS="$LDFLAGS $BOOST_LDFLAGS"
-    export LDFLAGS
-
-
-    ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-    #include <boost/version.hpp>
-
-int
-main ()
-{
-
-    #if BOOST_VERSION >= $WANT_BOOST_VERSION
-    // Everything is okay
-    #else
-    #  error Boost version is too old
-    #endif
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-    succeeded=yes
-    found_system=yes
-
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-    ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-
-
-            if test "x$succeeded" != "xyes"; then
-        CPPFLAGS="$CPPFLAGS_SAVED"
-        LDFLAGS="$LDFLAGS_SAVED"
-        BOOST_CPPFLAGS=
-        BOOST_LDFLAGS=
-        _version=0
-        if test "$ac_boost_path" != ""; then
-            if test -d "$ac_boost_path" && test -r "$ac_boost_path"; then
-                for i in `ls -d $ac_boost_path/include/boost-* 2>/dev/null`; do
-                    _version_tmp=`echo $i | sed "s#$ac_boost_path##" | sed 's/\/include\/boost-//' | sed 's/_/./'`
-                    V_CHECK=`expr $_version_tmp \> $_version`
-                    if test "$V_CHECK" = "1" ; then
-                        _version=$_version_tmp
-                    fi
-                    VERSION_UNDERSCORE=`echo $_version | sed 's/\./_/'`
-                    BOOST_CPPFLAGS="-I$ac_boost_path/include/boost-$VERSION_UNDERSCORE"
-                done
-                                if test -z "$BOOST_CPPFLAGS"; then
-                    if test -d "$ac_boost_path/boost" && test -r "$ac_boost_path/boost"; then
-                        BOOST_CPPFLAGS="-I$ac_boost_path"
-                    fi
-                fi
-            fi
-        else
-            if test "$cross_compiling" != yes; then
-                for ac_boost_path in /usr /usr/local /opt /opt/local ; do
-                    if test -d "$ac_boost_path" && test -r "$ac_boost_path"; then
-                        for i in `ls -d $ac_boost_path/include/boost-* 2>/dev/null`; do
-                            _version_tmp=`echo $i | sed "s#$ac_boost_path##" | sed 's/\/include\/boost-//' | sed 's/_/./'`
-                            V_CHECK=`expr $_version_tmp \> $_version`
-                            if test "$V_CHECK" = "1" ; then
-                                _version=$_version_tmp
-                                best_path=$ac_boost_path
-                            fi
-                        done
-                    fi
-                done
-
-                VERSION_UNDERSCORE=`echo $_version | sed 's/\./_/'`
-                BOOST_CPPFLAGS="-I$best_path/include/boost-$VERSION_UNDERSCORE"
-                if test "$ac_boost_lib_path" = ""; then
-                    for libsubdir in $libsubdirs ; do
-                        if ls "$best_path/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
-                    done
-                    BOOST_LDFLAGS="-L$best_path/$libsubdir"
-                fi
-            fi
-
-            if test "x$BOOST_ROOT" != "x"; then
-                for libsubdir in $libsubdirs ; do
-                    if ls "$BOOST_ROOT/stage/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
-                done
-                if test -d "$BOOST_ROOT" && test -r "$BOOST_ROOT" && test -d "$BOOST_ROOT/stage/$libsubdir" && test -r "$BOOST_ROOT/stage/$libsubdir"; then
-                    version_dir=`expr //$BOOST_ROOT : '.*/\(.*\)'`
-                    stage_version=`echo $version_dir | sed 's/boost_//' | sed 's/_/./g'`
-                        stage_version_shorten=`expr $stage_version : '\([0-9]*\.[0-9]*\)'`
-                    V_CHECK=`expr $stage_version_shorten \>\= $_version`
-                    if test "$V_CHECK" = "1" -a "$ac_boost_lib_path" = "" ; then
-                        { $as_echo "$as_me:${as_lineno-$LINENO}: We will use a staged boost library from $BOOST_ROOT" >&5
-$as_echo "$as_me: We will use a staged boost library from $BOOST_ROOT" >&6;}
-                        BOOST_CPPFLAGS="-I$BOOST_ROOT"
-                        BOOST_LDFLAGS="-L$BOOST_ROOT/stage/$libsubdir"
-                    fi
-                fi
-            fi
-        fi
-
-        CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
-        export CPPFLAGS
-        LDFLAGS="$LDFLAGS $BOOST_LDFLAGS"
-        export LDFLAGS
-
-        ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-            cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-        #include <boost/version.hpp>
-
-int
-main ()
-{
-
-        #if BOOST_VERSION >= $WANT_BOOST_VERSION
-        // Everything is okay
-        #else
-        #  error Boost version is too old
-        #endif
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-
-            { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-        succeeded=yes
-        found_system=yes
-
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-        ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-    fi
-
-    if test "$succeeded" != "yes" ; then
-        if test "$_version" = "0" ; then
-            { $as_echo "$as_me:${as_lineno-$LINENO}: We could not detect the boost libraries (version $boost_lib_version_req_shorten or higher). If you have a staged boost library (still not installed) please specify \$BOOST_ROOT in your environment and do not give a PATH to --with-boost option.  If you are sure you have boost installed, then check your version number looking in <boost/version.hpp>. See http://randspringer.de/boost for more documentation." >&5
-$as_echo "$as_me: We could not detect the boost libraries (version $boost_lib_version_req_shorten or higher). If you have a staged boost library (still not installed) please specify \$BOOST_ROOT in your environment and do not give a PATH to --with-boost option.  If you are sure you have boost installed, then check your version number looking in <boost/version.hpp>. See http://randspringer.de/boost for more documentation." >&6;}
-        else
-            { $as_echo "$as_me:${as_lineno-$LINENO}: Your boost libraries seems to old (version $_version)." >&5
-$as_echo "$as_me: Your boost libraries seems to old (version $_version)." >&6;}
-        fi
-        # execute ACTION-IF-NOT-FOUND (if present):
-        as_fn_error $? "The build tools needs libboost. Please install it." "$LINENO" 5
-    else
-
-
-
-$as_echo "#define HAVE_BOOST /**/" >>confdefs.h
-
-        # execute ACTION-IF-FOUND (if present):
-        :
-    fi
-
-    CPPFLAGS="$CPPFLAGS_SAVED"
-    LDFLAGS="$LDFLAGS_SAVED"
-fi
-
-
-    ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-ax_boost_python_save_CPPFLAGS="$CPPFLAGS"
-ax_boost_python_save_LDFLAGS="$LDFLAGS"
-ax_boost_python_save_LIBS="$LIBS"
-if test "x$PYTHON_CPPFLAGS" != "x"; then
-  CPPFLAGS="$PYTHON_CPPFLAGS $CPPFLAGS"
-fi
-
-# Versions of AX_PYTHON_DEVEL() before serial 18 provided PYTHON_LDFLAGS
-# instead of PYTHON_LIBS, so this is just here for compatibility.
-if test "x$PYTHON_LDFLAGS" != "x"; then
-  LDFLAGS="$PYTHON_LDFLAGS $LDFLAGS"
-fi
-
-# Note: Only versions of AX_PYTHON_DEVEL() since serial 18 provide PYTHON_LIBS
-# instead of PYTHON_LDFLAGS.
-if test "x$PYTHON_LIBS" != "x"; then
-  LIBS="$PYTHON_LIBS $LIBS"
-fi
-
-if test "x$BOOST_CPPFLAGS" != "x"; then
-  CPPFLAGS="$BOOST_CPPFLAGS $CPPFLAGS"
-fi
-if test "x$BOOST_LDFLAGS" != "x"; then
-  LDFLAGS="$BOOST_LDFLAGS $LDFLAGS"
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the Boost::Python library is available" >&5
-$as_echo_n "checking whether the Boost::Python library is available... " >&6; }
-if ${ac_cv_boost_python+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <boost/python/module.hpp>
-BOOST_PYTHON_MODULE(test) { throw "Boost::Python test."; }
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_boost_python=yes
-else
-  ac_cv_boost_python=no
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_boost_python" >&5
-$as_echo "$ac_cv_boost_python" >&6; }
-if test "$ac_cv_boost_python" = "yes"; then
-
-$as_echo "#define HAVE_BOOST_PYTHON /**/" >>confdefs.h
-
-  ax_python_lib=boost_python
-
-# Check whether --with-boost-python was given.
-if test "${with_boost_python+set}" = set; then :
-  withval=$with_boost_python; if test "x$with_boost_python" != "xno" -a "x$with_boost_python" != "xyes"; then
-     ax_python_lib=$with_boost_python
-     ax_boost_python_lib=boost_python-$with_boost_python
-   fi
-fi
-
-  BOOSTLIBDIR=`echo $BOOST_LDFLAGS | sed -e 's/[^\/]*//'`
-  for ax_lib in $ax_python_lib $ax_boost_python_lib `ls $BOOSTLIBDIR/libboost_python*.so* $BOOSTLIBDIR/libboost_python*.dylib* $BOOSTLIBDIR/libboost_python*.a* 2>/dev/null | sed 's,.*/,,' | sed -e 's;^lib\(boost_python.*\)\.so.*$;\1;' -e 's;^lib\(boost_python.*\)\.dylib.*$;\1;' -e 's;^lib\(boost_python.*\)\.a.*$;\1;' ` boost_python boost_python3; do
-    as_ax_Lib=`$as_echo "ax_cv_lib_$ax_lib''_BOOST_PYTHON_MODULE" | $as_tr_sh`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $ax_lib is the correct library" >&5
-$as_echo_n "checking whether $ax_lib is the correct library... " >&6; }
-if eval \${$as_ax_Lib+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  LIBS="-l$ax_lib $ax_boost_python_save_LIBS $PYTHON_LIBS"
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <boost/python/module.hpp>
-BOOST_PYTHON_MODULE(test) { throw "Boost::Python test."; }
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  eval "$as_ax_Lib=yes"
-else
-  eval "$as_ax_Lib=no"
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-fi
-eval ac_res=\$$as_ax_Lib
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-    if eval test \"x\$"$as_ax_Lib"\" = x"yes"; then :
-  BOOST_PYTHON_LIB=$ax_lib break
-fi
-      done
-
-fi
-CPPFLAGS="$ax_boost_python_save_CPPFLAGS"
-LDFLAGS="$ax_boost_python_save_LDFLAGS"
-LIBS="$ax_boost_python_save_LIBS"
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-    if test "x$BOOST_PYTHON_LIB" = "x"; then
-        as_fn_error $? "The build tools needs boost-python. Please install it." "$LINENO" 5
-    fi
-
-    ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-if test -z "$CXX"; then
-  if test -n "$CCC"; then
-    CXX=$CCC
-  else
-    if test -n "$ac_tool_prefix"; then
-  for ac_prog in g++ c++ gpp aCC CC cxx cc++ cl.exe FCC KCC RCC xlC_r xlC
-  do
-    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
-set dummy $ac_tool_prefix$ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_CXX+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$CXX"; then
-  ac_cv_prog_CXX="$CXX" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_CXX="$ac_tool_prefix$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-CXX=$ac_cv_prog_CXX
-if test -n "$CXX"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $CXX" >&5
-$as_echo "$CXX" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-    test -n "$CXX" && break
-  done
-fi
-if test -z "$CXX"; then
-  ac_ct_CXX=$CXX
-  for ac_prog in g++ c++ gpp aCC CC cxx cc++ cl.exe FCC KCC RCC xlC_r xlC
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_ac_ct_CXX+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$ac_ct_CXX"; then
-  ac_cv_prog_ac_ct_CXX="$ac_ct_CXX" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_ac_ct_CXX="$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-ac_ct_CXX=$ac_cv_prog_ac_ct_CXX
-if test -n "$ac_ct_CXX"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_ct_CXX" >&5
-$as_echo "$ac_ct_CXX" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$ac_ct_CXX" && break
-done
-
-  if test "x$ac_ct_CXX" = x; then
-    CXX="g++"
-  else
-    case $cross_compiling:$ac_tool_warned in
-yes:)
-{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
-$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
-ac_tool_warned=yes ;;
-esac
-    CXX=$ac_ct_CXX
-  fi
-fi
-
-  fi
-fi
-# Provide some information about the compiler.
-$as_echo "$as_me:${as_lineno-$LINENO}: checking for C++ compiler version" >&5
-set X $ac_compile
-ac_compiler=$2
-for ac_option in --version -v -V -qversion; do
-  { { ac_try="$ac_compiler $ac_option >&5"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
-$as_echo "$ac_try_echo"; } >&5
-  (eval "$ac_compiler $ac_option >&5") 2>conftest.err
-  ac_status=$?
-  if test -s conftest.err; then
-    sed '10a\
-... rest of stderr output deleted ...
-         10q' conftest.err >conftest.er1
-    cat conftest.er1 >&5
-  fi
-  rm -f conftest.er1 conftest.err
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }
-done
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether we are using the GNU C++ compiler" >&5
-$as_echo_n "checking whether we are using the GNU C++ compiler... " >&6; }
-if ${ac_cv_cxx_compiler_gnu+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main ()
-{
-#ifndef __GNUC__
-       choke me
-#endif
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_compiler_gnu=yes
-else
-  ac_compiler_gnu=no
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-ac_cv_cxx_compiler_gnu=$ac_compiler_gnu
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cxx_compiler_gnu" >&5
-$as_echo "$ac_cv_cxx_compiler_gnu" >&6; }
-if test $ac_compiler_gnu = yes; then
-  GXX=yes
-else
-  GXX=
-fi
-ac_test_CXXFLAGS=${CXXFLAGS+set}
-ac_save_CXXFLAGS=$CXXFLAGS
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CXX accepts -g" >&5
-$as_echo_n "checking whether $CXX accepts -g... " >&6; }
-if ${ac_cv_prog_cxx_g+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_save_cxx_werror_flag=$ac_cxx_werror_flag
-   ac_cxx_werror_flag=yes
-   ac_cv_prog_cxx_g=no
-   CXXFLAGS="-g"
-   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_prog_cxx_g=yes
-else
-  CXXFLAGS=""
-      cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-
-else
-  ac_cxx_werror_flag=$ac_save_cxx_werror_flag
-	 CXXFLAGS="-g"
-	 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"; then :
-  ac_cv_prog_cxx_g=yes
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-   ac_cxx_werror_flag=$ac_save_cxx_werror_flag
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_prog_cxx_g" >&5
-$as_echo "$ac_cv_prog_cxx_g" >&6; }
-if test "$ac_test_CXXFLAGS" = set; then
-  CXXFLAGS=$ac_save_CXXFLAGS
-elif test $ac_cv_prog_cxx_g = yes; then
-  if test "$GXX" = yes; then
-    CXXFLAGS="-g -O2"
-  else
-    CXXFLAGS="-g"
-  fi
-else
-  if test "$GXX" = yes; then
-    CXXFLAGS="-O2"
-  else
-    CXXFLAGS=
-  fi
-fi
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-
-
-# Check whether --with-thor-build-on-travis was given.
-if test "${with_thor_build_on_travis+set}" = set; then :
-  withval=$with_thor_build_on_travis;
-fi
-
-
-
-(
-    cd .
-    if test "${with_thor-build-on-travis}" == ""; then :
-
-else
-
-    mv .gitmodules gitmodules.old
-    sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
-
-
-fi
-    git submodule init
-    if git submodule update; then :
-
-else
-  as_fn_error $? "
-
-git submodule updated failed:
-Currently all Loki-Astari submodules are retrieved using ssh.
-If the above command failed it probably means that you have not registered your \"public key\" with github.com
-
-See this article on StackOverflow for simple instructions:
-http://stackoverflow.com/questions/25828483/github-permission-denied-publickey
-
-
-Once you have installed the keys you can restart the configuration with:
-git submodule update
-./configure <Same Flags You had before>
-
-        " "$LINENO" 5
-
-fi
-    mv gitmodules.old .gitmodules
-)
-
-
-(
-    cd build
-    if test "${with_thor-build-on-travis}" == ""; then :
-
-else
-
-    mv .gitmodules gitmodules.old
-    sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
-
-
-fi
-    git submodule init
-    if git submodule update; then :
-
-else
-  as_fn_error $? "
-
-git submodule updated failed:
-Currently all Loki-Astari submodules are retrieved using ssh.
-If the above command failed it probably means that you have not registered your \"public key\" with github.com
-
-See this article on StackOverflow for simple instructions:
-http://stackoverflow.com/questions/25828483/github-permission-denied-publickey
-
-
-Once you have installed the keys you can restart the configuration with:
-git submodule update
-./configure <Same Flags You had before>
-
-        " "$LINENO" 5
-
-fi
-    mv gitmodules.old .gitmodules
-)
-
-
-    if test "${with_thor-build-on-travis}" == ""; then :
-
-else
-
-(
-    ./build/third/vera-install
-)
-
-
-
-fi
-
-
-
-    # Check whether --enable-vera was given.
-if test "${enable_vera+set}" = set; then :
-  enableval=$enable_vera;
-fi
-
-
-    VERA="";
-    if test "x$enable_vera" == "xno"; then :
-
-            VERA='echo "Disabled Static Analysis" ||';
-
-else
-
-            VERA='vera++';
-            for ac_prog in vera++
-do
-  # Extract the first word of "$ac_prog", so it can be a program name with args.
-set dummy $ac_prog; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_TestVera+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$TestVera"; then
-  ac_cv_prog_TestVera="$TestVera" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-as_dummy="${PATH}:./build/bin"
-for as_dir in $as_dummy
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_TestVera="$ac_prog"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-fi
-fi
-TestVera=$ac_cv_prog_TestVera
-if test -n "$TestVera"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $TestVera" >&5
-$as_echo "$TestVera" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-  test -n "$TestVera" && break
-done
-test -n "$TestVera" || TestVera=":"
-
-            if test "$TestVera" == ":"; then :
-
-                    as_fn_error $? "
-
-By default the build tools use vera++ for static analysis of C++ code to ensure the project
-maintains a consistent style when people add pull requests. The configuration tests have
-detected that \"vera++\" (the static analysis tool) is not currently installed.
-
-
-" "$LINENO" 5
-
-fi
-
-
-fi
-    VERA=${VERA}
-
-
-
-    pushd build/third
-    ./setup "$CXX" || as_fn_error 1 "Failed to set up the test utilities" "$LINENO" 5
-    popd
-
 
 
 
@@ -20162,7 +19089,7 @@ fi
 
 ac_config_headers="$ac_config_headers config.h src/Nisse/NisseConfig.h:config.h.in src/Imp/ImpConfig.h:config.h.in src/Troll/TrollConfig.h:config.h.in"
 
-ac_config_files="$ac_config_files Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in Makefile.config.local"
+ac_config_files="$ac_config_files Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -21282,7 +20209,6 @@ do
     "src/Troll/TrollConfig.h") CONFIG_HEADERS="$CONFIG_HEADERS src/Troll/TrollConfig.h:config.h.in" ;;
     "Makefile.extra") CONFIG_FILES="$CONFIG_FILES Makefile.extra" ;;
     "Makefile.config") CONFIG_FILES="$CONFIG_FILES Makefile.config:build/autotools/build/Makefile.config.in" ;;
-    "Makefile.config.local") CONFIG_FILES="$CONFIG_FILES Makefile.config.local" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

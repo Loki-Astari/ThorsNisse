@@ -12,7 +12,9 @@
 #
 # Run all commands in the correct order:
 #
+mv Makefile.extra.in Makefile.extra.in.Save
 autoreconf --install
+mv Makefile.extra.in.Save Makefile.extra.in
 
 
 

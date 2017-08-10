@@ -4,29 +4,34 @@
 #include "TrollConfig.h"
 #include "ThorsNisseSocket/Socket.h"
 #include "ThorsNisseSocket/SocketStream.h"
-#if BOOST_COROUTINE_VERSION == 1
-#include <boost/coroutine/asymmetric_coroutine.hpp>
-namespace ThorsAnvil
-{
-    namespace CoRoutine
-    {
-        template<typename R>
-        using Context = typename boost::coroutines::asymmetric_coroutine<R>;
-    }
-}
-#elif BOOST_COROUTINE_VERSION == 2
+#if BOOST_COROUTINE_VERSION == 1 || BOOST_COROUTINE_VERSION == 2
+#include <boost/coroutine/all.hpp>
+#elif BOOST_COROUTINE_VERSION == 3
 #include <boost/coroutine2/all.hpp>
-namespace ThorsAnvil
-{
-    namespace CoRoutine
-    {
-        template<typename R>
-        using Context = typename boost::coroutines2::coroutine<R>;
-    }
-}
 #else
 #error "Unknown Co-Routine Version"
 #endif
+
+namespace ThorsAnvil
+{
+    namespace CoRoutine
+    {
+#if BOOST_COROUTINE_VERSION == 1
+        template<typename R>
+        struct Context
+        {
+            using pull_type = typename boost::coroutines::coroutine<R()>;
+            using push_type = typename pull_type::caller_type;
+        };
+#elif BOOST_COROUTINE_VERSION == 2
+        template<typename R>
+        using Context = typename boost::coroutines::asymmetric_coroutine<R>;
+#elif BOOST_COROUTINE_VERSION == 3
+        template<typename R>
+        using Context = typename boost::coroutines2::coroutine<R>;
+#endif
+    }
+}
 #include <istream>
 #include <ostream>
 #include <string>

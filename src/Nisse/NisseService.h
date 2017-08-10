@@ -5,6 +5,8 @@
 #include "ThorsNisseSocket/Socket.h"
 #include <memory>
 #include <unordered_map>
+#include <functional>
+#include <string>
 
 namespace ThorsAnvil
 {
@@ -51,6 +53,22 @@ class NisseService
         void listenOn(int port, Param& param);
 
         void addTimer(double timeOut, std::function<void()>&& action);
+
+        using EventConfig = struct event_config;
+        static EventConfig*  cfg;
+        static void ignore(std::string const& type = "")
+        {
+            if (cfg != nullptr)
+            {
+                event_config_free(cfg);
+                cfg = nullptr;
+            }
+            if (type != "")
+            {
+                cfg = event_config_new();
+                event_config_avoid_method(cfg, type.c_str());
+            }
+        }
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();

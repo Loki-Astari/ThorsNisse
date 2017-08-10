@@ -3,6 +3,8 @@
 
 #include "NisseEventUtil.h"
 #include "ThorsNisseSocket/Socket.h"
+#include <memory>
+#include <functional>
 
 extern "C" void eventCB(ThorsAnvil::Nisse::LibSocketId socketId, short eventType, void* event);
 
