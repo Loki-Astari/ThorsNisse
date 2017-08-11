@@ -11,13 +11,12 @@
 
 # ThorsNisse
 
-This is a simple to use WebServer based on the design principles of Node.js.
+This is RESTful server framework for C++.  
+It is base on the Node.js server and uses transparently non-blocking streams to achieve high throughput and low complexity of development on a single threaded server.
 
 ## Goal
 
-The goal is to build a framework that allows lambda's to be used to specify the actions when specific end points are hit. The lambads will be provided with stream like interfaces (so coding is still very much C++ like but the streams themselves will be transparently non-blocking. This means to the lambda the streams act like blocking streams but behind the scenes a blocking read/write will result in control being returned to the server to continue processing the next request.
-
-A secondary goal is to use my Serializing library ([ThorsSerializer](https://github.com/Loki-Astari/ThorsSerializer)) and incorporate the SQL Library ([ThorsSQL](https://github.com/Loki-Astari/ThorsSQL)).
+The goal is to build a framework that allows functors (including lambda's) to be used to specify the actions of a RESTful end point. When invoked these functors will behave like normal C++ routines that use blocking streams (thus allowing for very standard C++ coding style); but the streams themselves will behave like non-blocking streams and on a blocking request transfer control back to Nisse server framework.
 
 ### Example Usage:
 
@@ -99,4 +98,6 @@ int main()
     }
 }
 ````
+
+## Naming
 
