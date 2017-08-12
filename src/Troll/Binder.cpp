@@ -4,9 +4,14 @@ using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
 void Site::add(Method method, std::string&& path, Action&& action)
 {
-    actionMap[static_cast<int>(method)].emplace(std::piecewise_construct,
-                                                std::forward_as_tuple(std::move(path)),
-                                                std::forward_as_tuple(std::move(action)));
+    add(static_cast<int>(method), std::move(path), std::move(action));
+}
+
+void Site::add(int index, std::string&& path, Action&& action)
+{
+    actionMap[index].emplace(std::piecewise_construct,
+                             std::forward_as_tuple(std::move(path)),
+                             std::forward_as_tuple(std::move(action)));
 }
 
 std::pair<bool, Action&> Site::find(Method method, std::string const& path) const
@@ -18,8 +23,12 @@ std::pair<bool, Action&> Site::find(Method method, std::string const& path) cons
     auto find = actionMap[static_cast<int>(method)].find(path);
     if (find == actionMap[static_cast<int>(method)].end())
     {
-        static Action noAction = [](Request&, Response&){};
-        return {false, noAction};
+        find = actionMap[4].find(path);
+        if (find == actionMap[4].end())
+        {
+            static Action noAction = [](Request&, Response&){};
+            return {false, noAction};
+        }
     }
     return {true, find->second};
 }

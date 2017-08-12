@@ -148,6 +148,27 @@ TEST(BinderTest, AddADeleteMethod)
     callMethod(Method::Delete, site, "ThorsAnvil.com", "/The/Path/Line");
     ASSERT_TRUE(called);
 }
+TEST(BinderTest, AddAllMethod)
+{
+    Site        site;
+    bool        called = false;
+    site.all("/The/Path/Line", [&called](Request& /*request*/, Response& /*response*/) {called = true;});
+
+    callMethod(Method::Get,    site, "ThorsAnvil.com", "/The/Path/Line");
+    ASSERT_TRUE(called);
+    called = false;
+    callMethod(Method::Put,    site, "ThorsAnvil.com", "/The/Path/Line");
+    ASSERT_TRUE(called);
+    called = false;
+    callMethod(Method::Post,   site, "ThorsAnvil.com", "/The/Path/Line");
+    ASSERT_TRUE(called);
+    called = false;
+    callMethod(Method::Head,   site, "ThorsAnvil.com", "/The/Path/Line");
+    ASSERT_TRUE(called);
+    called = false;
+    callMethod(Method::Delete, site, "ThorsAnvil.com", "/The/Path/Line");
+    ASSERT_TRUE(called);
+}
 
 TEST(BinderTest, Construct)
 {
