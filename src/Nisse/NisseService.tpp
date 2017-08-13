@@ -24,13 +24,24 @@ inline void NisseService::listenOn(int port, Param& param)
 }
 
 template<typename H, typename... Args>
-inline void NisseService::addHandler(Args&&... args)
+inline NisseHandler& NisseService::addHandler(Args&&... args)
 {
     NisseManagHandler   value = std::make_unique<H>(*this, std::forward<Args>(args)...);
     NisseHandler*       key   = value.get();
     handlers.emplace(key, std::move(value));
+    return *key;
 }
 
+template<typename H, typename... Args>
+inline void NisseService::transferHandler(Args&&... args)
+{
+    if (currentHandler == nullptr)
+    {
+        throw std::runtime_error("Can not transfer handlers when not running a current handler");
+    }
+    NisseHandler& handler = addHandler<H>(std::forward<Args>(args)...);
+    handler.setSuspend(*currentHandler);
+}
     }
 }
 

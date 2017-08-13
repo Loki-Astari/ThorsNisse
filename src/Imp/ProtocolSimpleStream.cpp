@@ -76,6 +76,6 @@ template void ThorsAnvil::Nisse::NisseService::listenOn<WriteMessageStreamHandle
 template ThorsAnvil::Nisse::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
 template void ThorsAnvil::Nisse::NisseHandler::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Socket::DataSocket, Message>(ThorsAnvil::Socket::DataSocket&&, Message&&);
 template void ThorsAnvil::Nisse::NisseHandler::moveHandler<WriteMessageHandler, ThorsAnvil::Socket::DataSocket, std::string, bool>(ThorsAnvil::Socket::DataSocket&&, std::string&&, bool&&);
-template void ThorsAnvil::Nisse::NisseService::addHandler<WriteMessageHandler, ThorsAnvil::Socket::DataSocket, std::string, bool>(ThorsAnvil::Socket::DataSocket&&, std::string&&, bool&&);
+template ThorsAnvil::Nisse::NisseHandler& ThorsAnvil::Nisse::NisseService::addHandler<WriteMessageHandler, ThorsAnvil::Socket::DataSocket, std::string, bool>(ThorsAnvil::Socket::DataSocket&&, std::string&&, bool&&);
 template ThorsAnvil::Nisse::ServerHandler<WriteMessageHandler, std::string>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&, std::string&);
 #endif

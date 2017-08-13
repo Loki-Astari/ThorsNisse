@@ -39,6 +39,7 @@ class NisseService
         // in `runLoop()`.
         std::vector<NisseHandler*>      retiredHandlers;
         NisseHandler*                   currentHandler;
+        static NisseService*            currentService;
     public:
         NisseService();
 
@@ -71,8 +72,10 @@ class NisseService
             }
         }
         bool isRunning() const {return running;}
+        template<typename H, typename... Args>
+        void transferHandler(Args&&... args);
 
-        //static NisseService& getCurrentHandler() {return *currentService;}
+        static NisseService& getCurrentHandler() {return *currentService;}
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();
@@ -80,7 +83,7 @@ class NisseService
 
         friend class NisseHandler;
         template<typename H, typename... Args>
-        void addHandler(Args&&... args);
+        NisseHandler& addHandler(Args&&... args);
         void delHandler(NisseHandler* oldHandler);
         void setCurrentHandler(NisseHandler* current);
 };

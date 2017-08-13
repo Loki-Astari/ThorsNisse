@@ -6,6 +6,7 @@
 using namespace ThorsAnvil::Nisse;
 
 NisseService::EventConfig* NisseService::cfg = nullptr;
+NisseService* NisseService::currentService   = nullptr;
 
 NisseService::NisseService()
     : running(false)
@@ -119,12 +120,12 @@ void NisseService::setCurrentHandler(NisseHandler* current)
 {
     if (current != nullptr)
     {
-        //currentService = this;
+        currentService = this;
         currentHandler = current;
     }
     else
     {
-        //currentService = nullptr;
+        currentService = nullptr;
         currentHandler = nullptr;
     }
 }
@@ -138,6 +139,6 @@ void NisseService::setCurrentHandler(NisseHandler* current)
 #include "test/Action.h"
 template void ThorsAnvil::Nisse::NisseService::listenOn<Action>(int);
 template void ThorsAnvil::Nisse::NisseService::listenOn<ActionUnReg>(int);
-template void ThorsAnvil::Nisse::NisseService::addHandler<Action, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
-template void ThorsAnvil::Nisse::NisseService::addHandler<ActionUnReg, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
+template NisseHandler& ThorsAnvil::Nisse::NisseService::addHandler<Action, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
+template NisseHandler& ThorsAnvil::Nisse::NisseService::addHandler<ActionUnReg, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
 #endif
