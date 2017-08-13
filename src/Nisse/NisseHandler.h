@@ -26,6 +26,7 @@ class NisseHandler
     public:
         NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeout = 0);
         virtual ~NisseHandler();
+        void activateEventHandlers(LibSocketId sockId, short eventType);
         virtual short eventActivate(LibSocketId sockId, short eventType);
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:

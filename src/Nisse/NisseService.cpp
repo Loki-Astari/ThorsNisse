@@ -11,6 +11,7 @@ NisseService::NisseService()
     : running(false)
     , shutDownNext(false)
     , eventBase(event_base_new_with_config(cfg), &event_base_free)
+    , currentHandler(nullptr)
 {
     if (eventBase == nullptr)
     {
@@ -22,6 +23,7 @@ NisseService::NisseService(NisseService&& move)
     : running(false)
     , shutDownNext(false)
     , eventBase(nullptr, &event_base_free)
+    , currentHandler(nullptr)
 {
     swap(move);
 }
@@ -45,6 +47,7 @@ void NisseService::swap(NisseService& other)
     swap(eventBase,         other.eventBase);
     swap(handlers,          other.handlers);
     swap(retiredHandlers,   other.retiredHandlers);
+    swap(currentHandler,    other.currentHandler);
 }
 
 void NisseService::start(double check)
@@ -110,6 +113,20 @@ void NisseService::delHandler(NisseHandler* oldHandler)
 void NisseService::addTimer(double timeOut, std::function<void()>&& action)
 {
     addHandler<TimerHandler>(std::move(timeOut), std::move(action));
+}
+
+void NisseService::setCurrentHandler(NisseHandler* current)
+{
+    if (current != nullptr)
+    {
+        currentService = this;
+        currentHandler = current;
+    }
+    else
+    {
+        currentService = nullptr;
+        currentHandler = nullptr;
+    }
 }
 
 #ifdef COVERAGE_TEST

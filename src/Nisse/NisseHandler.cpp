@@ -10,8 +10,7 @@ using TimeVal = struct timeval;
 void eventCB(LibSocketId socketId, short eventType, void* event)
 {
     NisseHandler& handler = *reinterpret_cast<NisseHandler*>(event);
-    short newEventType = handler.eventActivate(socketId, eventType);
-    handler.setHandlers(newEventType);
+    handler.activateEventHandlers(socketId, eventType);
 }
 
 NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeOut)
@@ -48,6 +47,27 @@ NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eve
 NisseHandler::~NisseHandler()
 {
     dropEvent();
+}
+
+struct SetCurrentHandler
+{
+    std::function<void(NisseHandler*)>  setHandler;
+    SetCurrentHandler(std::function<void(NisseHandler*)>&& action, NisseHandler* current)
+        : setHandler(std::move(action))
+    {
+        setHandler(current);
+    }
+    ~SetCurrentHandler()
+    {
+        setHandler(nullptr);
+    }
+};
+
+void NisseHandler::activateEventHandlers(LibSocketId sockId, short eventType)
+{
+    SetCurrentHandler   setCurrentHandler([&parent=this->parent](NisseHandler* current){parent.setCurrentHandler(current);}, this);
+    short newEventType = eventActivate(sockId, eventType);
+    setHandlers(newEventType);
 }
 
 short NisseHandler::eventActivate(LibSocketId sockId, short eventType)
