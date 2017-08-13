@@ -70,6 +70,7 @@ class NisseService
                 event_config_avoid_method(cfg, type.c_str());
             }
         }
+        bool isRunning() const {return running;}
 
         static NisseService& getCurrentHandler() {return *currentService;}
     private:
