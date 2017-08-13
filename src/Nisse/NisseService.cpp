@@ -119,12 +119,12 @@ void NisseService::setCurrentHandler(NisseHandler* current)
 {
     if (current != nullptr)
     {
-        currentService = this;
+        //currentService = this;
         currentHandler = current;
     }
     else
     {
-        currentService = nullptr;
+        //currentService = nullptr;
         currentHandler = nullptr;
     }
 }

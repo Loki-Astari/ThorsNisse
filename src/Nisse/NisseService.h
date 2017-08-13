@@ -72,7 +72,7 @@ class NisseService
         }
         bool isRunning() const {return running;}
 
-        static NisseService& getCurrentHandler() {return *currentService;}
+        //static NisseService& getCurrentHandler() {return *currentService;}
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();

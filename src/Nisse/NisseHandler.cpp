@@ -17,6 +17,7 @@ NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eve
     : parent(parent)
     , readEvent(nullptr, event_free)
     , writeEvent(nullptr, event_free)
+    , suspended(nullptr)
 {
     short persistType = eventType & EV_PERSIST;
     short readType    = eventType & EV_READ;
@@ -76,10 +77,31 @@ short NisseHandler::eventActivate(LibSocketId sockId, short eventType)
     return 0;
 }
 
+void NisseHandler::setSuspend(NisseHandler& handlerToSuspend)
+{
+    suspended = &handlerToSuspend;
+    handlerToSuspend.suspend();
+}
+
+void NisseHandler::suspend()
+{
+    // Overridden in base class
+    throw std::runtime_error("Not Supported");
+}
+
+void NisseHandler::resume()
+{
+    setHandlers(EV_READ | EV_WRITE);
+}
+
 void NisseHandler::dropHandler()
 {
     dropEvent();
     parent.delHandler(this);
+    if (suspended)
+    {
+        suspended->resume();
+    }
 }
 
 void NisseHandler::dropEvent()
