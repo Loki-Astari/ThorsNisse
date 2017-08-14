@@ -20,7 +20,7 @@ std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy>
 NonBlockingMySQLConnection::createStatementProxy(std::string const& statement)
 {
     std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy>  result;
-    result.reset(new NonBlockingPrepareStatement(connection, statement));
+    result.reset(new NonBlockingPrepareStatement(*this, connection, statement));
     return result;
 }
 
