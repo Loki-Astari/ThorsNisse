@@ -53,7 +53,6 @@ ConnectionNonBlocking::ConnectionNonBlocking(
         ThorsAnvil::MySQL::ConectWriter& packageWriter
 )
     : Connection(username, password, database, options, packageReader, packageWriter)
-    , stream(stream)
 {
     auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
     service.transferHandler<MySQLConnectionHandler>(*this, stream, username, password, database, options);
