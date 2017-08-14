@@ -1,3 +1,4 @@
+#include "Socket/Utility.h"
 #include "NonBlockingMySQLConnection.h"
 #include "NonBlockingPrepareStatement.h"
 #include "ThorsNisse/NisseService.h"
@@ -69,14 +70,22 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::NisseHandler
 
 NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnection& connection, ConnectionNonBlocking& nbStream, std::string const& statement)
     : prepareStatement(nullptr)
-    , nbStream(nbStream)
+    , connection(connection)
 {
+    if (!ThorsAnvil::Nisse::NisseService::inHandler())
+    {
+        throw std::runtime_error("ThorsAnvil::NisseSQL::NonBlockingPrepareStatement::NonBlockingPrepareStatement: Can only use this prepare inside a NisseHandler");
+    }
     auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
     service.transferHandler<MySQLPrepareHandler>(connection, *this, nbStream, statement);
 }
 
 void NonBlockingPrepareStatement::doExecute()
 {
+    if (!ThorsAnvil::Nisse::NisseService::inHandler())
+    {
+        throw std::runtime_error("ThorsAnvil::NisseSQL::NonBlockingPrepareStatement::doExecute: Can only use this prepare inside a NisseHandler");
+    }
     auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
     service.transferHandler<MySQLExecuteHandler>(connection, *this);
 }
