@@ -18,6 +18,7 @@ class NisseHandler;
 using EventBaseDeleter  = decltype(&event_base_free);
 using EventHolder       = std::unique_ptr<LibEventBase, EventBaseDeleter>;
 using NisseManagHandler = std::unique_ptr<NisseHandler>;
+using EventConfig       = struct event_config;
 
 class NisseService
 {
@@ -40,6 +41,7 @@ class NisseService
         std::vector<NisseHandler*>      retiredHandlers;
         NisseHandler*                   currentHandler;
         static NisseService*            currentService;
+        static EventConfig*  cfg;
     public:
         NisseService();
 
@@ -56,8 +58,12 @@ class NisseService
 
         void addTimer(double timeOut, std::function<void()>&& action);
 
-        using EventConfig = struct event_config;
-        static EventConfig*  cfg;
+        bool isRunning() const {return running;}
+        template<typename H, typename... Args>
+        void transferHandler(Args&&... args);
+
+        static NisseService& getCurrentHandler() {return *currentService;}
+        static bool          inHandler()         {return currentService && currentService->currentHandler;}
         static void ignore(std::string const& type = "")
         {
             if (cfg != nullptr)
@@ -71,11 +77,6 @@ class NisseService
                 event_config_avoid_method(cfg, type.c_str());
             }
         }
-        bool isRunning() const {return running;}
-        template<typename H, typename... Args>
-        void transferHandler(Args&&... args);
-
-        static NisseService& getCurrentHandler() {return *currentService;}
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();

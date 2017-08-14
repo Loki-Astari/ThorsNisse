@@ -5,7 +5,7 @@
 
 using namespace ThorsAnvil::Nisse;
 
-NisseService::EventConfig* NisseService::cfg = nullptr;
+EventConfig*  NisseService::cfg              = nullptr;
 NisseService* NisseService::currentService   = nullptr;
 
 NisseService::NisseService()

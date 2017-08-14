@@ -69,7 +69,7 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::NisseHandler
 
 NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnection& connection, ConnectionNonBlocking& nbStream, std::string const& statement)
     : prepareStatement(nullptr)
-    , nbStream(nbStream)
+    , connection(connection)
 {
     auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
     service.transferHandler<MySQLPrepareHandler>(connection, *this, nbStream, statement);

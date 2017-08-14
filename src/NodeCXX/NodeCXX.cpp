@@ -14,6 +14,8 @@ namespace Nisse = ThorsAnvil::Nisse;
 namespace HTTP  = ThorsAnvil::Nisse::ProtocolHTTP;
 namespace SQL   = ThorsAnvil::SQL;
 
+SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
+
 void listBeer(HTTP::Request& /*request*/, HTTP::Response& response)
 {
     response.body << "<html>"
@@ -22,7 +24,6 @@ void listBeer(HTTP::Request& /*request*/, HTTP::Response& response)
                   << "<h1>Beer List</h1>"
                   << "<ol>";
 
-    SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
     SQL::Statement  listBeers(connection, "SELECT Name, Age FROM Beers");
 
     listBeers.execute([&response](std::string const& name, int age)
@@ -40,7 +41,7 @@ int main()
     try
     {
         HTTP::Site      site;
-        site.get("/listBeer",listBeer);
+        site.get("/listBeer", listBeer);
         site.post("/addBeer", [](HTTP::Request& /*request*/, HTTP::Response& /*response*/){std::cerr << "AddBeer\n";});
 
         HTTP::Binder    binder;
