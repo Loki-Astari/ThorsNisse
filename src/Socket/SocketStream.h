@@ -3,6 +3,7 @@
 
 #include "Socket.h"
 #include <istream>
+#include <ostream>
 #include <vector>
 #include <functional>
 

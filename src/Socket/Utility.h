@@ -3,10 +3,8 @@
 
 #include <string>
 #include <sstream>
-#include <utility>
-#include <cstddef>
-#include <cerrno>
-#include <cstring>
+#include <ostream>
+#include <cstdio>
 
 namespace ThorsAnvil
 {
@@ -93,7 +91,7 @@ inline std::string errnoToName()
 inline std::string systemErrorMessage()
 {
     std::string result = errnoToName();
-    result += strerror(errno);
+    result += std::strerror(errno);
     return result;
 }
 

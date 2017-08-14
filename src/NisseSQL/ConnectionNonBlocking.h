@@ -3,10 +3,7 @@
 
 #include "ThorMySQL/Connection.h"
 #include "ThorMySQL/MySQLStream.h"
-#include "ThorsNisse/NisseService.h"
-#include "ThorsNisse/NisseHandler.h"
 #include "ThorsNisse/CoRoutine.h"
-#include <event.h>
 
 namespace ThorsAnvil
 {

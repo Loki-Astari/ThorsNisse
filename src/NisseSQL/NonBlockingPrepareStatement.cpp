@@ -1,6 +1,5 @@
-#include "Socket/Utility.h"
-#include "NonBlockingMySQLConnection.h"
 #include "NonBlockingPrepareStatement.h"
+#include "NonBlockingMySQLConnection.h"
 #include "ThorsNisse/NisseService.h"
 #include "ThorsNisse/NisseHandler.h"
 #include "ThorsNisse/CoRoutine.h"

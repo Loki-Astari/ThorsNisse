@@ -2,14 +2,13 @@
 #define THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
 
 #include "ThorsNisseSocket/Socket.h"
-#include "ThorsNisseSocket/SocketStream.h"
 #include "ThorsNisse/CoRoutine.h"
 #include <istream>
 #include <ostream>
 #include <string>
 #include <vector>
 #include <map>
-#include <algorithm>
+#include <ctime>
 
 namespace ThorsAnvil
 {

@@ -2,8 +2,7 @@
 #define THORSANVIL_SOCKET_SOCKET_H
 
 #include <string>
-#include <vector>
-#include <sstream>
+#include <utility>
 
 namespace ThorsAnvil
 {

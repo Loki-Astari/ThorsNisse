@@ -1,6 +1,4 @@
 #include "ProtocolSimpleStream.h"
-#include "ThorsNisse/NisseService.h"
-#include "ThorsNisse/NisseHandler.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolSimple;
 
@@ -68,6 +66,7 @@ short WriteMessageStreamHandler::eventActivate(LibSocketId /*sockId*/, short /*e
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
+#include "ThorsNisse/NisseService.h"
 #include "ThorsNisse/NisseService.tpp"
 #include "ThorsNisse/NisseHandler.tpp"
 #include "ProtocolSimple.h"
