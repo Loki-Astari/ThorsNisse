@@ -23,9 +23,12 @@ class NisseHandler
         NisseService&                       parent;
         NisseEvent                          readEvent;
         NisseEvent                          writeEvent;
+        NisseHandler*                       suspended;
+
     public:
         NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeout = 0);
         virtual ~NisseHandler();
+        void activateEventHandlers(LibSocketId sockId, short eventType);
         virtual short eventActivate(LibSocketId sockId, short eventType);
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:
@@ -36,6 +39,12 @@ class NisseHandler
         void moveHandler(Args&&... args);
     public:
         void dropEvent();
+    private:
+        virtual void suspend();
+        void resume();
+    private:
+        friend class NisseService;
+        void setSuspend(NisseHandler& handlerToSuspend);
 };
 
 template<typename Handler, typename Param>

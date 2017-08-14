@@ -1,37 +1,9 @@
 #ifndef THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
 #define THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
 
-#include "TrollConfig.h"
 #include "ThorsNisseSocket/Socket.h"
 #include "ThorsNisseSocket/SocketStream.h"
-#if BOOST_COROUTINE_VERSION == 1 || BOOST_COROUTINE_VERSION == 2
-#include <boost/coroutine/all.hpp>
-#elif BOOST_COROUTINE_VERSION == 3
-#include <boost/coroutine2/all.hpp>
-#else
-#error "Unknown Co-Routine Version"
-#endif
-
-namespace ThorsAnvil
-{
-    namespace CoRoutine
-    {
-#if BOOST_COROUTINE_VERSION == 1
-        template<typename R>
-        struct Context
-        {
-            using pull_type = typename boost::coroutines::coroutine<R()>;
-            using push_type = typename pull_type::caller_type;
-        };
-#elif BOOST_COROUTINE_VERSION == 2
-        template<typename R>
-        using Context = typename boost::coroutines::asymmetric_coroutine<R>;
-#elif BOOST_COROUTINE_VERSION == 3
-        template<typename R>
-        using Context = typename boost::coroutines2::coroutine<R>;
-#endif
-    }
-}
+#include "ThorsNisse/CoRoutine.h"
 #include <istream>
 #include <ostream>
 #include <string>
@@ -60,8 +32,8 @@ static std::string const Connection_Closed  = "Closed";
 static std::string const ServerName         = "Nisse V1.0";
 
 
-using CoRoutine = ThorsAnvil::CoRoutine::Context<short>::pull_type;
-using Yield     = ThorsAnvil::CoRoutine::Context<short>::push_type;
+using CoRoutine = ThorsAnvil::Nisse::CoRoutine::Context<short>::pull_type;
+using Yield     = ThorsAnvil::Nisse::CoRoutine::Context<short>::push_type;
 
 enum class Method {Get, Put, Post, Delete, Head};
 

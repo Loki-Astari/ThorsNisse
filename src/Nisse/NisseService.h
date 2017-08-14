@@ -38,6 +38,8 @@ class NisseService
         // so they register themselves for deletion and get purged
         // in `runLoop()`.
         std::vector<NisseHandler*>      retiredHandlers;
+        NisseHandler*                   currentHandler;
+        static NisseService*            currentService;
     public:
         NisseService();
 
@@ -69,6 +71,11 @@ class NisseService
                 event_config_avoid_method(cfg, type.c_str());
             }
         }
+        bool isRunning() const {return running;}
+        template<typename H, typename... Args>
+        void transferHandler(Args&&... args);
+
+        static NisseService& getCurrentHandler() {return *currentService;}
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();
@@ -76,8 +83,9 @@ class NisseService
 
         friend class NisseHandler;
         template<typename H, typename... Args>
-        void addHandler(Args&&... args);
+        NisseHandler& addHandler(Args&&... args);
         void delHandler(NisseHandler* oldHandler);
+        void setCurrentHandler(NisseHandler* current);
 };
 
     }

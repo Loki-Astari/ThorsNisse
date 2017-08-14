@@ -10,14 +10,14 @@ using TimeVal = struct timeval;
 void eventCB(LibSocketId socketId, short eventType, void* event)
 {
     NisseHandler& handler = *reinterpret_cast<NisseHandler*>(event);
-    short newEventType = handler.eventActivate(socketId, eventType);
-    handler.setHandlers(newEventType);
+    handler.activateEventHandlers(socketId, eventType);
 }
 
 NisseHandler::NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeOut)
     : parent(parent)
     , readEvent(nullptr, event_free)
     , writeEvent(nullptr, event_free)
+    , suspended(nullptr)
 {
     short persistType = eventType & EV_PERSIST;
     short readType    = eventType & EV_READ;
@@ -50,16 +50,58 @@ NisseHandler::~NisseHandler()
     dropEvent();
 }
 
+struct SetCurrentHandler
+{
+    std::function<void(NisseHandler*)>  setHandler;
+    SetCurrentHandler(std::function<void(NisseHandler*)>&& action, NisseHandler* current)
+        : setHandler(std::move(action))
+    {
+        setHandler(current);
+    }
+    ~SetCurrentHandler()
+    {
+        setHandler(nullptr);
+    }
+};
+
+void NisseHandler::activateEventHandlers(LibSocketId sockId, short eventType)
+{
+    SetCurrentHandler   setCurrentHandler([&parent=this->parent](NisseHandler* current){parent.setCurrentHandler(current);}, this);
+    short newEventType = eventActivate(sockId, eventType);
+    setHandlers(newEventType);
+}
+
 short NisseHandler::eventActivate(LibSocketId sockId, short eventType)
 {
     std::cerr << "Callback made: " << sockId << " For " << eventType << "\n";
     return 0;
 }
 
+void NisseHandler::setSuspend(NisseHandler& handlerToSuspend)
+{
+    suspended = &handlerToSuspend;
+    handlerToSuspend.suspend();
+}
+
+void NisseHandler::suspend()
+{
+    // Overridden in base class
+    throw std::runtime_error("Not Supported");
+}
+
+void NisseHandler::resume()
+{
+    setHandlers(EV_READ | EV_WRITE);
+}
+
 void NisseHandler::dropHandler()
 {
     dropEvent();
     parent.delHandler(this);
+    if (suspended)
+    {
+        suspended->resume();
+    }
 }
 
 void NisseHandler::dropEvent()

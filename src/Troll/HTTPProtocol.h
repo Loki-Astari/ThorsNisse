@@ -20,6 +20,8 @@ class ReadRequestHandler: public NisseHandler
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
         Response*           flusher;
+        Yield*              yield;
+        bool                running;
         CoRoutine           worker;
 
         static constexpr std::size_t bufferLen = 80 * 1024;
@@ -29,7 +31,9 @@ class ReadRequestHandler: public NisseHandler
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}
+        void setYield(Yield& y)     {yield = &y;}
     private:
+        virtual void suspend() override;
 };
 
         }

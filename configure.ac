@@ -1,5 +1,5 @@
 
-AC_INIT([ThorsAnvil], [0.1], [Loki.Astari+ThorsAnvil@gmail.com])
+AC_INIT([ThorsNisse], [0.1], [Loki.Astari+ThorsAnvil@gmail.com])
 AC_PREREQ([2.65])
 
 # Set up the build system
@@ -31,6 +31,6 @@ AX_THOR_FUNC_LANG_FLAG(17)
 
 
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
-AC_CONFIG_HEADERS([config.h src/Nisse/NisseConfig.h:config.h.in src/Imp/ImpConfig.h:config.h.in src/Troll/TrollConfig.h:config.h.in ])
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in ])
 AC_OUTPUT

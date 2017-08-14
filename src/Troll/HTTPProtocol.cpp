@@ -36,14 +36,18 @@ class DevNullStreamBuf: public std::streambuf
 ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Binder const& binder)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , flusher(nullptr)
+    , yield(nullptr)
+    , running(false)
     , worker([ &parent = *this
              , socket = std::move(so)
              , &binder
+             , &parentYield = this->yield
              ](Yield& yield) mutable
         {
             HttpScanner         scanner;
             std::vector<char>   buffer(bufferLen);
             yield(EV_READ);
+            parentYield = &yield;
             while (!scanner.data.messageComplete)
             {
                 bool                more;
@@ -74,8 +78,32 @@ ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket:
         })
 {}
 
+void ReadRequestHandler::suspend()
+{
+    if (!running)
+    {
+        throw std::runtime_error("Trying to transfer while not running");
+    }
+    (*yield)(0);
+}
+
+struct SetRunning
+{
+    bool& running;
+    SetRunning(bool& running)
+        : running(running)
+    {
+        running = true;
+    }
+    ~SetRunning()
+    {
+        running = false;
+    }
+};
+
 short ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
+    SetRunning setRunning(running);
     if (!worker())
     {
         dropHandler();
