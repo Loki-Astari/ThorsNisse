@@ -19,7 +19,6 @@ using Yield     = ThorsAnvil::Nisse::CoRoutine::Context<short>::push_type;
 class MySQLConnectionHandler;
 class ConnectionNonBlocking: public ThorsAnvil::MySQL::Connection
 {
-    ThorsAnvil::MySQL::MySQLStream& stream;
     public:
         ConnectionNonBlocking(ThorsAnvil::MySQL::MySQLStream& stream,
                           std::string const& username,
@@ -28,8 +27,6 @@ class ConnectionNonBlocking: public ThorsAnvil::MySQL::Connection
                           ThorsAnvil::SQL::Options const& options,
                           ThorsAnvil::MySQL::ConectReader& packageReader,
                           ThorsAnvil::MySQL::ConectWriter& packageWriter);
-
-        ThorsAnvil::MySQL::MySQLStream& getStream() {return stream;}
 
     private:
         friend class MySQLConnectionHandler;

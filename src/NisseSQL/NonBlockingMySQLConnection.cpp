@@ -24,4 +24,14 @@ NonBlockingMySQLConnection::createStatementProxy(std::string const& statement)
     return result;
 }
 
+int NonBlockingMySQLConnection::getSocketId() const
+{
+    return stream.getSocketId();
+}
+
+void NonBlockingMySQLConnection::setYield(std::function<void()>&& yr, std::function<void()>&& yw)
+{
+    stream.setYield(std::move(yr), std::move(yw));
+}
+
 ThorsAnvil::SQL::Lib::ConnectionCreatorRegister<NonBlockingMySQLConnection>    mysqlConnection("mysqlNB");

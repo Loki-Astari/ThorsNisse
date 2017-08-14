@@ -21,8 +21,9 @@ class MySQLConnectionHandler: public ThorsAnvil::Nisse::NisseHandler
             , worker([&connection, &stream, &username, &password, &database, &options](Yield& yield)
                 {
                     yield(EV_WRITE);
-                    ThorsAnvil::MySQL::YieldSetter  setter(stream, [&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
+                    stream.setYield([&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
                     connection.doConectToServer(username, password, database, options);
+                    stream.setYield([](){}, [](){});
                 })
         {
         }

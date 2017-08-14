@@ -10,12 +10,13 @@ namespace ThorsAnvil
     {
 
 using StatmentPIMPL = std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy>;
+class NonBlockingMySQLConnection;
 class NonBlockingPrepareStatement: public ThorsAnvil::SQL::Lib::StatementProxy
 {
-    StatmentPIMPL           prepareStatement;
-    ConnectionNonBlocking&  nbStream;
+    StatmentPIMPL               prepareStatement;
+    NonBlockingMySQLConnection& connection;
     public:
-        NonBlockingPrepareStatement(ConnectionNonBlocking& nbStream, std::string const& statement);
+        NonBlockingPrepareStatement(NonBlockingMySQLConnection& connection, ConnectionNonBlocking& nbStream, std::string const& statement);
 
             virtual void doExecute()                            override;
             void setStatement(StatmentPIMPL&& st)               {prepareStatement = std::move(st);}
