@@ -1,3 +1,4 @@
+#include "NonBlockingMySQLConnection.h"
 #include "NonBlockingPrepareStatement.h"
 #include "ThorsNisse/NisseService.h"
 #include "ThorsNisse/NisseHandler.h"
@@ -15,14 +16,14 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::NisseHandler
     public:
         MySQLPrepareHandler(ThorsAnvil::Nisse::NisseService& service,
                             NonBlockingPrepareStatement& parent,
-                            ConnectionNonBlocking& connection,
+                            ConnectionNonBlocking& nbStream,
                             std::string const& statement)
-            : NisseHandler(service, connection.getStream().getSocketId(), EV_READ | EV_WRITE)
-            , worker([&parent, &connection, &statement](Yield& yield)
+            : NisseHandler(service, nbStream.getStream().getSocketId(), EV_READ | EV_WRITE)
+            , worker([&parent, &nbStream, &statement](Yield& yield)
                 {
                     yield(EV_WRITE);
-                    ThorsAnvil::MySQL::YieldSetter      setter(connection.getStream(), [&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
-                    StatmentPIMPL                       result(new ThorsAnvil::MySQL::PrepareStatement(connection, statement));
+                    ThorsAnvil::MySQL::YieldSetter      setter(nbStream.getStream(), [&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
+                    StatmentPIMPL                       result(new ThorsAnvil::MySQL::PrepareStatement(nbStream, statement));
                     parent.setStatement(std::move(result));
                 })
         {}
@@ -44,12 +45,12 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::NisseHandler
     public:
         MySQLExecuteHandler(ThorsAnvil::Nisse::NisseService& service,
                             NonBlockingPrepareStatement& parent,
-                            ConnectionNonBlocking& connection)
-            : NisseHandler(service, connection.getStream().getSocketId(), EV_READ | EV_WRITE)
-            , worker([&parent, &connection](Yield& yield)
+                            ConnectionNonBlocking& nbStream)
+            : NisseHandler(service, nbStream.getStream().getSocketId(), EV_READ | EV_WRITE)
+            , worker([&parent, &nbStream](Yield& yield)
                 {
                     yield(EV_WRITE);
-                    ThorsAnvil::MySQL::YieldSetter      setter(connection.getStream(), [&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
+                    ThorsAnvil::MySQL::YieldSetter      setter(nbStream.getStream(), [&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
                     parent.executePrepare();
                 })
         {}
@@ -65,16 +66,16 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::NisseHandler
         }
 };
 
-NonBlockingPrepareStatement::NonBlockingPrepareStatement(ConnectionNonBlocking& connection, std::string const& statement)
+NonBlockingPrepareStatement::NonBlockingPrepareStatement(ConnectionNonBlocking& nbStream, std::string const& statement)
     : prepareStatement(nullptr)
-    , connection(connection)
+    , nbStream(nbStream)
 {
     auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
-    service.transferHandler<MySQLPrepareHandler>(*this, connection, statement);
+    service.transferHandler<MySQLPrepareHandler>(*this, nbStream, statement);
 }
 
 void NonBlockingPrepareStatement::doExecute()
 {
     auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
-    service.transferHandler<MySQLExecuteHandler>(*this, connection);
+    service.transferHandler<MySQLExecuteHandler>(*this, nbStream);
 }

@@ -13,9 +13,9 @@ using StatmentPIMPL = std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy>;
 class NonBlockingPrepareStatement: public ThorsAnvil::SQL::Lib::StatementProxy
 {
     StatmentPIMPL           prepareStatement;
-    ConnectionNonBlocking&  connection;
+    ConnectionNonBlocking&  nbStream;
     public:
-        NonBlockingPrepareStatement(ConnectionNonBlocking& connection, std::string const& statement);
+        NonBlockingPrepareStatement(ConnectionNonBlocking& nbStream, std::string const& statement);
 
             virtual void doExecute()                            override;
             void setStatement(StatmentPIMPL&& st)               {prepareStatement = std::move(st);}
