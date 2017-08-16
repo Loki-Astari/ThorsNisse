@@ -712,6 +712,8 @@ EGREP
 GREP
 SED
 LIBTOOL
+THOR_STATIC_NOLOAD_FLAG
+THOR_STATIC_LOAD_FLAG
 event_ROOT_LIB
 event_ROOT_DIR
 BOOST_COROUTINE_VERSION
@@ -6494,6 +6496,160 @@ fi
 fi
 
     THOR_TARGETLIBS=${THOR_TARGETLIBS}
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,-all_load" >&5
+$as_echo_n "checking whether the linker accepts -Wl,-all_load... " >&6; }
+if ${ax_cv_check_ldflags___Wl__all_load+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$LDFLAGS
+  LDFLAGS="$LDFLAGS  -Wl,-all_load"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ax_cv_check_ldflags___Wl__all_load=yes
+else
+  ax_cv_check_ldflags___Wl__all_load=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  LDFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl__all_load" >&5
+$as_echo "$ax_cv_check_ldflags___Wl__all_load" >&6; }
+if test "x$ax_cv_check_ldflags___Wl__all_load" = xyes; then :
+  THOR_STATIC_LOAD_FLAG=-Wl,-all_load
+
+
+else
+  :
+fi
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,-noall_load" >&5
+$as_echo_n "checking whether the linker accepts -Wl,-noall_load... " >&6; }
+if ${ax_cv_check_ldflags___Wl__noall_load+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$LDFLAGS
+  LDFLAGS="$LDFLAGS  -Wl,-noall_load"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ax_cv_check_ldflags___Wl__noall_load=yes
+else
+  ax_cv_check_ldflags___Wl__noall_load=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  LDFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl__noall_load" >&5
+$as_echo "$ax_cv_check_ldflags___Wl__noall_load" >&6; }
+if test "x$ax_cv_check_ldflags___Wl__noall_load" = xyes; then :
+  THOR_STATIC_NOLOAD_FLAG=-Wl,-all_load
+
+
+else
+  :
+fi
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,--whole-archive" >&5
+$as_echo_n "checking whether the linker accepts -Wl,--whole-archive... " >&6; }
+if ${ax_cv_check_ldflags___Wl___whole_archive+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$LDFLAGS
+  LDFLAGS="$LDFLAGS  -Wl,--whole-archive"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ax_cv_check_ldflags___Wl___whole_archive=yes
+else
+  ax_cv_check_ldflags___Wl___whole_archive=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  LDFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl___whole_archive" >&5
+$as_echo "$ax_cv_check_ldflags___Wl___whole_archive" >&6; }
+if test "x$ax_cv_check_ldflags___Wl___whole_archive" = xyes; then :
+  THOR_STATIC_LOAD_FLAG=-Wl,--whole-archive
+
+
+else
+  :
+fi
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,--no-whole-archive" >&5
+$as_echo_n "checking whether the linker accepts -Wl,--no-whole-archive... " >&6; }
+if ${ax_cv_check_ldflags___Wl___no_whole_archive+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+  ax_check_save_flags=$LDFLAGS
+  LDFLAGS="$LDFLAGS  -Wl,--no-whole-archive"
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ax_cv_check_ldflags___Wl___no_whole_archive=yes
+else
+  ax_cv_check_ldflags___Wl___no_whole_archive=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+  LDFLAGS=$ax_check_save_flags
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl___no_whole_archive" >&5
+$as_echo "$ax_cv_check_ldflags___Wl___no_whole_archive" >&6; }
+if test "x$ax_cv_check_ldflags___Wl___no_whole_archive" = xyes; then :
+  THOR_STATIC_NOLOAD_FLAG=-Wl,--no-whole-archive
+
+
+else
+  :
+fi
 
 
 
