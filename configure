@@ -6479,6 +6479,24 @@ fi
     LDFLAGS="${ORIG_LDFLAGS}"
 
 
+    THOR_TARGETLIBS=""
+    if test "x$enable_shared" == "xyes"; then :
+  THOR_TARGETLIBS+=" slib"
+
+fi
+    if test "x$enable_static" == "xyes"; then :
+  THOR_TARGETLIBS+=" a"
+
+fi
+    if test "x$THOR_TARGETLIBS" == "x"; then :
+  THOR_TARGETLIBS="slib"
+
+fi
+
+    THOR_TARGETLIBS=${THOR_TARGETLIBS}
+
+
+
 case `pwd` in
   *\ * | *\	*)
     { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&5
