@@ -1,6 +1,8 @@
 #ifndef THORSANVIL_NISSE_COROUTINE_CONTEXT_H
 #define THORSANVIL_NISSE_COROUTINE_CONTEXT_H
 
+#include "NisseConfig.h"
+
 #if BOOST_COROUTINE_VERSION == 1 || BOOST_COROUTINE_VERSION == 2
 #include <boost/coroutine/all.hpp>
 #elif BOOST_COROUTINE_VERSION == 3

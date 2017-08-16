@@ -20,31 +20,7 @@ int main()
 {
     try
     {
-        SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
-        HTTP::Site      site;
-        site.get("/listBeer", [&connection](HTTP::Request& /*request*/, HTTP::Response& response)
-            {
-                response.body << "<html>"
-                              << "<head><title>Beer List</title></head>"
-                              << "<body>"
-                              << "<h1>Beer List</h1>"
-                              << "<ol>";
-
-                SQL::Statement  listBeers(connection, "SELECT Name, Age FROM Beers");
-
-                listBeers.execute([&response](std::string const& name, int age)
-                    {
-                        response.body << "<li>" << name << " : " << age << "</li>";
-                    }
-                );
-
-                response.body << "</ol></body></html>";
-            }
-        );
-        site.post("/addBeer", [](HTTP::Request& /*request*/, HTTP::Response& /*response*/){std::cerr << "AddBeer\n";});
-
         HTTP::Binder    binder;
-        binder.addSite("test.com", std::move(site));
 
         Nisse::NisseService    service;
         service.listenOn<HTTP::ReadRequestHandler>(40716, binder);
