@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 #define THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 
-#include "NisseEventUtil.h"
+#include "EventUtil.h"
 #include <memory>
 #include <unordered_map>
 #include <functional>

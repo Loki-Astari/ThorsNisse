@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_HANDLER_H
 #define THORSANVIL_NISSE_CORE_SERVICE_HANDLER_H
 
-#include "NisseEventUtil.h"
+#include "EventUtil.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
 #include <functional>
