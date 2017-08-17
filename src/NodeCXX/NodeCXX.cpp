@@ -21,6 +21,7 @@ int main()
     try
     {
         HTTP::Binder    binder;
+        binder.load("../AddBeer/AddBeer.dylib");
 
         Nisse::NisseService    service;
         service.listenOn<HTTP::ReadRequestHandler>(40716, binder);
