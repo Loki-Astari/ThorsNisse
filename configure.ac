@@ -35,5 +35,5 @@ AX_THOR_FUNC_LANG_FLAG(17)
 
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in:Makefile.config.in src/Nisse/NisseConfig.h:LibConfig.h.in])
+AC_CONFIG_FILES([Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in:Makefile.config.in src/Core/Service/CoreServiceConfig.h:LibConfig.h.in])
 AC_OUTPUT

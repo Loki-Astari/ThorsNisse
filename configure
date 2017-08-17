@@ -595,7 +595,7 @@ PACKAGE_STRING='ThorsNisse 0.1'
 PACKAGE_BUGREPORT='Loki.Astari+ThorsAnvil@gmail.com'
 PACKAGE_URL=''
 
-ac_unique_file="src/Nisse/NisseService.cpp"
+ac_unique_file="src/Core/Service/Server.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -19265,7 +19265,7 @@ fi
 
 ac_config_headers="$ac_config_headers config.h"
 
-ac_config_files="$ac_config_files Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in:Makefile.config.in src/Nisse/NisseConfig.h:LibConfig.h.in"
+ac_config_files="$ac_config_files Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in:Makefile.config.in src/Core/Service/CoreServiceConfig.h:LibConfig.h.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -20382,7 +20382,7 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "Makefile.extra") CONFIG_FILES="$CONFIG_FILES Makefile.extra" ;;
     "Makefile.config") CONFIG_FILES="$CONFIG_FILES Makefile.config:build/autotools/build/Makefile.config.in:Makefile.config.in" ;;
-    "src/Nisse/NisseConfig.h") CONFIG_FILES="$CONFIG_FILES src/Nisse/NisseConfig.h:LibConfig.h.in" ;;
+    "src/Core/Service/CoreServiceConfig.h") CONFIG_FILES="$CONFIG_FILES src/Core/Service/CoreServiceConfig.h:LibConfig.h.in" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

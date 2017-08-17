@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_CONTEXT_H
 #define THORSANVIL_NISSE_CORE_SERVICE_CONTEXT_H
 
-#include "NisseConfig.h"
+#include "CoreServiceConfig.h"
 
 #if BOOST_COROUTINE_VERSION == 1 || BOOST_COROUTINE_VERSION == 2
 #include <boost/coroutine/all.hpp>
