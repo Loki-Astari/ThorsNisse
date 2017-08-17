@@ -1,6 +1,6 @@
 #include "ProtocolSimpleStream.h"
 #include "ProtocolSimple.h"
-#include "ThorsNisse/NisseService.h"
+#include "ThorsNisseCoreService/NisseService.h"
 #include "ThorsNisseSocket/Socket.h"
 #include "ThorsNisseSocket/Utility.h"
 #include <gtest/gtest.h>
@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <event2/util.h>
 
-using ThorsAnvil::Nisse::NisseService;
+using ThorsAnvil::Nisse::Core::Service::NisseService;
 using ThorsAnvil::Nisse::ProtocolSimple::Message;
 using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;
 using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageStreamHandler;

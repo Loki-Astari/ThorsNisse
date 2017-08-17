@@ -7,12 +7,18 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace Core
+        {
+            namespace Service
+            {
 
 using LibEventBase  = struct event_base;
 using LibEvent      = struct event;
 using LibSocketId   = evutil_socket_t;
 using TimeVal       = struct timeval;
 
+            }
+        }
     }
 }
 

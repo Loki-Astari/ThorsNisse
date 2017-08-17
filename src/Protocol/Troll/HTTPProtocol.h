@@ -4,7 +4,7 @@
 #include "Binder.h"
 #include "Types.h"
 #include "HttpScanner.h"
-#include "ThorsNisse/NisseHandler.h"
+#include "ThorsNisseCoreService/NisseHandler.h"
 #include <cstddef>
 
 namespace ThorsAnvil
@@ -14,7 +14,7 @@ namespace ThorsAnvil
         namespace ProtocolHTTP
         {
 
-class ReadRequestHandler: public NisseHandler
+class ReadRequestHandler: public Core::Service::NisseHandler
 {
     using DataSocket = ThorsAnvil::Socket::DataSocket;
     private:
@@ -26,8 +26,8 @@ class ReadRequestHandler: public NisseHandler
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Binder const& binder);
-        virtual short eventActivate(LibSocketId sockId, short eventType) override;
+        ReadRequestHandler(Core::Service::NisseService& parent, Socket::DataSocket&& socket, Binder const& binder);
+        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}
         void setYield(Yield& y)     {yield = &y;}

@@ -1,5 +1,5 @@
-#include "ThorsNisse/NisseService.h"
-#include "ThorsNisse/NisseHandler.h"
+#include "ThorsNisseCoreService/NisseService.h"
+#include "ThorsNisseCoreService/NisseHandler.h"
 #include "ThorsImp/ProtocolSimple.h"
 #include "ThorsImp/ProtocolSimpleStream.h"
 #include "ThorsTroll/HTTPProtocol.h"
@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-namespace Nisse = ThorsAnvil::Nisse;
+namespace Nisse = ThorsAnvil::Nisse::Core::Service;
 namespace HTTP  = ThorsAnvil::Nisse::ProtocolHTTP;
 namespace SQL   = ThorsAnvil::SQL;
 

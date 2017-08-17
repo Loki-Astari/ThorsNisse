@@ -6,8 +6,8 @@
 #include <future>
 #include <iostream>
 
-using ThorsAnvil::Nisse::NisseService;
-using ThorsAnvil::Nisse::NisseHandler;
+using ThorsAnvil::Nisse::Core::Service::NisseService;
+using ThorsAnvil::Nisse::Core::Service::NisseHandler;
 using ThorsAnvil::Socket::ConnectSocket;
 
 TEST(NisseServiceTest, Construct)

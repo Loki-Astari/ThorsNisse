@@ -1,7 +1,7 @@
 #include "HTTPProtocol.h"
 #include <gtest/gtest.h>
 #include "Binder.h"
-#include "ThorsNisse/NisseService.h"
+#include "ThorsNisseCoreService/NisseService.h"
 #include "ThorsNisseSocket/Socket.h"
 #include <unistd.h>
 #include <fcntl.h>
@@ -18,7 +18,7 @@ using ThorsAnvil::Nisse::ProtocolHTTP::Method;
 using ThorsAnvil::Nisse::ProtocolHTTP::Headers;
 using ThorsAnvil::Nisse::ProtocolHTTP::Binder;
 using ThorsAnvil::Nisse::ProtocolHTTP::Site;
-using ThorsAnvil::Nisse::NisseService;
+using ThorsAnvil::Nisse::Core::Service::NisseService;
 using ThorsAnvil::Socket::DataSocket;
 
 using namespace std;

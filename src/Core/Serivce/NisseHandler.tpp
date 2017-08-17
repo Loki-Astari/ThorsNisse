@@ -7,6 +7,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace Core
+        {
+            namespace Service
+            {
 
 template<typename H, typename... Args>
 inline void NisseHandler::addHandler(Args&&... args)
@@ -22,7 +26,7 @@ inline void NisseHandler::moveHandler(Args&&... args)
 }
 
 template<typename Handler, typename Param>
-inline ServerHandler<Handler, Param>::ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so, Param& param)
+inline ServerHandler<Handler, Param>::ServerHandler(NisseService& parent, Socket::ServerSocket&& so, Param& param)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , param(param)
@@ -58,6 +62,8 @@ inline short ServerHandler<Handler, void>::eventActivate(LibSocketId /*sockId*/,
     return EV_READ;
 }
 
+            }
+        }
     }
 }
 

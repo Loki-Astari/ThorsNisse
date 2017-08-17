@@ -32,7 +32,7 @@ class DevNullStreamBuf: public std::streambuf
         {}
 };
 
-ReadRequestHandler::ReadRequestHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& so, Binder const& binder)
+ReadRequestHandler::ReadRequestHandler(Core::Service::NisseService& parent, Socket::DataSocket&& so, Binder const& binder)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , flusher(nullptr)
     , yield(nullptr)
@@ -100,7 +100,7 @@ struct SetRunning
     }
 };
 
-short ReadRequestHandler::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+short ReadRequestHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, short /*eventType*/)
 {
     SetRunning setRunning(running);
     if (!worker())

@@ -6,12 +6,16 @@
 #include <memory>
 #include <functional>
 
-extern "C" void eventCB(ThorsAnvil::Nisse::LibSocketId socketId, short eventType, void* event);
+extern "C" void eventCB(ThorsAnvil::Nisse::Core::Service::LibSocketId socketId, short eventType, void* event);
 
 namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace Core
+        {
+            namespace Service
+            {
 
 using EventDeleter  = decltype(&event_free);
 using NisseEvent    = std::unique_ptr<LibEvent, EventDeleter>;
@@ -85,6 +89,8 @@ class TimerHandler: public NisseHandler
         }
 };
 
+            }
+        }
     }
 }
 

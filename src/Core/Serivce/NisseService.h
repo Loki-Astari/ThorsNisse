@@ -13,6 +13,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace Core
+        {
+            namespace Service
+            {
 
 class NisseService;
 class NisseHandler;
@@ -90,6 +94,8 @@ class NisseService
         void setCurrentHandler(NisseHandler* current);
 };
 
+            }
+        }
     }
 }
 

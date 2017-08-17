@@ -1,9 +1,9 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
 
-#include "ThorsNisse/NisseHandler.h"
+#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorsNisseSocket/SocketStream.h"
-#include "ThorsNisse/CoRoutine.h"
 #include <istream>
 #include <ostream>
 #include <string>
@@ -16,8 +16,8 @@ namespace ThorsAnvil
         namespace ProtocolSimple
         {
 
-using CoRoutine = ThorsAnvil::Nisse::CoRoutine::Context<short>::pull_type;
-using Yield     = ThorsAnvil::Nisse::CoRoutine::Context<short>::push_type;
+using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
+using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
 class Message
 {
@@ -62,26 +62,26 @@ class Message
         }
 };
 
-class ReadMessageStreamHandler: public NisseHandler
+class ReadMessageStreamHandler: public Core::Service::NisseHandler
 {
     private:
         CoRoutine       worker;
     public:
-        ReadMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket);
-        virtual short eventActivate(LibSocketId sockId, short eventType) override;
+        ReadMessageStreamHandler(Core::Service::NisseService& parent, Socket::DataSocket&& socket);
+        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:
         static std::string const failToReadMessage;
 };
 
-class WriteMessageStreamHandler: public NisseHandler
+class WriteMessageStreamHandler: public Core::Service::NisseHandler
 {
     private:
         CoRoutine       worker;
     public:
-        WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
-        WriteMessageStreamHandler(NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message const& message);
+        WriteMessageStreamHandler(Core::Service::NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
+        WriteMessageStreamHandler(Core::Service::NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
-        virtual short eventActivate(LibSocketId sockId, short eventType) override;
+        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:
         static std::string const messageSuffix;
 };

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <ctime>
 
-using namespace ThorsAnvil::Nisse;
+using namespace ThorsAnvil::Nisse::Core::Service;
 using TimeVal = struct timeval;
 
 void eventCB(LibSocketId socketId, short eventType, void* event)
@@ -142,6 +142,6 @@ void NisseHandler::setHandlers(short eventType, TimeVal* timeVal)
 #include "NisseHandler.tpp"
 #include "test/Action.h"
 #include "ThorsNisseSocket/Socket.h"
-template ThorsAnvil::Nisse::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
-template ThorsAnvil::Nisse::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
 #endif

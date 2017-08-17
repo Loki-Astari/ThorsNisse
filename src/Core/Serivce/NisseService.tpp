@@ -10,6 +10,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
+        namespace Core
+        {
+            namespace Service
+            {
 
 template<typename Handler>
 inline void NisseService::listenOn(int port)
@@ -42,6 +46,9 @@ inline void NisseService::transferHandler(Args&&... args)
     NisseHandler& handler = addHandler<H>(std::forward<Args>(args)...);
     handler.setSuspend(*currentHandler);
 }
+
+            }
+        }
     }
 }
 

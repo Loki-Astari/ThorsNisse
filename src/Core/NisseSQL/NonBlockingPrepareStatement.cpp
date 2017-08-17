@@ -1,20 +1,20 @@
 #include "NonBlockingPrepareStatement.h"
 #include "NonBlockingMySQLConnection.h"
-#include "ThorsNisse/NisseService.h"
-#include "ThorsNisse/NisseHandler.h"
-#include "ThorsNisse/CoRoutine.h"
+#include "ThorsNisseCoreService/NisseService.h"
+#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorMySQL/PrepareStatement.h"
 
 using namespace ThorsAnvil::NisseSQL;
 
-using CoRoutine = ThorsAnvil::Nisse::CoRoutine::Context<short>::pull_type;
-using Yield     = ThorsAnvil::Nisse::CoRoutine::Context<short>::push_type;
+using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
+using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
-class MySQLPrepareHandler: public ThorsAnvil::Nisse::NisseHandler
+class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::NisseHandler
 {
     CoRoutine   worker;
     public:
-        MySQLPrepareHandler(ThorsAnvil::Nisse::NisseService& service,
+        MySQLPrepareHandler(ThorsAnvil::Nisse::Core::Service::NisseService& service,
                             NonBlockingMySQLConnection& connection,
                             NonBlockingPrepareStatement& parent,
                             ConnectionNonBlocking& nbStream,
@@ -29,7 +29,7 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::NisseHandler
                 })
         {}
 
-        virtual short eventActivate(ThorsAnvil::Nisse::LibSocketId /*sockId*/, short /*eventType*/) override
+        virtual short eventActivate(ThorsAnvil::Nisse::Core::Service::LibSocketId /*sockId*/, short /*eventType*/) override
         {
             if (!worker())
             {
@@ -40,11 +40,11 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::NisseHandler
         }
 };
 
-class MySQLExecuteHandler: public ThorsAnvil::Nisse::NisseHandler
+class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::NisseHandler
 {
     CoRoutine   worker;
     public:
-        MySQLExecuteHandler(ThorsAnvil::Nisse::NisseService& service,
+        MySQLExecuteHandler(ThorsAnvil::Nisse::Core::Service::NisseService& service,
                             NonBlockingMySQLConnection& connection,
                             NonBlockingPrepareStatement& parent)
             : NisseHandler(service, connection.getSocketId(), EV_READ | EV_WRITE)
@@ -56,7 +56,7 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::NisseHandler
                 })
         {}
 
-        virtual short eventActivate(ThorsAnvil::Nisse::LibSocketId /*sockId*/, short /*eventType*/) override
+        virtual short eventActivate(ThorsAnvil::Nisse::Core::Service::LibSocketId /*sockId*/, short /*eventType*/) override
         {
             if (!worker())
             {
@@ -71,20 +71,20 @@ NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnect
     : prepareStatement(nullptr)
     , connection(connection)
 {
-    if (!ThorsAnvil::Nisse::NisseService::inHandler())
+    if (! Nisse::Core::Service::NisseService::inHandler())
     {
         throw std::runtime_error("ThorsAnvil::NisseSQL::NonBlockingPrepareStatement::NonBlockingPrepareStatement: Can only use this prepare inside a NisseHandler");
     }
-    auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
+    auto& service = Nisse::Core::Service::NisseService::getCurrentHandler();
     service.transferHandler<MySQLPrepareHandler>(connection, *this, nbStream, statement);
 }
 
 void NonBlockingPrepareStatement::doExecute()
 {
-    if (!ThorsAnvil::Nisse::NisseService::inHandler())
+    if (! Nisse::Core::Service::NisseService::inHandler())
     {
         throw std::runtime_error("ThorsAnvil::NisseSQL::NonBlockingPrepareStatement::doExecute: Can only use this prepare inside a NisseHandler");
     }
-    auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
+    auto& service = Nisse::Core::Service::NisseService::getCurrentHandler();
     service.transferHandler<MySQLExecuteHandler>(connection, *this);
 }

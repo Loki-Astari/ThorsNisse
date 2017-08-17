@@ -1,17 +1,17 @@
 #include "ConnectionNonBlocking.h"
-#include "ThorsNisse/NisseService.h"
-#include "ThorsNisse/NisseHandler.h"
+#include "ThorsNisseCoreService/NisseService.h"
+#include "ThorsNisseCoreService/NisseHandler.h"
 
 namespace ThorsAnvil
 {
     namespace NisseSQL
     {
 
-class MySQLConnectionHandler: public ThorsAnvil::Nisse::NisseHandler
+class MySQLConnectionHandler: public Nisse::Core::Service::NisseHandler
 {
     CoRoutine               worker;
     public:
-        MySQLConnectionHandler(ThorsAnvil::Nisse::NisseService& service,
+        MySQLConnectionHandler(Nisse::Core::Service::NisseService& service,
                                ConnectionNonBlocking& connection,
                                ThorsAnvil::MySQL::MySQLStream& stream,
                                std::string const& username,
@@ -28,7 +28,7 @@ class MySQLConnectionHandler: public ThorsAnvil::Nisse::NisseHandler
                 })
         {
         }
-        virtual short eventActivate(ThorsAnvil::Nisse::LibSocketId /*sockId*/, short /*eventType*/)
+        virtual short eventActivate(Nisse::Core::Service::LibSocketId /*sockId*/, short /*eventType*/)
         {
             if (!worker())
             {
@@ -55,9 +55,9 @@ ConnectionNonBlocking::ConnectionNonBlocking(
 )
     : Connection(username, password, database, options, packageReader, packageWriter)
 {
-    if (ThorsAnvil::Nisse::NisseService::inHandler())
+    if (Nisse::Core::Service::NisseService::inHandler())
     {
-        auto& service = ThorsAnvil::Nisse::NisseService::getCurrentHandler();
+        auto& service = Nisse::Core::Service::NisseService::getCurrentHandler();
         service.transferHandler<MySQLConnectionHandler>(*this, stream, username, password, database, options);
     }
     else

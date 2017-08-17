@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-using namespace ThorsAnvil::Nisse;
+using namespace ThorsAnvil::Nisse::Core::Service;
 
 EventConfig*  NisseService::cfg              = nullptr;
 NisseService* NisseService::currentService   = nullptr;
@@ -137,8 +137,8 @@ void NisseService::setCurrentHandler(NisseHandler* current)
  */
 #include "NisseService.tpp"
 #include "test/Action.h"
-template void ThorsAnvil::Nisse::NisseService::listenOn<Action>(int);
-template void ThorsAnvil::Nisse::NisseService::listenOn<ActionUnReg>(int);
-template NisseHandler& ThorsAnvil::Nisse::NisseService::addHandler<Action, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
-template NisseHandler& ThorsAnvil::Nisse::NisseService::addHandler<ActionUnReg, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
+template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<Action>(int);
+template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<ActionUnReg>(int);
+template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<Action, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
+template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<ActionUnReg, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
 #endif
