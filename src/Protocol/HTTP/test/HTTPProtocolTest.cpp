@@ -11,13 +11,13 @@
 #include <fcntl.h>
 
 
-using ThorsAnvil::Nisse::ProtocolHTTP::ReadRequestHandler;
-using ThorsAnvil::Nisse::ProtocolHTTP::Request;
-using ThorsAnvil::Nisse::ProtocolHTTP::Response;
-using ThorsAnvil::Nisse::ProtocolHTTP::Method;
-using ThorsAnvil::Nisse::ProtocolHTTP::Headers;
-using ThorsAnvil::Nisse::ProtocolHTTP::Binder;
-using ThorsAnvil::Nisse::ProtocolHTTP::Site;
+using ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler;
+using ThorsAnvil::Nisse::Protocol::HTTP::Request;
+using ThorsAnvil::Nisse::Protocol::HTTP::Response;
+using ThorsAnvil::Nisse::Protocol::HTTP::Method;
+using ThorsAnvil::Nisse::Protocol::HTTP::Headers;
+using ThorsAnvil::Nisse::Protocol::HTTP::Binder;
+using ThorsAnvil::Nisse::Protocol::HTTP::Site;
 using ThorsAnvil::Nisse::Core::Service::NisseService;
 using ThorsAnvil::Nisse::Core::Socket::DataSocket;
 

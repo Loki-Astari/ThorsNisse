@@ -4,15 +4,15 @@
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <vector>
 
-using ThorsAnvil::Nisse::ProtocolHTTP::Site;
-using ThorsAnvil::Nisse::ProtocolHTTP::Binder;
+using ThorsAnvil::Nisse::Protocol::HTTP::Site;
+using ThorsAnvil::Nisse::Protocol::HTTP::Binder;
 
-using ThorsAnvil::Nisse::ProtocolHTTP::Request;
-using ThorsAnvil::Nisse::ProtocolHTTP::Response;
-using ThorsAnvil::Nisse::ProtocolHTTP::Method;
-using ThorsAnvil::Nisse::ProtocolHTTP::Yield;
-using ThorsAnvil::Nisse::ProtocolHTTP::URI;
-using ThorsAnvil::Nisse::ProtocolHTTP::Headers;
+using ThorsAnvil::Nisse::Protocol::HTTP::Request;
+using ThorsAnvil::Nisse::Protocol::HTTP::Response;
+using ThorsAnvil::Nisse::Protocol::HTTP::Method;
+using ThorsAnvil::Nisse::Protocol::HTTP::Yield;
+using ThorsAnvil::Nisse::Protocol::HTTP::URI;
+using ThorsAnvil::Nisse::Protocol::HTTP::Headers;
 using ThorsAnvil::Nisse::Core::Socket::DataSocket;
 
 void callMethodExpectFail(Method method, Site& site, std::string const& /*host*/, std::string&& /*path*/)
@@ -89,10 +89,10 @@ TEST(BinderTest, TestBinder404)
     ASSERT_EQ(404, response.resultCode);
     ASSERT_EQ("Not Found", response.resultMessage);
     //ASSERT_EQ(">Date String<", response.headers.get("Date"));
-    ASSERT_EQ(ThorsAnvil::Nisse::ProtocolHTTP::ServerName,       response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_Server));
-    ASSERT_EQ(ThorsAnvil::Nisse::ProtocolHTTP::Connection_Closed,response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_Connection));
-    ASSERT_EQ("44",             response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_ContentLen));
-    ASSERT_EQ("text/html",      response.headers.get(ThorsAnvil::Nisse::ProtocolHTTP::Head_ContentType));
+    ASSERT_EQ(ThorsAnvil::Nisse::Protocol::HTTP::ServerName,       response.headers.get(ThorsAnvil::Nisse::Protocol::HTTP::Head_Server));
+    ASSERT_EQ(ThorsAnvil::Nisse::Protocol::HTTP::Connection_Closed,response.headers.get(ThorsAnvil::Nisse::Protocol::HTTP::Head_Connection));
+    ASSERT_EQ("44",             response.headers.get(ThorsAnvil::Nisse::Protocol::HTTP::Head_ContentLen));
+    ASSERT_EQ("text/html",      response.headers.get(ThorsAnvil::Nisse::Protocol::HTTP::Head_ContentType));
 }
 TEST(BinderTest, AddAPutMethod)
 {

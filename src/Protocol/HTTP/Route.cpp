@@ -1,6 +1,6 @@
 #include "Route.h"
 
-using namespace ThorsAnvil::Nisse::ProtocolHTTP;
+using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 Route::Route(std::string&& fr)
     : fullRoute(std::move(fr))

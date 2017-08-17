@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_HANDLERS_H
-#define THORSANVIL_NISSE_PROTOCOL_HTTP_HANDLERS_H
+#ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_HTTP_PROTOCOL_H
+#define THORSANVIL_NISSE_PROTOCOL_HTTP_HTTP_PROTOCOL_H
 
 #include "Binder.h"
 #include "Types.h"
@@ -11,8 +11,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
-        namespace ProtocolHTTP
+        namespace Protocol
         {
+            namespace HTTP
+            {
 
 class ReadRequestHandler: public Core::Service::NisseHandler
 {
@@ -35,6 +37,7 @@ class ReadRequestHandler: public Core::Service::NisseHandler
         virtual void suspend() override;
 };
 
+            }
         }
     }
 }

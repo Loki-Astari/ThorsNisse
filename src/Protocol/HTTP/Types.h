@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
-#define THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
+#ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_TYPES_H
+#define THORSANVIL_NISSE_PROTOCOL_HTTP_TYPES_H
 
 #include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorsNisseCoreSocket/Socket.h"
@@ -14,8 +14,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
-        namespace ProtocolHTTP
+        namespace Protocol
         {
+            namespace HTTP
+            {
 
 static std::string const Head_Server        = "Server";
 static std::string const Head_Date          = "Date";
@@ -135,6 +137,7 @@ class Response
         void flushing(bool allDone = false);
 };
 
+            }
         }
     }
 }

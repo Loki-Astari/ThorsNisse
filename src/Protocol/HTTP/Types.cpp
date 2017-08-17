@@ -2,7 +2,7 @@
 #include "HTTPProtocol.h"
 #include <sstream>
 
-using namespace ThorsAnvil::Nisse::ProtocolHTTP;
+using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 Headers::Inserter::Inserter(ValueStore& valueStore)
     : valueStore(valueStore)

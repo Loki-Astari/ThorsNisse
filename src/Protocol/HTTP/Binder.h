@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_PROTOCOLHTTP_BINDER_H
-#define THORSANVIL_NISSE_PROTOCOLHTTP_BINDER_H
+#ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_BINDER_H
+#define THORSANVIL_NISSE_PROTOCOL_HTTP_BINDER_H
 
 #include "Types.h"
 #include "Route.h"
@@ -14,8 +14,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
-        namespace ProtocolHTTP
+        namespace Protocol
         {
+            namespace HTTP
+            {
 
 using Action = std::function<void(Request&, Response&)>;
 
@@ -72,7 +74,7 @@ class Binder
         Action const& find(Method method, std::string const& host, std::string const& path) const;
 };
 
-
+            }
         }
     }
 }

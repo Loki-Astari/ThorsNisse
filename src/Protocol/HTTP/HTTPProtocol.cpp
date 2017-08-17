@@ -1,7 +1,7 @@
 #include "HTTPProtocol.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
 
-using namespace ThorsAnvil::Nisse::ProtocolHTTP;
+using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 class DevNullStreamBuf: public std::streambuf
 {

@@ -1,8 +1,8 @@
 #include "Route.h"
 #include <gtest/gtest.h>
 
-using ThorsAnvil::Nisse::ProtocolHTTP::Route;
-using ThorsAnvil::Nisse::ProtocolHTTP::RouteTester;
+using ThorsAnvil::Nisse::Protocol::HTTP::Route;
+using ThorsAnvil::Nisse::Protocol::HTTP::RouteTester;
 
 TEST(RouteTestBug, Bug1)
 {

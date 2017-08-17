@@ -1,7 +1,7 @@
 #include "HttpScanner.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
 
-using namespace ThorsAnvil::Nisse::ProtocolHTTP;
+using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 int onHeadersComplete(HttpParser* parser)
 {

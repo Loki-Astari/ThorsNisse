@@ -2,16 +2,16 @@
 #include "ThorsNisseCoreService/NisseHandler.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimple.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
-#include "ThorsTroll/HTTPProtocol.h"
-#include "ThorsTroll/Binder.h"
-#include "ThorsTroll/Types.h"
+#include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
+#include "ThorsNisseProtocolHTTP/Binder.h"
+#include "ThorsNisseProtocolHTTP/Types.h"
 #include "ThorSQL/Connection.h"
 #include "ThorSQL/Statement.h"
 
 #include <iostream>
 
 namespace Nisse = ThorsAnvil::Nisse::Core::Service;
-namespace HTTP  = ThorsAnvil::Nisse::ProtocolHTTP;
+namespace HTTP  = ThorsAnvil::Nisse::Protocol::HTTP;
 namespace SQL   = ThorsAnvil::SQL;
 
 int main()

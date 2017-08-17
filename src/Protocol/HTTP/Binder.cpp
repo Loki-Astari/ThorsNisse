@@ -4,7 +4,7 @@
 #include <dlfcn.h>
 
 
-using namespace ThorsAnvil::Nisse::ProtocolHTTP;
+using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 void Site::add(Method method, std::string&& path, Action&& action)
 {
@@ -105,7 +105,7 @@ void Binder::load(std::string const& site)
     /* Get rid of old error messages */
     dlerror();
 
-    void (*addSite)(ThorsAnvil::Nisse::ProtocolHTTP::Binder& binder) = nullptr;
+    void (*addSite)(ThorsAnvil::Nisse::Protocol::HTTP::Binder& binder) = nullptr;
 
     *(void**) (&addSite) = dlsym(siteLib, "_Z7addSiteRN10ThorsAnvil5Nisse12ProtocolHTTP6BinderE");
     if (addSite == nullptr)

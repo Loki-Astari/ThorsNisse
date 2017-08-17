@@ -1,6 +1,6 @@
 #include <ThorsExpress/all.h>
 
-namespace Express = ThorsAnvil::Nisse::ProtocolHTTP;
+namespace Express = ThorsAnvil::Nisse::Protocol::HTTP;
 namespace SQL     = ThorsAnvil::SQL;
 
 static SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");

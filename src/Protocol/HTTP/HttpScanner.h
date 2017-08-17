@@ -9,8 +9,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
-        namespace ProtocolHTTP
+        namespace Protocol
         {
+            namespace HTTP
+            {
 
 using HttpParser            = http_parser;
 using HttpParserSettings    = http_parser_settings;
@@ -43,6 +45,7 @@ class HttpScanner
         void scan(char const* buffer, std::size_t size);
 };
 
+            }
         }
     }
 }

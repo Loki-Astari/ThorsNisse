@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_PROTOCOLHTTP_ROUTE_H
-#define THORSANVIL_NISSE_PROTOCOLHTTP_ROUTE_H
+#ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_ROUTE_H
+#define THORSANVIL_NISSE_PROTOCOL_HTTP_ROUTE_H
 
 #include <string>
 #include <vector>
@@ -12,8 +12,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
-        namespace ProtocolHTTP
+        namespace Protocol
         {
+            namespace HTTP
+            {
 
 class Route
 {
@@ -78,6 +80,7 @@ struct RouteTester
     bool operator()(Route const& lhs, Route const& rhs)       const {return lhs < rhs;}
 };
 
+            }
         }
     }
 }
