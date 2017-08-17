@@ -1,7 +1,7 @@
 
 THORSANVIL_ROOT				= $(realpath ../../)
 
-TARGET						= Imp Troll
+TARGET						= Simple HTTP
 
 include $(THORSANVIL_ROOT)/build/tools/Project.Makefile
 
