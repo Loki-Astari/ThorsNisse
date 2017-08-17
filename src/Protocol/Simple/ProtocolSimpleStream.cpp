@@ -66,15 +66,15 @@ short WriteMessageStreamHandler::eventActivate(Core::Service::LibSocketId /*sock
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
-#include "ThorsNisseCoreService/Sever.h"
-#include "ThorsNisseCoreService/Sever.tpp"
+#include "ThorsNisseCoreService/Server.h"
+#include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
 #include "ProtocolSimple.h"
-template void ThorsAnvil::Nisse::Core::Service::Sever::listenOn<ReadMessageStreamHandler>(int);
-template void ThorsAnvil::Nisse::Core::Service::Sever::listenOn<WriteMessageStreamHandler, Message>(int, Message&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Sever&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageStreamHandler>(int);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageStreamHandler, Message>(int, Message&);
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
 template void ThorsAnvil::Nisse::Core::Service::Handler::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, Message>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, Message&&);
 template void ThorsAnvil::Nisse::Core::Service::Handler::moveHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
-template ThorsAnvil::Nisse::Core::Service::Handler& ThorsAnvil::Nisse::Core::Service::Sever::addHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<WriteMessageHandler, std::string>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Sever&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::string&);
+template ThorsAnvil::Nisse::Core::Service::Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<WriteMessageHandler, std::string>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::string&);
 #endif
