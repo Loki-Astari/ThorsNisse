@@ -28,7 +28,7 @@ class ReadRequestHandler: public Core::Service::NisseHandler
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        ReadRequestHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket, Binder const& binder);
+        ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Binder const& binder);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}

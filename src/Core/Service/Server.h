@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_CORE_SERVICE_NISSE_SERVICE_H
-#define THORSANVIL_NISSE_CORE_SERVICE_NISSE_SERVICE_H
+#ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
+#define THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 
 #include "NisseEventUtil.h"
 #include <memory>
@@ -18,14 +18,14 @@ namespace ThorsAnvil
             namespace Service
             {
 
-class NisseService;
+class Server;
 class NisseHandler;
 using EventBaseDeleter  = decltype(&event_base_free);
 using EventHolder       = std::unique_ptr<LibEventBase, EventBaseDeleter>;
 using NisseManagHandler = std::unique_ptr<NisseHandler>;
 using EventConfig       = struct event_config;
 
-class NisseService
+class Server
 {
     private:
         bool                            running;
@@ -45,13 +45,13 @@ class NisseService
         // in `runLoop()`.
         std::vector<NisseHandler*>      retiredHandlers;
         NisseHandler*                   currentHandler;
-        static NisseService*            currentService;
-        static EventConfig*  cfg;
+        static Server*                  currentService;
+        static EventConfig*             cfg;
     public:
-        NisseService();
+        Server();
 
-        NisseService(NisseService&&);
-        NisseService& operator=(NisseService&&);
+        Server(Server&&);
+        Server& operator=(Server&&);
 
         void start(double check = 10.0);
         void flagShutDown();
@@ -67,7 +67,7 @@ class NisseService
         template<typename H, typename... Args>
         void transferHandler(Args&&... args);
 
-        static NisseService& getCurrentHandler() {return *currentService;}
+        static Server&       getCurrentHandler() {return *currentService;}
         static bool          inHandler()         {return currentService && currentService->currentHandler;}
         static void ignore(std::string const& type = "")
         {
@@ -85,7 +85,7 @@ class NisseService
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();
-        void swap(NisseService& );
+        void swap(Server& other);
 
         friend class NisseHandler;
         template<typename H, typename... Args>
@@ -100,6 +100,6 @@ class NisseService
 }
 
 #ifndef COVERAGE_TEST
-#include "NisseService.tpp"
+#include "Server.tpp"
 #endif
 #endif

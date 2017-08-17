@@ -6,10 +6,10 @@
 
 class Action: public ThorsAnvil::Nisse::Core::Service::NisseHandler
 {
-    ThorsAnvil::Nisse::Core::Service::NisseService&     service;
+    ThorsAnvil::Nisse::Core::Service::Server&           service;
     ThorsAnvil::Nisse::Core::Socket::DataSocket         dataSocket;
     public:
-        Action(ThorsAnvil::Nisse::Core::Service::NisseService& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& ds)
+        Action(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& ds)
             : NisseHandler(parent, ds.getSocketId(), EV_READ | EV_PERSIST)
             , service(parent)
             , dataSocket(std::move(ds))
@@ -22,10 +22,10 @@ class Action: public ThorsAnvil::Nisse::Core::Service::NisseHandler
 };
 class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::NisseHandler
 {
-    ThorsAnvil::Nisse::Core::Service::NisseService&     service;
+    ThorsAnvil::Nisse::Core::Service::Server&           service;
     ThorsAnvil::Nisse::Core::Socket::DataSocket         dataSocket;
     public:
-        ActionUnReg(ThorsAnvil::Nisse::Core::Service::NisseService& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& ds)
+        ActionUnReg(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& ds)
             : NisseHandler(parent, ds.getSocketId(), EV_READ | EV_PERSIST)
             , service(parent)
             , dataSocket(std::move(ds))

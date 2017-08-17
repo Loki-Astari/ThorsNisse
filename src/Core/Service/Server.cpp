@@ -1,14 +1,14 @@
-#include "NisseService.h"
+#include "Server.h"
 #include "NisseHandler.h"
 
 #include <iostream>
 
 using namespace ThorsAnvil::Nisse::Core::Service;
 
-EventConfig*  NisseService::cfg              = nullptr;
-NisseService* NisseService::currentService   = nullptr;
+EventConfig*  Server::cfg              = nullptr;
+Server*       Server::currentService   = nullptr;
 
-NisseService::NisseService()
+Server::Server()
     : running(false)
     , shutDownNext(false)
     , eventBase(event_base_new_with_config(cfg), &event_base_free)
@@ -16,11 +16,11 @@ NisseService::NisseService()
 {
     if (eventBase == nullptr)
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseService::NisseService: event_base_new(): Failed");
+        throw std::runtime_error("ThorsAnvil::Nisse::Server::Server: event_base_new(): Failed");
     }
 }
 
-NisseService::NisseService(NisseService&& move)
+Server::Server(Server&& move)
     : running(false)
     , shutDownNext(false)
     , eventBase(nullptr, &event_base_free)
@@ -29,17 +29,17 @@ NisseService::NisseService(NisseService&& move)
     swap(move);
 }
 
-NisseService& NisseService::operator=(NisseService&& move)
+Server& Server::operator=(Server&& move)
 {
     swap(move);
     return *this;
 }
 
-void NisseService::swap(NisseService& other)
+void Server::swap(Server& other)
 {
     if (running || other.running)
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseService::swap: move failed. Can't move a service once it has started.");
+        throw std::runtime_error("ThorsAnvil::Nisse::Server::swap: move failed. Can't move a service once it has started.");
     }
 
     using std::swap;
@@ -51,7 +51,7 @@ void NisseService::swap(NisseService& other)
     swap(currentHandler,    other.currentHandler);
 }
 
-void NisseService::start(double check)
+void Server::start(double check)
 {
     std::cout << "Nisse Started\n";
     running = true;
@@ -65,16 +65,16 @@ void NisseService::start(double check)
     std::cout << "Nisse Stopped\n";
 }
 
-void NisseService::flagShutDown()
+void Server::flagShutDown()
 {
     shutDownNext = true;
     if (event_base_loopbreak(eventBase.get()) != 0)
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseService::flagShutDown: event_base_loopbreak(): Failed");
+        throw std::runtime_error("ThorsAnvil::Nisse::Server::flagShutDown: event_base_loopbreak(): Failed");
     }
 }
 
-void NisseService::runLoop(double check)
+void Server::runLoop(double check)
 {
     int seconds   = static_cast<int>(check);
     int microSecs = (check - seconds) * 1'000'000;
@@ -82,22 +82,22 @@ void NisseService::runLoop(double check)
 
     if (event_base_loopexit(eventBase.get(), &ten_sec) != 0)
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_loopexit(): Failed");
+        throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_loopexit(): Failed");
     }
     switch (event_base_dispatch(eventBase.get()))
     {
         case -1:
-            throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_dispatch(): Failed");
+            throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_dispatch(): Failed");
         case 1:
-            throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_dispatch(): No Events");
+            throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_dispatch(): No Events");
         case 0:
             break;
         default:
-            throw std::runtime_error("ThorsAnvil::Nisse::NisseService::runLoop: event_base_dispatch(): Unknown Error");
+            throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_dispatch(): Unknown Error");
     }
 }
 
-void NisseService::purgeRetiredHandlers()
+void Server::purgeRetiredHandlers()
 {
     for (auto const& key: retiredHandlers)
     {
@@ -106,17 +106,17 @@ void NisseService::purgeRetiredHandlers()
     retiredHandlers.clear();
 }
 
-void NisseService::delHandler(NisseHandler* oldHandler)
+void Server::delHandler(NisseHandler* oldHandler)
 {
     retiredHandlers.emplace_back(oldHandler);
 }
 
-void NisseService::addTimer(double timeOut, std::function<void()>&& action)
+void Server::addTimer(double timeOut, std::function<void()>&& action)
 {
     addHandler<TimerHandler>(std::move(timeOut), std::move(action));
 }
 
-void NisseService::setCurrentHandler(NisseHandler* current)
+void Server::setCurrentHandler(NisseHandler* current)
 {
     if (current != nullptr)
     {
@@ -135,10 +135,10 @@ void NisseService::setCurrentHandler(NisseHandler* current)
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
-#include "NisseService.tpp"
+#include "Server.tpp"
 #include "test/Action.h"
-template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<Action>(int);
-template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<ActionUnReg>(int);
-template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
-template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(int);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(int);
+template NisseHandler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template NisseHandler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 #endif

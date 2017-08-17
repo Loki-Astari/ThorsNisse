@@ -69,7 +69,7 @@ class ReadMessageStreamHandler: public Core::Service::NisseHandler
     private:
         CoRoutine       worker;
     public:
-        ReadMessageStreamHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket);
+        ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:
         static std::string const failToReadMessage;
@@ -80,8 +80,8 @@ class WriteMessageStreamHandler: public Core::Service::NisseHandler
     private:
         CoRoutine       worker;
     public:
-        WriteMessageStreamHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket, Message&& message);
-        WriteMessageStreamHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket, Message const& message);
+        WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message&& message);
+        WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:

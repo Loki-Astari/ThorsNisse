@@ -16,19 +16,19 @@ namespace ThorsAnvil
             {
 
 template<typename Handler>
-inline void NisseService::listenOn(int port)
+inline void Server::listenOn(int port)
 {
     addHandler<ServerHandler<Handler, void>>(Socket::ServerSocket(port));
 }
 
 template<typename Handler, typename Param>
-inline void NisseService::listenOn(int port, Param& param)
+inline void Server::listenOn(int port, Param& param)
 {
     addHandler<ServerHandler<Handler, Param>>(Socket::ServerSocket(port), param);
 }
 
 template<typename H, typename... Args>
-inline NisseHandler& NisseService::addHandler(Args&&... args)
+inline NisseHandler& Server::addHandler(Args&&... args)
 {
     NisseManagHandler   value = std::make_unique<H>(*this, std::forward<Args>(args)...);
     NisseHandler*       key   = value.get();
@@ -37,7 +37,7 @@ inline NisseHandler& NisseService::addHandler(Args&&... args)
 }
 
 template<typename H, typename... Args>
-inline void NisseService::transferHandler(Args&&... args)
+inline void Server::transferHandler(Args&&... args)
 {
     if (currentHandler == nullptr)
     {
@@ -52,7 +52,4 @@ inline void NisseService::transferHandler(Args&&... args)
     }
 }
 
-#ifndef COVERAGE_TEST
-#include "NisseService.tpp"
-#endif
 #endif

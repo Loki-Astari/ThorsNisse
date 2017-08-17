@@ -1,4 +1,4 @@
-#include "NisseService.h"
+#include "Server.h"
 #include "NisseHandler.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include "test/Action.h"
@@ -6,30 +6,30 @@
 #include <future>
 #include <iostream>
 
-using ThorsAnvil::Nisse::Core::Service::NisseService;
+using ThorsAnvil::Nisse::Core::Service::Server;
 using ThorsAnvil::Nisse::Core::Service::NisseHandler;
 using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 
-TEST(NisseServiceTest, Construct)
+TEST(CoreServiceServerTest, Construct)
 {
-    NisseService    service;
+    Server    service;
 }
-TEST(NisseServiceTest, MoveConstruct)
+TEST(CoreServiceServerTest, MoveConstruct)
 {
-    NisseService    service1;
-    NisseService    service2(std::move(service1));
+    Server    service1;
+    Server    service2(std::move(service1));
 }
-TEST(NisseServiceTest, MoveAssignment)
+TEST(CoreServiceServerTest, MoveAssignment)
 {
-    NisseService    service1;
-    NisseService    service2;
+    Server    service1;
+    Server    service2;
 
     service2 = std::move(service1);
 }
-TEST(NisseServiceTest, StartAndShutDown)
+TEST(CoreServiceServerTest, StartAndShutDown)
 {
-    NisseService    service;
-    bool            finished = false;
+    Server    service;
+    bool      finished = false;
     service.addTimer(1, [&service, &finished]()
     {
         service.flagShutDown();
@@ -39,14 +39,14 @@ TEST(NisseServiceTest, StartAndShutDown)
     service.start(1);
     ASSERT_TRUE(finished);
 }
-TEST(NisseServiceTest, MoveConstructFail)
+TEST(CoreServiceServerTest, MoveConstructFail)
 {
-    NisseService    service1;
-    bool            finished = false;
+    Server    service1;
+    bool      finished = false;
     service1.addTimer(1, [&service1, &finished]()
     {
         ASSERT_THROW(
-            NisseService service2(std::move(service1)),
+            Server service2(std::move(service1)),
             std::runtime_error
         );
         service1.flagShutDown();
@@ -55,10 +55,10 @@ TEST(NisseServiceTest, MoveConstructFail)
     service1.start(1);
     ASSERT_TRUE(finished);
 }
-TEST(NisseServiceTest, AddListener)
+TEST(CoreServiceServerTest, AddListener)
 {
-    NisseService    service;
-    bool            serviceFinished = false;
+    Server    service;
+    bool      serviceFinished = false;
 
     service.listenOn<Action>(9876);
     auto future = std::async(std::launch::async, [&serviceFinished](){sleep(2);while(!serviceFinished){ConnectSocket socket("127.0.0.1", 9876);}});
@@ -66,10 +66,10 @@ TEST(NisseServiceTest, AddListener)
     serviceFinished = true;
     future.wait();
 }
-TEST(NisseServiceTest, AddListenerPurge)
+TEST(CoreServiceServerTest, AddListenerPurge)
 {
-    NisseService    service;
-    bool            serviceFinished = false;
+    Server    service;
+    bool      serviceFinished = false;
 
     service.listenOn<ActionUnReg>(9876);
     auto future = std::async(std::launch::async, [&serviceFinished](){sleep(2);while(!serviceFinished){ConnectSocket socket("127.0.0.1", 9876);}});

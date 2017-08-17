@@ -25,8 +25,8 @@ int main()
 {
     try
     {
-        namespace Node      = ThorsAnvil::Nisse;
-        namespace Express   = ThorsAnvil::Nisse::ProtocolHTTP;
+        namespace Node      = ThorsAnvil::Nisse::Core::Service;
+        namespace Express   = ThorsAnvil::Nisse::Protocol::HTTP;
         namespace ThorsSQL  = ThorsAnvil::SQL;
         namespace ThorsSer  = ThorsAnvil::Serialize;
 
@@ -82,7 +82,7 @@ int main()
         Express::Binder      binder;
         binder.addSite("ThorsAnvil.com", std::move(site));
 
-        Node::NisseService    service;
+        Node::Server         service;
         service.listenOn<Express::ReadRequestHandler>(40716, binder);
         service.start();
     }

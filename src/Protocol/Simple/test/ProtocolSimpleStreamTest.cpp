@@ -1,6 +1,6 @@
 #include "ProtocolSimpleStream.h"
 #include "ProtocolSimple.h"
-#include "ThorsNisseCoreService/NisseService.h"
+#include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include "ThorsNisseCoreUtility/Utility.h"
 #include <gtest/gtest.h>
@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <event2/util.h>
 
-using ThorsAnvil::Nisse::Core::Service::NisseService;
+using ThorsAnvil::Nisse::Core::Service::Server;
 using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 using ThorsAnvil::Nisse::Protocol::Simple::Message;
 using ThorsAnvil::Nisse::Protocol::Simple::ReadMessageHandler;
@@ -17,7 +17,7 @@ using ThorsAnvil::Nisse::Protocol::Simple::WriteMessageStreamHandler;
 
 TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageStreamHandler>(9870);
@@ -55,7 +55,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandler)
 
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageStreamHandler>(9871);
@@ -91,7 +91,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSize)
 
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSizeInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageStreamHandler>(9872);
@@ -127,7 +127,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialSizeInTwoChunks)
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageStreamHandler>(9873);
@@ -163,7 +163,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerSizeInTwoChunks)
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageStreamHandler>(9874);
@@ -198,7 +198,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessage)
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessageInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageStreamHandler>(9875);
@@ -235,7 +235,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerPartialMessageInTwoChunks)
 }
 TEST(ProtocolSimpleStreamTest, ReadMessageHandlerMessageInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageStreamHandler>(9876);
@@ -272,7 +272,7 @@ TEST(ProtocolSimpleStreamTest, ReadMessageHandlerMessageInTwoChunks)
 }
 TEST(ProtocolSimpleStreamTest, WriteMessageHandler)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
     Message         message;
 

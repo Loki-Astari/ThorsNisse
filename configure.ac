@@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([build/autotools/m4])
 AC_CONFIG_AUX_DIR([build/autotools/build])
 AX_THOR_FUNC_BUILD
 
-AC_CONFIG_SRCDIR([src/Nisse/NisseService.cpp])
+AC_CONFIG_SRCDIR([src/Core/Service/Server.cpp])
 AC_PROG_CXX
 AX_THOR_PROG_COV
 

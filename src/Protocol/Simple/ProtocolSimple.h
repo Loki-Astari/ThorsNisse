@@ -21,7 +21,7 @@ class ReadMessageHandler: public Core::Service::NisseHandler
         std::size_t                         bufferSize;
         std::string                         buffer;
     public:
-        ReadMessageHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket);
+        ReadMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
 
     public:
@@ -37,7 +37,7 @@ class WriteMessageHandler: public Core::Service::NisseHandler
         std::size_t                         writeBuffer;
         std::string                         message;
     public:
-        WriteMessageHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket, std::string const& message, bool ok = false);
+        WriteMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, std::string const& message, bool ok = false);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:
         static std::string const messageSuffix;

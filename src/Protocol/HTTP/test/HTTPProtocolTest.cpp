@@ -1,7 +1,7 @@
 #include "HTTPProtocol.h"
 #include <gtest/gtest.h>
 #include "Binder.h"
-#include "ThorsNisseCoreService/NisseService.h"
+#include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <unistd.h>
 #include <fcntl.h>
@@ -18,7 +18,7 @@ using ThorsAnvil::Nisse::Protocol::HTTP::Method;
 using ThorsAnvil::Nisse::Protocol::HTTP::Headers;
 using ThorsAnvil::Nisse::Protocol::HTTP::Binder;
 using ThorsAnvil::Nisse::Protocol::HTTP::Site;
-using ThorsAnvil::Nisse::Core::Service::NisseService;
+using ThorsAnvil::Nisse::Core::Service::Server;
 using ThorsAnvil::Nisse::Core::Socket::DataSocket;
 
 using namespace std;
@@ -29,12 +29,12 @@ class HTTPProtocolTest : public testing::Test
     public:
         virtual void SetUp()
         {
-            NisseService::ignore("epoll");
+            Server::ignore("epoll");
         }
 
         virtual void TearDown()
         {
-            NisseService::ignore();
+            Server::ignore();
         }
 };
  
@@ -44,7 +44,7 @@ TEST_F(HTTPProtocolTest, Construct)
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
     unlink("XX");
@@ -59,7 +59,7 @@ TEST_F(HTTPProtocolTest, GetRequest)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -76,7 +76,7 @@ TEST_F(HTTPProtocolTest, PutRequest)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -93,7 +93,7 @@ TEST_F(HTTPProtocolTest, PostRequest)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -110,7 +110,7 @@ TEST_F(HTTPProtocolTest, DeleteRequest)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -127,7 +127,7 @@ TEST_F(HTTPProtocolTest, HeadRequest)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -146,7 +146,7 @@ TEST_F(HTTPProtocolTest, CeckHeaders)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -168,7 +168,7 @@ TEST_F(HTTPProtocolTest, CeckHeadersMultipleValue)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -187,7 +187,7 @@ TEST_F(HTTPProtocolTest, CheckBody)
     ::write(readFD, message.c_str(), message.size());
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
 
@@ -202,7 +202,7 @@ TEST_F(HTTPProtocolTest, ConstructWriter)
     int         readFD = ::open("XX", O_RDWR | O_CREAT);
 
     DataSocket              socket(readFD);
-    NisseService            service;
+    Server                  service;
     Binder                  binder;
     std::string             uri = "thorsanvil.com/index.html";
     Headers                 headers;
@@ -238,7 +238,7 @@ TEST_F(HTTPProtocolTest, WriterProcesses)
     headers["Host"] = "ThorsAnvil.com";
 
     DataSocket              socket(fd);
-    NisseService            service;
+    Server                  service;
     std::string             uri = "/index.html";
     std::vector<char>       buffer;
     ReadRequestHandler      writer(service, std::move(socket), binder);

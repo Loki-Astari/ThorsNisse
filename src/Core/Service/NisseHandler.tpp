@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_NISSE_HANDLER_TPP
 #define THORSANVIL_NISSE_NISSE_HANDLER_TPP
 
-#include "NisseService.h"
+#include "Server.h"
 
 namespace ThorsAnvil
 {
@@ -26,7 +26,7 @@ inline void NisseHandler::moveHandler(Args&&... args)
 }
 
 template<typename Handler, typename Param>
-inline ServerHandler<Handler, Param>::ServerHandler(NisseService& parent, Socket::ServerSocket&& so, Param& param)
+inline ServerHandler<Handler, Param>::ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , param(param)
@@ -45,7 +45,7 @@ inline short ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/
 }
 
 template<typename Handler>
-inline ServerHandler<Handler, void>::ServerHandler(NisseService& parent, Socket::ServerSocket&& so)
+inline ServerHandler<Handler, void>::ServerHandler(Server& parent, Socket::ServerSocket&& so)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
 {}

@@ -1,17 +1,17 @@
 #include "ProtocolSimple.h"
-#include "ThorsNisseCoreService/NisseService.h"
+#include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <gtest/gtest.h>
 #include <future>
 
-using ThorsAnvil::Nisse::Core::Service::NisseService;
+using ThorsAnvil::Nisse::Core::Service::Server;
 using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 using ThorsAnvil::Nisse::Protocol::Simple::ReadMessageHandler;
 using ThorsAnvil::Nisse::Protocol::Simple::WriteMessageHandler;
 
 TEST(ProtocolSimpleTest, ReadMessageHandler)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9878);
@@ -46,7 +46,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandler)
 }
 TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSize)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9879);
@@ -81,7 +81,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSize)
 }
 TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9880);
@@ -118,7 +118,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
 }
 TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9881);
@@ -155,7 +155,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
 }
 TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessage)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9882);
@@ -191,7 +191,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessage)
 }
 TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9883);
@@ -229,7 +229,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
 }
 TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9884);
@@ -266,7 +266,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
 }
 TEST(ProtocolSimpleTest, WriteMessageHandler)
 {
-    NisseService    service;
+    Server          service;
     bool            finished = false;
     std::string     message = "A Write Test";
 

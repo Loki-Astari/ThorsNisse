@@ -6,7 +6,7 @@ std::string const ReadMessageHandler::failSizeMessage       = "Failed: Reading S
 std::string const ReadMessageHandler::failIncompleteMessage = "Failed: Size OK. But message incomplete";
 std::string const WriteMessageHandler::messageSuffix        = "-> 200 OK Replied";
 
-ReadMessageHandler::ReadMessageHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& so)
+ReadMessageHandler::ReadMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , readSizeObject(0)
@@ -60,7 +60,7 @@ short ReadMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, s
     return 0;
 }
 
-WriteMessageHandler::WriteMessageHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& so, std::string const& m, bool ok)
+WriteMessageHandler::WriteMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, std::string const& m, bool ok)
     : NisseHandler(parent, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
     , writeSizeObject(0)
@@ -112,8 +112,8 @@ short WriteMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, 
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
-#include "ThorsNisseCoreService/NisseService.h"
-#include "ThorsNisseCoreService/NisseService.tpp"
-template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<ReadMessageHandler>(int);
-template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<WriteMessageHandler, std::string>(int, std::string&);
+#include "ThorsNisseCoreService/Server.h"
+#include "ThorsNisseCoreService/Server.tpp"
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageHandler>(int);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageHandler, std::string>(int, std::string&);
 #endif

@@ -1,4 +1,4 @@
-#include "ThorsNisseCoreService/NisseService.h"
+#include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/NisseHandler.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimple.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
@@ -21,7 +21,7 @@ int main()
         HTTP::Binder    binder;
         binder.load("../AddBeer/AddBeer.dylib");
 
-        Nisse::NisseService    service;
+        Nisse::Server    service;
         service.listenOn<HTTP::ReadRequestHandler>(40716, binder);
 
         /*

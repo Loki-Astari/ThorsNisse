@@ -20,17 +20,17 @@ namespace ThorsAnvil
 using EventDeleter  = decltype(&event_free);
 using NisseEvent    = std::unique_ptr<LibEvent, EventDeleter>;
 
-class NisseService;
+class Server;
 class NisseHandler
 {
     private:
-        NisseService&                       parent;
+        Server&                             parent;
         NisseEvent                          readEvent;
         NisseEvent                          writeEvent;
         NisseHandler*                       suspended;
 
     public:
-        NisseHandler(NisseService& parent, LibSocketId socketId, short eventType, double timeout = 0);
+        NisseHandler(Server& parent, LibSocketId socketId, short eventType, double timeout = 0);
         virtual ~NisseHandler();
         void activateEventHandlers(LibSocketId sockId, short eventType);
         virtual short eventActivate(LibSocketId sockId, short eventType);
@@ -47,7 +47,7 @@ class NisseHandler
         virtual void suspend();
         void resume();
     private:
-        friend class NisseService;
+        friend class Server;
         void setSuspend(NisseHandler& handlerToSuspend);
 };
 
@@ -58,7 +58,7 @@ class ServerHandler: public NisseHandler
         Socket::ServerSocket    socket;
         Param&                  param;
     public:
-        ServerHandler(NisseService& parent, Socket::ServerSocket&& so, Param& param);
+        ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
@@ -69,7 +69,7 @@ class ServerHandler<Handler, void>: public NisseHandler
     private:
         Socket::ServerSocket    socket;
     public:
-        ServerHandler(NisseService& parent, Socket::ServerSocket&& so);
+        ServerHandler(Server& parent, Socket::ServerSocket&& so);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
@@ -78,7 +78,7 @@ class TimerHandler: public NisseHandler
 {
     std::function<void()>        action;
     public:
-        TimerHandler(NisseService& parent, double timeOut, std::function<void()>&& action)
+        TimerHandler(Server& parent, double timeOut, std::function<void()>&& action)
             : NisseHandler(parent, -1, EV_PERSIST, timeOut)
             , action(std::move(action))
         {}
