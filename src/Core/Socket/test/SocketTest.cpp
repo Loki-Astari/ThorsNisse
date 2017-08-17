@@ -6,10 +6,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-using ThorsAnvil::Socket::BaseSocket;
-using ThorsAnvil::Socket::DataSocket;
-using ThorsAnvil::Socket::ConnectSocket;
-using ThorsAnvil::Socket::ServerSocket;
+using ThorsAnvil::Nisse::Core::Socket::BaseSocket;
+using ThorsAnvil::Nisse::Core::Socket::DataSocket;
+using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
+using ThorsAnvil::Nisse::Core::Socket::ServerSocket;
 using ReadInfo = std::pair<bool, std::size_t>;
 
 class DerivedFromBase: public BaseSocket

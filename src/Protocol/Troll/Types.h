@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_PROTOCOLHTTP_TYPES_H
 
 #include "ThorsNisseCoreService/CoRoutine.h"
-#include "ThorsNisseSocket/Socket.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include <istream>
 #include <ostream>
 #include <string>
@@ -114,9 +114,10 @@ class Request
 class ReadRequestHandler;
 class Response
 {
+    using DataSocket = ThorsAnvil::Nisse::Core::Socket::DataSocket;
     private:
-        ReadRequestHandler*   flusher;
-        Socket::DataSocket*     socket;
+        ReadRequestHandler*    flusher;
+        DataSocket*             socket;
         bool                    headerWritten;
     public:
         short                   resultCode;
@@ -126,7 +127,7 @@ class Response
 
         Response(std::ostream& body);
         Response(ReadRequestHandler& flusher,
-                 Socket::DataSocket& socket,
+                 DataSocket& socket,
                  std::ostream& body,
                  short resultCode = 200,
                  std::string const& resultMessage = "OK");

@@ -141,7 +141,7 @@ void NisseHandler::setHandlers(short eventType, TimeVal* timeVal)
  */
 #include "NisseHandler.tpp"
 #include "test/Action.h"
-#include "ThorsNisseSocket/Socket.h"
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::NisseService&, ThorsAnvil::Socket::ServerSocket&&);
+#include "ThorsNisseCoreSocket/Socket.h"
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::NisseService&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::NisseService&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
 #endif

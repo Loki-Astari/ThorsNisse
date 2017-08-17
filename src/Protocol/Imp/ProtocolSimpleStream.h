@@ -3,7 +3,7 @@
 
 #include "ThorsNisseCoreService/NisseHandler.h"
 #include "ThorsNisseCoreService/CoRoutine.h"
-#include "ThorsNisseSocket/SocketStream.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"
 #include <istream>
 #include <ostream>
 #include <string>
@@ -67,7 +67,7 @@ class ReadMessageStreamHandler: public Core::Service::NisseHandler
     private:
         CoRoutine       worker;
     public:
-        ReadMessageStreamHandler(Core::Service::NisseService& parent, Socket::DataSocket&& socket);
+        ReadMessageStreamHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:
         static std::string const failToReadMessage;
@@ -78,8 +78,8 @@ class WriteMessageStreamHandler: public Core::Service::NisseHandler
     private:
         CoRoutine       worker;
     public:
-        WriteMessageStreamHandler(Core::Service::NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message&& message);
-        WriteMessageStreamHandler(Core::Service::NisseService& parent, ThorsAnvil::Socket::DataSocket&& socket, Message const& message);
+        WriteMessageStreamHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket, Message&& message);
+        WriteMessageStreamHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:

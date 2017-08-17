@@ -39,13 +39,13 @@ inline ServerHandler<Handler, Param>::~ServerHandler()
 template<typename Handler, typename Param>
 inline short ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    ThorsAnvil::Socket::DataSocket accepted = socket.accept();
+    Socket::DataSocket accepted = socket.accept();
     addHandler<Handler>(std::move(accepted), param);
     return EV_READ;
 }
 
 template<typename Handler>
-inline ServerHandler<Handler, void>::ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so)
+inline ServerHandler<Handler, void>::ServerHandler(NisseService& parent, Socket::ServerSocket&& so)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
 {}
@@ -57,7 +57,7 @@ inline ServerHandler<Handler, void>::~ServerHandler()
 template<typename Handler>
 inline short ServerHandler<Handler, void>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
-    ThorsAnvil::Socket::DataSocket accepted = socket.accept();
+    Socket::DataSocket accepted = socket.accept();
     addHandler<Handler>(std::move(accepted));
     return EV_READ;
 }

@@ -8,7 +8,8 @@
 #include <arpa/inet.h>
 #include <sys/types.h>
 
-using namespace ThorsAnvil::Socket;
+using namespace ThorsAnvil::Nisse::Core::Socket;
+
 #pragma vera_pushoff
 using SocketAddr    = struct sockaddr;
 using SocketStorage = struct sockaddr_storage;

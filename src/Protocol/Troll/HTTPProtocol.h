@@ -16,7 +16,7 @@ namespace ThorsAnvil
 
 class ReadRequestHandler: public Core::Service::NisseHandler
 {
-    using DataSocket = ThorsAnvil::Socket::DataSocket;
+    using DataSocket = ThorsAnvil::Nisse::Core::Socket::DataSocket;
     private:
         Response*           flusher;
         Yield*              yield;
@@ -26,7 +26,7 @@ class ReadRequestHandler: public Core::Service::NisseHandler
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        ReadRequestHandler(Core::Service::NisseService& parent, Socket::DataSocket&& socket, Binder const& binder);
+        ReadRequestHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& socket, Binder const& binder);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}

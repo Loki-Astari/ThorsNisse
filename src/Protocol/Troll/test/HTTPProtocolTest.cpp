@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include "Binder.h"
 #include "ThorsNisseCoreService/NisseService.h"
-#include "ThorsNisseSocket/Socket.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <fstream>
@@ -19,7 +19,7 @@ using ThorsAnvil::Nisse::ProtocolHTTP::Headers;
 using ThorsAnvil::Nisse::ProtocolHTTP::Binder;
 using ThorsAnvil::Nisse::ProtocolHTTP::Site;
 using ThorsAnvil::Nisse::Core::Service::NisseService;
-using ThorsAnvil::Socket::DataSocket;
+using ThorsAnvil::Nisse::Core::Socket::DataSocket;
 
 using namespace std;
  

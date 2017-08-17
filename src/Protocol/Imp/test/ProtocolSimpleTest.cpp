@@ -1,13 +1,13 @@
 #include "ProtocolSimple.h"
 #include "ThorsNisseCoreService/NisseService.h"
-#include "ThorsNisseSocket/Socket.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include <gtest/gtest.h>
 #include <future>
 
 using ThorsAnvil::Nisse::Core::Service::NisseService;
+using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;
 using ThorsAnvil::Nisse::ProtocolSimple::WriteMessageHandler;
-using ThorsAnvil::Socket::ConnectSocket;
 
 TEST(ProtocolSimpleTest, ReadMessageHandler)
 {

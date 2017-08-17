@@ -1,6 +1,6 @@
 #include "SocketStream.h"
 
-using namespace ThorsAnvil::Socket;
+using namespace ThorsAnvil::Nisse::Core::Socket;
 
 SocketStreamBuffer::SocketStreamBuffer(DataSocket& stream,
                                        Notifier noAvailableData, Notifier flushing,

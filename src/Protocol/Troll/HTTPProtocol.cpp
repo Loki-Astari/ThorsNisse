@@ -1,5 +1,5 @@
 #include "HTTPProtocol.h"
-#include "ThorsNisseSocket/SocketStream.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
@@ -32,7 +32,7 @@ class DevNullStreamBuf: public std::streambuf
         {}
 };
 
-ReadRequestHandler::ReadRequestHandler(Core::Service::NisseService& parent, Socket::DataSocket&& so, Binder const& binder)
+ReadRequestHandler::ReadRequestHandler(Core::Service::NisseService& parent, Core::Socket::DataSocket&& so, Binder const& binder)
     : NisseHandler(parent, so.getSocketId(), EV_READ)
     , flusher(nullptr)
     , yield(nullptr)
@@ -60,8 +60,8 @@ ReadRequestHandler::ReadRequestHandler(Core::Service::NisseService& parent, Sock
                 }
                 yield(EV_READ);
             }
-            Socket::ISocketStream   input(socket, [&yield](){yield(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-            Socket::OSocketStream   output(socket, [&yield](){yield(EV_WRITE);}, [&parent](){parent.flushing();});
+            Core::Socket::ISocketStream   input(socket, [&yield](){yield(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+            Core::Socket::OSocketStream   output(socket, [&yield](){yield(EV_WRITE);}, [&parent](){parent.flushing();});
             DevNullStreamBuf        devNullBuffer;
             if (scanner.data.method == Method::Head)
             {

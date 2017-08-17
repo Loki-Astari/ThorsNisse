@@ -9,8 +9,12 @@
 
 namespace ThorsAnvil
 {
-    namespace Socket
+    namespace Nisse
     {
+        namespace Core
+        {
+            namespace Socket
+            {
 
 using Notifier = std::function<void()>;
 
@@ -74,6 +78,8 @@ class OSocketStream: public std::ostream
         OSocketStream(OSocketStream&& move) noexcept;
 };
 
+            }
+        }
     }
 }
 

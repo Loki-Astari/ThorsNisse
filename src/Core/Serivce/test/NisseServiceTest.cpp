@@ -1,6 +1,6 @@
 #include "NisseService.h"
 #include "NisseHandler.h"
-#include "ThorsNisseSocket/Socket.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include "test/Action.h"
 #include <gtest/gtest.h>
 #include <future>
@@ -8,7 +8,7 @@
 
 using ThorsAnvil::Nisse::Core::Service::NisseService;
 using ThorsAnvil::Nisse::Core::Service::NisseHandler;
-using ThorsAnvil::Socket::ConnectSocket;
+using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 
 TEST(NisseServiceTest, Construct)
 {

@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_NISSE_SERVICE_TPP
 
 #include "NisseHandler.h"
-#include "ThorsNisseSocket/Socket.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
 #include <vector>
 
@@ -18,13 +18,13 @@ namespace ThorsAnvil
 template<typename Handler>
 inline void NisseService::listenOn(int port)
 {
-    addHandler<ServerHandler<Handler, void>>(ThorsAnvil::Socket::ServerSocket(port));
+    addHandler<ServerHandler<Handler, void>>(Socket::ServerSocket(port));
 }
 
 template<typename Handler, typename Param>
 inline void NisseService::listenOn(int port, Param& param)
 {
-    addHandler<ServerHandler<Handler, Param>>(ThorsAnvil::Socket::ServerSocket(port), param);
+    addHandler<ServerHandler<Handler, Param>>(Socket::ServerSocket(port), param);
 }
 
 template<typename H, typename... Args>

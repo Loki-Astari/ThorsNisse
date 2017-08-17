@@ -6,9 +6,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-using ThorsAnvil::Socket::DataSocket;
-using ThorsAnvil::Socket::ISocketStream;
-using ThorsAnvil::Socket::OSocketStream;
+using ThorsAnvil::Nisse::Core::Socket::DataSocket;
+using ThorsAnvil::Nisse::Core::Socket::ISocketStream;
+using ThorsAnvil::Nisse::Core::Socket::OSocketStream;
 using ReadInfo = std::pair<bool, std::size_t>;
 
 TEST(SocketStreamTest, ReadNormal)

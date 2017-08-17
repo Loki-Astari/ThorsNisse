@@ -6,8 +6,12 @@
 
 namespace ThorsAnvil
 {
-    namespace Socket
+    namespace Nisse
     {
+        namespace Core
+        {
+            namespace Socket
+            {
 
 // An RAII base class for handling sockets.
 // Socket is movable but not copyable.
@@ -72,6 +76,8 @@ class ServerSocket: public BaseSocket
         DataSocket accept(bool blocking = false);
 };
 
+            }
+        }
     }
 }
 

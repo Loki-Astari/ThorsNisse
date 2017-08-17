@@ -8,8 +8,12 @@
 
 namespace ThorsAnvil
 {
-    namespace Socket
+    namespace Nisse
     {
+        namespace Core
+        {
+            namespace Socket
+            {
 
 template<typename... Args>
 void print(std::ostream& s, Args&... args)
@@ -95,6 +99,8 @@ inline std::string systemErrorMessage()
     return result;
 }
 
+            }
+        }
     }
 }
 

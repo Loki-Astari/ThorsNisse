@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_NISSE_HANDLER_H
 
 #include "NisseEventUtil.h"
-#include "ThorsNisseSocket/Socket.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
 #include <functional>
 
@@ -55,10 +55,10 @@ template<typename Handler, typename Param>
 class ServerHandler: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket    socket;
-        Param&                              param;
+        Socket::ServerSocket    socket;
+        Param&                  param;
     public:
-        ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so, Param& param);
+        ServerHandler(NisseService& parent, Socket::ServerSocket&& so, Param& param);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
@@ -67,9 +67,9 @@ template<typename Handler>
 class ServerHandler<Handler, void>: public NisseHandler
 {
     private:
-        ThorsAnvil::Socket::ServerSocket    socket;
+        Socket::ServerSocket    socket;
     public:
-        ServerHandler(NisseService& parent, ThorsAnvil::Socket::ServerSocket&& so);
+        ServerHandler(NisseService& parent, Socket::ServerSocket&& so);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };

@@ -103,7 +103,7 @@ Request::Request(Method method,
 {}
 
 Response::Response(ReadRequestHandler& fl,
-                   Socket::DataSocket& socket,
+                   DataSocket& socket,
                    std::ostream& body,
                    short resultCode,
                    std::string const& resultMessage)

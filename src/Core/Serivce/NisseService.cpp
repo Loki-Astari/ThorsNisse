@@ -139,6 +139,6 @@ void NisseService::setCurrentHandler(NisseHandler* current)
 #include "test/Action.h"
 template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<Action>(int);
 template void ThorsAnvil::Nisse::Core::Service::NisseService::listenOn<ActionUnReg>(int);
-template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<Action, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
-template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<ActionUnReg, ThorsAnvil::Socket::DataSocket>(ThorsAnvil::Socket::DataSocket&&);
+template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template NisseHandler& ThorsAnvil::Nisse::Core::Service::NisseService::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 #endif
