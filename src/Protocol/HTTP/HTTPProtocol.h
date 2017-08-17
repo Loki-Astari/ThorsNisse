@@ -4,7 +4,7 @@
 #include "Binder.h"
 #include "Types.h"
 #include "HttpScanner.h"
-#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/Handler.h"
 #include <cstddef>
 
 namespace ThorsAnvil
@@ -16,7 +16,7 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
-class ReadRequestHandler: public Core::Service::NisseHandler
+class ReadRequestHandler: public Core::Service::Handler
 {
     using DataSocket = ThorsAnvil::Nisse::Core::Socket::DataSocket;
     private:

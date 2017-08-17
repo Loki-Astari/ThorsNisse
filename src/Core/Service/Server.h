@@ -19,10 +19,10 @@ namespace ThorsAnvil
             {
 
 class Server;
-class NisseHandler;
+class Handler;
 using EventBaseDeleter  = decltype(&event_base_free);
 using EventHolder       = std::unique_ptr<LibEventBase, EventBaseDeleter>;
-using NisseManagHandler = std::unique_ptr<NisseHandler>;
+using NisseManagHandler = std::unique_ptr<Handler>;
 using EventConfig       = struct event_config;
 
 class Server
@@ -36,15 +36,15 @@ class Server
         // handlers for different incoming streams).
         // We use an unordered map to make it easy to find the handler
         // when we want to delete it.
-        std::unordered_map<NisseHandler*, NisseManagHandler>  handlers;
+        std::unordered_map<Handler*, NisseManagHandler>  handlers;
 
         // This vector is a non owning vector.
         // It contains the pointers to handlers that need to be
         // deleted. We don't want handlers to delete themselves
         // so they register themselves for deletion and get purged
         // in `runLoop()`.
-        std::vector<NisseHandler*>      retiredHandlers;
-        NisseHandler*                   currentHandler;
+        std::vector<Handler*>           retiredHandlers;
+        Handler*                        currentHandler;
         static Server*                  currentService;
         static EventConfig*             cfg;
     public:
@@ -87,11 +87,11 @@ class Server
         void purgeRetiredHandlers();
         void swap(Server& other);
 
-        friend class NisseHandler;
+        friend class Handler;
         template<typename H, typename... Args>
-        NisseHandler& addHandler(Args&&... args);
-        void delHandler(NisseHandler* oldHandler);
-        void setCurrentHandler(NisseHandler* current);
+        Handler& addHandler(Args&&... args);
+        void delHandler(Handler* oldHandler);
+        void setCurrentHandler(Handler* current);
 };
 
             }

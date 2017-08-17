@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_CORE_SERVICE_NISSE_HANDLER_H
-#define THORSANVIL_NISSE_CORE_SERVICE_NISSE_HANDLER_H
+#ifndef THORSANVIL_NISSE_CORE_SERVICE_HANDLER_H
+#define THORSANVIL_NISSE_CORE_SERVICE_HANDLER_H
 
 #include "NisseEventUtil.h"
 #include "ThorsNisseCoreSocket/Socket.h"
@@ -21,17 +21,17 @@ using EventDeleter  = decltype(&event_free);
 using NisseEvent    = std::unique_ptr<LibEvent, EventDeleter>;
 
 class Server;
-class NisseHandler
+class Handler
 {
     private:
         Server&                             parent;
         NisseEvent                          readEvent;
         NisseEvent                          writeEvent;
-        NisseHandler*                       suspended;
+        Handler*                            suspended;
 
     public:
-        NisseHandler(Server& parent, LibSocketId socketId, short eventType, double timeout = 0);
-        virtual ~NisseHandler();
+        Handler(Server& parent, LibSocketId socketId, short eventType, double timeout = 0);
+        virtual ~Handler();
         void activateEventHandlers(LibSocketId sockId, short eventType);
         virtual short eventActivate(LibSocketId sockId, short eventType);
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
@@ -48,11 +48,11 @@ class NisseHandler
         void resume();
     private:
         friend class Server;
-        void setSuspend(NisseHandler& handlerToSuspend);
+        void setSuspend(Handler& handlerToSuspend);
 };
 
-template<typename Handler, typename Param>
-class ServerHandler: public NisseHandler
+template<typename ActHand, typename Param>
+class ServerHandler: public Handler
 {
     private:
         Socket::ServerSocket    socket;
@@ -63,8 +63,8 @@ class ServerHandler: public NisseHandler
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
 
-template<typename Handler>
-class ServerHandler<Handler, void>: public NisseHandler
+template<typename ActHand>
+class ServerHandler<ActHand, void>: public Handler
 {
     private:
         Socket::ServerSocket    socket;
@@ -74,12 +74,12 @@ class ServerHandler<Handler, void>: public NisseHandler
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
 
-class TimerHandler: public NisseHandler
+class TimerHandler: public Handler
 {
     std::function<void()>        action;
     public:
         TimerHandler(Server& parent, double timeOut, std::function<void()>&& action)
-            : NisseHandler(parent, -1, EV_PERSIST, timeOut)
+            : Handler(parent, -1, EV_PERSIST, timeOut)
             , action(std::move(action))
         {}
         virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
@@ -95,6 +95,6 @@ class TimerHandler: public NisseHandler
 }
 
 #ifndef COVERAGE_TEST
-#include "NisseHandler.tpp"
+#include "Handler.tpp"
 #endif
 #endif

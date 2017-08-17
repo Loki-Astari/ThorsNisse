@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_H
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_H
 
-#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/Handler.h"
 
 namespace ThorsAnvil
 {
@@ -12,7 +12,7 @@ namespace ThorsAnvil
             namespace Simple
             {
 
-class ReadMessageHandler: public Core::Service::NisseHandler
+class ReadMessageHandler: public Core::Service::Handler
 {
     private:
         Core::Socket::DataSocket            socket;
@@ -29,7 +29,7 @@ class ReadMessageHandler: public Core::Service::NisseHandler
         static std::string const failIncompleteMessage;
 };
 
-class WriteMessageHandler: public Core::Service::NisseHandler
+class WriteMessageHandler: public Core::Service::Handler
 {
     private:
         Core::Socket::DataSocket            socket;

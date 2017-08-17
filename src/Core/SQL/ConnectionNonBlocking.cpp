@@ -1,6 +1,6 @@
 #include "ConnectionNonBlocking.h"
 #include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/Handler.h"
 
 namespace ThorsAnvil
 {
@@ -11,7 +11,7 @@ namespace ThorsAnvil
             namespace SQL
             {
 
-class MySQLConnectionHandler: public Service::NisseHandler
+class MySQLConnectionHandler: public Service::Handler
 {
     CoRoutine               worker;
     public:
@@ -22,7 +22,7 @@ class MySQLConnectionHandler: public Service::NisseHandler
                                std::string const& password,
                                std::string const& database,
                                ThorsAnvil::SQL::Options const& options)
-            : NisseHandler(service, stream.getSocketId(), EV_READ | EV_WRITE)
+            : Handler(service, stream.getSocketId(), EV_READ | EV_WRITE)
             , worker([&connection, &stream, &username, &password, &database, &options](Yield& yield)
                 {
                     yield(EV_WRITE);

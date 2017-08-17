@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_STREAM_H
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_STREAM_H
 
-#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/Handler.h"
 #include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
 #include <istream>
@@ -64,7 +64,7 @@ class Message
         }
 };
 
-class ReadMessageStreamHandler: public Core::Service::NisseHandler
+class ReadMessageStreamHandler: public Core::Service::Handler
 {
     private:
         CoRoutine       worker;
@@ -75,7 +75,7 @@ class ReadMessageStreamHandler: public Core::Service::NisseHandler
         static std::string const failToReadMessage;
 };
 
-class WriteMessageStreamHandler: public Core::Service::NisseHandler
+class WriteMessageStreamHandler: public Core::Service::Handler
 {
     private:
         CoRoutine       worker;

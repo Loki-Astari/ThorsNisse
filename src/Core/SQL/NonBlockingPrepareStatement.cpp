@@ -1,7 +1,7 @@
 #include "NonBlockingPrepareStatement.h"
 #include "NonBlockingMySQLConnection.h"
 #include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/Handler.h"
 #include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorMySQL/PrepareStatement.h"
 
@@ -10,7 +10,7 @@ using namespace ThorsAnvil::Nisse::Core::SQL;
 using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
 using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
-class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::NisseHandler
+class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::Handler
 {
     CoRoutine   worker;
     public:
@@ -19,7 +19,7 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::NisseHandler
                             NonBlockingPrepareStatement& parent,
                             ConnectionNonBlocking& nbStream,
                             std::string const& statement)
-            : NisseHandler(service, connection.getSocketId(), EV_READ | EV_WRITE)
+            : Handler(service, connection.getSocketId(), EV_READ | EV_WRITE)
             , worker([&connection, &parent, &nbStream, &statement](Yield& yield)
                 {
                     yield(EV_WRITE);
@@ -40,14 +40,14 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::NisseHandler
         }
 };
 
-class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::NisseHandler
+class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::Handler
 {
     CoRoutine   worker;
     public:
         MySQLExecuteHandler(ThorsAnvil::Nisse::Core::Service::Server& service,
                             NonBlockingMySQLConnection& connection,
                             NonBlockingPrepareStatement& parent)
-            : NisseHandler(service, connection.getSocketId(), EV_READ | EV_WRITE)
+            : Handler(service, connection.getSocketId(), EV_READ | EV_WRITE)
             , worker([&parent, &connection](Yield& yield)
                 {
                     yield(EV_WRITE);
@@ -73,7 +73,7 @@ NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnect
 {
     if (!Service::Server::inHandler())
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement::NonBlockingPrepareStatement: Can only use this prepare inside a NisseHandler");
+        throw std::runtime_error("ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement::NonBlockingPrepareStatement: Can only use this prepare inside a Handler");
     }
     auto& service = Service::Server::getCurrentHandler();
     service.transferHandler<MySQLPrepareHandler>(connection, *this, nbStream, statement);
@@ -83,7 +83,7 @@ void NonBlockingPrepareStatement::doExecute()
 {
     if (! Service::Server::inHandler())
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement::doExecute: Can only use this prepare inside a NisseHandler");
+        throw std::runtime_error("ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement::doExecute: Can only use this prepare inside a Handler");
     }
     auto& service = Service::Server::getCurrentHandler();
     service.transferHandler<MySQLExecuteHandler>(connection, *this);

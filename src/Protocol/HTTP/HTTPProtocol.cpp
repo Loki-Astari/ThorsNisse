@@ -33,7 +33,7 @@ class DevNullStreamBuf: public std::streambuf
 };
 
 ReadRequestHandler::ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, Binder const& binder)
-    : NisseHandler(parent, so.getSocketId(), EV_READ)
+    : Handler(parent, so.getSocketId(), EV_READ)
     , flusher(nullptr)
     , yield(nullptr)
     , running(false)

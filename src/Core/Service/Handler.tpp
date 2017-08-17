@@ -13,13 +13,13 @@ namespace ThorsAnvil
             {
 
 template<typename H, typename... Args>
-inline void NisseHandler::addHandler(Args&&... args)
+inline void Handler::addHandler(Args&&... args)
 {
     parent.addHandler<H>(std::forward<Args>(args)...);
 }
 
 template<typename H, typename... Args>
-inline void NisseHandler::moveHandler(Args&&... args)
+inline void Handler::moveHandler(Args&&... args)
 {
     dropHandler();
     parent.addHandler<H>(std::forward<Args>(args)...);
@@ -27,7 +27,7 @@ inline void NisseHandler::moveHandler(Args&&... args)
 
 template<typename Handler, typename Param>
 inline ServerHandler<Handler, Param>::ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param)
-    : NisseHandler(parent, so.getSocketId(), EV_READ)
+    : Handler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , param(param)
 {}
@@ -36,29 +36,29 @@ template<typename Handler, typename Param>
 inline ServerHandler<Handler, Param>::~ServerHandler()
 {}
 
-template<typename Handler, typename Param>
-inline short ServerHandler<Handler, Param>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+template<typename ActHand, typename Param>
+inline short ServerHandler<ActHand, Param>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     Socket::DataSocket accepted = socket.accept();
-    addHandler<Handler>(std::move(accepted), param);
+    addHandler<ActHand>(std::move(accepted), param);
     return EV_READ;
 }
 
-template<typename Handler>
-inline ServerHandler<Handler, void>::ServerHandler(Server& parent, Socket::ServerSocket&& so)
-    : NisseHandler(parent, so.getSocketId(), EV_READ)
+template<typename ActHand>
+inline ServerHandler<ActHand, void>::ServerHandler(Server& parent, Socket::ServerSocket&& so)
+    : Handler(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
 {}
 
-template<typename Handler>
-inline ServerHandler<Handler, void>::~ServerHandler()
+template<typename ActHand>
+inline ServerHandler<ActHand, void>::~ServerHandler()
 {}
 
-template<typename Handler>
-inline short ServerHandler<Handler, void>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+template<typename ActHand>
+inline short ServerHandler<ActHand, void>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     Socket::DataSocket accepted = socket.accept();
-    addHandler<Handler>(std::move(accepted));
+    addHandler<ActHand>(std::move(accepted));
     return EV_READ;
 }
 

@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_NISSE_SERVICE_TPP
 #define THORSANVIL_NISSE_NISSE_SERVICE_TPP
 
-#include "NisseHandler.h"
+#include "Handler.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
 #include <vector>
@@ -28,10 +28,10 @@ inline void Server::listenOn(int port, Param& param)
 }
 
 template<typename H, typename... Args>
-inline NisseHandler& Server::addHandler(Args&&... args)
+inline Handler& Server::addHandler(Args&&... args)
 {
     NisseManagHandler   value = std::make_unique<H>(*this, std::forward<Args>(args)...);
-    NisseHandler*       key   = value.get();
+    Handler*            key   = value.get();
     handlers.emplace(key, std::move(value));
     return *key;
 }
@@ -43,7 +43,7 @@ inline void Server::transferHandler(Args&&... args)
     {
         throw std::runtime_error("Can not transfer handlers when not running a current handler");
     }
-    NisseHandler& handler = addHandler<H>(std::forward<Args>(args)...);
+    Handler& handler = addHandler<H>(std::forward<Args>(args)...);
     handler.setSuspend(*currentHandler);
 }
 

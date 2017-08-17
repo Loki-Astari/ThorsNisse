@@ -1,5 +1,5 @@
 #include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/NisseHandler.h"
+#include "ThorsNisseCoreService/Handler.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimple.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
 #include "ThorsNisseProtocolHTTP/HTTPProtocol.h"

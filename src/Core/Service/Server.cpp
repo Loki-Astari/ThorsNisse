@@ -1,5 +1,5 @@
 #include "Server.h"
-#include "NisseHandler.h"
+#include "Handler.h"
 
 #include <iostream>
 
@@ -106,7 +106,7 @@ void Server::purgeRetiredHandlers()
     retiredHandlers.clear();
 }
 
-void Server::delHandler(NisseHandler* oldHandler)
+void Server::delHandler(Handler* oldHandler)
 {
     retiredHandlers.emplace_back(oldHandler);
 }
@@ -116,7 +116,7 @@ void Server::addTimer(double timeOut, std::function<void()>&& action)
     addHandler<TimerHandler>(std::move(timeOut), std::move(action));
 }
 
-void Server::setCurrentHandler(NisseHandler* current)
+void Server::setCurrentHandler(Handler* current)
 {
     if (current != nullptr)
     {
@@ -139,6 +139,6 @@ void Server::setCurrentHandler(NisseHandler* current)
 #include "test/Action.h"
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(int);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(int);
-template NisseHandler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
-template NisseHandler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 #endif
