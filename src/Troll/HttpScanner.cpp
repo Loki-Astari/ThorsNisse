@@ -1,4 +1,5 @@
 #include "HttpScanner.h"
+#include "ThorsNisseSocket/SocketStream.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 

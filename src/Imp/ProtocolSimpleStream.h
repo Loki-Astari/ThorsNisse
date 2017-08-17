@@ -4,7 +4,10 @@
 #include "ThorsNisse/NisseHandler.h"
 #include "ThorsNisseSocket/SocketStream.h"
 #include "ThorsNisse/CoRoutine.h"
-#include <ios>
+#include <istream>
+#include <ostream>
+#include <string>
+#include <memory>
 
 namespace ThorsAnvil
 {

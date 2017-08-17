@@ -5,8 +5,7 @@
 #include "Types.h"
 #include "HttpScanner.h"
 #include "ThorsNisse/NisseHandler.h"
-#include <map>
-#include <vector>
+#include <cstddef>
 
 namespace ThorsAnvil
 {

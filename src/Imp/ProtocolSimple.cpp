@@ -1,5 +1,4 @@
 #include "ProtocolSimple.h"
-#include "ThorsNisse/NisseService.h"
 
 using namespace ThorsAnvil::Nisse::ProtocolSimple;
 
@@ -113,6 +112,7 @@ short WriteMessageHandler::eventActivate(LibSocketId /*sockId*/, short /*eventTy
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
+#include "ThorsNisse/NisseService.h"
 #include "ThorsNisse/NisseService.tpp"
 template void ThorsAnvil::Nisse::NisseService::listenOn<ReadMessageHandler>(int);
 template void ThorsAnvil::Nisse::NisseService::listenOn<WriteMessageHandler, std::string>(int, std::string&);

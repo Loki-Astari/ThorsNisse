@@ -1,5 +1,6 @@
 #include "Types.h"
 #include "HTTPProtocol.h"
+#include <sstream>
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 

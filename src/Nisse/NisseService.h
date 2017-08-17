@@ -2,11 +2,12 @@
 #define THORSANVIL_NISSE_NISSE_SERVICE_H
 
 #include "NisseEventUtil.h"
-#include "ThorsNisseSocket/Socket.h"
 #include <memory>
 #include <unordered_map>
 #include <functional>
 #include <string>
+#include <vector>
+#include <event.h>
 
 namespace ThorsAnvil
 {

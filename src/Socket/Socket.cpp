@@ -1,13 +1,12 @@
 #include "Socket.h"
 #include "Utility.h"
-#include "event.h"
-#include <arpa/inet.h>
-#include <sys/types.h>
-#include <sys/socket.h>
+#include <stdexcept>
+#include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <sstream>
-#include <stdexcept>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <sys/types.h>
 
 using namespace ThorsAnvil::Socket;
 #pragma vera_pushoff
@@ -37,7 +36,7 @@ BaseSocket::BaseSocket(int socketId, bool blocking)
 
 void BaseSocket::makeSocketNonBlocking(int socketId)
 {
-    if (fcntl(socketId, F_SETFL, O_NONBLOCK) == -1)
+    if (::fcntl(socketId, F_SETFL, O_NONBLOCK) == -1)
     {
         throw std::domain_error(buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
                                                   ": fcntl: ", systemErrorMessage()));

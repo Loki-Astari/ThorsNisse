@@ -1,13 +1,9 @@
 #ifndef THORSANVIL_NISSE_PROTOCOLHTTP_ROUTE_H
 #define THORSANVIL_NISSE_PROTOCOLHTTP_ROUTE_H
 
-#include "Types.h"
-#include "Route.h"
-
-#include <map>
-#include <array>
 #include <string>
-#include <functional>
+#include <vector>
+#include <ostream>
 #include <experimental/string_view>
 
 namespace stx = std::experimental;

@@ -6,6 +6,7 @@
 
 #include <map>
 #include <array>
+#include <utility>
 #include <string>
 #include <functional>
 
@@ -66,6 +67,8 @@ class Binder
         Binder();
         void setCustome404Action(Action&& action);
         void addSite(std::string const& host, Site&& site);
+        void load(std::string const& site);
+
         Action const& find(Method method, std::string const& host, std::string const& path) const;
 };
 

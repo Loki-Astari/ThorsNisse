@@ -34,4 +34,4 @@ void NonBlockingMySQLConnection::setYield(std::function<void()>&& yr, std::funct
     stream.setYield(std::move(yr), std::move(yw));
 }
 
-ThorsAnvil::SQL::Lib::ConnectionCreatorRegister<NonBlockingMySQLConnection>    mysqlConnection("mysqlNB");
+ThorsAnvil::SQL::Lib::ConnectionCreatorRegister<NonBlockingMySQLConnection>    mysqlNBConnection("mysqlNB");

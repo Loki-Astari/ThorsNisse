@@ -1,14 +1,15 @@
 #ifndef THORS_ANVIL_NISSESQL_NONBLOCKING_MY_SQL_CONNECTION_H
 #define THORS_ANVIL_NISSESQL_NONBLOCKING_MY_SQL_CONNECTION_H
 
+#include "ConnectionNonBlocking.h"
 #include "ThorMySQL/MySQLStream.h"
 #include "ThorMySQL/PackageBuffer.h"
 #include "ThorMySQL/ConectReader.h"
 #include "ThorMySQL/ConectWriter.h"
 #include "ThorSQL/Connection.h"
-#include "ConnectionNonBlocking.h"
 #include <string>
 #include <memory>
+#include <functional>
 
 namespace ThorsAnvil
 {

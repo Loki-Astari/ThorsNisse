@@ -1,4 +1,8 @@
 #include "Binder.h"
+#include "ThorsNisseSocket/Utility.h"
+#include <dlfcn.h>
+#include <dlfcn.h>
+
 
 using namespace ThorsAnvil::Nisse::ProtocolHTTP;
 
@@ -87,4 +91,29 @@ Action const& Binder::find(Method method, std::string const& host, std::string c
         }
     }
     return action404;
+}
+
+void Binder::load(std::string const& site)
+{
+    void* siteLib = dlopen(site.c_str(), RTLD_NOW | RTLD_LOCAL);
+    if (siteLib == nullptr)
+    {
+        throw std::runtime_error(
+            ThorsAnvil::Socket::buildErrorMessage(
+                "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlopen: Failed to load: ", site, " Error: ", dlerror()));
+    }
+    /* Get rid of old error messages */
+    dlerror();
+
+    void (*addSite)(ThorsAnvil::Nisse::ProtocolHTTP::Binder& binder) = nullptr;
+
+    *(void**) (&addSite) = dlsym(siteLib, "_Z7addSiteRN10ThorsAnvil5Nisse12ProtocolHTTP6BinderE");
+    if (addSite == nullptr)
+    {
+        throw std::runtime_error(
+            ThorsAnvil::Socket::buildErrorMessage(
+                "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlsym: Failed to load: ", site, " Error: ", dlerror()));
+    }
+
+    (*addSite)(*this);
 }
