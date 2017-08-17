@@ -14,8 +14,6 @@ namespace Nisse = ThorsAnvil::Nisse;
 namespace HTTP  = ThorsAnvil::Nisse::ProtocolHTTP;
 namespace SQL   = ThorsAnvil::SQL;
 
-
-
 int main()
 {
     try

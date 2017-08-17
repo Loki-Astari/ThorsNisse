@@ -1,7 +1,7 @@
 
 THORSANVIL_ROOT				= $(realpath ../)
 
-TARGET						= Socket Nisse Imp Troll
+TARGET						= Core Protocol Express Example NodeCXX
 
 include $(THORSANVIL_ROOT)/build/tools/Project.Makefile
 
