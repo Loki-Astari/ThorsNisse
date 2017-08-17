@@ -1,20 +1,18 @@
-#include "ThorsNisse/NisseService.h"
-#include "ThorsNisse/NisseHandler.h"
-#include "ThorsImp/ProtocolSimple.h"
-#include "ThorsImp/ProtocolSimpleStream.h"
-#include "ThorsTroll/HTTPProtocol.h"
-#include "ThorsTroll/Binder.h"
-#include "ThorsTroll/Types.h"
+#include "ThorsNisseCoreService/Server.h"
+#include "ThorsNisseCoreService/Handler.h"
+#include "ThorsNisseProtocolSimple/ProtocolSimple.h"
+#include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
+#include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
+#include "ThorsNisseProtocolHTTP/Binder.h"
+#include "ThorsNisseProtocolHTTP/Types.h"
 #include "ThorSQL/Connection.h"
 #include "ThorSQL/Statement.h"
 
 #include <iostream>
 
-namespace Nisse = ThorsAnvil::Nisse;
-namespace HTTP  = ThorsAnvil::Nisse::ProtocolHTTP;
+namespace Nisse = ThorsAnvil::Nisse::Core::Service;
+namespace HTTP  = ThorsAnvil::Nisse::Protocol::HTTP;
 namespace SQL   = ThorsAnvil::SQL;
-
-
 
 int main()
 {
@@ -23,7 +21,7 @@ int main()
         HTTP::Binder    binder;
         binder.load("../AddBeer/AddBeer.dylib");
 
-        Nisse::NisseService    service;
+        Nisse::Server    service;
         service.listenOn<HTTP::ReadRequestHandler>(40716, binder);
 
         /*

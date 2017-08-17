@@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([build/autotools/m4])
 AC_CONFIG_AUX_DIR([build/autotools/build])
 AX_THOR_FUNC_BUILD
 
-AC_CONFIG_SRCDIR([src/Nisse/NisseService.cpp])
+AC_CONFIG_SRCDIR([src/Core/Service/Server.cpp])
 AC_PROG_CXX
 AX_THOR_PROG_COV
 
@@ -35,5 +35,5 @@ AX_THOR_FUNC_LANG_FLAG(17)
 
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in:Makefile.config.in src/Nisse/NisseConfig.h:LibConfig.h.in])
+AC_CONFIG_FILES([Makefile.extra Makefile.config:build/autotools/build/Makefile.config.in:Makefile.config.in src/Core/Service/CoreServiceConfig.h:LibConfig.h.in])
 AC_OUTPUT
