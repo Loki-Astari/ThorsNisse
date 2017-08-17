@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_CORE_SOCKET_UTILITY_H
-#define THORSANVIL_NISSE_CORE_SOCKET_UTILITY_H
+#ifndef THORSANVIL_NISSE_CORE_UTILITY_UTILITY_H
+#define THORSANVIL_NISSE_CORE_UTILITY_UTILITY_H
 
 #include <string>
 #include <sstream>
@@ -12,7 +12,7 @@ namespace ThorsAnvil
     {
         namespace Core
         {
-            namespace Socket
+            namespace Utility
             {
 
 template<typename... Args>

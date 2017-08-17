@@ -1,5 +1,5 @@
 #include "Binder.h"
-#include "ThorsNisseCoreSocket/Utility.h"
+#include "ThorsNisseCoreUtility/Utility.h"
 #include <dlfcn.h>
 #include <dlfcn.h>
 
@@ -99,7 +99,7 @@ void Binder::load(std::string const& site)
     if (siteLib == nullptr)
     {
         throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Socket::buildErrorMessage(
+            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
                 "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlopen: Failed to load: ", site, " Error: ", dlerror()));
     }
     /* Get rid of old error messages */
@@ -111,7 +111,7 @@ void Binder::load(std::string const& site)
     if (addSite == nullptr)
     {
         throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Socket::buildErrorMessage(
+            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
                 "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlsym: Failed to load: ", site, " Error: ", dlerror()));
     }
 
