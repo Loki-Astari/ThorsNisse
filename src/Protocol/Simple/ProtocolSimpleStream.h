@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
-#define THORSANVIL_NISSE_PROTOCOL_SIMPLE_STREAM_NISSE_H
+#ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_STREAM_H
+#define THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_STREAM_H
 
 #include "ThorsNisseCoreService/NisseHandler.h"
 #include "ThorsNisseCoreService/CoRoutine.h"
@@ -13,8 +13,10 @@ namespace ThorsAnvil
 {
     namespace Nisse
     {
-        namespace ProtocolSimple
+        namespace Protocol
         {
+            namespace Simple
+            {
 
 using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
 using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
@@ -86,6 +88,7 @@ class WriteMessageStreamHandler: public Core::Service::NisseHandler
         static std::string const messageSuffix;
 };
 
+            }
         }
     }
 }

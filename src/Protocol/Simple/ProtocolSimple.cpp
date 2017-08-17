@@ -1,6 +1,6 @@
 #include "ProtocolSimple.h"
 
-using namespace ThorsAnvil::Nisse::ProtocolSimple;
+using namespace ThorsAnvil::Nisse::Protocol::Simple;
 
 std::string const ReadMessageHandler::failSizeMessage       = "Failed: Reading Size Object";
 std::string const ReadMessageHandler::failIncompleteMessage = "Failed: Size OK. But message incomplete";

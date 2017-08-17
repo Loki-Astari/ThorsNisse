@@ -1,6 +1,6 @@
 #include "ProtocolSimpleStream.h"
 
-using namespace ThorsAnvil::Nisse::ProtocolSimple;
+using namespace ThorsAnvil::Nisse::Protocol::Simple;
 
 std::string const ReadMessageStreamHandler::failToReadMessage = "Message Read Failed";
 std::string const WriteMessageStreamHandler::messageSuffix    = " -> OK <-";
