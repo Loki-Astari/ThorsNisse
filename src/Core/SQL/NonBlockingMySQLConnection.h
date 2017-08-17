@@ -13,8 +13,12 @@
 
 namespace ThorsAnvil
 {
-    namespace NisseSQL
+    namespace Nisse
     {
+        namespace Core
+        {
+            namespace SQL
+            {
 
 namespace MySQL = ThorsAnvil::MySQL;
 
@@ -37,6 +41,8 @@ class NonBlockingMySQLConnection: public ThorsAnvil::SQL::Lib::ConnectionProxy
         virtual void setYield(std::function<void()>&&, std::function<void()>&&) override;
 };
 
+            }
+        }
     }
 }
 

@@ -5,7 +5,7 @@
 #include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorMySQL/PrepareStatement.h"
 
-using namespace ThorsAnvil::NisseSQL;
+using namespace ThorsAnvil::Nisse::Core::SQL;
 
 using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
 using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
@@ -71,20 +71,20 @@ NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnect
     : prepareStatement(nullptr)
     , connection(connection)
 {
-    if (! Nisse::Core::Service::NisseService::inHandler())
+    if (!Service::NisseService::inHandler())
     {
-        throw std::runtime_error("ThorsAnvil::NisseSQL::NonBlockingPrepareStatement::NonBlockingPrepareStatement: Can only use this prepare inside a NisseHandler");
+        throw std::runtime_error("ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement::NonBlockingPrepareStatement: Can only use this prepare inside a NisseHandler");
     }
-    auto& service = Nisse::Core::Service::NisseService::getCurrentHandler();
+    auto& service = Service::NisseService::getCurrentHandler();
     service.transferHandler<MySQLPrepareHandler>(connection, *this, nbStream, statement);
 }
 
 void NonBlockingPrepareStatement::doExecute()
 {
-    if (! Nisse::Core::Service::NisseService::inHandler())
+    if (! Service::NisseService::inHandler())
     {
-        throw std::runtime_error("ThorsAnvil::NisseSQL::NonBlockingPrepareStatement::doExecute: Can only use this prepare inside a NisseHandler");
+        throw std::runtime_error("ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement::doExecute: Can only use this prepare inside a NisseHandler");
     }
-    auto& service = Nisse::Core::Service::NisseService::getCurrentHandler();
+    auto& service = Service::NisseService::getCurrentHandler();
     service.transferHandler<MySQLExecuteHandler>(connection, *this);
 }

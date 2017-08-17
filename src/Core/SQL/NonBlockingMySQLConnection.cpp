@@ -1,7 +1,7 @@
 #include "NonBlockingMySQLConnection.h"
 #include "NonBlockingPrepareStatement.h"
 
-using namespace ThorsAnvil::NisseSQL;
+using namespace ThorsAnvil::Nisse::Core::SQL;
 
 NonBlockingMySQLConnection::NonBlockingMySQLConnection(
                             std::string const& host, int port,

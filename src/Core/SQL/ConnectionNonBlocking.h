@@ -7,11 +7,15 @@
 
 namespace ThorsAnvil
 {
-    namespace NisseSQL
+    namespace Nisse
     {
+        namespace Core
+        {
+            namespace SQL
+            {
 
-using CoRoutine = Nisse::Core::Service::Context<short>::pull_type;
-using Yield     = Nisse::Core::Service::Context<short>::push_type;
+using CoRoutine = Service::Context<short>::pull_type;
+using Yield     = Service::Context<short>::push_type;
 
 class MySQLConnectionHandler;
 class ConnectionNonBlocking: public ThorsAnvil::MySQL::Connection
@@ -34,6 +38,8 @@ class ConnectionNonBlocking: public ThorsAnvil::MySQL::Connection
                              );
 };
 
+            }
+        }
     }
 }
 
