@@ -720,6 +720,7 @@ THOR_STATIC_LOAD_FLAG
 event_ROOT_LIB
 event_ROOT_DIR
 BOOST_COROUTINE_VERSION
+BOOST_THREAD_LIB
 BOOST_CONTEXT_LIB
 BOOST_COROUTINE_LIB
 BOOST_SYSTEM_LIB
@@ -807,6 +808,7 @@ enable_vera
 with_boost_system
 with_boost_coroutine
 with_boost_context
+with_boost_thread
 with_eventroot
 enable_shared
 enable_static
@@ -1500,6 +1502,10 @@ Optional Packages:
                           use the Context library from boost - it is possible
                           to specify a certain library for the linker e.g.
                           --with-boost-context=boost_context-gcc-mt
+  --with-boost-thread[=special-lib]
+                          use the Thread library from boost - it is possible
+                          to specify a certain library for the linker e.g.
+                          --with-boost-thread=boost_thread-gcc-mt
   --with-eventroot=<location>
                           Directory of EVENT_ROOT
 
@@ -2350,7 +2356,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 # Set up the build system
-if [ ! -e build ]; then
+if [ ! -e build/Notes ]; then
     git submodule init
     git submodule update
 fi
@@ -4219,7 +4225,7 @@ $as_echo_n "checking for boostlib >= $boost_lib_version_req... " >&6; }
     esac
 
                 if test "$ac_boost_path" != ""; then
-        BOOST_CPPFLAGS="-I$ac_boost_path/include"
+        BOOST_CPPFLAGS="-isystem$ac_boost_path/include"
         for ac_boost_path_tmp in $libsubdirs; do
                 if test -d "$ac_boost_path"/"$ac_boost_path_tmp" ; then
                         BOOST_LDFLAGS="-L$ac_boost_path/$ac_boost_path_tmp"
@@ -4233,7 +4239,7 @@ $as_echo_n "checking for boostlib >= $boost_lib_version_req... " >&6; }
                     if ls "$ac_boost_path_tmp/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
                 done
                 BOOST_LDFLAGS="-L$ac_boost_path_tmp/$libsubdir"
-                BOOST_CPPFLAGS="-I$ac_boost_path_tmp/include"
+                BOOST_CPPFLAGS="-isystem$ac_boost_path_tmp/include"
                 break;
             fi
         done
@@ -4310,11 +4316,11 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
                         _version=$_version_tmp
                     fi
                     VERSION_UNDERSCORE=`echo $_version | sed 's/\./_/'`
-                    BOOST_CPPFLAGS="-I$ac_boost_path/include/boost-$VERSION_UNDERSCORE"
+                    BOOST_CPPFLAGS="-isystem$ac_boost_path/include/boost-$VERSION_UNDERSCORE"
                 done
                                 if test -z "$BOOST_CPPFLAGS"; then
                     if test -d "$ac_boost_path/boost" && test -r "$ac_boost_path/boost"; then
-                        BOOST_CPPFLAGS="-I$ac_boost_path"
+                        BOOST_CPPFLAGS="-isystem$ac_boost_path"
                     fi
                 fi
             fi
@@ -4334,7 +4340,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
                 done
 
                 VERSION_UNDERSCORE=`echo $_version | sed 's/\./_/'`
-                BOOST_CPPFLAGS="-I$best_path/include/boost-$VERSION_UNDERSCORE"
+                BOOST_CPPFLAGS="-isystem$best_path/include/boost-$VERSION_UNDERSCORE"
                 if test "$ac_boost_lib_path" = ""; then
                     for libsubdir in $libsubdirs ; do
                         if ls "$best_path/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
@@ -4355,7 +4361,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
                     if test "$V_CHECK" = "1" -a "$ac_boost_lib_path" = "" ; then
                         { $as_echo "$as_me:${as_lineno-$LINENO}: We will use a staged boost library from $BOOST_ROOT" >&5
 $as_echo "$as_me: We will use a staged boost library from $BOOST_ROOT" >&6;}
-                        BOOST_CPPFLAGS="-I$BOOST_ROOT"
+                        BOOST_CPPFLAGS="-isystem$BOOST_ROOT"
                         BOOST_LDFLAGS="-L$BOOST_ROOT/stage/$libsubdir"
                     fi
                 fi
@@ -4836,13 +4842,11 @@ fi
     cd .
     if test "${with_thor_build_on_travis}" == ""; then :
 
-else
 
-            mv .gitmodules gitmodules.old
-            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+            if [ ! -e build/Notes ]; then
 
-            git submodule init
-            if git submodule update; then :
+    git submodule init
+    if git submodule update; then :
 
 else
   as_fn_error $? "
@@ -4859,9 +4863,41 @@ Once you have installed the keys you can restart the configuration with:
 git submodule update
 ./configure <Same Flags You had before>
 
-                " "$LINENO" 5
+        " "$LINENO" 5
 
 fi
+
+            fi
+
+else
+
+            mv .gitmodules gitmodules.old
+            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+
+
+    git submodule init
+    if git submodule update; then :
+
+else
+  as_fn_error $? "
+
+git submodule updated failed:
+Currently all Loki-Astari submodules are retrieved using ssh.
+If the above command failed it probably means that you have not registered your \"public key\" with github.com
+
+See this article on StackOverflow for simple instructions:
+http://stackoverflow.com/questions/25828483/github-permission-denied-publickey
+
+
+Once you have installed the keys you can restart the configuration with:
+git submodule update
+./configure <Same Flags You had before>
+
+        " "$LINENO" 5
+
+fi
+
+
             mv gitmodules.old .gitmodules
 
 
@@ -4873,13 +4909,11 @@ fi
     cd build
     if test "${with_thor_build_on_travis}" == ""; then :
 
-else
 
-            mv .gitmodules gitmodules.old
-            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+            if [ ! -e googletest/README.md ]; then
 
-            git submodule init
-            if git submodule update; then :
+    git submodule init
+    if git submodule update; then :
 
 else
   as_fn_error $? "
@@ -4896,9 +4930,41 @@ Once you have installed the keys you can restart the configuration with:
 git submodule update
 ./configure <Same Flags You had before>
 
-                " "$LINENO" 5
+        " "$LINENO" 5
 
 fi
+
+            fi
+
+else
+
+            mv .gitmodules gitmodules.old
+            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+
+
+    git submodule init
+    if git submodule update; then :
+
+else
+  as_fn_error $? "
+
+git submodule updated failed:
+Currently all Loki-Astari submodules are retrieved using ssh.
+If the above command failed it probably means that you have not registered your \"public key\" with github.com
+
+See this article on StackOverflow for simple instructions:
+http://stackoverflow.com/questions/25828483/github-permission-denied-publickey
+
+
+Once you have installed the keys you can restart the configuration with:
+git submodule update
+./configure <Same Flags You had before>
+
+        " "$LINENO" 5
+
+fi
+
+
             mv gitmodules.old .gitmodules
 
 
@@ -5388,7 +5454,7 @@ $as_echo_n "checking for boostlib >= $boost_lib_version_req... " >&6; }
     esac
 
                 if test "$ac_boost_path" != ""; then
-        BOOST_CPPFLAGS="-I$ac_boost_path/include"
+        BOOST_CPPFLAGS="-isystem$ac_boost_path/include"
         for ac_boost_path_tmp in $libsubdirs; do
                 if test -d "$ac_boost_path"/"$ac_boost_path_tmp" ; then
                         BOOST_LDFLAGS="-L$ac_boost_path/$ac_boost_path_tmp"
@@ -5402,7 +5468,7 @@ $as_echo_n "checking for boostlib >= $boost_lib_version_req... " >&6; }
                     if ls "$ac_boost_path_tmp/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
                 done
                 BOOST_LDFLAGS="-L$ac_boost_path_tmp/$libsubdir"
-                BOOST_CPPFLAGS="-I$ac_boost_path_tmp/include"
+                BOOST_CPPFLAGS="-isystem$ac_boost_path_tmp/include"
                 break;
             fi
         done
@@ -5479,11 +5545,11 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
                         _version=$_version_tmp
                     fi
                     VERSION_UNDERSCORE=`echo $_version | sed 's/\./_/'`
-                    BOOST_CPPFLAGS="-I$ac_boost_path/include/boost-$VERSION_UNDERSCORE"
+                    BOOST_CPPFLAGS="-isystem$ac_boost_path/include/boost-$VERSION_UNDERSCORE"
                 done
                                 if test -z "$BOOST_CPPFLAGS"; then
                     if test -d "$ac_boost_path/boost" && test -r "$ac_boost_path/boost"; then
-                        BOOST_CPPFLAGS="-I$ac_boost_path"
+                        BOOST_CPPFLAGS="-isystem$ac_boost_path"
                     fi
                 fi
             fi
@@ -5503,7 +5569,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
                 done
 
                 VERSION_UNDERSCORE=`echo $_version | sed 's/\./_/'`
-                BOOST_CPPFLAGS="-I$best_path/include/boost-$VERSION_UNDERSCORE"
+                BOOST_CPPFLAGS="-isystem$best_path/include/boost-$VERSION_UNDERSCORE"
                 if test "$ac_boost_lib_path" = ""; then
                     for libsubdir in $libsubdirs ; do
                         if ls "$best_path/$libsubdir/libboost_"* >/dev/null 2>&1 ; then break; fi
@@ -5524,7 +5590,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
                     if test "$V_CHECK" = "1" -a "$ac_boost_lib_path" = "" ; then
                         { $as_echo "$as_me:${as_lineno-$LINENO}: We will use a staged boost library from $BOOST_ROOT" >&5
 $as_echo "$as_me: We will use a staged boost library from $BOOST_ROOT" >&6;}
-                        BOOST_CPPFLAGS="-I$BOOST_ROOT"
+                        BOOST_CPPFLAGS="-isystem$BOOST_ROOT"
                         BOOST_LDFLAGS="-L$BOOST_ROOT/stage/$libsubdir"
                     fi
                 fi
@@ -6335,6 +6401,288 @@ fi
 	fi
 
 
+
+# Check whether --with-boost-thread was given.
+if test "${with_boost_thread+set}" = set; then :
+  withval=$with_boost_thread;
+        if test "$withval" = "yes"; then
+            want_boost="yes"
+            ax_boost_user_thread_lib=""
+        else
+            want_boost="yes"
+            ax_boost_user_thread_lib="$withval"
+        fi
+
+else
+  want_boost="yes"
+
+fi
+
+
+    if test "x$want_boost" = "xyes"; then
+
+
+        CPPFLAGS_SAVED="$CPPFLAGS"
+        CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
+        export CPPFLAGS
+
+        LDFLAGS_SAVED="$LDFLAGS"
+        LDFLAGS="$LDFLAGS $BOOST_LDFLAGS"
+        export LDFLAGS
+
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the Boost::Thread library is available" >&5
+$as_echo_n "checking whether the Boost::Thread library is available... " >&6; }
+if ${ax_cv_boost_thread+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+             CXXFLAGS_SAVE=$CXXFLAGS
+
+             if test "x$host_os" = "xsolaris" ; then
+                 CXXFLAGS=" $CXXFLAGS"
+             elif test "x$host_os" = "xmingw32" ; then
+                 CXXFLAGS="-mthreads $CXXFLAGS"
+             else
+                CXXFLAGS=" $CXXFLAGS"
+             fi
+             cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+                 #include <boost/thread/thread.hpp>
+int
+main ()
+{
+boost::thread_group thrds;
+                       return 0;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  ax_cv_boost_thread=yes
+else
+  ax_cv_boost_thread=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+             CXXFLAGS=$CXXFLAGS_SAVE
+             ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_boost_thread" >&5
+$as_echo "$ax_cv_boost_thread" >&6; }
+        if test "x$ax_cv_boost_thread" = "xyes"; then
+           if test "x$host_os" = "xsolaris" ; then
+              BOOST_CPPFLAGS=" $BOOST_CPPFLAGS"
+           elif test "x$host_os" = "xmingw32" ; then
+              BOOST_CPPFLAGS="-mthreads $BOOST_CPPFLAGS"
+           else
+              BOOST_CPPFLAGS=" $BOOST_CPPFLAGS"
+           fi
+
+
+
+
+$as_echo "#define HAVE_BOOST_THREAD /**/" >>confdefs.h
+
+            BOOSTLIBDIR=`echo $BOOST_LDFLAGS | sed -e 's/[^\/]*//'`
+
+            LDFLAGS_SAVE=$LDFLAGS
+                        case "x$host_os" in
+                          *bsd* )
+                               LDFLAGS=" $LDFLAGS"
+                          break;
+                          ;;
+                        esac
+            if test "x$ax_boost_user_thread_lib" = "x"; then
+                for libextension in `ls -r $BOOSTLIBDIR/libboost_thread* 2>/dev/null | sed 's,.*/lib,,' | sed 's,\..*,,'`; do
+                     ax_lib=${libextension}
+                    as_ac_Lib=`$as_echo "ac_cv_lib_$ax_lib''_exit" | $as_tr_sh`
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for exit in -l$ax_lib" >&5
+$as_echo_n "checking for exit in -l$ax_lib... " >&6; }
+if eval \${$as_ac_Lib+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l$ax_lib  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char exit ();
+int
+main ()
+{
+return exit ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  eval "$as_ac_Lib=yes"
+else
+  eval "$as_ac_Lib=no"
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+eval ac_res=\$$as_ac_Lib
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+if eval test \"x\$"$as_ac_Lib"\" = x"yes"; then :
+  link_thread="yes"; break
+else
+  link_thread="no"
+fi
+
+                done
+                if test "x$link_thread" != "xyes"; then
+                for libextension in `ls -r $BOOSTLIBDIR/boost_thread* 2>/dev/null | sed 's,.*/,,' | sed 's,\..*,,'`; do
+                     ax_lib=${libextension}
+                    as_ac_Lib=`$as_echo "ac_cv_lib_$ax_lib''_exit" | $as_tr_sh`
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for exit in -l$ax_lib" >&5
+$as_echo_n "checking for exit in -l$ax_lib... " >&6; }
+if eval \${$as_ac_Lib+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l$ax_lib  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char exit ();
+int
+main ()
+{
+return exit ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  eval "$as_ac_Lib=yes"
+else
+  eval "$as_ac_Lib=no"
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+eval ac_res=\$$as_ac_Lib
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+if eval test \"x\$"$as_ac_Lib"\" = x"yes"; then :
+  link_thread="yes"; break
+else
+  link_thread="no"
+fi
+
+                done
+                fi
+
+            else
+               for ax_lib in $ax_boost_user_thread_lib boost_thread-$ax_boost_user_thread_lib; do
+                      as_ac_Lib=`$as_echo "ac_cv_lib_$ax_lib''_exit" | $as_tr_sh`
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for exit in -l$ax_lib" >&5
+$as_echo_n "checking for exit in -l$ax_lib... " >&6; }
+if eval \${$as_ac_Lib+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l$ax_lib  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char exit ();
+int
+main ()
+{
+return exit ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  eval "$as_ac_Lib=yes"
+else
+  eval "$as_ac_Lib=no"
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+eval ac_res=\$$as_ac_Lib
+	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+if eval test \"x\$"$as_ac_Lib"\" = x"yes"; then :
+  link_thread="yes"; break
+else
+  link_thread="no"
+fi
+
+                  done
+
+            fi
+            if test "x$ax_lib" = "x"; then
+                as_fn_error $? "Could not find a version of the library!" "$LINENO" 5
+            fi
+            if test "x$link_thread" = "xno"; then
+                as_fn_error $? "Could not link against $ax_lib !" "$LINENO" 5
+            else
+                BOOST_THREAD_LIB="-l$ax_lib"
+                case "x$host_os" in
+                    *bsd* )
+                        BOOST_LDFLAGS=" $BOOST_LDFLAGS"
+                        break;
+                        ;;
+                    solaris )
+                        BOOST_THREAD_LIB="$BOOST_THREAD_LIB "
+                        break;
+                        ;;
+                    mingw32 )
+                        break;
+                        ;;
+                    * )
+                        BOOST_THREAD_LIB="$BOOST_THREAD_LIB "
+                        break;
+                        ;;
+                esac
+
+            fi
+        fi
+
+        CPPFLAGS="$CPPFLAGS_SAVED"
+        LDFLAGS="$LDFLAGS_SAVED"
+    fi
+
+
         ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -6588,14 +6936,14 @@ else
   :
 fi
 
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,--whole-archive" >&5
-$as_echo_n "checking whether the linker accepts -Wl,--whole-archive... " >&6; }
-if ${ax_cv_check_ldflags___Wl___whole_archive+:} false; then :
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,--whole-archive -Wl,--no-whole-archive" >&5
+$as_echo_n "checking whether the linker accepts -Wl,--whole-archive -Wl,--no-whole-archive... " >&6; }
+if ${ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
   ax_check_save_flags=$LDFLAGS
-  LDFLAGS="$LDFLAGS  -Wl,--whole-archive"
+  LDFLAGS="$LDFLAGS  -Wl,--whole-archive -Wl,--no-whole-archive"
   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -6608,56 +6956,20 @@ main ()
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  ax_cv_check_ldflags___Wl___whole_archive=yes
+  ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive=yes
 else
-  ax_cv_check_ldflags___Wl___whole_archive=no
+  ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
   LDFLAGS=$ax_check_save_flags
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl___whole_archive" >&5
-$as_echo "$ax_cv_check_ldflags___Wl___whole_archive" >&6; }
-if test "x$ax_cv_check_ldflags___Wl___whole_archive" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive" >&5
+$as_echo "$ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive" >&6; }
+if test "x$ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive" = xyes; then :
   THOR_STATIC_LOAD_FLAG=-Wl,--whole-archive
 
-
-else
-  :
-fi
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the linker accepts -Wl,--no-whole-archive" >&5
-$as_echo_n "checking whether the linker accepts -Wl,--no-whole-archive... " >&6; }
-if ${ax_cv_check_ldflags___Wl___no_whole_archive+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-
-  ax_check_save_flags=$LDFLAGS
-  LDFLAGS="$LDFLAGS  -Wl,--no-whole-archive"
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ax_cv_check_ldflags___Wl___no_whole_archive=yes
-else
-  ax_cv_check_ldflags___Wl___no_whole_archive=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-  LDFLAGS=$ax_check_save_flags
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl___no_whole_archive" >&5
-$as_echo "$ax_cv_check_ldflags___Wl___no_whole_archive" >&6; }
-if test "x$ax_cv_check_ldflags___Wl___no_whole_archive" = xyes; then :
-  THOR_STATIC_NOLOAD_FLAG=-Wl,--no-whole-archive
+        THOR_STATIC_NOLOAD_FLAG=-Wl,--no-whole-archive
 
 
 else

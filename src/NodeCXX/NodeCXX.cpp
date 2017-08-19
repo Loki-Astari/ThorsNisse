@@ -5,14 +5,11 @@
 #include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
 #include "ThorsNisseProtocolHTTP/Binder.h"
 #include "ThorsNisseProtocolHTTP/Types.h"
-#include "ThorSQL/Connection.h"
-#include "ThorSQL/Statement.h"
 
 #include <iostream>
 
 namespace Nisse = ThorsAnvil::Nisse::Core::Service;
 namespace HTTP  = ThorsAnvil::Nisse::Protocol::HTTP;
-namespace SQL   = ThorsAnvil::SQL;
 
 int main()
 {

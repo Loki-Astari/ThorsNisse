@@ -3,7 +3,7 @@ AC_INIT([ThorsNisse], [0.1], [Loki.Astari+ThorsAnvil@gmail.com])
 AC_PREREQ([2.65])
 
 # Set up the build system
-if [[ ! -e build ]]; then
+if [[ ! -e build/Notes ]]; then
     git submodule init
     git submodule update
 fi
@@ -20,6 +20,7 @@ AX_BOOST_SYSTEM
 AX_BOOST_COROUTINE
 CXXFLAGS="${CXXFLAGS} -std=c++11"
 AX_BOOST_CONTEXT
+AX_BOOST_THREAD
 AX_THOR_FUNC_TEST_BOOST_COROUTINE_VERSION
 
 AX_THOR_FUNC_USE_EVENT
