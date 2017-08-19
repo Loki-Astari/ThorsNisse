@@ -3,7 +3,7 @@ AC_INIT([ThorsNisse], [0.1], [Loki.Astari+ThorsAnvil@gmail.com])
 AC_PREREQ([2.65])
 
 # Set up the build system
-if [[ ! -e build ]]; then
+if [[ ! -e build/Notes ]]; then
     git submodule init
     git submodule update
 fi

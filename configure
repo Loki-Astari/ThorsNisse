@@ -2350,7 +2350,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 # Set up the build system
-if [ ! -e build ]; then
+if [ ! -e build/Notes ]; then
     git submodule init
     git submodule update
 fi
@@ -4836,13 +4836,11 @@ fi
     cd .
     if test "${with_thor_build_on_travis}" == ""; then :
 
-else
 
-            mv .gitmodules gitmodules.old
-            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+            if [ ! -e build/Notes ]; then
 
-            git submodule init
-            if git submodule update; then :
+    git submodule init
+    if git submodule update; then :
 
 else
   as_fn_error $? "
@@ -4859,9 +4857,41 @@ Once you have installed the keys you can restart the configuration with:
 git submodule update
 ./configure <Same Flags You had before>
 
-                " "$LINENO" 5
+        " "$LINENO" 5
 
 fi
+
+            fi
+
+else
+
+            mv .gitmodules gitmodules.old
+            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+
+
+    git submodule init
+    if git submodule update; then :
+
+else
+  as_fn_error $? "
+
+git submodule updated failed:
+Currently all Loki-Astari submodules are retrieved using ssh.
+If the above command failed it probably means that you have not registered your \"public key\" with github.com
+
+See this article on StackOverflow for simple instructions:
+http://stackoverflow.com/questions/25828483/github-permission-denied-publickey
+
+
+Once you have installed the keys you can restart the configuration with:
+git submodule update
+./configure <Same Flags You had before>
+
+        " "$LINENO" 5
+
+fi
+
+
             mv gitmodules.old .gitmodules
 
 
@@ -4873,13 +4903,11 @@ fi
     cd build
     if test "${with_thor_build_on_travis}" == ""; then :
 
-else
 
-            mv .gitmodules gitmodules.old
-            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+            if [ ! -e googletest/README.md ]; then
 
-            git submodule init
-            if git submodule update; then :
+    git submodule init
+    if git submodule update; then :
 
 else
   as_fn_error $? "
@@ -4896,9 +4924,41 @@ Once you have installed the keys you can restart the configuration with:
 git submodule update
 ./configure <Same Flags You had before>
 
-                " "$LINENO" 5
+        " "$LINENO" 5
 
 fi
+
+            fi
+
+else
+
+            mv .gitmodules gitmodules.old
+            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+
+
+    git submodule init
+    if git submodule update; then :
+
+else
+  as_fn_error $? "
+
+git submodule updated failed:
+Currently all Loki-Astari submodules are retrieved using ssh.
+If the above command failed it probably means that you have not registered your \"public key\" with github.com
+
+See this article on StackOverflow for simple instructions:
+http://stackoverflow.com/questions/25828483/github-permission-denied-publickey
+
+
+Once you have installed the keys you can restart the configuration with:
+git submodule update
+./configure <Same Flags You had before>
+
+        " "$LINENO" 5
+
+fi
+
+
             mv gitmodules.old .gitmodules
 
 
