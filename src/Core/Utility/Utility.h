@@ -5,6 +5,7 @@
 #include <sstream>
 #include <ostream>
 #include <cstdio>
+#include <cstring>
 
 namespace ThorsAnvil
 {
