@@ -1,7 +1,8 @@
 
 THORSANVIL_ROOT				= $(realpath ../../)
 
-TARGET						= Utility Socket Service SQL
+SQL_LIB_yes					= SQL
+TARGET						= Utility Socket Service $(SQL_LIB_$(HAVE_ThorsSQL))
 
 include $(THORSANVIL_ROOT)/build/tools/Project.Makefile
 

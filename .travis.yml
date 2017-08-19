@@ -22,7 +22,7 @@ before_script:
     - mv .gitmodules gitmodules.old
     - sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
 script:
-    - ./configure --with-boost=/tmp/extra --with-thor-build-on-travis
+    - ./configure --with-boost=/tmp/extra --disable-ThorsSQL --with-thor-build-on-travis
     - LD_LIBRARY_PATH=/tmp/extra/lib make
 branches:
   only:

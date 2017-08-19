@@ -1,7 +1,7 @@
 
 THORSANVIL_ROOT				= $(realpath ../)
 
-TARGET						= Core Protocol Express Example NodeCXX
+TARGET						= Core Protocol Express NodeCXX Example
 
 include $(THORSANVIL_ROOT)/build/tools/Project.Makefile
 
