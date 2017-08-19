@@ -57,6 +57,9 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* When on code that uses ThorsSQL will be compiled. */
+#undef HAVE_ThorsSQL
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 

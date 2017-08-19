@@ -674,6 +674,9 @@ am__isrc
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
+thorsSQL_ROOT_LIB
+thorsSQL_ROOT_INCDIR
+thorsSQL_ROOT_LIBDIR
 CXX_STD_FLAG
 CXXSTDVER
 ExpFlag17
@@ -813,6 +816,8 @@ with_aix_soname
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
+with_ThorsSQLroot
+enable_ThorsSQL
 enable_dependency_tracking
 enable_silent_rules
 '
@@ -1456,6 +1461,9 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
+  --disable-ThorsSQL      Don't use ThorsSQL. This means features that use
+                          ThorsSQL will be disabled.
+
   --enable-dependency-tracking
                           do not reject slow dependency extractors
   --disable-dependency-tracking
@@ -1503,6 +1511,9 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
+  --with-ThorsSQLroot=<location>
+                          Directory of ThorsSQL_ROOT
+
 
 Some influential environment variables:
   CC          C compiler command
@@ -4827,13 +4838,11 @@ fi
 
 else
 
-    mv .gitmodules gitmodules.old
-    sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+            mv .gitmodules gitmodules.old
+            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
 
-
-fi
-    git submodule init
-    if git submodule update; then :
+            git submodule init
+            if git submodule update; then :
 
 else
   as_fn_error $? "
@@ -4850,10 +4859,13 @@ Once you have installed the keys you can restart the configuration with:
 git submodule update
 ./configure <Same Flags You had before>
 
-        " "$LINENO" 5
+                " "$LINENO" 5
 
 fi
-    mv gitmodules.old .gitmodules
+            mv gitmodules.old .gitmodules
+
+
+fi
 )
 
 
@@ -4863,13 +4875,11 @@ fi
 
 else
 
-    mv .gitmodules gitmodules.old
-    sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
+            mv .gitmodules gitmodules.old
+            sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
 
-
-fi
-    git submodule init
-    if git submodule update; then :
+            git submodule init
+            if git submodule update; then :
 
 else
   as_fn_error $? "
@@ -4886,10 +4896,13 @@ Once you have installed the keys you can restart the configuration with:
 git submodule update
 ./configure <Same Flags You had before>
 
-        " "$LINENO" 5
+                " "$LINENO" 5
 
 fi
-    mv gitmodules.old .gitmodules
+            mv gitmodules.old .gitmodules
+
+
+fi
 )
 
 
@@ -18404,6 +18417,100 @@ Error: Need C++${minLangFeature} but the compiler only supports ${CXXMaxLanguage
                     " "$LINENO" 5
 
 fi
+
+fi
+
+
+
+
+
+
+
+
+# Check whether --with-ThorsSQLroot was given.
+if test "${with_ThorsSQLroot+set}" = set; then :
+  withval=$with_ThorsSQLroot;
+fi
+
+    # Check whether --enable-ThorsSQL was given.
+if test "${enable_ThorsSQL+set}" = set; then :
+  enableval=$enable_ThorsSQL;
+fi
+
+    if flag=enable_ThorsSQL
+        test "x${!flag}" != "xno"; then :
+  if test "${with_ThorsSQLroot}" == ""; then
+            declare with_ThorsSQLroot="/usr/local"
+        fi
+        ORIG_LDFLAGS="${LDFLAGS}"
+        LDFLAGS="$LDFLAGS -L${with_ThorsSQLroot}/lib"
+
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv in -lThorSQL17D" >&5
+$as_echo_n "checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv in -lThorSQL17D... " >&6; }
+if ${ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lThorSQL17D  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv ();
+int
+main ()
+{
+return _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv=yes
+else
+  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&5
+$as_echo "$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&6; }
+if test "x$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" = xyes; then :
+
+
+$as_echo "#define HAVE_ThorsSQL 1" >>confdefs.h
+
+                thorsSQL_ROOT_LIBDIR=-L${with_ThorsSQLroot}/lib
+                thorsSQL_ROOT_INCDIR=-I${with_ThorsSQLroot}/include
+                thorsSQL_ROOT_LIB=ThorSQL
+
+else
+  as_fn_error 1 "
+
+Error: Could not find libThorSQL17D
+
+You can solve this by installing libThorSQL
+    https://github.com/Loki-Astari/ThorsSQL
+
+Alternately specify install location with:
+    --with-ThorsSQLroot=<location of ThorsSQL installation>
+
+If you do not want to use features that need ThorSQL then it
+can be disabled with:
+    --disable-ThorsSQL
+
+                " "$LINENO" 5
+
+fi
+
+
+        LDFLAGS="${ORIG_LDFLAGS}"
 
 fi
 
