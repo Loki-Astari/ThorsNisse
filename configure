@@ -674,7 +674,7 @@ am__isrc
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
-thorsSQL_ROOT_LIB
+HAVE_ThorsSQL
 thorsSQL_ROOT_INCDIR
 thorsSQL_ROOT_LIBDIR
 CXX_STD_FLAG
@@ -18488,7 +18488,7 @@ $as_echo "#define HAVE_ThorsSQL 1" >>confdefs.h
 
                 thorsSQL_ROOT_LIBDIR=-L${with_ThorsSQLroot}/lib
                 thorsSQL_ROOT_INCDIR=-I${with_ThorsSQLroot}/include
-                thorsSQL_ROOT_LIB=ThorSQL
+                HAVE_ThorsSQL=yes
 
 else
   as_fn_error 1 "
