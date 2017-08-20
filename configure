@@ -6929,7 +6929,7 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___Wl__noall_load" >&5
 $as_echo "$ax_cv_check_ldflags___Wl__noall_load" >&6; }
 if test "x$ax_cv_check_ldflags___Wl__noall_load" = xyes; then :
-  THOR_STATIC_NOLOAD_FLAG=-Wl,-all_load
+  THOR_STATIC_NOLOAD_FLAG=-Wl,-noall_load
 
 
 else
@@ -6969,7 +6969,6 @@ $as_echo "$ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive" >&6;
 if test "x$ax_cv_check_ldflags___Wl___whole_archive__Wl___no_whole_archive" = xyes; then :
   THOR_STATIC_LOAD_FLAG=-Wl,--whole-archive
 
-        THOR_STATIC_NOLOAD_FLAG=-Wl,--no-whole-archive
 
 
 else
