@@ -15,7 +15,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandler)
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9878);
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -39,7 +39,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandler)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ("Test function ReadMessageHandler" + WriteMessageHandler::messageSuffix, result);
@@ -50,7 +50,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSize)
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9879);
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -74,7 +74,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSize)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageHandler::failSizeMessage, result);
@@ -85,7 +85,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9880);
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -99,7 +99,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
         std::string message = "Test function ReadMessageHandlerPartialSizeInTwoChunks";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), 2);
-        sleep(1);
+        usleep(100000);
         connect.putMessageData(reinterpret_cast<char*>(&size), 1, 2);
         connect.putMessageClose();
 
@@ -111,7 +111,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageHandler::failSizeMessage, result);
@@ -122,7 +122,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9881);
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -136,7 +136,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
         std::string message = "Test function ReadMessageHandlerSizeInTwoChunks";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), 2);
-        sleep(1);
+        usleep(100000);
         connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size), 2);
         connect.putMessageData(message.c_str(), size);
 
@@ -148,7 +148,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ("Test function ReadMessageHandlerSizeInTwoChunks" + WriteMessageHandler::messageSuffix, result);
@@ -159,7 +159,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessage)
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9882);
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -184,7 +184,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessage)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageHandler::failIncompleteMessage, result);
@@ -195,7 +195,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9883);
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -210,7 +210,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
         connect.putMessageData(message.c_str(), size/2);
-        sleep(1);
+        usleep(100000);
         connect.putMessageData(message.c_str(), size, size/4*3);
         connect.putMessageClose();
 
@@ -222,7 +222,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ(ReadMessageHandler::failIncompleteMessage, result);
@@ -233,7 +233,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
     bool            finished = false;
 
     service.listenOn<ReadMessageHandler>(9884);
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -248,7 +248,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
         connect.putMessageData(message.c_str(), size/2);
-        sleep(1);
+        usleep(100000);
         connect.putMessageData(message.c_str(), size, size/2);
 
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -259,7 +259,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ("Test function ReadMessageHandlerMessageInTwoChunks" + WriteMessageHandler::messageSuffix, result);
@@ -272,7 +272,7 @@ TEST(ProtocolSimpleTest, WriteMessageHandler)
 
     service.listenOn<WriteMessageHandler>(9885, message);
 
-    service.addTimer(1, [&service, &finished]()
+    service.addTimer(0.1, [&service, &finished]()
     {
         if (finished)
         {
@@ -293,7 +293,7 @@ TEST(ProtocolSimpleTest, WriteMessageHandler)
         return message;
     });
 
-    service.start(1);
+    service.start(0.1);
     std::string result = future.get();
 
     ASSERT_EQ("A Write Test", result);
