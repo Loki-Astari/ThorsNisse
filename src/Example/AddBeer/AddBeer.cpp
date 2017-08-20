@@ -4,6 +4,7 @@ namespace Express = ThorsAnvil::Nisse::Protocol::HTTP;
 namespace SQL     = ThorsAnvil::SQL;
 
 static SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
+static SQL::Statement  listBeers(connection, "SELECT Name, Age FROM Beers");
 
 void addSite(Express::Binder& binder)
 {
@@ -15,8 +16,6 @@ void addSite(Express::Binder& binder)
                           << "<body>"
                           << "<h1>Beer List</h1>"
                           << "<ol>";
-
-            SQL::Statement  listBeers(connection, "SELECT Name, Age FROM Beers");
 
             listBeers.execute([&response](std::string const& name, int age)
                 {

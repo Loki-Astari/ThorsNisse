@@ -14,7 +14,7 @@ clean:
 veryclean: clean
 
 %.o: %.cpp
-	$(CXX) -std=c++1z -c -I/Users/yorkm/Repository/ThorsNisse/build/include $(thorsSQL_ROOT_INCDIR) $(CXXFLAGS) $(CPPFLAGS) $<
+	$(CXX) -std=c++1z -c -I/Users/yorkm/Repository/ThorsNisse/build/include $(thorsSQL_ROOT_INCDIR) $(CXXFLAGS) $(CPPFLAGS) $(BOOST_CPPFLAGS) $<
 
 
 

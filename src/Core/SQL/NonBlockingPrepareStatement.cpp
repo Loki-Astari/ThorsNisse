@@ -24,8 +24,7 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::Handler
                 {
                     yield(EV_WRITE);
                     ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
-                    StatmentPIMPL                       result(new ThorsAnvil::MySQL::PrepareStatement(nbStream, statement));
-                    parent.setStatement(std::move(result));
+                    parent.createProxy(nbStream, statement);
                 })
         {}
 
@@ -71,12 +70,19 @@ NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnect
     : prepareStatement(nullptr)
     , connection(connection)
 {
-    if (!Service::Server::inHandler())
+    if (Service::Server::inHandler())
     {
-        throw std::runtime_error("ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement::NonBlockingPrepareStatement: Can only use this prepare inside a Handler");
+        auto& service = Service::Server::getCurrentHandler();
+        service.transferHandler<MySQLPrepareHandler>(connection, *this, nbStream, statement);
     }
-    auto& service = Service::Server::getCurrentHandler();
-    service.transferHandler<MySQLPrepareHandler>(connection, *this, nbStream, statement);
+    else
+    {
+        createProxy(nbStream, statement);
+    }
+}
+void NonBlockingPrepareStatement::createProxy(ConnectionNonBlocking& nbStream, std::string const& statement)
+{
+    prepareStatement.reset(new ThorsAnvil::MySQL::PrepareStatement(nbStream, statement));
 }
 
 void NonBlockingPrepareStatement::doExecute()
