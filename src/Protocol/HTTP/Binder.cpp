@@ -107,7 +107,7 @@ void Binder::load(std::string const& site)
 
     void (*addSite)(ThorsAnvil::Nisse::Protocol::HTTP::Binder& binder) = nullptr;
 
-    *(void**) (&addSite) = dlsym(siteLib, "_Z7addSiteRN10ThorsAnvil5Nisse12ProtocolHTTP6BinderE");
+    *(void**) (&addSite) = dlsym(siteLib, "_Z7addSiteRN10ThorsAnvil5Nisse8Protocol4HTTP6BinderE");
     if (addSite == nullptr)
     {
         throw std::runtime_error(
