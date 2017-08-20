@@ -2,8 +2,10 @@
 SRC		= $(wildcard *.cpp)
 OBJ		= $(patsubst %.cpp, %.o, $(SRC))
 
+include ../../../Makefile.config
+
 all: $(OBJ)
-	$(CXX) -shared -o AddBeer.dylib $(OBJ) -L/usr/local/lib -L../../../build/lib -lThorsExpress17D
+	$(CXX) -shared -o AddBeer.dylib $(OBJ) -L/Users/yorkm/Repository/ThorsNisse/build/lib $(thorsSQL_ROOT_LIBDIR) -lThorsExpress17D -lThorSQL17D -lThorMySQL17D
 build: all
 install: all
 
@@ -12,7 +14,7 @@ clean:
 veryclean: clean
 
 %.o: %.cpp
-	$(CXX) -std=c++1z -c -I/usr/local/include -I../../../build/include $(CXXFLAGS) $(CPPFLAGS) $<
+	$(CXX) -std=c++1z -c -I/Users/yorkm/Repository/ThorsNisse/build/include $(thorsSQL_ROOT_INCDIR) $(CXXFLAGS) $(CPPFLAGS) $(BOOST_CPPFLAGS) $<
 
 
 

@@ -60,7 +60,7 @@ TEST(SocketStreamTest, ReadFromSlowStreamToGetEAGAIN)
 
     std::thread slowStream([&testData, &pipes](){
         for(std::size_t loop=0;loop < sizeof(testData); ++loop) {
-            sleep(1);
+            usleep(10000);
             ::write(pipes[1], reinterpret_cast<char const*>(&testData)+loop, 1);
         }
     });

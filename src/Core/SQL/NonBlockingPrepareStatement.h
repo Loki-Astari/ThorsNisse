@@ -21,9 +21,9 @@ class NonBlockingPrepareStatement: public ThorsAnvil::SQL::Lib::StatementProxy
     NonBlockingMySQLConnection& connection;
     public:
         NonBlockingPrepareStatement(NonBlockingMySQLConnection& connection, ConnectionNonBlocking& nbStream, std::string const& statement);
+        void createProxy(ConnectionNonBlocking& nbStream, std::string const& statement);
 
             virtual void doExecute()                            override;
-            void setStatement(StatmentPIMPL&& st)               {prepareStatement = std::move(st);}
             void executePrepare()                               {prepareStatement->doExecute();}
 
 
