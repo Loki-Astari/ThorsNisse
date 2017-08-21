@@ -231,8 +231,8 @@ TEST_F(HTTPProtocolTest, WriterProcesses)
     defaultSite.get("/index.html", [&hitDefault](Request&, Response&) {hitDefault = true;});
 
     Binder                  binder;
-    binder.addSite("", std::move(defaultSite));
-    binder.addSite("ThorsAnvil.com", std::move(thorsAnvil));
+    binder.addSite("", "", std::move(defaultSite));
+    binder.addSite("ThorsAnvil.com", "", std::move(thorsAnvil));
 
     Headers                 headers;
     headers["Host"] = "ThorsAnvil.com";

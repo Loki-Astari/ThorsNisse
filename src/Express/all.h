@@ -6,4 +6,11 @@
 #include <ThorSQL/Connection.h>
 #include <ThorSQL/Statement.h>
 
+using AddSiteFunction =  void (*)(ThorsAnvil::Nisse::Protocol::HTTP::BinderProxy& binder);
+void addSite(ThorsAnvil::Nisse::Protocol::HTTP::BinderProxy& binder);
+
+extern "C" AddSiteFunction getSiteAdder()
+{
+    return &addSite;
+}
 #endif

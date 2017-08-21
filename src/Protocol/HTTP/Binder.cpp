@@ -1,7 +1,5 @@
 #include "Binder.h"
 #include "ThorsNisseCoreUtility/Utility.h"
-#include <dlfcn.h>
-#include <dlfcn.h>
 
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
@@ -41,9 +39,16 @@ Binder::Binder()
     : action404(getDefault404Action())
 {}
 
-void Binder::addSite(std::string const& host, Site&& site)
+void Binder::addSite(std::string const& host, std::string const& base, Site&& site)
 {
+    (void)base;
     siteMap.emplace(host, std::move(site));
+}
+
+void Binder::remSite(std::string const& host, std::string const& base)
+{
+    (void)base;
+    Site    unload = std::move(siteMap[host]);
 }
 
 Action& Binder::getDefault404Action()
@@ -91,29 +96,4 @@ Action const& Binder::find(Method method, std::string const& host, std::string c
         }
     }
     return action404;
-}
-
-void Binder::load(std::string const& site)
-{
-    void* siteLib = dlopen(site.c_str(), RTLD_NOW | RTLD_LOCAL);
-    if (siteLib == nullptr)
-    {
-        throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlopen: Failed to load: ", site, " Error: ", dlerror()));
-    }
-    /* Get rid of old error messages */
-    dlerror();
-
-    void (*addSite)(ThorsAnvil::Nisse::Protocol::HTTP::Binder& binder) = nullptr;
-
-    *(void**) (&addSite) = dlsym(siteLib, "_Z7addSiteRN10ThorsAnvil5Nisse8Protocol4HTTP6BinderE");
-    if (addSite == nullptr)
-    {
-        throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlsym: Failed to load: ", site, " Error: ", dlerror()));
-    }
-
-    (*addSite)(*this);
 }

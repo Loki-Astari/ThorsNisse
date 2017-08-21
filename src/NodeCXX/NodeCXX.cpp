@@ -3,7 +3,7 @@
 #include "ThorsNisseProtocolSimple/ProtocolSimple.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
 #include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
-#include "ThorsNisseProtocolHTTP/Binder.h"
+#include "ThorsNisseProtocolHTTP/DynamicSiteLoader.h"
 #include "ThorsNisseProtocolHTTP/Types.h"
 
 #include <iostream>
@@ -15,11 +15,10 @@ int main()
 {
     try
     {
-        HTTP::Binder    binder;
-        binder.load("../AddBeer/AddBeer.dylib");
+        Nisse::Server    server;
 
-        Nisse::Server    service;
-        service.listenOn<HTTP::ReadRequestHandler>(40716, binder);
+        HTTP::DynamicSiteLoader siteLoader(server);
+        siteLoader.load("../AddBeer/AddBeer.dylib", 40716, "test.com", "");
 
         /*
         using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;
@@ -29,7 +28,7 @@ int main()
         service.listenOn<ReadMessageStreamHandler>(40718);
         */
 
-        service.start();
+        server.start();
     }
     catch (std::exception const& e)
     {
