@@ -5,20 +5,55 @@
 #include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
 #include "ThorsNisseProtocolHTTP/DynamicSiteLoader.h"
 #include "ThorsNisseProtocolHTTP/Types.h"
+#include <sstream>
 
 #include <iostream>
 
 namespace Nisse = ThorsAnvil::Nisse::Core::Service;
 namespace HTTP  = ThorsAnvil::Nisse::Protocol::HTTP;
 
-int main()
+struct LoadSite
+{
+    std::string     lib;
+    std::string     host;
+    std::string     base;
+    int             port;
+
+    friend std::istream& operator>>(std::istream& str, LoadSite& site)
+    {
+        std::getline(str, site.lib, ':');
+        std::getline(str, site.host, ':');
+        std::getline(str, site.base, ':');
+        str >> site.port;
+        return str;
+    }
+};
+
+int main(int argc, char* argv[])
 {
     try
     {
-        Nisse::Server    server;
-
+        Nisse::Server           server;
         HTTP::DynamicSiteLoader siteLoader(server);
-        siteLoader.load("../AddBeer/AddBeer.dylib", 40716, "test.com", "");
+
+        std::vector<std::string>    args(argv + 1, argv + argc);
+        for (std::string const& arg: args)
+        {
+            if (arg.substr(0,7) == "--load:")
+            {
+                LoadSite            site;
+                std::stringstream   loadStream(arg.substr(7));
+                loadStream >> site;
+
+                std::cerr << "Loading: " << site.lib << " On: " << site.host << ":" << site.port << "/" << site.base << "\n";
+                siteLoader.load(site.lib, site.port, site.host, site.base);
+            }
+            if (arg.substr(0,8)  == "--debug:")
+            {
+                int port = std::stoi(arg.substr(8));
+                server.listenOn<HTTP::DeveloperHandler>(port, siteLoader);
+            }
+        }
 
         /*
         using ThorsAnvil::Nisse::ProtocolSimple::ReadMessageHandler;

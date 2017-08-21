@@ -3,6 +3,7 @@
 
 #include "Binder.h"
 #include "ThorsNisseCoreService/Server.h"
+#include "ThorsNisseCoreService/Handler.h"
 #include <map>
 #include <string>
 
@@ -27,6 +28,15 @@ class DynamicSiteLoader
         DynamicSiteLoader(Core::Service::Server& server);
         void load(std::string const& site, int port, std::string const& host, std::string const& base);
         void unload(std::string const& host, std::string const& base);
+};
+
+class DeveloperHandler: public Core::Service::Handler
+{
+    DynamicSiteLoader&          loader;
+    Core::Socket::DataSocket    socket;
+    public:
+        DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader);
+        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
 };
 
             }

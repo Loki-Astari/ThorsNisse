@@ -84,3 +84,18 @@ void DynamicSiteLoader::unload(std::string const& host, std::string const& base)
                 "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host/port ", host, base, " From: ", std::get<1>(info), " Error: ", dlerror()));
     }
 }
+
+
+DeveloperHandler::DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader)
+    : Handler(parent, socket.getSocketId(), EV_READ | EV_WRITE)
+    , loader(loader)
+    , socket(std::move(socket))
+{}
+
+short DeveloperHandler::eventActivate(Core::Service::LibSocketId sockId, short eventType)
+{
+    (void)sockId;
+    (void)eventType;
+    (void)loader;
+    return 0;
+}
