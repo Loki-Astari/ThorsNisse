@@ -2,6 +2,7 @@
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_DYNAMIC_SITE_LOADER_H
 
 #include "Binder.h"
+#include "HttpScanner.h"
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Handler.h"
 #include <map>
@@ -34,6 +35,8 @@ class DeveloperHandler: public Core::Service::Handler
 {
     DynamicSiteLoader&          loader;
     Core::Socket::DataSocket    socket;
+    HttpScanner                 scanner;
+    std::vector<char>           buffer;
     public:
         DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;

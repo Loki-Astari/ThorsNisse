@@ -1,6 +1,7 @@
 #include "DynamicSiteLoader.h"
 #include "HTTPProtocol.h"
 #include "ThorsNisseCoreUtility/Utility.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"
 #include <dlfcn.h>
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
@@ -90,12 +91,51 @@ DeveloperHandler::DeveloperHandler(Core::Service::Server& parent, Core::Socket::
     : Handler(parent, socket.getSocketId(), EV_READ | EV_WRITE)
     , loader(loader)
     , socket(std::move(socket))
+    , buffer(100)
 {}
 
-short DeveloperHandler::eventActivate(Core::Service::LibSocketId sockId, short eventType)
+#include "ThorSerialize/Traits.h"
+#include "ThorSerialize/JsonThor.h"
+
+
+struct LoadSite
 {
-    (void)sockId;
-    (void)eventType;
+    std::string     action;
+    std::string     lib;
+    std::string     host;
+    std::string     base;
+    int             port;
+};
+
+ThorsAnvil_MakeTrait(LoadSite, action, lib, host, base, port);
+
+short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
+{
+    while (!scanner.data.messageComplete)
+    {
+        bool                more;
+        std::size_t         recved;
+        std::tie(more, recved) = socket.getMessageData(&buffer[0], 100, 0);
+        scanner.scan(&buffer[0], recved);
+
+        if (scanner.data.messageComplete || !more)
+        {
+            break;
+        }
+    }
+
+    Core::Socket::ISocketStream   input(socket,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    Core::Socket::OSocketStream   output(socket, [](){}, [](){});
+
+    LoadSite siteToLoad;
+    input >> ThorsAnvil::Serialize::jsonImport(siteToLoad);
+    std::cerr << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
     (void)loader;
+
+    output << "HTTP/1.1 200 OK\r\n"
+           << "Content-Length: 0\r\n"
+           << "\r\n";
+
+    dropHandler();
     return 0;
 }
