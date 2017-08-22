@@ -130,6 +130,18 @@ void Server::setCurrentHandler(Handler* current)
     }
 }
 
+// The result of this call is only valid if `inHandler()` returns true.
+Server& Server::getCurrentHandler()
+{
+    return *currentService;
+}
+
+bool Server::inHandler()
+{
+    // If there is a current handler active.
+    // And that handler is non-blocking
+    return currentService && currentService->currentHandler && !currentService->currentHandler->blocking();
+}
 #ifdef COVERAGE_TEST
 /*
  * This code is only compiled into the unit tests for code coverage purposes

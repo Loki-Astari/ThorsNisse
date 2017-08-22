@@ -39,9 +39,9 @@ inline Handler& Server::addHandler(Args&&... args)
 template<typename H, typename... Args>
 inline void Server::transferHandler(Args&&... args)
 {
-    if (currentHandler == nullptr)
+    if (currentHandler == nullptr || currentHandler->blocking())
     {
-        throw std::runtime_error("Can not transfer handlers when not running a current handler");
+        throw std::runtime_error("Can not transfer handlers when not running a current handler (or the current one is blocking)");
     }
     Handler& handler = addHandler<H>(std::forward<Args>(args)...);
     handler.setSuspend(*currentHandler);
