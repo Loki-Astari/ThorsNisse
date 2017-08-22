@@ -35,6 +35,7 @@ class Handler
         void activateEventHandlers(LibSocketId sockId, short eventType);        // The C-Callback point.
                                                                                 // Should make this private
         virtual short eventActivate(LibSocketId sockId, short eventType);
+        virtual bool  blocking() = 0;
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:
         void dropHandler();
@@ -62,6 +63,7 @@ class ServerHandler: public Handler
         ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
+        virtual bool  blocking()  override {return true;}
 };
 
 template<typename ActHand>
@@ -73,6 +75,7 @@ class ServerHandler<ActHand, void>: public Handler
         ServerHandler(Server& parent, Socket::ServerSocket&& so);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
+        virtual bool  blocking()  override {return true;}
 };
 
 class TimerHandler: public Handler
@@ -88,6 +91,7 @@ class TimerHandler: public Handler
             action();
             return 0;
         }
+        virtual bool  blocking()  override {return true;}
 };
 
             }

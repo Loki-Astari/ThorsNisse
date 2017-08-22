@@ -37,6 +37,7 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::Handler
             }
             return worker.get();
         }
+        virtual bool  blocking()  override {return false;}
 };
 
 class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::Handler
@@ -64,6 +65,7 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::Handler
             }
             return worker.get();
         }
+        virtual bool  blocking()  override {return false;}
 };
 
 NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnection& connection, ConnectionNonBlocking& nbStream, std::string const& statement)

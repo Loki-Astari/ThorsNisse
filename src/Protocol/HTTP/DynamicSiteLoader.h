@@ -40,6 +40,7 @@ class DeveloperHandler: public Core::Service::Handler
     public:
         DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
+        virtual bool  blocking()  override {return true;}
 };
 
             }

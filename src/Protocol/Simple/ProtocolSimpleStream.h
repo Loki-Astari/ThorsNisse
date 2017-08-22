@@ -71,6 +71,7 @@ class ReadMessageStreamHandler: public Core::Service::Handler
     public:
         ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
+        virtual bool  blocking()  override {return false;}
     public:
         static std::string const failToReadMessage;
 };
@@ -84,6 +85,7 @@ class WriteMessageStreamHandler: public Core::Service::Handler
         WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
+        virtual bool  blocking()  override {return false;}
     public:
         static std::string const messageSuffix;
 };

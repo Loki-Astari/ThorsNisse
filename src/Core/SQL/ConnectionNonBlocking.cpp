@@ -41,6 +41,7 @@ class MySQLConnectionHandler: public Service::Handler
             }
             return worker.get();
         }
+        virtual bool  blocking()  override {return false;}
 };
 
             }
