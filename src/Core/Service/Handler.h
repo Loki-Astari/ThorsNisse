@@ -32,7 +32,8 @@ class Handler
     public:
         Handler(Server& parent, LibSocketId socketId, short eventType, double timeout = 0);
         virtual ~Handler();
-        void activateEventHandlers(LibSocketId sockId, short eventType);
+        void activateEventHandlers(LibSocketId sockId, short eventType);        // The C-Callback point.
+                                                                                // Should make this private
         virtual short eventActivate(LibSocketId sockId, short eventType);
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:
