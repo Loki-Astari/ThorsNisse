@@ -32,7 +32,7 @@ class MySQLConnectionHandler: public Service::Handler
                 })
         {
         }
-        virtual short eventActivate(Service::LibSocketId /*sockId*/, short /*eventType*/)
+        virtual short eventActivate(Service::LibSocketId /*sockId*/, short /*eventType*/) override
         {
             if (!worker())
             {

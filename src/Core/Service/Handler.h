@@ -83,7 +83,7 @@ class TimerHandler: public Handler
             : Handler(parent, -1, EV_PERSIST, timeOut)
             , action(std::move(action))
         {}
-        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) override
         {
             action();
             return 0;
