@@ -62,16 +62,18 @@ void DynamicSiteLoader::unload(std::string const& host, std::string const& base)
     {
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find host/base", host, " ", base));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find host/base: ", host, "/", base));
     }
 
-    SiteInfo const& info = find->second;
+    SiteInfo const info = find->second;
+    loadedLibs.erase(find);
+
     auto findBinder = portMap.find(std::get<1>(info));
     if (findBinder == portMap.end())
     {
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find binder", std::get<1>(info), " For: ", host, " ", base));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find binder", std::get<1>(info), " For: ", host, "/", base));
     }
 
     Binder& binder = findBinder->second;
@@ -130,7 +132,26 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     LoadSite siteToLoad;
     input >> ThorsAnvil::Serialize::jsonImport(siteToLoad);
     std::cerr << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
-    (void)loader;
+
+    try
+    {
+        if (siteToLoad.action == "Unload")
+        {
+            loader.unload(siteToLoad.host, siteToLoad.base);
+        }
+        if (siteToLoad.action == "Load")
+        {
+            loader.load(siteToLoad.lib, siteToLoad.port, siteToLoad.host, siteToLoad.base);
+        }
+    }
+    catch (std::exception const& e)
+    {
+        std::cerr << "Exception: " << e.what() << "\n";
+    }
+    catch (...)
+    {
+        std::cerr << "Exception: Unknown\n";
+    }
 
     output << "HTTP/1.1 200 OK\r\n"
            << "Content-Length: 0\r\n"
