@@ -139,9 +139,11 @@ void Handler::setHandlers(short eventType, TimeVal* timeVal)
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
+#include "Server.tpp"
 #include "Handler.tpp"
 #include "test/Action.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<TestHandler, std::__1::tuple<bool, bool, bool> >(int, std::__1::tuple<bool, bool, bool>&);
 #endif

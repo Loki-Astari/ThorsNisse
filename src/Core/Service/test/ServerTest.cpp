@@ -1,5 +1,4 @@
 #include "Server.h"
-#include "Handler.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include "test/Action.h"
 #include <gtest/gtest.h>
@@ -7,7 +6,6 @@
 #include <iostream>
 
 using ThorsAnvil::Nisse::Core::Service::Server;
-using ThorsAnvil::Nisse::Core::Service::Handler;
 using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 
 TEST(CoreServiceServerTest, Construct)

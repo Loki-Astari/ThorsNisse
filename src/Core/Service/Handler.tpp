@@ -2,6 +2,7 @@
 #define THORSANVIL_NISSE_NISSE_HANDLER_TPP
 
 #include "Server.h"
+#include <iostream>
 
 namespace ThorsAnvil
 {
