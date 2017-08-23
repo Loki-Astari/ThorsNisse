@@ -52,12 +52,12 @@ TEST_F(HTTPProtocolTest, Construct)
 TEST_F(HTTPProtocolTest, GetRequest)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "GET /index.html HTTP/1.1\r\n\r\n";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "GET /index.html HTTP/1.1\r\n"
-                              "\r\n";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
@@ -69,12 +69,12 @@ TEST_F(HTTPProtocolTest, GetRequest)
 TEST_F(HTTPProtocolTest, PutRequest)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "PUT /index.html HTTP/1.1\r\n" "\r\n";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "PUT /index.html HTTP/1.1\r\n"
-                              "\r\n";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
@@ -86,12 +86,12 @@ TEST_F(HTTPProtocolTest, PutRequest)
 TEST_F(HTTPProtocolTest, PostRequest)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "POST /index.html HTTP/1.1\r\n" "\r\n";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "POST /index.html HTTP/1.1\r\n"
-                              "\r\n";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
@@ -103,12 +103,12 @@ TEST_F(HTTPProtocolTest, PostRequest)
 TEST_F(HTTPProtocolTest, DeleteRequest)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "DELETE /index.html HTTP/1.1\r\n" "\r\n";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "DELETE /index.html HTTP/1.1\r\n"
-                              "\r\n";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
@@ -120,12 +120,12 @@ TEST_F(HTTPProtocolTest, DeleteRequest)
 TEST_F(HTTPProtocolTest, HeadRequest)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "HEAD /index.html HTTP/1.1\r\n";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "HEAD /index.html HTTP/1.1\r\n"
-                              "\r\n";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
@@ -137,14 +137,12 @@ TEST_F(HTTPProtocolTest, HeadRequest)
 TEST_F(HTTPProtocolTest, CeckHeaders)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "GET /index.html HTTP/1.1\r\n" "Host: ThorsAnvil.com\r\n" "Content-Type: text/json\r\n" "\r\n";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "GET /index.html HTTP/1.1\r\n"
-                              "Host: ThorsAnvil.com\r\n"
-                              "Content-Type: text/json\r\n"
-                              "\r\n";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
@@ -156,17 +154,12 @@ TEST_F(HTTPProtocolTest, CeckHeaders)
 TEST_F(HTTPProtocolTest, CeckHeadersMultipleValue)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "GET /index.html HTTP/1.1\r\n" "Host: ThorsAnvil.com\r\n" "Content-Type: text/json\r\n" "Cookie: Cookie1\r\n" "Cookie:Cookie2\r\n" "Cookie: This is a long cookie with spaces\r\n" "\r\n";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "GET /index.html HTTP/1.1\r\n"
-                              "Host: ThorsAnvil.com\r\n"
-                              "Content-Type: text/json\r\n"
-                              "Cookie: Cookie1\r\n"
-                              "Cookie:Cookie2\r\n"
-                              "Cookie: This is a long cookie with spaces\r\n"
-                              "\r\n";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
@@ -178,14 +171,12 @@ TEST_F(HTTPProtocolTest, CeckHeadersMultipleValue)
 TEST_F(HTTPProtocolTest, CheckBody)
 {
     unlink("XX");
-    int         readFD = ::open("XX", O_RDWR | O_CREAT);
+    int         writeFD = ::open("XX", O_RDWR | O_CREAT);
+    std::string message = "PUT /index.html HTTP/1.1\r\n" "Content-Length: 21\r\n" "\r\n" "This is a body object";
+    ::write(writeFD, message.c_str(), message.size());
+    ::close(writeFD);
 
-    std::string message = "PUT /index.html HTTP/1.1\r\n"
-                              "Content-Length: 21\r\n"
-                              "\r\n"
-                              "This is a body object";
-    ::write(readFD, message.c_str(), message.size());
-
+    int                     readFD = ::open("XX", O_RDWR);
     DataSocket              socket(readFD);
     Server                  service;
     Binder                  binder;
