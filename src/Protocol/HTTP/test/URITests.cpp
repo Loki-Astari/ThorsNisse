@@ -1,56 +1,6 @@
 #include "Types.h"
 #include <gtest/gtest.h>
 
-// ThorsAnvil.com
-// ThorsAnvil.com:8088
-// ThorsAnvil.com /A/Path
-// ThorsAnvil.com /A/Path?Query=2
-
-/*
-URI::URI(std::string const& hostAndPort, std::string&& pathAndQuery)
-    : port(80)
-{
-    auto find = hostAndPort.find(':');
-    if (find == std::string::npos)
-    {
-        host    = hostAndPort;
-    }
-    else
-    {
-        host    = hostAndPort.substr(0, find);
-        port    = atoi(hostAndPort.substr(find + 1).c_str());
-    }
-
-    auto nextSection = pathAndQuery.find_first_of("?&#", 0, 3);
-    if (nextSection == std::string::npos)
-    {
-        path    = std::move(pathAndQuery);
-    }
-    else
-    {
-        path    = pathAndQuery.substr(0, nextSection);
-        if (pathAndQuery[nextSection] != '#')
-        {
-            auto querySection = nextSection;
-            nextSection = findSection(pathAndQuery, '#', querySection);
-            query    = pathAndQuery.substr(querySection, (nextSection - querySection));
-        }
-        fragment = pathAndQuery.substr(nextSection);
-    }
-
-    if (!query.empty())
-    {
-        std::string::size_type lastPart = 0;
-        for (auto nextPart = findSection(query, '&', 0); nextPart != lastPart; lastPart = nextPart, nextPart = findSection(query, '&', lastPart))
-        {
-            auto split = findSection(query, '=', lastPart);
-            split = split > nextPart ? nextPart - 1 : split;
-            queryParam[query.substr(lastPart + 1, (split - lastPart - 1))] = query.substr(split, (nextPart - split));
-        }
-    }
-}
-*/
-
 using ThorsAnvil::Nisse::Protocol::HTTP::URI;
 
 TEST(URITests, ConstructHostOnly)
