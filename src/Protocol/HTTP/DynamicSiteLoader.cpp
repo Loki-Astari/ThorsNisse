@@ -57,7 +57,7 @@ void DynamicSiteLoader::load(std::string const& site, int port, std::string cons
     std::cerr << this << ": " << "Loaded: " << site << " " << host << ":" << port << "/" << base << "\n";
 }
 
-void DynamicSiteLoader::unload(std::string const& host, std::string const& base)
+bool DynamicSiteLoader::unload(std::string const& host, std::string const& base)
 {
     auto find = loadedLibs.find({host, base});
     if (find == loadedLibs.end())
@@ -79,7 +79,11 @@ void DynamicSiteLoader::unload(std::string const& host, std::string const& base)
     }
 
     Binder& binder = findBinder->second;
-    binder.remSite(host, base);
+    if (!binder.remSite(host, base))
+    {
+        std::cerr << this << ": " << "Disabled: " << "----" << " " << host << ":" << std::get<1>(info) << "/" << base << "\n";
+        return false;
+    }
 
     int result = dlclose(std::get<0>(info));
     if (result != 0)
@@ -89,6 +93,7 @@ void DynamicSiteLoader::unload(std::string const& host, std::string const& base)
                 "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host/port ", host, base, " From: ", std::get<1>(info), " Error: ", dlerror()));
     }
     std::cerr << this << ": " << "UnLoaded: " << "----" << " " << host << ":" << std::get<1>(info) << "/" << base << "\n";
+    return true;
 }
 
 
@@ -136,11 +141,17 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     input >> ThorsAnvil::Serialize::jsonImport(siteToLoad);
     std::cerr << this << ": " << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
 
+    int         status  = 200;
+    std::string message = "OK";
     try
     {
         if (siteToLoad.action == "Unload")
         {
-            loader.unload(siteToLoad.host, siteToLoad.base);
+            if (!loader.unload(siteToLoad.host, siteToLoad.base))
+            {
+                status  = 205;
+                message = "Site Disabled, but calls still active";
+            }
         }
         if (siteToLoad.action == "Load")
         {
@@ -149,14 +160,18 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     }
     catch (std::exception const& e)
     {
+        status  = 400;
+        message = "Bad Request";
         std::cerr << "Exception: " << e.what() << "\n";
     }
     catch (...)
     {
+        status  = 500;
+        message = "Internal Server Error";
         std::cerr << "Exception: Unknown\n";
     }
 
-    output << "HTTP/1.1 200 OK\r\n"
+    output << "HTTP/1.1 " << status << " " << message << "\r\n"
            << "Content-Length: 0\r\n"
            << "\r\n";
 
