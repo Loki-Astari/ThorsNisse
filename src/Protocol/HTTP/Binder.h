@@ -78,7 +78,7 @@ class Binder
         Binder();
         void setCustome404Action(Action&& action);
         void addSite(std::string const& host, std::string const& base, Site&& site);
-        bool remSite(std::string const& host, std::string const& base);
+        std::pair<bool, int> remSite(std::string const& host, std::string const& base);
 
         Action find(Method method, std::string const& host, std::string const& path) const;
 };

@@ -74,12 +74,16 @@ void Binder::addSite(std::string const& host, std::string const& base, Site&& si
     siteMap[host]   = std::move(site);
 }
 
-bool Binder::remSite(std::string const& host, std::string const& base)
+std::pair<bool, int> Binder::remSite(std::string const& host, std::string const& base)
 {
     (void)base;
-    Site    unload = std::move(siteMap[host]);
-    siteMap[host].activeItems = unload.activeItems;
-    return unload.activeItems == 0;
+    if (siteMap.find(host) != siteMap.end())
+    {
+        Site    unload = std::move(siteMap[host]);
+        siteMap[host].activeItems = unload.activeItems;
+        return {true, unload.activeItems};
+    }
+    return {false, 0};
 }
 
 Action& Binder::getDefault404Action()

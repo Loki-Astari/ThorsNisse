@@ -57,7 +57,7 @@ void DynamicSiteLoader::load(std::string const& site, int port, std::string cons
     std::cerr << this << ": " << "Loaded: " << site << " " << host << ":" << port << "/" << base << "\n";
 }
 
-bool DynamicSiteLoader::unload(std::string const& host, std::string const& base)
+std::pair<bool, int> DynamicSiteLoader::unload(std::string const& host, std::string const& base)
 {
     auto find = loadedLibs.find({host, base});
     if (find == loadedLibs.end())
@@ -79,10 +79,18 @@ bool DynamicSiteLoader::unload(std::string const& host, std::string const& base)
     }
 
     Binder& binder = findBinder->second;
-    if (!binder.remSite(host, base))
+    auto unload = binder.remSite(host, base);
+
+    if (!unload.first)
+    {
+        std::cerr << this << ": Unknown Site: " << host << ":" << std::get<1>(info) << "/" << base << "\n";
+        return unload;
+    }
+
+    if (unload.second != 0)
     {
         std::cerr << this << ": " << "Disabled: " << "----" << " " << host << ":" << std::get<1>(info) << "/" << base << "\n";
-        return false;
+        return unload;
     }
 
     int result = dlclose(std::get<0>(info));
@@ -93,7 +101,7 @@ bool DynamicSiteLoader::unload(std::string const& host, std::string const& base)
                 "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host/port ", host, base, " From: ", std::get<1>(info), " Error: ", dlerror()));
     }
     std::cerr << this << ": " << "UnLoaded: " << "----" << " " << host << ":" << std::get<1>(info) << "/" << base << "\n";
-    return true;
+    return unload;
 }
 
 
@@ -147,7 +155,14 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     {
         if (siteToLoad.action == "Unload")
         {
-            if (!loader.unload(siteToLoad.host, siteToLoad.base))
+            auto result = loader.unload(siteToLoad.host, siteToLoad.base);
+
+            if (!result.first)
+            {
+                status  = 400;
+                message = "Bad Request";
+            }
+            else if (result.second != 0)
             {
                 status  = 205;
                 message = "Site Disabled, but calls still active";
