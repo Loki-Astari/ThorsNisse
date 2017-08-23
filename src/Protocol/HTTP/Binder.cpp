@@ -42,7 +42,7 @@ Binder::Binder()
 void Binder::addSite(std::string const& host, std::string const& base, Site&& site)
 {
     (void)base;
-    siteMap.emplace(host, std::move(site));
+    siteMap[host]   = std::move(site);
 }
 
 void Binder::remSite(std::string const& host, std::string const& base)

@@ -3,6 +3,7 @@
 #include "ThorsNisseCoreUtility/Utility.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
 #include <dlfcn.h>
+#include <iostream>
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
@@ -53,6 +54,7 @@ void DynamicSiteLoader::load(std::string const& site, int port, std::string cons
     {
         server.listenOn<ReadRequestHandler>(port, binder);
     }
+    std::cerr << this << ": " << "Loaded: " << site << " " << host << ":" << port << "/" << base << "\n";
 }
 
 void DynamicSiteLoader::unload(std::string const& host, std::string const& base)
@@ -86,6 +88,7 @@ void DynamicSiteLoader::unload(std::string const& host, std::string const& base)
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
                 "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host/port ", host, base, " From: ", std::get<1>(info), " Error: ", dlerror()));
     }
+    std::cerr << this << ": " << "UnLoaded: " << "----" << " " << host << ":" << std::get<1>(info) << "/" << base << "\n";
 }
 
 
@@ -131,7 +134,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
 
     LoadSite siteToLoad;
     input >> ThorsAnvil::Serialize::jsonImport(siteToLoad);
-    std::cerr << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
+    std::cerr << this << ": " << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
 
     try
     {
