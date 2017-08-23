@@ -108,6 +108,35 @@ class TestHandler: public ThorsAnvil::Nisse::Core::Service::Handler
             (*yield)(0);
         }
 };
+class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::Handler
+{
+    using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
+    using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
+
+    ThorsAnvil::Nisse::Core::Service::Server&   server;
+    ThorsAnvil::Nisse::Core::Socket::DataSocket socket;
+    std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&    active;
+
+    public:
+        InHandlerTest(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::Nisse::Core::Socket::DataSocket&& so, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>& active)
+            : Handler(server, so.getSocketId(), EV_READ)
+            , server(server)
+            , socket(std::move(so))
+            , active(active)
+        {}
+        virtual short eventActivate(ThorsAnvil::Nisse::Core::Service::LibSocketId, short) override
+        {
+            std::get<0>(active) = true;
+            std::get<1>(active)(server);
+            server.flagShutDown();
+            dropHandler();
+            return 0;
+        }
+        virtual bool  blocking() override
+        {
+            return false;
+        }
+};
 
 
 #endif
