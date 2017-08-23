@@ -67,8 +67,8 @@ class Server
         template<typename H, typename... Args>
         void transferHandler(Args&&... args);
 
-        static Server&       getCurrentHandler() {return *currentService;}
-        static bool          inHandler()         {return currentService && currentService->currentHandler;}
+        static Server&       getCurrentHandler();
+        static bool          inHandler();
         static void ignore(std::string const& type = "")
         {
             if (cfg != nullptr)

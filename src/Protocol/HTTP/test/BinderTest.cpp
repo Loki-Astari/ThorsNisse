@@ -193,9 +193,9 @@ TEST(BinderTest, AddSites)
 
     Binder  binder;
     binder.setCustome404Action([&missed](Request& /*request*/, Response& /*response*/) {missed = true;});
-    binder.addSite("ThorsAnvil.com", std::move(site1));
-    binder.addSite("LokiAstari.com", std::move(site2));
-    binder.addSite("", std::move(site3));
+    binder.addSite("ThorsAnvil.com", "", std::move(site1));
+    binder.addSite("LokiAstari.com", "", std::move(site2));
+    binder.addSite("", "", std::move(site3));
 
 
     URI                 uri("Ignored", "Ignored");
@@ -236,14 +236,3 @@ TEST(BinderTest, AddSites)
     action(request, response);
     ASSERT_TRUE(calledSite3);
 }
-
-/*
-class Binder
-{
-    private:
-        std::map<std::string, Site> siteMap;
-    public:
-        void addSite(std::string const& host, Site&& site);
-        Action& find(Method method, std::string const& host, std::string const& path) const;
-};
-*/

@@ -1,10 +1,31 @@
 #include "Binder.h"
 #include "ThorsNisseCoreUtility/Utility.h"
-#include <dlfcn.h>
-#include <dlfcn.h>
 
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
+
+Site::Site()
+    : activeItems(0)
+{}
+
+Site::Site(Site&& other) noexcept
+    : activeItems(0)
+{
+    swap(other);
+}
+
+Site& Site::operator=(Site&& other) noexcept
+{
+    swap(other);
+    return *this;
+}
+
+void Site::swap(Site& other) noexcept
+{
+    using std::swap;
+    swap(actionMap,   other.actionMap);
+    swap(activeItems, other.activeItems);
+}
 
 void Site::add(Method method, std::string&& path, Action&& action)
 {
@@ -18,7 +39,14 @@ void Site::add(int index, std::string&& path, Action&& action)
                              std::forward_as_tuple(std::move(action)));
 }
 
-std::pair<bool, Action&> Site::find(Method method, std::string const& path) const
+struct IncDecRaii
+{
+    int&    value;
+    IncDecRaii(int& value): value(value)    {++value;}
+    ~IncDecRaii()                           {--value;}
+};
+
+std::pair<bool, Action> Site::find(Method method, std::string const& path) const
 {
     if (method == Method::Head)
     {
@@ -30,20 +58,28 @@ std::pair<bool, Action&> Site::find(Method method, std::string const& path) cons
         find = actionMap[4].find(path);
         if (find == actionMap[4].end())
         {
-            static Action noAction = [](Request&, Response&){};
-            return {false, noAction};
+            return {false, [](Request&, Response&){}};
         }
     }
-    return {true, find->second};
+    return {true, [action = find->second, &value = this->activeItems](Request& request, Response& response){IncDecRaii count(value);action(request, response);}};
 }
 
 Binder::Binder()
     : action404(getDefault404Action())
 {}
 
-void Binder::addSite(std::string const& host, Site&& site)
+void Binder::addSite(std::string const& host, std::string const& base, Site&& site)
 {
-    siteMap.emplace(host, std::move(site));
+    (void)base;
+    siteMap[host]   = std::move(site);
+}
+
+bool Binder::remSite(std::string const& host, std::string const& base)
+{
+    (void)base;
+    Site    unload = std::move(siteMap[host]);
+    siteMap[host].activeItems = unload.activeItems;
+    return unload.activeItems == 0;
 }
 
 Action& Binder::getDefault404Action()
@@ -67,7 +103,7 @@ void Binder::setCustome404Action(Action&& action)
     action404 = std::move(action);
 }
 
-Action const& Binder::find(Method method, std::string const& host, std::string const& path) const
+Action Binder::find(Method method, std::string const& host, std::string const& path) const
 {
     if (host != "")
     {
@@ -91,29 +127,4 @@ Action const& Binder::find(Method method, std::string const& host, std::string c
         }
     }
     return action404;
-}
-
-void Binder::load(std::string const& site)
-{
-    void* siteLib = dlopen(site.c_str(), RTLD_NOW | RTLD_LOCAL);
-    if (siteLib == nullptr)
-    {
-        throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlopen: Failed to load: ", site, " Error: ", dlerror()));
-    }
-    /* Get rid of old error messages */
-    dlerror();
-
-    void (*addSite)(ThorsAnvil::Nisse::Protocol::HTTP::Binder& binder) = nullptr;
-
-    *(void**) (&addSite) = dlsym(siteLib, "_Z7addSiteRN10ThorsAnvil5Nisse8Protocol4HTTP6BinderE");
-    if (addSite == nullptr)
-    {
-        throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::ProtocolHTTP::Binder::load: dlsym: Failed to load: ", site, " Error: ", dlerror()));
-    }
-
-    (*addSite)(*this);
 }

@@ -32,7 +32,7 @@ class MySQLConnectionHandler: public Service::Handler
                 })
         {
         }
-        virtual short eventActivate(Service::LibSocketId /*sockId*/, short /*eventType*/)
+        virtual short eventActivate(Service::LibSocketId /*sockId*/, short /*eventType*/) override
         {
             if (!worker())
             {
@@ -41,6 +41,7 @@ class MySQLConnectionHandler: public Service::Handler
             }
             return worker.get();
         }
+        virtual bool  blocking()  override {return false;}
 };
 
             }

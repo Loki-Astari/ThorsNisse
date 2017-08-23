@@ -47,16 +47,25 @@ using Action = std::function<void(Request&, Response&)>;
 class Site
 {
     public:
+        Site();
+        Site(Site&&) noexcept;
+        Site& operator=(Site&&) noexcept;
+        void swap(Site&) noexcept;
+
         void get(std::string&& path, Action&& action)    {add(Method::Get,    std::move(path), std::move(action));}
         void put(std::string&& path, Action&& action)    {add(Method::Put,    std::move(path), std::move(action));}
         void del(std::string&& path, Action&& action)    {add(Method::Delete, std::move(path), std::move(action));}
         void post(std::string&& path, Action&& action)   {add(Method::Post,   std::move(path), std::move(action));}
         void all(std::string&& path, Action&& action)    {add(4,              std::move(path), std::move(action));}
-        std::pair<bool, Action&> find(Method method, std::string const& path) const;
+        std::pair<bool, Action> find(Method method, std::string const& path) const;
     private:
         void add(Method method, std::string&& path, Action&& action);
         void add(int index, std::string&& path, Action&& action);
+
         mutable std::array<std::map<Route, Action, RouteTester>, 5>   actionMap;
+
+        friend class Binder;
+        mutable int activeItems;
 };
 
 class Binder
@@ -68,10 +77,27 @@ class Binder
     public:
         Binder();
         void setCustome404Action(Action&& action);
-        void addSite(std::string const& host, Site&& site);
-        void load(std::string const& site);
+        void addSite(std::string const& host, std::string const& base, Site&& site);
+        bool remSite(std::string const& host, std::string const& base);
 
-        Action const& find(Method method, std::string const& host, std::string const& path) const;
+        Action find(Method method, std::string const& host, std::string const& path) const;
+};
+
+class BinderProxy
+{
+    Binder&         binder;
+    std::string     host;
+    std::string     base;
+    public:
+        BinderProxy(Binder& binder, std::string const& host, std::string const& base)
+            : binder(binder)
+            , host(host)
+            , base(base)
+        {}
+        void addSite(Site&& site)
+        {
+            binder.addSite(host, base, std::move(site));
+        }
 };
 
             }

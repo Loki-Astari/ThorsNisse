@@ -86,7 +86,7 @@ void Handler::setSuspend(Handler& handlerToSuspend)
 void Handler::suspend()
 {
     // Overridden in base class
-    throw std::runtime_error("Not Supported");
+    throw std::runtime_error("ThorsAnvil::Nisse::Handler::suspend: Failed");
 }
 
 void Handler::resume()

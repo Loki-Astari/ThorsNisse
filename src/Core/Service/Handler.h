@@ -32,8 +32,10 @@ class Handler
     public:
         Handler(Server& parent, LibSocketId socketId, short eventType, double timeout = 0);
         virtual ~Handler();
-        void activateEventHandlers(LibSocketId sockId, short eventType);
+        void activateEventHandlers(LibSocketId sockId, short eventType);        // The C-Callback point.
+                                                                                // Should make this private
         virtual short eventActivate(LibSocketId sockId, short eventType);
+        virtual bool  blocking() = 0;
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:
         void dropHandler();
@@ -61,6 +63,7 @@ class ServerHandler: public Handler
         ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
+        virtual bool  blocking()  override {return true;}
 };
 
 template<typename ActHand>
@@ -72,6 +75,7 @@ class ServerHandler<ActHand, void>: public Handler
         ServerHandler(Server& parent, Socket::ServerSocket&& so);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
+        virtual bool  blocking()  override {return true;}
 };
 
 class TimerHandler: public Handler
@@ -82,11 +86,12 @@ class TimerHandler: public Handler
             : Handler(parent, -1, EV_PERSIST, timeOut)
             , action(std::move(action))
         {}
-        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) override
         {
             action();
             return 0;
         }
+        virtual bool  blocking()  override {return true;}
 };
 
             }

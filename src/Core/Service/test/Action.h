@@ -19,6 +19,7 @@ class Action: public ThorsAnvil::Nisse::Core::Service::Handler
             service.flagShutDown();
             return 0;
         }
+        virtual bool  blocking()  override {return false;}
 };
 class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::Handler
 {
@@ -36,6 +37,7 @@ class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::Handler
             dropHandler();
             return 0;
         }
+        virtual bool  blocking()  override {return false;}
 };
 
 #endif
