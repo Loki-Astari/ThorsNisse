@@ -5,7 +5,6 @@
 #include "../Handler.h"
 #include "../CoRoutine.h"
 #include "ThorsNisseCoreSocket/Socket.h"
-#include <iostream>
 
 class Action: public ThorsAnvil::Nisse::Core::Service::Handler
 {
