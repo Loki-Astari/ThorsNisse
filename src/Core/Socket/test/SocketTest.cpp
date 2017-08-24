@@ -1,4 +1,5 @@
 #include "Socket.h"
+#include "Mock.h"
 #include <fstream>
 #include <sys/socket.h>
 #include <gtest/gtest.h>
@@ -149,31 +150,6 @@ TEST(SocketTest, writeOneLine)
     EXPECT_EQ(0, ::close(fd[0]));
     EXPECT_EQ(testData, buffer);
 }
-
-
-
-template<typename H>
-struct ActionSwap
-{
-    H&  val;
-    H   tmp;
-    ActionSwap(H& val,H&& alt)
-        : val(val)
-        , tmp(std::move(alt))
-    {
-        using std::swap;
-        swap(tmp, val);
-    }
-    ~ActionSwap()
-    {
-        using std::swap;
-        swap(tmp, val);
-    }
-};
-
-#define MOCK_METHOD(act, lambda)    ActionSwap<decltype(sys.act)>   mock ## act(sys.act, lambda)
-extern ThorsAnvil::Nisse::Core::Socket::Detail::SocketInterface sys;
-
 
 TEST(SocketExceptionTest, baseSocket_InitFail)
 {
