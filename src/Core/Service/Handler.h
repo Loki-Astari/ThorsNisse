@@ -58,8 +58,8 @@ class HandlerNonSuspendable: public HandlerBase
 {
     public:
         using HandlerBase::HandlerBase;
-        virtual void suspend()      override {throw std::runtime_error("ThorsAnvil::Nisse::HandlerNonSuspendable::suspend: Failed");};
-        virtual bool suspendable()  override {return false;}
+        virtual void suspend()      final {throw std::runtime_error("ThorsAnvil::Nisse::HandlerNonSuspendable::suspend: Failed");};
+        virtual bool suspendable()  final {return false;}
 };
 
 using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
@@ -83,9 +83,9 @@ class HandlerSuspendable: public HandlerBase
             , worker(nullptr)
             , firstEvent(firstEvent)
         {}
-        virtual void suspend()      override {(*yield)(0);}
-        virtual bool suspendable()  override {return true;}
-        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) override
+        virtual void suspend()      final {(*yield)(0);}
+        virtual bool suspendable()  final {return true;}
+        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) final
         {
             if (worker == nullptr)
             {
