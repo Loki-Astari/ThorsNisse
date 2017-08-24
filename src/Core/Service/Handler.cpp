@@ -80,7 +80,7 @@ short HandlerBase::eventActivate(LibSocketId sockId, short eventType)
 void HandlerBase::setSuspend(HandlerBase& handlerToSuspend)
 {
     suspended = &handlerToSuspend;
-    handlerToSuspend.suspend();
+    handlerToSuspend.suspend(0);
 }
 
 void HandlerBase::resume()

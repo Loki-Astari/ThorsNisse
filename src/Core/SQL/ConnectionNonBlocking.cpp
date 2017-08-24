@@ -37,7 +37,7 @@ class MySQLConnectionHandler: public Service::HandlerSuspendable
         {}
         virtual void eventActivateNonBlocking() override
         {
-            stream.setYield([&yield = *(this->yield)](){yield(EV_READ);}, [&yield = *(this->yield)](){yield(EV_WRITE);});
+            stream.setYield([&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             connection.doConectToServer(username, password, database, options);
             stream.setYield([](){}, [](){});
         }

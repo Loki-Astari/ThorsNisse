@@ -71,10 +71,10 @@ void ReadRequestHandler::eventActivateNonBlocking()
         {
             break;
         }
-        (*yield)(EV_READ);
+        suspend(EV_READ);
     }
-    Core::Socket::ISocketStream   input(socket, [&yield = (*this->yield)](){yield(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-    Core::Socket::OSocketStream   output(socket, [&yield = (*this->yield)](){yield(EV_WRITE);}, [&parent = *this](){parent.flushing();});
+    Core::Socket::ISocketStream   input(socket,  [&parent = *this](){parent.suspend(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    Core::Socket::OSocketStream   output(socket, [&parent = *this](){parent.suspend(EV_WRITE);}, [&parent = *this](){parent.flushing();});
     DevNullStreamBuf        devNullBuffer;
     if (scanner.data.method == Method::Head)
     {

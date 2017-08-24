@@ -12,7 +12,7 @@ ReadMessageStreamHandler::ReadMessageStreamHandler(Core::Service::Server& parent
 
 void ReadMessageStreamHandler::eventActivateNonBlocking()
 {
-    Core::Socket::ISocketStream   stream(socket, [&yield = *(this->yield)](){yield(EV_READ);}, [](){});
+    Core::Socket::ISocketStream   stream(socket, [&parent = *this](){parent.suspend(EV_READ);}, [](){});
     Message                 message;
     if (!(stream >> message))
     {
@@ -38,7 +38,7 @@ WriteMessageStreamHandler::~WriteMessageStreamHandler()
 
 void WriteMessageStreamHandler::eventActivateNonBlocking()
 {
-    Core::Socket::OSocketStream   stream(socket, [&yield = *(this->yield)](){yield(EV_WRITE);}, [](){});
+    Core::Socket::OSocketStream   stream(socket, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
     message.message += messageSuffix;
     stream << message;
     dropHandler();

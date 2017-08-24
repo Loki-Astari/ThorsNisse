@@ -27,7 +27,7 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
 
         virtual void eventActivateNonBlocking() override
         {
-            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&yield = *(this->yield)](){yield(EV_READ);}, [&yield = *(this->yield)](){yield(EV_WRITE);});
+            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.createProxy(nbStream, statement);
         }
 };
@@ -48,7 +48,7 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
 
         virtual void eventActivateNonBlocking() override
         {
-            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection,[&yield = *(this->yield)](){yield(EV_READ);}, [&yield = *(this->yield)](){yield(EV_WRITE);});
+            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection,[&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.executePrepare();
         }
 };

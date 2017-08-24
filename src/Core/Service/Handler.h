@@ -47,7 +47,7 @@ class HandlerBase
     public:
         void dropEvent();
     private:
-        virtual void suspend() = 0;
+        virtual void suspend(short type) = 0;
         void resume();
     private:
         friend class Server;
@@ -58,7 +58,7 @@ class HandlerNonSuspendable: public HandlerBase
 {
     public:
         using HandlerBase::HandlerBase;
-        virtual void suspend()      final {throw std::runtime_error("ThorsAnvil::Nisse::HandlerNonSuspendable::suspend: Failed");};
+        virtual void suspend(short) final {throw std::runtime_error("ThorsAnvil::Nisse::HandlerNonSuspendable::suspend: Failed");};
         virtual bool suspendable()  final {return false;}
 };
 
@@ -67,9 +67,7 @@ using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
 class HandlerSuspendable: public HandlerBase
 {
-    protected:
     Yield*                      yield;
-    private:
     std::unique_ptr<CoRoutine>  worker;
     short                       firstEvent;
     public:
@@ -82,8 +80,8 @@ class HandlerSuspendable: public HandlerBase
             , yield(nullptr)
             , firstEvent(firstEvent)
         {}
-        virtual void suspend()      final {(*yield)(0);}
-        virtual bool suspendable()  final {return true;}
+        virtual void suspend(short type)    final {(*yield)(type);}
+        virtual bool suspendable()          final {return true;}
         virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) final
         {
             if (worker == nullptr)
