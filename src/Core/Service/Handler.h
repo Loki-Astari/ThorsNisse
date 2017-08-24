@@ -68,10 +68,10 @@ using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 class HandlerSuspendable: public HandlerBase
 {
     protected:
-    Yield*      yield;
+    Yield*                      yield;
     private:
-    CoRoutine*  worker;
-    short       firstEvent;
+    std::unique_ptr<CoRoutine>  worker;
+    short                       firstEvent;
     public:
         using HandlerBase::HandlerBase;
         HandlerSuspendable(Server& parent, LibSocketId socketId, short eventType)
@@ -80,7 +80,6 @@ class HandlerSuspendable: public HandlerBase
         HandlerSuspendable(Server& parent, LibSocketId socketId, short eventType, short firstEvent)
             : HandlerBase(parent, socketId, eventType, 0)
             , yield(nullptr)
-            , worker(nullptr)
             , firstEvent(firstEvent)
         {}
         virtual void suspend()      final {(*yield)(0);}
@@ -89,13 +88,13 @@ class HandlerSuspendable: public HandlerBase
         {
             if (worker == nullptr)
             {
-                worker = new CoRoutine([&parentYield = this->yield, &parent = *this, firstEvent = this->firstEvent](Yield& yield)
+                worker.reset(new CoRoutine([&parentYield = this->yield, &parent = *this, firstEvent = this->firstEvent](Yield& yield)
                     {
                         parentYield = &yield;
                         yield(firstEvent);
                         parent.eventActivateNonBlocking();
                         return 0;
-                    });
+                    }));
             }
             if (!(*worker)())
             {
