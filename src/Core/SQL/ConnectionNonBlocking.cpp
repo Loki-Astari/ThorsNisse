@@ -11,9 +11,14 @@ namespace ThorsAnvil
             namespace SQL
             {
 
-class MySQLConnectionHandler: public Service::Handler
+class MySQLConnectionHandler: public Service::HandlerSuspendable
 {
-    CoRoutine               worker;
+    ConnectionNonBlocking&          connection;
+    ThorsAnvil::MySQL::MySQLStream& stream;
+    std::string                     username;
+    std::string                     password;
+    std::string                     database;
+    ThorsAnvil::SQL::Options const& options;
     public:
         MySQLConnectionHandler(Service::Server& service,
                                ConnectionNonBlocking& connection,
@@ -22,26 +27,20 @@ class MySQLConnectionHandler: public Service::Handler
                                std::string const& password,
                                std::string const& database,
                                ThorsAnvil::SQL::Options const& options)
-            : Handler(service, stream.getSocketId(), EV_READ | EV_WRITE)
-            , worker([&connection, &stream, &username, &password, &database, &options](Yield& yield)
-                {
-                    yield(EV_WRITE);
-                    stream.setYield([&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
-                    connection.doConectToServer(username, password, database, options);
-                    stream.setYield([](){}, [](){});
-                })
+            : HandlerSuspendable(service, stream.getSocketId(), EV_READ | EV_WRITE, EV_WRITE)
+            , connection(connection)
+            , stream(stream)
+            , username(username)
+            , password(password)
+            , database(database)
+            , options(options)
+        {}
+        virtual void eventActivateNonBlocking() override
         {
+            stream.setYield([&yield = *(this->yield)](){yield(EV_READ);}, [&yield = *(this->yield)](){yield(EV_WRITE);});
+            connection.doConectToServer(username, password, database, options);
+            stream.setYield([](){}, [](){});
         }
-        virtual short eventActivate(Service::LibSocketId /*sockId*/, short /*eventType*/) override
-        {
-            if (!worker())
-            {
-                dropHandler();
-                return 0;
-            }
-            return worker.get();
-        }
-        virtual bool  blocking()  override {return false;}
 };
 
             }

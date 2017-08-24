@@ -3,7 +3,6 @@
 
 #include "ThorMySQL/Connection.h"
 #include "ThorMySQL/MySQLStream.h"
-#include "ThorsNisseCoreService/CoRoutine.h"
 
 namespace ThorsAnvil
 {
@@ -13,9 +12,6 @@ namespace ThorsAnvil
         {
             namespace SQL
             {
-
-using CoRoutine = Service::Context<short>::pull_type;
-using Yield     = Service::Context<short>::push_type;
 
 class MySQLConnectionHandler;
 class ConnectionNonBlocking: public ThorsAnvil::MySQL::Connection

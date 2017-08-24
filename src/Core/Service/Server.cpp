@@ -106,7 +106,7 @@ void Server::purgeRetiredHandlers()
     retiredHandlers.clear();
 }
 
-void Server::delHandler(Handler* oldHandler)
+void Server::delHandler(HandlerBase* oldHandler)
 {
     retiredHandlers.emplace_back(oldHandler);
 }
@@ -116,7 +116,7 @@ void Server::addTimer(double timeOut, std::function<void()>&& action)
     addHandler<TimerHandler>(std::move(timeOut), std::move(action));
 }
 
-void Server::setCurrentHandler(Handler* current)
+void Server::setCurrentHandler(HandlerBase* current)
 {
     if (current != nullptr)
     {
@@ -139,8 +139,8 @@ Server& Server::getCurrentHandler()
 bool Server::inHandler()
 {
     // If there is a current handler active.
-    // And that handler is non-blocking
-    return currentService && currentService->currentHandler && !currentService->currentHandler->blocking();
+    // And that handler is non-suspendable
+    return currentService && currentService->currentHandler && currentService->currentHandler->suspendable();
 }
 #ifdef COVERAGE_TEST
 /*
@@ -151,6 +151,6 @@ bool Server::inHandler()
 #include "test/Action.h"
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(int);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(int);
-template Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
-template Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 #endif

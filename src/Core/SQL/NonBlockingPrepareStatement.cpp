@@ -2,70 +2,55 @@
 #include "NonBlockingMySQLConnection.h"
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Handler.h"
-#include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorMySQL/PrepareStatement.h"
 
 using namespace ThorsAnvil::Nisse::Core::SQL;
 
-using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
-using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
-
-class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::Handler
+class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
 {
-    CoRoutine   worker;
+    NonBlockingMySQLConnection&         connection;
+    NonBlockingPrepareStatement&        parent;
+    ConnectionNonBlocking&              nbStream;
+    std::string                         statement;
     public:
         MySQLPrepareHandler(ThorsAnvil::Nisse::Core::Service::Server& service,
                             NonBlockingMySQLConnection& connection,
                             NonBlockingPrepareStatement& parent,
                             ConnectionNonBlocking& nbStream,
                             std::string const& statement)
-            : Handler(service, connection.getSocketId(), EV_READ | EV_WRITE)
-            , worker([&connection, &parent, &nbStream, &statement](Yield& yield)
-                {
-                    yield(EV_WRITE);
-                    ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
-                    parent.createProxy(nbStream, statement);
-                })
+            : HandlerSuspendable(service, connection.getSocketId(), EV_READ | EV_WRITE, EV_WRITE)
+            , connection(connection)
+            , parent(parent)
+            , nbStream(nbStream)
+            , statement(statement)
         {}
 
-        virtual short eventActivate(ThorsAnvil::Nisse::Core::Service::LibSocketId /*sockId*/, short /*eventType*/) override
+        virtual void eventActivateNonBlocking() override
         {
-            if (!worker())
-            {
-                dropHandler();
-                return 0;
-            }
-            return worker.get();
+            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&yield = *(this->yield)](){yield(EV_READ);}, [&yield = *(this->yield)](){yield(EV_WRITE);});
+            parent.createProxy(nbStream, statement);
         }
-        virtual bool  blocking()  override {return false;}
 };
 
-class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::Handler
+class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
 {
-    CoRoutine   worker;
+    NonBlockingMySQLConnection&         connection;
+    NonBlockingPrepareStatement&        parent;
+
     public:
         MySQLExecuteHandler(ThorsAnvil::Nisse::Core::Service::Server& service,
                             NonBlockingMySQLConnection& connection,
                             NonBlockingPrepareStatement& parent)
-            : Handler(service, connection.getSocketId(), EV_READ | EV_WRITE)
-            , worker([&parent, &connection](Yield& yield)
-                {
-                    yield(EV_WRITE);
-                    ThorsAnvil::SQL::Lib::YieldSetter   setter(connection,[&yield](){yield(EV_READ);}, [&yield](){yield(EV_WRITE);});
-                    parent.executePrepare();
-                })
+            : HandlerSuspendable(service, connection.getSocketId(), EV_READ | EV_WRITE, EV_WRITE)
+            , connection(connection)
+            , parent(parent)
         {}
 
-        virtual short eventActivate(ThorsAnvil::Nisse::Core::Service::LibSocketId /*sockId*/, short /*eventType*/) override
+        virtual void eventActivateNonBlocking() override
         {
-            if (!worker())
-            {
-                dropHandler();
-                return 0;
-            }
-            return worker.get();
+            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection,[&yield = *(this->yield)](){yield(EV_READ);}, [&yield = *(this->yield)](){yield(EV_WRITE);});
+            parent.executePrepare();
         }
-        virtual bool  blocking()  override {return false;}
 };
 
 NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnection& connection, ConnectionNonBlocking& nbStream, std::string const& statement)

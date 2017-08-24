@@ -2,7 +2,6 @@
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_STREAM_H
 
 #include "ThorsNisseCoreService/Handler.h"
-#include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
 #include <istream>
 #include <ostream>
@@ -17,9 +16,6 @@ namespace ThorsAnvil
         {
             namespace Simple
             {
-
-using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
-using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
 class Message
 {
@@ -64,28 +60,25 @@ class Message
         }
 };
 
-class ReadMessageStreamHandler: public Core::Service::Handler
+class ReadMessageStreamHandler: public Core::Service::HandlerSuspendable
 {
-    private:
-        CoRoutine       worker;
+    Core::Socket::DataSocket        socket;
     public:
         ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
-        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
-        virtual bool  blocking()  override {return false;}
+        virtual void eventActivateNonBlocking() override;
     public:
         static std::string const failToReadMessage;
 };
 
-class WriteMessageStreamHandler: public Core::Service::Handler
+class WriteMessageStreamHandler: public Core::Service::HandlerSuspendable
 {
-    private:
-        CoRoutine       worker;
+    Core::Socket::DataSocket    socket;
+    Message                     message;
     public:
         WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message&& message);
         WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
-        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
-        virtual bool  blocking()  override {return false;}
+        virtual void eventActivateNonBlocking() override;
     public:
         static std::string const messageSuffix;
 };

@@ -31,7 +31,7 @@ class DynamicSiteLoader
         std::pair<bool, int> unload(std::string const& host, std::string const& base);
 };
 
-class DeveloperHandler: public Core::Service::Handler
+class DeveloperHandler: public Core::Service::HandlerNonSuspendable
 {
     DynamicSiteLoader&          loader;
     Core::Socket::DataSocket    socket;
@@ -40,7 +40,6 @@ class DeveloperHandler: public Core::Service::Handler
     public:
         DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
-        virtual bool  blocking()  override {return true;}
 };
 
             }

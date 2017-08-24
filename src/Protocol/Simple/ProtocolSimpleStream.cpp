@@ -6,59 +6,42 @@ std::string const ReadMessageStreamHandler::failToReadMessage = "Message Read Fa
 std::string const WriteMessageStreamHandler::messageSuffix    = " -> OK <-";
 
 ReadMessageStreamHandler::ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so)
-    : Handler(parent, so.getSocketId(), EV_READ)
-    , worker([&parent = *this, socket = std::move(so)](Yield& yield) mutable
-      {
-          Core::Socket::ISocketStream   stream(socket, [&yield](){yield(EV_READ);}, [](){});
-          yield(EV_READ);
-          Message                 message;
-          if (!(stream >> message))
-          {
-              message.message = failToReadMessage;
-          }
-          parent.moveHandler<WriteMessageStreamHandler>(std::move(socket), std::move(message));
-      })
+    : HandlerSuspendable(parent, so.getSocketId(), EV_READ)
+    , socket(std::move(so))
 {}
 
-short ReadMessageStreamHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, short /*eventType*/)
+void ReadMessageStreamHandler::eventActivateNonBlocking()
 {
-    return (!worker())
-        ? 0     // The co-routine has completed.
-        : worker.get();
+    Core::Socket::ISocketStream   stream(socket, [&yield = *(this->yield)](){yield(EV_READ);}, [](){});
+    Message                 message;
+    if (!(stream >> message))
+    {
+        message.message = failToReadMessage;
+    }
+    moveHandler<WriteMessageStreamHandler>(std::move(socket), std::move(message));
 }
 
 WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, Message&& ms)
-    : Handler(parent, so.getSocketId(), EV_WRITE)
-    , worker([&parent = *this, socket = std::move(so), message = std::move(ms)](Yield& yield) mutable
-      {
-          Core::Socket::OSocketStream   stream(socket, [&yield](){yield(EV_WRITE);}, [](){});
-          yield(0);
-          message.message += messageSuffix;
-          stream << message;
-          parent.dropHandler();
-      })
+    : HandlerSuspendable(parent, so.getSocketId(), EV_WRITE, 0)
+    , socket(std::move(so))
+    , message(std::move(ms))
 {}
 
 WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, Message const& ms)
-    : Handler(parent, so.getSocketId(), EV_WRITE)
-    , worker([&parent = *this, socket = std::move(so), message(ms)](Yield& yield) mutable
-      {
-          Core::Socket::OSocketStream   stream(socket, [&yield](){yield(EV_WRITE);}, [](){});
-          yield(0);
-          message.message += messageSuffix;
-          stream << message;
-          parent.dropHandler();
-      })
+    : HandlerSuspendable(parent, so.getSocketId(), EV_WRITE, 0)
+    , socket(std::move(so))
+    , message(ms)
 {}
 
 WriteMessageStreamHandler::~WriteMessageStreamHandler()
 {}
 
-short WriteMessageStreamHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, short /*eventType*/)
+void WriteMessageStreamHandler::eventActivateNonBlocking()
 {
-    return (!worker())
-        ? 0     // The co-routine has completed.
-        : worker.get();
+    Core::Socket::OSocketStream   stream(socket, [&yield = *(this->yield)](){yield(EV_WRITE);}, [](){});
+    message.message += messageSuffix;
+    stream << message;
+    dropHandler();
 }
 
 #ifdef COVERAGE_TEST
@@ -73,8 +56,8 @@ short WriteMessageStreamHandler::eventActivate(Core::Service::LibSocketId /*sock
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageStreamHandler>(int);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageStreamHandler, Message>(int, Message&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
-template void ThorsAnvil::Nisse::Core::Service::Handler::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, Message>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, Message&&);
-template void ThorsAnvil::Nisse::Core::Service::Handler::moveHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
-template ThorsAnvil::Nisse::Core::Service::Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
+template void ThorsAnvil::Nisse::Core::Service::HandlerBase::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, Message>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, Message&&);
+template void ThorsAnvil::Nisse::Core::Service::HandlerBase::moveHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
+template ThorsAnvil::Nisse::Core::Service::HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<WriteMessageHandler, std::string>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::string&);
 #endif

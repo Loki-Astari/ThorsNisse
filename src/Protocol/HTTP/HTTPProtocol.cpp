@@ -33,58 +33,12 @@ class DevNullStreamBuf: public std::streambuf
 };
 
 ReadRequestHandler::ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, Binder const& binder)
-    : Handler(parent, so.getSocketId(), EV_READ)
+    : HandlerSuspendable(parent, so.getSocketId(), EV_READ)
+    , socket(std::move(so))
+    , binder(binder)
     , flusher(nullptr)
-    , yield(nullptr)
     , running(false)
-    , worker([ &parent = *this
-             , socket = std::move(so)
-             , &binder
-             , &parentYield = this->yield
-             ](Yield& yield) mutable
-        {
-            HttpScanner         scanner;
-            std::vector<char>   buffer(bufferLen);
-            yield(EV_READ);
-            parentYield = &yield;
-            while (!scanner.data.messageComplete)
-            {
-                bool                more;
-                std::size_t         recved;
-                std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
-                scanner.scan(&buffer[0], recved);
-
-                if (scanner.data.messageComplete || !more)
-                {
-                    break;
-                }
-                yield(EV_READ);
-            }
-            Core::Socket::ISocketStream   input(socket, [&yield](){yield(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-            Core::Socket::OSocketStream   output(socket, [&yield](){yield(EV_WRITE);}, [&parent](){parent.flushing();});
-            DevNullStreamBuf        devNullBuffer;
-            if (scanner.data.method == Method::Head)
-            {
-                output.rdbuf(&devNullBuffer);
-            }
-
-            URI const     uri(scanner.data.headers.get("Host"), std::move(scanner.data.uri));
-            Action const& action(binder.find(scanner.data.method, uri.host, uri.path));
-            Request       request(scanner.data.method, URI(std::move(uri)), scanner.data.headers, input);
-            Response      response(parent, socket, output);
-
-            action(request, response);
-        })
 {}
-
-void ReadRequestHandler::suspend()
-{
-    if (!running)
-    {
-        throw std::runtime_error("Trying to transfer while not running");
-    }
-    (*yield)(0);
-}
 
 struct SetRunning
 {
@@ -100,13 +54,37 @@ struct SetRunning
     }
 };
 
-short ReadRequestHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, short /*eventType*/)
+void ReadRequestHandler::eventActivateNonBlocking()
 {
-    SetRunning setRunning(running);
-    if (!worker())
+    SetRunning          setRunning(running);
+    HttpScanner         scanner;
+    std::vector<char>   buffer(bufferLen);
+
+    while (!scanner.data.messageComplete)
     {
-        dropHandler();
-        return 0;
+        bool                more;
+        std::size_t         recved;
+        std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
+        scanner.scan(&buffer[0], recved);
+
+        if (scanner.data.messageComplete || !more)
+        {
+            break;
+        }
+        (*yield)(EV_READ);
     }
-    return worker.get();
+    Core::Socket::ISocketStream   input(socket, [&yield = (*this->yield)](){yield(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    Core::Socket::OSocketStream   output(socket, [&yield = (*this->yield)](){yield(EV_WRITE);}, [&parent = *this](){parent.flushing();});
+    DevNullStreamBuf        devNullBuffer;
+    if (scanner.data.method == Method::Head)
+    {
+        output.rdbuf(&devNullBuffer);
+    }
+
+    URI const     uri(scanner.data.headers.get("Host"), std::move(scanner.data.uri));
+    Action const& action(binder.find(scanner.data.method, uri.host, uri.path));
+    Request       request(scanner.data.method, URI(std::move(uri)), scanner.data.headers, input);
+    Response      response(*this, socket, output);
+
+    action(request, response);
 }

@@ -8,7 +8,7 @@
 
 using ThorsAnvil::Nisse::Core::Service::Server;
 using ThorsAnvil::Nisse::Core::Service::LibSocketId;
-using ThorsAnvil::Nisse::Core::Service::Handler;
+using ThorsAnvil::Nisse::Core::Service::HandlerBase;
 using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 
 //        void activateEventHandlers(LibSocketId sockId, short eventType);        // The C-Callback point.

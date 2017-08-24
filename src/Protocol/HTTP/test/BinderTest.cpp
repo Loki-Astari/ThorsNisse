@@ -10,7 +10,6 @@ using ThorsAnvil::Nisse::Protocol::HTTP::Binder;
 using ThorsAnvil::Nisse::Protocol::HTTP::Request;
 using ThorsAnvil::Nisse::Protocol::HTTP::Response;
 using ThorsAnvil::Nisse::Protocol::HTTP::Method;
-using ThorsAnvil::Nisse::Protocol::HTTP::Yield;
 using ThorsAnvil::Nisse::Protocol::HTTP::URI;
 using ThorsAnvil::Nisse::Protocol::HTTP::Headers;
 using ThorsAnvil::Nisse::Core::Socket::DataSocket;

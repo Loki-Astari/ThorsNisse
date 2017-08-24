@@ -106,7 +106,7 @@ std::pair<bool, int> DynamicSiteLoader::unload(std::string const& host, std::str
 
 
 DeveloperHandler::DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader)
-    : Handler(parent, socket.getSocketId(), EV_READ | EV_WRITE)
+    : HandlerNonSuspendable(parent, socket.getSocketId(), EV_READ | EV_WRITE)
     , loader(loader)
     , socket(std::move(socket))
     , buffer(100)
