@@ -13,7 +13,7 @@ DynamicSiteLoader::DynamicSiteLoader(Core::Service::Server& server)
 
 void DynamicSiteLoader::load(std::string const& site, int port, std::string const& host, std::string const& base)
 {
-    if (loadedLibs.find({host, base}) != loadedLibs.end())
+    if (siteMap.find({host, base, port}) != siteMap.end())
     {
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
@@ -52,69 +52,69 @@ void DynamicSiteLoader::load(std::string const& site, int port, std::string cons
                 "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: addSite: Failed to load: ", site, " Error: "));
     }
 
-    bool addListener = portMap.find(port) == portMap.end();
+    bool portMapped = portMap.find(port) != portMap.end();
 
     Site            newSite;
     (*addSite)(newSite);
 
-    Binder&     binder = portMap[port];
-    binder.addSite(host, base, std::move(newSite));
-    loadedLibs[{host, base}] = {siteLib, port};
+    siteMap[{host, base, port}] = siteLib;
+    Binder&     binder   = portMap[port];
 
-    if (addListener)
+    binder.addSite(host, base, std::move(newSite));
+
+    if (!portMapped)
     {
         server.listenOn<ReadRequestHandler>(port, binder);
     }
+    ++libCount[siteLib];
     std::cerr << this << ": " << "Loaded: " << site << " " << host << ":" << port << "/" << base << "\n";
 }
 
-std::pair<bool, int> DynamicSiteLoader::unload(std::string const& host, std::string const& base)
+std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const& host, std::string const& base)
 {
-    auto find = loadedLibs.find({host, base});
-    if (find == loadedLibs.end())
+    auto find = siteMap.find({host, base, port});
+    if (find == siteMap.end())
     {
-        throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find host/base: ", host, "/", base));
+        std::cerr << this << ": Unknown Site: " << host << ":" << port << "/" << base << "\n";
+        return {false, 0, 0};
     }
 
-    SiteInfo const info = find->second;
-    loadedLibs.erase(find);
-
-    auto findBinder = portMap.find(std::get<1>(info));
-    if (findBinder == portMap.end())
-    {
-        throw std::domain_error(
-            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find binder", std::get<1>(info), " For: ", host, "/", base));
-    }
-
-    Binder& binder = findBinder->second;
-    auto unload = binder.remSite(host, base);
+    SiteInfo    siteLib = find->second;
+    Binder&     binder  = portMap[port];
+    auto        unload  = binder.remSite(host, base);
 
     if (!unload.first)
     {
-        std::cerr << this << ": Unknown Site: " << host << ":" << std::get<1>(info) << "/" << base << "\n";
-        return unload;
+        throw std::domain_error(
+            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find host:port/base: ", host, ":" , port, "/", base));
     }
 
     if (unload.second != 0)
     {
-        std::cerr << this << ": " << "Disabled: " << "----" << " " << host << ":" << std::get<1>(info) << "/" << base << "\n";
-        return unload;
+        std::cerr << this << ": " << "Disabled: " << host << ":" << port << "/" << base << ": Waiting for active calls to finish\n";
+        return {unload.first, unload.second, libCount[siteLib]};
     }
 
-    int result = ::dlclose(std::get<0>(info));
+    --libCount[siteLib];
+    siteMap.erase(find);
+    if (libCount[siteLib] != 0)
+    {
+        std::cerr << this << ": " << "Disabled: " << host << ": " << port << "/" << base << ": Lib still bound\n";
+        return {true, 0, libCount[siteLib]};
+    }
+
+    int result = ::dlclose(siteLib);
     if (result != 0)
     {
         char const*  eMessage = ::dlerror();
         eMessage = (eMessage) ? eMessage : "Unknown";
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host/port ", host, base, " From: ", std::get<1>(info), " Error: ", eMessage));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host:port/base ", host, ":", port, "/", base, " Error: ", eMessage));
     }
-    std::cerr << this << ": " << "UnLoaded: " << "----" << " " << host << ":" << std::get<1>(info) << "/" << base << "\n";
-    return unload;
+    std::cerr << this << ": " << "UnLoaded: " << "----" << " " << host << ":" << port << "/" << base << "\n";
+    return {true, 0, 0};
 }
 
 #ifdef COVERAGE_TEST

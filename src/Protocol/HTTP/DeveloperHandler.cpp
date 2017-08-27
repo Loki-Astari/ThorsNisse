@@ -51,23 +51,34 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     {
         if (siteToLoad.action == "Unload")
         {
-            auto result = loader.unload(siteToLoad.host, siteToLoad.base);
+            auto result = loader.unload(siteToLoad.port, siteToLoad.host, siteToLoad.base);
 
-            if (!result.first)
+            if (!std::get<0>(result))
             {
                 status  = 400;
                 message = "Bad Request";
             }
-            else if (result.second != 0)
+            else if (std::get<1>(result) != 0)
             {
                 status  = 205;
                 message = "Site Disabled, but calls still active";
+            }
+            else if (std::get<2>(result) != 0)
+            {
+                status  = 205;
+                message = "Site Removed, but other sites are still using the lib";
             }
         }
         if (siteToLoad.action == "Load")
         {
             loader.load(siteToLoad.lib, siteToLoad.port, siteToLoad.host, siteToLoad.base);
         }
+    }
+    catch (std::domain_error const& e)
+    {
+        status  = 500;
+        message = "Internal Server Error";
+        std::cerr << "Exception: " << e.what() << "\n";
     }
     catch (std::exception const& e)
     {

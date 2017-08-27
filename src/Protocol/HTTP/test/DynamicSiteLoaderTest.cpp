@@ -25,7 +25,7 @@ TEST(DynamicSiteLoaderTest, UnLoadLib)
     DynamicSiteLoader   loader(server);
 
     loader.load("TestLib/Loadable/Loadable.dylib", 80406, "test.com", "");
-    loader.unload("test.com", "");
+    loader.unload(80406, "test.com", "");
 }
 
 
@@ -80,12 +80,9 @@ TEST(DynamicSiteLoaderExceptionTest, UnLoadLibFailsNotThere)
     Server              server;
     DynamicSiteLoader   loader(server);
     loader.load("TestLib/Loadable/Loadable.dylib", 80406, "test.com", "");
-    auto doTest = [&loader](){loader.unload("bad.com", "");};
+    auto result = loader.unload(80406, "bad.com", "");
 
-    ASSERT_THROW(
-        doTest(),
-        std::runtime_error
-    );
+    ASSERT_FALSE(std::get<0>(result));
 }
 TEST(DynamicSiteLoaderExceptionTest, UnLoadLibFailsDlCloseFail)
 {
@@ -94,7 +91,7 @@ TEST(DynamicSiteLoaderExceptionTest, UnLoadLibFailsDlCloseFail)
     Server              server;
     DynamicSiteLoader   loader(server);
     loader.load("TestLib/Loadable/Loadable.dylib", 80406, "test.com", "");
-    auto doTest = [&loader](){auto x = loader.unload("test.com", "");};
+    auto doTest = [&loader](){auto x = loader.unload(80406, "test.com", "");};
 
     ASSERT_THROW(
         doTest(),

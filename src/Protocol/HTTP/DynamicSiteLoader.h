@@ -19,16 +19,17 @@ namespace ThorsAnvil
 
 class DynamicSiteLoader
 {
-    using SiteKey  = std::pair<std::string, std::string>;
-    using SiteInfo = std::tuple<void*, int>;
+    using SiteKey  = std::tuple<std::string, std::string, int>;
+    using SiteInfo = void*;
 
     Core::Service::Server&          server;
+    std::map<SiteKey, SiteInfo>     siteMap;
+    std::map<void*, int>            libCount;
     std::map<int, Binder>           portMap;
-    std::map<SiteKey, SiteInfo>     loadedLibs;
     public:
         DynamicSiteLoader(Core::Service::Server& server);
         void load(std::string const& site, int port, std::string const& host, std::string const& base);
-        std::pair<bool, int> unload(std::string const& host, std::string const& base);
+        std::tuple<bool, int, int> unload(int port, std::string const& host, std::string const& base);
 };
 
             }
