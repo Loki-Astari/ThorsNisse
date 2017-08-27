@@ -63,6 +63,9 @@
 /* When on code that uses ThorsSQL will be compiled. */
 #undef HAVE_ThorsSQL
 
+/* When on code that uses ThorsSerialize will be compiled. */
+#undef HAVE_ThorsSerialize
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 

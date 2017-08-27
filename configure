@@ -674,6 +674,9 @@ am__isrc
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
+HAVE_ThorsSerialize
+thorsSerialize_ROOT_INCDIR
+thorsSerialize_ROOT_LIBDIR
 HAVE_ThorsSQL
 thorsSQL_ROOT_INCDIR
 thorsSQL_ROOT_LIBDIR
@@ -820,6 +823,8 @@ with_sysroot
 enable_libtool_lock
 with_ThorsSQLroot
 enable_ThorsSQL
+with_ThorsSerializeroot
+enable_ThorsSerialize
 enable_dependency_tracking
 enable_silent_rules
 '
@@ -1466,6 +1471,10 @@ Optional Features:
   --disable-ThorsSQL      Don't use ThorsSQL. This means features that use
                           ThorsSQL will be disabled.
 
+  --disable-ThorsSerialize
+                          Don't use ThorsSerialize. This means features that
+                          use ThorsSerialize will be disabled.
+
   --enable-dependency-tracking
                           do not reject slow dependency extractors
   --disable-dependency-tracking
@@ -1519,6 +1528,9 @@ Optional Packages:
                           compiler's sysroot if not specified).
   --with-ThorsSQLroot=<location>
                           Directory of ThorsSQL_ROOT
+
+  --with-ThorsSerializeroot=<location>
+                          Directory of ThorsSerialize_ROOT
 
 
 Some influential environment variables:
@@ -18750,11 +18762,24 @@ fi
 
     if flag=enable_ThorsSQL
         test "x${!flag}" != "xno"; then :
-  if test "${with_ThorsSQLroot}" == ""; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: Got HERE" >&5
+$as_echo "$as_me: Got HERE" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Name: SQL" >&5
+$as_echo "$as_me: Name: SQL" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: With: ${with_ThorsSQLroot}" >&5
+$as_echo "$as_me: With: ${with_ThorsSQLroot}" >&6;}
+
+        if test "${with_ThorsSQLroot}" == ""; then
             declare with_ThorsSQLroot="/usr/local"
         fi
         ORIG_LDFLAGS="${LDFLAGS}"
         LDFLAGS="$LDFLAGS -L${with_ThorsSQLroot}/lib"
+        { $as_echo "$as_me:${as_lineno-$LINENO}: LDFLAGS: ${LDFLAGS}" >&5
+$as_echo "$as_me: LDFLAGS: ${LDFLAGS}" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorSQL17D" >&5
+$as_echo "$as_me: LIB: ThorSQL17D" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&5
+$as_echo "$as_me: Meth: _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&6;}
 
         { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv in -lThorSQL17D" >&5
 $as_echo_n "checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv in -lThorSQL17D... " >&6; }
@@ -18825,6 +18850,112 @@ fi
 
 fi
 
+
+
+
+
+
+
+
+# Check whether --with-ThorsSerializeroot was given.
+if test "${with_ThorsSerializeroot+set}" = set; then :
+  withval=$with_ThorsSerializeroot;
+fi
+
+    # Check whether --enable-ThorsSerialize was given.
+if test "${enable_ThorsSerialize+set}" = set; then :
+  enableval=$enable_ThorsSerialize;
+fi
+
+    if flag=enable_ThorsSerialize
+        test "x${!flag}" != "xno"; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: Got HERE" >&5
+$as_echo "$as_me: Got HERE" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Name: Serialize" >&5
+$as_echo "$as_me: Name: Serialize" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: With: ${with_ThorsSerializeroot}" >&5
+$as_echo "$as_me: With: ${with_ThorsSerializeroot}" >&6;}
+
+        if test "${with_ThorsSerializeroot}" == ""; then
+            declare with_ThorsSerializeroot="/usr/local"
+        fi
+        ORIG_LDFLAGS="${LDFLAGS}"
+        LDFLAGS="$LDFLAGS -L${with_ThorsSerializeroot}/lib"
+        { $as_echo "$as_me:${as_lineno-$LINENO}: LDFLAGS: ${LDFLAGS}" >&5
+$as_echo "$as_me: LDFLAGS: ${LDFLAGS}" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorSerialize17D" >&5
+$as_echo "$as_me: LIB: ThorSerialize17D" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&5
+$as_echo "$as_me: Meth: _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&6;}
+
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv in -lThorSerialize17D" >&5
+$as_echo_n "checking for _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv in -lThorSerialize17D... " >&6; }
+if ${ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lThorSerialize17D  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv ();
+int
+main ()
+{
+return _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv=yes
+else
+  ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&5
+$as_echo "$ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&6; }
+if test "x$ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" = xyes; then :
+
+
+$as_echo "#define HAVE_ThorsSerialize 1" >>confdefs.h
+
+                thorsSerialize_ROOT_LIBDIR=-L${with_ThorsSerializeroot}/lib
+                thorsSerialize_ROOT_INCDIR=-I${with_ThorsSerializeroot}/include
+                HAVE_ThorsSerialize=yes
+
+else
+  as_fn_error 1 "
+
+Error: Could not find libThorSerialize17D
+
+You can solve this by installing libThorSerialize
+    https://github.com/Loki-Astari/ThorsSerializer
+
+Alternately specify install location with:
+    --with-ThorsSerializeroot=<location of ThorsSerialize installation>
+
+If you do not want to use features that need ThorSerialize then it
+can be disabled with:
+    --disable-ThorsSerialize
+
+                " "$LINENO" 5
+
+fi
+
+
+        LDFLAGS="${ORIG_LDFLAGS}"
+
+fi
 
 
 

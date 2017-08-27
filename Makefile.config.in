@@ -17,3 +17,7 @@ thorsSQL_ROOT_LIBDIR=@thorsSQL_ROOT_LIBDIR@
 thorsSQL_ROOT_INCDIR=@thorsSQL_ROOT_INCDIR@
 HAVE_ThorsSQL=@HAVE_ThorsSQL@
 
+thorsSerialize_ROOT_LIBDIR=@thorsSerialize_ROOT_LIBDIR@
+thorsSerialize_ROOT_INCDIR=@thorsSerialize_ROOT_INCDIR@
+HAVE_ThorsSerialize=@HAVE_ThorsSerialize@
+

@@ -2,12 +2,12 @@
 THORSANVIL_ROOT				?= $(realpath ../../../)
 
 PRETEST						= TestLoadableLibBuild
-TARGET						= ThorsNisseProtocolHTTP.a $(TARGET_$(TARGET_MODE))
-CXXFLAGS					+= -I$(event_ROOT_DIR)/include
-LDLIBS						+= -L$(event_ROOT_DIR)/lib -l$(event_ROOT_LIB) $(BOOST_SYSTEM_LIB) $(BOOST_COROUTINE_LIB) $(BOOST_CONTEXT_LIB)
-LINK_LIBS					= ThorsNisseCoreService ThorsNisseCoreSocket
+TARGET						= ThorsNisseProtocolHTTP.a
+CXXFLAGS					+= -I$(event_ROOT_DIR)/include $(thorsSerialize_ROOT_INCDIR)
+LDLIBS						+= -L$(event_ROOT_DIR)/lib -l$(event_ROOT_LIB) $(thorsSerialize_ROOT_LIBDIR) $(BOOST_SYSTEM_LIB) $(BOOST_COROUTINE_LIB) $(BOOST_CONTEXT_LIB)
+LINK_LIBS					= ThorsNisseCoreService ThorsNisseCoreSocket ThorsSerialize
 TEST_IGNORE					= http_parser.cpp http_parser.h
-UNITTEST_LDLIBS				= -ldl
+UNITTEST_LDLIBS				= -ldl $(thorsSerialize_ROOT_LIBDIR)
 UNITTEST_LINK_LIBS			= ThorsNisseCoreService ThorsNisseCoreSocket ThorSerialize
 
 IGNORE_BOOST_ISSUES_2	= -Wno-extra -Wno-terminate
