@@ -24,9 +24,9 @@ include $(THORSANVIL_ROOT)/build/tools/Makefile
 
 .PHONEY:	TestLoadableLibBuild
 TestLoadableLibBuild:
-	make -C TestLib/Loadable all
-	make -C TestLib/NoGet    all
-	make -C TestLib/GetNull  all
+	@make -C TestLib/Loadable all
+	@make -C TestLib/NoGet    all
+	@make -C TestLib/GetNull  all
 
 
 
