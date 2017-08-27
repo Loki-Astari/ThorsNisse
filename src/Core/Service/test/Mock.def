@@ -1,0 +1,18 @@
+
+#include <event.h>
+
+
+MOCK_SYSTEM_FUNC(event_base_new_with_config)
+MOCK_SYSTEM_FUNC(event_config_avoid_method)
+MOCK_SYSTEM_FUNC(event_config_free)
+MOCK_SYSTEM_FUNC(event_config_new)
+MOCK_SYSTEM_FUNC(event_base_new)
+MOCK_SYSTEM_FUNC(event_base_free)
+MOCK_SYSTEM_FUNC(event_base_loopbreak)
+MOCK_SYSTEM_FUNC(event_base_loopexit)
+MOCK_SYSTEM_FUNC(event_base_dispatch)
+MOCK_SYSTEM_FUNC(event_del)
+MOCK_SYSTEM_FUNC(event_new)
+MOCK_SYSTEM_FUNC(event_add)
+MOCK_SYSTEM_FUNC(event_free)
+

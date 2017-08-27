@@ -20,10 +20,10 @@ namespace ThorsAnvil
 
 class Server;
 class HandlerBase;
-using EventBaseDeleter  = decltype(&event_base_free);
+using EventBaseDeleter  = std::function<void(LibEventBase*)>;
+
 using EventHolder       = std::unique_ptr<LibEventBase, EventBaseDeleter>;
 using NisseManagHandler = std::unique_ptr<HandlerBase>;
-using EventConfig       = struct event_config;
 
 class Server
 {
@@ -46,7 +46,7 @@ class Server
         std::vector<HandlerBase*>       retiredHandlers;
         HandlerBase*                    currentHandler;
         static Server*                  currentService;
-        static EventConfig*             cfg;
+        static LibEventConfig*          cfg;
     public:
         Server();
 
@@ -73,13 +73,13 @@ class Server
         {
             if (cfg != nullptr)
             {
-                event_config_free(cfg);
+                ::event_config_free(cfg);
                 cfg = nullptr;
             }
             if (type != "")
             {
-                cfg = event_config_new();
-                event_config_avoid_method(cfg, type.c_str());
+                cfg = ::event_config_new();
+                ::event_config_avoid_method(cfg, type.c_str());
             }
         }
     private:

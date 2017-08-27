@@ -76,6 +76,15 @@ class TestHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
             std::get<0>(hit) = true;
         }
 };
+class Test2Handler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
+{
+    public:
+        Test2Handler(ThorsAnvil::Nisse::Core::Service::Server& server, int sid, short type)
+            : HandlerSuspendable(server, sid, type)
+        {}
+        virtual void eventActivateNonBlocking() override
+        {}
+};
 class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
 {
     using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;

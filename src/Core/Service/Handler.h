@@ -18,7 +18,7 @@ namespace ThorsAnvil
             namespace Service
             {
 
-using EventDeleter  = decltype(&event_free);
+using EventDeleter  = std::function<void(LibEvent*)>;
 using NisseEvent    = std::unique_ptr<LibEvent, EventDeleter>;
 
 class Server;
@@ -35,7 +35,7 @@ class HandlerBase
         virtual ~HandlerBase();
         void activateEventHandlers(LibSocketId sockId, short eventType);        // The C-Callback point.
                                                                                 // Should make this private
-        virtual short eventActivate(LibSocketId sockId, short eventType);
+        virtual short eventActivate(LibSocketId sockId, short eventType) = 0;
         virtual bool  suspendable() = 0;
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:

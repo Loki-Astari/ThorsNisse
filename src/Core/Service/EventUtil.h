@@ -12,6 +12,7 @@ namespace ThorsAnvil
             namespace Service
             {
 
+using LibEventConfig= struct event_config;
 using LibEventBase  = struct event_base;
 using LibEvent      = struct event;
 using LibSocketId   = evutil_socket_t;

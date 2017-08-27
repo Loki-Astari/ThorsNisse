@@ -5,13 +5,13 @@
 
 using namespace ThorsAnvil::Nisse::Core::Service;
 
-EventConfig*  Server::cfg              = nullptr;
-Server*       Server::currentService   = nullptr;
+LibEventConfig* Server::cfg              = nullptr;
+Server*         Server::currentService   = nullptr;
 
 Server::Server()
     : running(false)
     , shutDownNext(false)
-    , eventBase(event_base_new_with_config(cfg), &event_base_free)
+    , eventBase(::event_base_new_with_config(cfg), ::event_base_free)
     , currentHandler(nullptr)
 {
     if (eventBase == nullptr)
@@ -23,7 +23,7 @@ Server::Server()
 Server::Server(Server&& move)
     : running(false)
     , shutDownNext(false)
-    , eventBase(nullptr, &event_base_free)
+    , eventBase(nullptr, ::event_base_free)
     , currentHandler(nullptr)
 {
     swap(move);
@@ -68,7 +68,7 @@ void Server::start(double check)
 void Server::flagShutDown()
 {
     shutDownNext = true;
-    if (event_base_loopbreak(eventBase.get()) != 0)
+    if (::event_base_loopbreak(eventBase.get()) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::Server::flagShutDown: event_base_loopbreak(): Failed");
     }
@@ -80,11 +80,11 @@ void Server::runLoop(double check)
     int microSecs = (check - seconds) * 1'000'000;
     static const TimeVal ten_sec{seconds, microSecs};
 
-    if (event_base_loopexit(eventBase.get(), &ten_sec) != 0)
+    if (::event_base_loopexit(eventBase.get(), &ten_sec) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_loopexit(): Failed");
     }
-    switch (event_base_dispatch(eventBase.get()))
+    switch (::event_base_dispatch(eventBase.get()))
     {
         case -1:
             throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_dispatch(): Failed");
