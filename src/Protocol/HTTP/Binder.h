@@ -83,23 +83,6 @@ class Binder
         Action find(Method method, std::string const& host, std::string const& path) const;
 };
 
-class BinderProxy
-{
-    Binder&         binder;
-    std::string     host;
-    std::string     base;
-    public:
-        BinderProxy(Binder& binder, std::string const& host, std::string const& base)
-            : binder(binder)
-            , host(host)
-            , base(base)
-        {}
-        void addSite(Site&& site)
-        {
-            binder.addSite(host, base, std::move(site));
-        }
-};
-
             }
         }
     }

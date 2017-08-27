@@ -6,9 +6,8 @@ namespace SQL     = ThorsAnvil::SQL;
 static SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
 static SQL::Statement  listBeers(connection, "SELECT Name, Age FROM Beers");
 
-void addSite(Express::BinderProxy& binder)
+void addSite(Express::Site& site)
 {
-    Express::Site   site;
     site.get("/listBeer", [](Express::Request& /*request*/, Express::Response& response)
         {
             response.body << "<html>"
@@ -27,6 +26,4 @@ void addSite(Express::BinderProxy& binder)
         }
     );
     site.post("/addBeer", [](Express::Request& /*request*/, Express::Response& /*response*/){std::cerr << "AddBeer\n";});
-
-    binder.addSite(std::move(site));
 }

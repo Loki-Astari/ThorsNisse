@@ -1,1 +1,8 @@
 TrollConfig.h
+
+TestLib/GetNull/GetNull.dylib
+TestLib/GetNull/GetNull.o
+TestLib/Loadable/Loadable.dylib
+TestLib/Loadable/Loadable.o
+TestLib/NoGet/NoGet.dylib
+TestLib/NoGet/NoGet.o
