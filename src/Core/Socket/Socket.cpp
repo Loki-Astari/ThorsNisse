@@ -14,21 +14,6 @@ BaseSocket::BaseSocket()
     : socketId(invalidSocketId)
 {}
 
-Detail::SocketInterface sys
-{
-    [](int socketId, int cmd, int arg)                    {return ::fcntl(socketId, cmd, arg);},
-    [](int socketId)                                      {return ::close(socketId);},
-    [](int domain, int type, int protocol)                {return ::socket(domain, type, protocol);},
-    [](int socketId, SocketAddr* addr, std::size_t size)  {return ::connect(socketId, addr, size);},
-    [](int socketId, SocketAddr* addr, std::size_t size)  {return ::bind(socketId, addr, size);},
-    [](int socketId, int max)                             {return ::listen(socketId, max);},
-    [](int socketId, SocketAddr* addr, socklen_t* size)   {return ::accept(socketId, addr, size);},
-    [](int socketId, void* buffer, std::size_t size)      {return ::read(socketId, buffer, size);},
-    [](int socketId, void const* buffer, std::size_t size){return ::write(socketId, buffer, size);},
-    [](int socketId, int how)                             {return ::shutdown(socketId, how);},
-    [](char const* host)                                  {return ::gethostbyname(host);}
-};
-
 BaseSocket::BaseSocket(int socketId, bool blocking)
     : socketId(socketId)
 {
@@ -45,7 +30,7 @@ BaseSocket::BaseSocket(int socketId, bool blocking)
 
 void BaseSocket::makeSocketNonBlocking(int socketId)
 {
-    if (sys.fcntl(socketId, F_SETFL, O_NONBLOCK) == -1)
+    if (::fcntlWrapper(socketId, F_SETFL, O_NONBLOCK) == -1)
     {
         throw std::domain_error(Utility::buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
                                                   ": fcntl: ", Utility::systemErrorMessage()));
@@ -83,11 +68,11 @@ void BaseSocket::close()
     if (socketId == invalidSocketId)
     {
         throw std::logic_error(Utility::buildErrorMessage("ThorsAnvil::Socket::BaseSocket::", __func__,
-                                                 ": accept called on a bad socket object (this object was moved)"));
+                                                 ": called on a bad socket object (this object was moved)"));
     }
     while (true)
     {
-        if (sys.close(socketId) == -1)
+        if (::closeWrapper(socketId) == -1)
         {
             switch (errno)
             {
@@ -133,7 +118,7 @@ BaseSocket& BaseSocket::operator=(BaseSocket&& move) noexcept
 }
 
 ConnectSocket::ConnectSocket(std::string const& host, int port)
-    : DataSocket(sys.socket(PF_INET, SOCK_STREAM, 0), true)
+    : DataSocket(::socketWrapper(PF_INET, SOCK_STREAM, 0), true)
 {
     SocketAddrIn serverAddr{};
 
@@ -144,7 +129,7 @@ ConnectSocket::ConnectSocket(std::string const& host, int port)
     HostEnt* serv;
     while (true)
     {
-        serv = sys.gethostbyname(host.c_str());
+        serv = ::gethostbyname(host.c_str());
         if (serv == nullptr)
         {
             if (h_errno == TRY_AGAIN)
@@ -158,7 +143,7 @@ ConnectSocket::ConnectSocket(std::string const& host, int port)
     }
     bcopy((char *)serv->h_addr, (char *)&serverAddr.sin_addr.s_addr, serv->h_length);
 
-    if (sys.connect(getSocketId(), reinterpret_cast<SocketAddr*>(&serverAddr), sizeof(serverAddr)) != 0)
+    if (::connect(getSocketId(), reinterpret_cast<SocketAddr*>(&serverAddr), sizeof(serverAddr)) != 0)
     {
         close();
         throw std::domain_error(Utility::buildErrorMessage("ThorsAnvil::Socket::ConnectSocket::", __func__,
@@ -167,21 +152,21 @@ ConnectSocket::ConnectSocket(std::string const& host, int port)
 }
 
 ServerSocket::ServerSocket(int port, bool blocking)
-    : BaseSocket(sys.socket(PF_INET, SOCK_STREAM, 0), blocking)
+    : BaseSocket(::socketWrapper(PF_INET, SOCK_STREAM, 0), blocking)
 {
     SocketAddrIn    serverAddr = {};
     serverAddr.sin_family       = AF_INET;
     serverAddr.sin_port         = htons(port);
     serverAddr.sin_addr.s_addr  = INADDR_ANY;
 
-    if (sys.bind(getSocketId(), reinterpret_cast<SocketAddr*>(&serverAddr), sizeof(serverAddr)) != 0)
+    if (::bind(getSocketId(), reinterpret_cast<SocketAddr*>(&serverAddr), sizeof(serverAddr)) != 0)
     {
         close();
         throw std::runtime_error(Utility::buildErrorMessage("ThorsAnvil::Socket::ServerSocket::", __func__,
                                                    ": bind: ", Utility::systemErrorMessage()));
     }
 
-    if (sys.listen(getSocketId(), maxConnectionBacklog) != 0)
+    if (::listen(getSocketId(), maxConnectionBacklog) != 0)
     {
         close();
         throw std::runtime_error(Utility::buildErrorMessage("ThorsAnvil::Socket::ServerSocket::", __func__,
@@ -194,10 +179,10 @@ DataSocket ServerSocket::accept(bool blocking)
     if (getSocketId() == invalidSocketId)
     {
         throw std::logic_error(Utility::buildErrorMessage("ThorsAnvil::Socket::ServerSocket::", __func__,
-                                                 ": accept called on a bad socket object (this object was moved)"));
+                                                 ": called on a bad socket object (this object was moved)"));
     }
 
-    int newSocket = sys.accept(getSocketId(), nullptr, nullptr);
+    int newSocket = ::acceptWrapper(getSocketId(), nullptr, nullptr);
     if (newSocket == invalidSocketId)
     {
         throw std::runtime_error(Utility::buildErrorMessage("ThorsAnvil::Socket::ServerSocket:", __func__,
@@ -218,7 +203,7 @@ std::pair<bool, std::size_t> DataSocket::getMessageData(char* buffer, std::size_
     while (dataRead < size)
     {
         // The inner loop handles interactions with the socket.
-        std::size_t get = sys.read(getSocketId(), buffer + dataRead, size - dataRead);
+        std::size_t get = ::readWrapper(getSocketId(), buffer + dataRead, size - dataRead);
         if (get == static_cast<std::size_t>(-1))
         {
             switch (errno)
@@ -292,7 +277,7 @@ std::pair<bool, std::size_t> DataSocket::putMessageData(char const* buffer, std:
 
     while (dataWritten < size)
     {
-        std::size_t put = sys.write(getSocketId(), buffer + dataWritten, size - dataWritten);
+        std::size_t put = ::writeWrapper(getSocketId(), buffer + dataWritten, size - dataWritten);
         if (put == static_cast<std::size_t>(-1))
         {
             switch (errno)
@@ -347,7 +332,7 @@ std::pair<bool, std::size_t> DataSocket::putMessageData(char const* buffer, std:
 
 void DataSocket::putMessageClose()
 {
-    if (sys.shutdown(getSocketId(), SHUT_WR) != 0)
+    if (::shutdown(getSocketId(), SHUT_WR) != 0)
     {
         throw std::domain_error(Utility::buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__,
                                                   ": shutdown: critical error: ", Utility::systemErrorMessage()));

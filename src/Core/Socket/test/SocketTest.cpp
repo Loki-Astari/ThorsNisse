@@ -1,5 +1,5 @@
 #include "Socket.h"
-#include "Mock.h"
+#include "coverage/ThorMock.h"
 #include <fstream>
 #include <sys/socket.h>
 #include <gtest/gtest.h>
@@ -160,7 +160,7 @@ TEST(SocketExceptionTest, baseSocket_InitFail)
 }
 TEST(SocketExceptionTest, baseSocketFailNonBlocking)
 {
-    MOCK_METHOD(fcntl, [](int, int, int){return -1;});
+    MOCK_SYS(fcntlWrapper, [](int, int, int){return -1;});
     auto doTest = [](){DerivedFromBase     derived(4, false);};
 
     ASSERT_THROW(
@@ -182,7 +182,7 @@ TEST(SocketExceptionTest, baseSocketCloseInvalidSocket)
 
 TEST(SocketExceptionTest, CloseFail_EBADF)
 {
-    MOCK_METHOD(close, [](int socketId){errno = EBADF;return -1;});
+    MOCK_SYS(closeWrapper, [](int socketId){errno = EBADF;return -1;});
 
     DerivedFromBase  socket(5);
     ASSERT_THROW(
@@ -193,7 +193,7 @@ TEST(SocketExceptionTest, CloseFail_EBADF)
 
 TEST(SocketExceptionTest, CloseFail_EIO)
 {
-    MOCK_METHOD(close, [](int socketId){errno = EIO;return -1;});
+    MOCK_SYS(closeWrapper, [](int socketId){errno = EIO;return -1;});
 
     DerivedFromBase  socket(5);
     ASSERT_THROW(
@@ -204,7 +204,7 @@ TEST(SocketExceptionTest, CloseFail_EIO)
 TEST(SocketExceptionTest, CloseFail_EINTR)
 {
     int count = 0;
-    MOCK_METHOD(close, [&count](int socketId){
+    MOCK_SYS(closeWrapper, [&count](int socketId){
         ++count;
         if (count == 1) {errno = EINTR;return -1;}
         return 0;
@@ -218,7 +218,7 @@ TEST(SocketExceptionTest, CloseFail_EINTR)
 }
 TEST(SocketExceptionTest, CloseFail_Unknown)
 {
-    MOCK_METHOD(close, [](int socketId){errno = 9998;return -1;});
+    MOCK_SYS(closeWrapper, [](int socketId){errno = 9998;return -1;});
 
     DerivedFromBase  socket(5);
     ASSERT_THROW(
@@ -228,7 +228,7 @@ TEST(SocketExceptionTest, CloseFail_Unknown)
 }
 TEST(SocketExceptionTest, ConnectionSocketFailsToOpenSocket)
 {
-    MOCK_METHOD(socket, [](int, int, int){return -1;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return -1;});
     auto doTest = [](){ConnectSocket   connect("thorsanvil.com", 80);};
 
     ASSERT_THROW(
@@ -238,8 +238,8 @@ TEST(SocketExceptionTest, ConnectionSocketFailsToOpenSocket)
 }
 TEST(SocketExceptionTest, ConnectionSocketFailsToGetHostByName)
 {
-    MOCK_METHOD(socket,        [](int, int, int){return 5;});
-    MOCK_METHOD(gethostbyname, [](char const*){return nullptr;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
+    MOCK_SYS(gethostbyname, [](char const*){return nullptr;});
     auto doTest = [](){ConnectSocket   connect("thorsanvil.com", 80);};
 
     ASSERT_THROW(
@@ -250,8 +250,8 @@ TEST(SocketExceptionTest, ConnectionSocketFailsToGetHostByName)
 TEST(SocketExceptionTest, ConnectionSocketFailsToGetHostByNameTryAgain)
 {
     int count = 0;
-    MOCK_METHOD(socket,        [](int, int, int){return 5;});
-    MOCK_METHOD(gethostbyname, [&count](char const*){
+    MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
+    MOCK_SYS(gethostbyname, [&count](char const*){
         ++count;
         if (count == 1) {h_errno = TRY_AGAIN;return nullptr;}
         h_errno = 0;
@@ -267,10 +267,10 @@ TEST(SocketExceptionTest, ConnectionSocketFailsToGetHostByNameTryAgain)
 }
 TEST(SocketExceptionTest, ConnectionSocketFailsConnect)
 {
-    MOCK_METHOD(socket,        [](int, int, int){return 5;});
-    MOCK_METHOD(gethostbyname, [](char const*){static char buf[5];static char* bufH[1];static HostEnt result;bufH[0]=buf;result.h_addr_list=bufH;result.h_length=0;return &result;});
-    MOCK_METHOD(connect,       [](int, SocketAddr*, std::size_t){return -1;});
-    MOCK_METHOD(close,         [](int socketId){return 0;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
+    MOCK_SYS(gethostbyname, [](char const*){static char buf[5];static char* bufH[1];static HostEnt result;bufH[0]=buf;result.h_addr_list=bufH;result.h_length=0;return &result;});
+    MOCK_SYS(connect,       [](int, SocketAddr const*, std::size_t){return -1;});
+    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
     auto doTest = [](){ConnectSocket   connect("thorsanvil.com", 80);};
 
     ASSERT_THROW(
@@ -280,7 +280,7 @@ TEST(SocketExceptionTest, ConnectionSocketFailsConnect)
 }
 TEST(SocketExceptionTest, ServerSocketFailsToOpenSocket)
 {
-    MOCK_METHOD(socket,        [](int, int, int){return -1;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return -1;});
     auto doTest = [](){ServerSocket   server(8080);};
 
     ASSERT_THROW(
@@ -290,9 +290,9 @@ TEST(SocketExceptionTest, ServerSocketFailsToOpenSocket)
 }
 TEST(SocketExceptionTest, ServerSocketFailsToBind)
 {
-    MOCK_METHOD(socket,        [](int, int, int){return 5;});
-    MOCK_METHOD(bind,          [](int, SocketAddr*, std::size_t){return -1;});
-    MOCK_METHOD(close,         [](int socketId){return 0;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
+    MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return -1;});
+    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
 
     auto doTest = [](){ServerSocket   server(8080, true);};
 
@@ -303,10 +303,10 @@ TEST(SocketExceptionTest, ServerSocketFailsToBind)
 }
 TEST(SocketExceptionTest, ServerSocketFailsToListen)
 {
-    MOCK_METHOD(socket,        [](int, int, int){return 5;});
-    MOCK_METHOD(bind,          [](int, SocketAddr*, std::size_t){return 0;});
-    MOCK_METHOD(listen,        [](int, int){return -1;});
-    MOCK_METHOD(close,         [](int socketId){return 0;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
+    MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return 0;});
+    MOCK_SYS(listen,        [](int, int){return -1;});
+    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
 
     auto doTest = [](){ServerSocket   server(8080, true);};
 
@@ -317,10 +317,10 @@ TEST(SocketExceptionTest, ServerSocketFailsToListen)
 }
 TEST(SocketExceptionTest, ServerSocketAcceptFailsInvalidId)
 {
-    MOCK_METHOD(socket,        [](int, int, int){return 5;});
-    MOCK_METHOD(bind,          [](int, SocketAddr*, std::size_t){return 0;});
-    MOCK_METHOD(listen,        [](int, int){return 0;});
-    MOCK_METHOD(close,         [](int socketId){return 0;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
+    MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return 0;});
+    MOCK_SYS(listen,        [](int, int){return 0;});
+    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
 
     ServerSocket    server1(8080, true);
     ServerSocket    server2(std::move(server1));
@@ -331,11 +331,11 @@ TEST(SocketExceptionTest, ServerSocketAcceptFailsInvalidId)
 }
 TEST(SocketExceptionTest, ServerSocketAcceptFailsAcceptCall)
 {
-    MOCK_METHOD(socket,        [](int, int, int){return 5;});
-    MOCK_METHOD(bind,          [](int, SocketAddr*, std::size_t){return 0;});
-    MOCK_METHOD(listen,        [](int, int){return 0;});
-    MOCK_METHOD(close,         [](int socketId){return 0;});
-    MOCK_METHOD(accept,        [](int, SocketAddr*, socklen_t*){return -1;});
+    MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
+    MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return 0;});
+    MOCK_SYS(listen,        [](int, int){return 0;});
+    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
+    MOCK_SYS(acceptWrapper, [](int, SocketAddr*, socklen_t*){return -1;});
 
     ServerSocket    server(8080, true);
     ASSERT_THROW(
@@ -357,7 +357,7 @@ TEST(SocketExceptionTest, DataSocketaReadInvalidId)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsEBADFOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = EBADF;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = EBADF;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -369,7 +369,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsEBADFOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsEFAULTOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = EFAULT;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = EFAULT;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -381,7 +381,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsEFAULTOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsEINVALOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = EINVAL;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = EINVAL;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -393,7 +393,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsEINVALOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsENXIOOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = ENXIO;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = ENXIO;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -405,7 +405,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsENXIOOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsENOMEMOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = ENOMEM;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = ENOMEM;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -417,7 +417,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsENOMEMOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsEIOOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = EIO;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = EIO;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -429,7 +429,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsEIOOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsENOBUFSOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = ENOBUFS;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = ENOBUFS;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -441,7 +441,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsENOBUFSOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsUnknownOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = 9998;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = 9998;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.getMessageData(nullptr, 5, 0);};
@@ -454,7 +454,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsUnknownOnRead)
 TEST(SocketExceptionTest, DataSocketaReadFailsEINTROnRead)
 {
     int count = 0;
-    MOCK_METHOD(read,        [&count](int, void*, std::size_t){
+    MOCK_SYS(readWrapper,   [&count](int, void*, std::size_t){
         ++count;
         if (count == 1){errno = EINTR;return -1;}
         errno = EIO;
@@ -472,7 +472,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsEINTROnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsETIMEDOUTOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = ETIMEDOUT;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = ETIMEDOUT;return -1;});
     DataSocket          data(5, true);
 
     auto result = data.getMessageData(nullptr, 5, 0);
@@ -481,7 +481,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsETIMEDOUTOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsEAGAINOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = EAGAIN;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = EAGAIN;return -1;});
     DataSocket          data(5, true);
 
     auto result = data.getMessageData(nullptr, 5, 0);
@@ -490,7 +490,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsEAGAINOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsECONNRESETOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = ECONNRESET;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = ECONNRESET;return -1;});
     DataSocket          data(5, true);
 
     auto result = data.getMessageData(nullptr, 5, 0);
@@ -499,7 +499,7 @@ TEST(SocketExceptionTest, DataSocketaReadFailsECONNRESETOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaReadFailsENOTCONNOnRead)
 {
-    MOCK_METHOD(read,        [](int, void*, std::size_t){errno = ENOTCONN;return -1;});
+    MOCK_SYS(readWrapper,   [](int, void*, std::size_t){errno = ENOTCONN;return -1;});
     DataSocket          data(5, true);
 
     auto result = data.getMessageData(nullptr, 5, 0);
@@ -520,7 +520,7 @@ TEST(SocketExceptionTest, DataSocketaWriteInvalidId)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsEINVALOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = EINVAL;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = EINVAL;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -532,7 +532,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsEINVALOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsEBADFOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = EBADF;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = EBADF;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -544,7 +544,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsEBADFOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsECONNRESETOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = ECONNRESET;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = ECONNRESET;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -556,7 +556,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsECONNRESETOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsENXIOOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = ENXIO;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = ENXIO;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -568,7 +568,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsENXIOOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsEPIPEOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = EPIPE;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = EPIPE;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -580,7 +580,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsEPIPEOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsEDQUOTOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = EDQUOT;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = EDQUOT;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -592,7 +592,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsEDQUOTOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsEFBIGnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = EFBIG;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = EFBIG;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -604,7 +604,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsEFBIGnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsEIOOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = EIO;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = EIO;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -616,7 +616,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsEIOOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsENETDOWNOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = ENETDOWN;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = ENETDOWN;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -628,7 +628,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsENETDOWNOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsENETUNREACHOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = ENETUNREACH;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = ENETUNREACH;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -640,7 +640,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsENETUNREACHOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsENOSPCOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = ENOSPC;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = ENOSPC;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -652,7 +652,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsENOSPCOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsUnknownOnRead)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = 9998;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = 9998;return -1;});
     DataSocket          data(5, true);
 
     auto doTest = [](DataSocket& data){data.putMessageData(nullptr, 5, 0);};
@@ -664,7 +664,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsUnknownOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaPutMessageCloseFails)
 {
-    MOCK_METHOD(shutdown,        [](int, int){errno = ENOSPC;return -1;});
+    MOCK_SYS(shutdown,      [](int, int){errno = ENOSPC;return -1;});
     DataSocket          data(5, true);
 
     ASSERT_THROW(
@@ -675,7 +675,7 @@ TEST(SocketExceptionTest, DataSocketaPutMessageCloseFails)
 TEST(SocketExceptionTest, DataSocketaWriteFailsEINTROnWrite)
 {
     int count = 0;
-    MOCK_METHOD(write,        [&count](int, void const*, std::size_t){
+    MOCK_SYS(writeWrapper,  [&count](int, void const*, std::size_t){
         ++count;
         if (count == 1){errno = EINTR;return -1;}
         errno = EIO;
@@ -693,7 +693,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsEINTROnWrite)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsETIMEDOUTOnWrite)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = ETIMEDOUT;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = ETIMEDOUT;return -1;});
     DataSocket          data(5, true);
 
     auto result = data.putMessageData(nullptr, 5, 0);
@@ -702,7 +702,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsETIMEDOUTOnWrite)
 }
 TEST(SocketExceptionTest, DataSocketaWriteFailsEAGAINOnWrite)
 {
-    MOCK_METHOD(write,        [](int, void const*, std::size_t){errno = EAGAIN;return -1;});
+    MOCK_SYS(writeWrapper,  [](int, void const*, std::size_t){errno = EAGAIN;return -1;});
     DataSocket          data(5, true);
 
     auto result = data.putMessageData(nullptr, 5, 0);
