@@ -78,26 +78,9 @@ class Binder
         Binder();
         void setCustome404Action(Action&& action);
         void addSite(std::string const& host, std::string const& base, Site&& site);
-        bool remSite(std::string const& host, std::string const& base);
+        std::pair<bool, int> remSite(std::string const& host, std::string const& base);
 
         Action find(Method method, std::string const& host, std::string const& path) const;
-};
-
-class BinderProxy
-{
-    Binder&         binder;
-    std::string     host;
-    std::string     base;
-    public:
-        BinderProxy(Binder& binder, std::string const& host, std::string const& base)
-            : binder(binder)
-            , host(host)
-            , base(base)
-        {}
-        void addSite(Site&& site)
-        {
-            binder.addSite(host, base, std::move(site));
-        }
 };
 
             }

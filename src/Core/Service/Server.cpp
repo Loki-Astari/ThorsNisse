@@ -5,13 +5,13 @@
 
 using namespace ThorsAnvil::Nisse::Core::Service;
 
-EventConfig*  Server::cfg              = nullptr;
-Server*       Server::currentService   = nullptr;
+LibEventConfig* Server::cfg              = nullptr;
+Server*         Server::currentService   = nullptr;
 
 Server::Server()
     : running(false)
     , shutDownNext(false)
-    , eventBase(event_base_new_with_config(cfg), &event_base_free)
+    , eventBase(::event_base_new_with_config(cfg), ::event_base_free)
     , currentHandler(nullptr)
 {
     if (eventBase == nullptr)
@@ -23,7 +23,7 @@ Server::Server()
 Server::Server(Server&& move)
     : running(false)
     , shutDownNext(false)
-    , eventBase(nullptr, &event_base_free)
+    , eventBase(nullptr, ::event_base_free)
     , currentHandler(nullptr)
 {
     swap(move);
@@ -68,7 +68,7 @@ void Server::start(double check)
 void Server::flagShutDown()
 {
     shutDownNext = true;
-    if (event_base_loopbreak(eventBase.get()) != 0)
+    if (::event_base_loopbreak(eventBase.get()) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::Server::flagShutDown: event_base_loopbreak(): Failed");
     }
@@ -80,11 +80,11 @@ void Server::runLoop(double check)
     int microSecs = (check - seconds) * 1'000'000;
     static const TimeVal ten_sec{seconds, microSecs};
 
-    if (event_base_loopexit(eventBase.get(), &ten_sec) != 0)
+    if (::event_base_loopexit(eventBase.get(), &ten_sec) != 0)
     {
         throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_loopexit(): Failed");
     }
-    switch (event_base_dispatch(eventBase.get()))
+    switch (::event_base_dispatch(eventBase.get()))
     {
         case -1:
             throw std::runtime_error("ThorsAnvil::Nisse::Server::runLoop: event_base_dispatch(): Failed");
@@ -106,7 +106,7 @@ void Server::purgeRetiredHandlers()
     retiredHandlers.clear();
 }
 
-void Server::delHandler(Handler* oldHandler)
+void Server::delHandler(HandlerBase* oldHandler)
 {
     retiredHandlers.emplace_back(oldHandler);
 }
@@ -116,7 +116,7 @@ void Server::addTimer(double timeOut, std::function<void()>&& action)
     addHandler<TimerHandler>(std::move(timeOut), std::move(action));
 }
 
-void Server::setCurrentHandler(Handler* current)
+void Server::setCurrentHandler(HandlerBase* current)
 {
     if (current != nullptr)
     {
@@ -139,8 +139,8 @@ Server& Server::getCurrentHandler()
 bool Server::inHandler()
 {
     // If there is a current handler active.
-    // And that handler is non-blocking
-    return currentService && currentService->currentHandler && !currentService->currentHandler->blocking();
+    // And that handler is non-suspendable
+    return currentService && currentService->currentHandler && currentService->currentHandler->suspendable();
 }
 #ifdef COVERAGE_TEST
 /*
@@ -151,6 +151,6 @@ bool Server::inHandler()
 #include "test/Action.h"
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(int);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(int);
-template Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
-template Handler& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 #endif

@@ -7,7 +7,7 @@ std::string const ReadMessageHandler::failIncompleteMessage = "Failed: Size OK. 
 std::string const WriteMessageHandler::messageSuffix        = "-> 200 OK Replied";
 
 ReadMessageHandler::ReadMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so)
-    : Handler(parent, so.getSocketId(), EV_READ)
+    : HandlerNonSuspendable(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , readSizeObject(0)
     , readBuffer(0)
@@ -61,7 +61,7 @@ short ReadMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, s
 }
 
 WriteMessageHandler::WriteMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, std::string const& m, bool ok)
-    : Handler(parent, so.getSocketId(), EV_WRITE)
+    : HandlerNonSuspendable(parent, so.getSocketId(), EV_WRITE)
     , socket(std::move(so))
     , writeSizeObject(0)
     , writeBuffer(0)

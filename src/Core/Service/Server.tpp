@@ -28,10 +28,10 @@ inline void Server::listenOn(int port, Param& param)
 }
 
 template<typename H, typename... Args>
-inline Handler& Server::addHandler(Args&&... args)
+inline HandlerBase& Server::addHandler(Args&&... args)
 {
     NisseManagHandler   value = std::make_unique<H>(*this, std::forward<Args>(args)...);
-    Handler*            key   = value.get();
+    HandlerBase*        key   = value.get();
     handlers.emplace(key, std::move(value));
     return *key;
 }
@@ -39,11 +39,11 @@ inline Handler& Server::addHandler(Args&&... args)
 template<typename H, typename... Args>
 inline void Server::transferHandler(Args&&... args)
 {
-    if (currentHandler == nullptr || currentHandler->blocking())
+    if (currentHandler == nullptr || !currentHandler->suspendable())
     {
-        throw std::runtime_error("Can not transfer handlers when not running a current handler (or the current one is blocking)");
+        throw std::runtime_error("Can not transfer handlers when not running a current handler (or the current one is non-suspendable)");
     }
-    Handler& handler = addHandler<H>(std::forward<Args>(args)...);
+    HandlerBase& handler = addHandler<H>(std::forward<Args>(args)...);
     handler.setSuspend(*currentHandler);
 }
 

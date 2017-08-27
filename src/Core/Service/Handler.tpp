@@ -13,13 +13,13 @@ namespace ThorsAnvil
             {
 
 template<typename H, typename... Args>
-inline void Handler::addHandler(Args&&... args)
+inline void HandlerBase::addHandler(Args&&... args)
 {
     parent.addHandler<H>(std::forward<Args>(args)...);
 }
 
 template<typename H, typename... Args>
-inline void Handler::moveHandler(Args&&... args)
+inline void HandlerBase::moveHandler(Args&&... args)
 {
     dropHandler();
     parent.addHandler<H>(std::forward<Args>(args)...);
@@ -27,7 +27,7 @@ inline void Handler::moveHandler(Args&&... args)
 
 template<typename Handler, typename Param>
 inline ServerHandler<Handler, Param>::ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param)
-    : Handler(parent, so.getSocketId(), EV_READ)
+    : HandlerNonSuspendable(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
     , param(param)
 {}
@@ -46,7 +46,7 @@ inline short ServerHandler<ActHand, Param>::eventActivate(LibSocketId /*sockId*/
 
 template<typename ActHand>
 inline ServerHandler<ActHand, void>::ServerHandler(Server& parent, Socket::ServerSocket&& so)
-    : Handler(parent, so.getSocketId(), EV_READ)
+    : HandlerNonSuspendable(parent, so.getSocketId(), EV_READ)
     , socket(std::move(so))
 {}
 

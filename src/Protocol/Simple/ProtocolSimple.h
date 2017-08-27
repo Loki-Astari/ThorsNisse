@@ -12,7 +12,7 @@ namespace ThorsAnvil
             namespace Simple
             {
 
-class ReadMessageHandler: public Core::Service::Handler
+class ReadMessageHandler: public Core::Service::HandlerNonSuspendable
 {
     private:
         Core::Socket::DataSocket            socket;
@@ -23,14 +23,13 @@ class ReadMessageHandler: public Core::Service::Handler
     public:
         ReadMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
-        virtual bool  blocking()  override {return false;}
 
     public:
         static std::string const failSizeMessage;
         static std::string const failIncompleteMessage;
 };
 
-class WriteMessageHandler: public Core::Service::Handler
+class WriteMessageHandler: public Core::Service::HandlerNonSuspendable
 {
     private:
         Core::Socket::DataSocket            socket;
@@ -40,7 +39,6 @@ class WriteMessageHandler: public Core::Service::Handler
     public:
         WriteMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, std::string const& message, bool ok = false);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
-        virtual bool  blocking()  override {return false;}
     public:
         static std::string const messageSuffix;
 };

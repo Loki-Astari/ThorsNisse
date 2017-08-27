@@ -16,26 +16,22 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
-class ReadRequestHandler: public Core::Service::Handler
+class ReadRequestHandler: public Core::Service::HandlerSuspendable
 {
     using DataSocket = ThorsAnvil::Nisse::Core::Socket::DataSocket;
     private:
-        Response*           flusher;
-        Yield*              yield;
-        bool                running;
-        CoRoutine           worker;
+        Core::Socket::DataSocket    socket;
+        Binder const&               binder;
+        Response*                   flusher;
+        bool                        running;
 
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
         ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Binder const& binder);
-        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
-        virtual bool  blocking()  override {return false;}
+        virtual void eventActivateNonBlocking() override;
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}
-        void setYield(Yield& y)     {yield = &y;}
-    private:
-        virtual void suspend() override;
 };
 
             }

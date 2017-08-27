@@ -10,7 +10,6 @@ using ThorsAnvil::Nisse::Protocol::HTTP::Binder;
 using ThorsAnvil::Nisse::Protocol::HTTP::Request;
 using ThorsAnvil::Nisse::Protocol::HTTP::Response;
 using ThorsAnvil::Nisse::Protocol::HTTP::Method;
-using ThorsAnvil::Nisse::Protocol::HTTP::Yield;
 using ThorsAnvil::Nisse::Protocol::HTTP::URI;
 using ThorsAnvil::Nisse::Protocol::HTTP::Headers;
 using ThorsAnvil::Nisse::Core::Socket::DataSocket;
@@ -37,6 +36,11 @@ void callMethod(Method method, Site& site, std::string const& host, std::string&
 TEST(BinderTest, ConstructBuild)
 {
     Site        site;
+}
+TEST(BinderTest, ConstructSwap)
+{
+    Site        site1;
+    Site        site2(std::move(site1));
 }
 TEST(BinderTest, AddAGetMethod)
 {
@@ -235,4 +239,39 @@ TEST(BinderTest, AddSites)
     action = binder.find(Method::Get, "ThorsAnvil.com", "/pathDefault");
     action(request, response);
     ASSERT_TRUE(calledSite3);
+}
+TEST(BinderTest, RemSites)
+{
+    bool calledSite1 = false;
+    bool missed      = false;
+
+    Site    site1;
+    site1.get("/pathSpecific", [&calledSite1](Request& /*request*/, Response& /*response*/) {calledSite1 = true;});
+
+    Binder  binder;
+    binder.setCustome404Action([&missed](Request& /*request*/, Response& /*response*/) {missed = true;});
+    binder.addSite("ThorsAnvil.com", "", std::move(site1));
+
+
+    URI                 uri("Ignored", "Ignored");
+    Headers             headers;
+    std::stringstream   body;
+    Request             request(Method::Get, std::move(uri), headers, body);
+    Response            response(body);
+
+    auto action1 = binder.find(Method::Get, "ThorsAnvil.com", "/pathSpecific");
+    action1(request, response);
+    ASSERT_TRUE(calledSite1);
+
+    auto rem1 = binder.remSite("NotThere.com", "");
+    ASSERT_FALSE(rem1.first);
+    auto rem2 = binder.remSite("ThorsAnvil.com", "");
+    ASSERT_TRUE(rem2.first);
+
+    calledSite1 = false;
+    auto action2 = binder.find(Method::Get, "ThorsAnvil.com", "/pathSpecific");
+    action2(request, response);
+    ASSERT_FALSE(calledSite1);
+    ASSERT_TRUE(missed);
+
 }

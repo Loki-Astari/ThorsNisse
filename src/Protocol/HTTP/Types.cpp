@@ -63,6 +63,9 @@ URI::URI(std::string const& hostAndPort, std::string&& pathAndQuery)
         path    = pathAndQuery.substr(0, nextSection);
         if (pathAndQuery[nextSection] != '#')
         {
+            // Normalize
+            // Fix bad '&' and replace with '?'
+            pathAndQuery[nextSection] = '?';
             auto querySection = nextSection;
             nextSection = findSection(pathAndQuery, '#', querySection);
             query    = pathAndQuery.substr(querySection, (nextSection - querySection));

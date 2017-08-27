@@ -1,7 +1,6 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_TYPES_H
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_TYPES_H
 
-#include "ThorsNisseCoreService/CoRoutine.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <istream>
 #include <ostream>
@@ -31,10 +30,6 @@ static std::string const Resp_404           = "Not Found";
 static std::string const Connection_Closed  = "Closed";
 
 static std::string const ServerName         = "Nisse V1.0";
-
-
-using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
-using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
 enum class Method {Get, Put, Post, Delete, Head};
 

@@ -22,6 +22,19 @@ TEST(SocketStreamTest, ReadNormal)
 
     ASSERT_EQ(std::string(data, data + 16), std::string("1234567890ABCDEF"));
 }
+TEST(SocketStreamTest, ConstructWithNotifier)
+{
+    int             socket  = open("test/data/SocketStreamTest-ReadNormal", O_RDONLY);
+    DataSocket      dataSocket(socket);
+    ISocketStream   stream(dataSocket, [](){}, [](){});
+}
+TEST(SocketStreamTest, ConstructWithNotifierAndBuffer)
+{
+    int             socket  = open("test/data/SocketStreamTest-ReadNormal", O_RDONLY);
+    DataSocket      dataSocket(socket);
+    std::vector<char> data {'T', 'e', 'x', 't'};
+    ISocketStream   stream(dataSocket, [](){}, [](){}, std::move(data), &data[0], &data[2]);
+}
 TEST(SocketStreamTest, ReadNormalButHugeChunk)
 {
     int             socket  = open("test/data/SocketStreamTest-ReadLarge", O_RDONLY);
@@ -115,6 +128,12 @@ TEST(SocketStreamTest, WriteNormal)
         ASSERT_EQ("12345678", line);
     }
     unlink("test/data/SocketStreamTest-WriteNormal");
+}
+TEST(SocketStreamTest, ConstructOStreamWithNotifier)
+{
+    int         socket  = open("test/data/SocketStreamTest-WriteNormal", O_WRONLY | O_CREAT | O_TRUNC, 0777 );
+    DataSocket      dataSocket(socket, true);
+    OSocketStream   stream(dataSocket, [](){}, [](){});
 }
 TEST(SocketStreamTest, WriteNormalWithMove)
 {

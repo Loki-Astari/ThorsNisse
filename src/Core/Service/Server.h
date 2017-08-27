@@ -19,11 +19,11 @@ namespace ThorsAnvil
             {
 
 class Server;
-class Handler;
-using EventBaseDeleter  = decltype(&event_base_free);
+class HandlerBase;
+using EventBaseDeleter  = std::function<void(LibEventBase*)>;
+
 using EventHolder       = std::unique_ptr<LibEventBase, EventBaseDeleter>;
-using NisseManagHandler = std::unique_ptr<Handler>;
-using EventConfig       = struct event_config;
+using NisseManagHandler = std::unique_ptr<HandlerBase>;
 
 class Server
 {
@@ -36,17 +36,17 @@ class Server
         // handlers for different incoming streams).
         // We use an unordered map to make it easy to find the handler
         // when we want to delete it.
-        std::unordered_map<Handler*, NisseManagHandler>  handlers;
+        std::unordered_map<HandlerBase*, NisseManagHandler>  handlers;
 
         // This vector is a non owning vector.
         // It contains the pointers to handlers that need to be
         // deleted. We don't want handlers to delete themselves
         // so they register themselves for deletion and get purged
         // in `runLoop()`.
-        std::vector<Handler*>           retiredHandlers;
-        Handler*                        currentHandler;
+        std::vector<HandlerBase*>       retiredHandlers;
+        HandlerBase*                    currentHandler;
         static Server*                  currentService;
-        static EventConfig*             cfg;
+        static LibEventConfig*          cfg;
     public:
         Server();
 
@@ -73,13 +73,13 @@ class Server
         {
             if (cfg != nullptr)
             {
-                event_config_free(cfg);
+                ::event_config_free(cfg);
                 cfg = nullptr;
             }
             if (type != "")
             {
-                cfg = event_config_new();
-                event_config_avoid_method(cfg, type.c_str());
+                cfg = ::event_config_new();
+                ::event_config_avoid_method(cfg, type.c_str());
             }
         }
     private:
@@ -87,11 +87,11 @@ class Server
         void purgeRetiredHandlers();
         void swap(Server& other);
 
-        friend class Handler;
+        friend class HandlerBase;
         template<typename H, typename... Args>
-        Handler& addHandler(Args&&... args);
-        void delHandler(Handler* oldHandler);
-        void setCurrentHandler(Handler* current);
+        HandlerBase& addHandler(Args&&... args);
+        void delHandler(HandlerBase* oldHandler);
+        void setCurrentHandler(HandlerBase* current);
 };
 
             }
