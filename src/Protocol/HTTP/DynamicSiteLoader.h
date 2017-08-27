@@ -2,11 +2,11 @@
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_DYNAMIC_SITE_LOADER_H
 
 #include "Binder.h"
-#include "HttpScanner.h"
 #include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/Handler.h"
 #include <map>
 #include <string>
+#include <tuple>
+#include <utility>
 
 namespace ThorsAnvil
 {
@@ -29,17 +29,6 @@ class DynamicSiteLoader
         DynamicSiteLoader(Core::Service::Server& server);
         void load(std::string const& site, int port, std::string const& host, std::string const& base);
         std::pair<bool, int> unload(std::string const& host, std::string const& base);
-};
-
-class DeveloperHandler: public Core::Service::HandlerNonSuspendable
-{
-    DynamicSiteLoader&          loader;
-    Core::Socket::DataSocket    socket;
-    HttpScanner                 scanner;
-    std::vector<char>           buffer;
-    public:
-        DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader);
-        virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
 };
 
             }
