@@ -60,18 +60,33 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
             }
             else if (std::get<1>(result) != 0)
             {
-                status  = 205;
+                status  = 206;
                 message = "Site Disabled, but calls still active";
             }
             else if (std::get<2>(result) != 0)
             {
-                status  = 205;
+                status  = 206;
                 message = "Site Removed, but other sites are still using the lib";
             }
         }
         if (siteToLoad.action == "Load")
         {
-            loader.load(siteToLoad.lib, siteToLoad.port, siteToLoad.host, siteToLoad.base);
+            auto result = loader.load(siteToLoad.lib, siteToLoad.port, siteToLoad.host, siteToLoad.base);
+
+            if (!std::get<0>(result))
+            {
+                status  = 400;
+                message = "Bad Request: host:port/base Already loaded";
+            }
+            else if (std::get<1>(result) != 1)
+            {
+                status  = 202;
+                message = "Site Loaded: Library being re-used";
+            }
+            else
+            {
+                status  = 201;
+            }
         }
     }
     catch (std::domain_error const& e)

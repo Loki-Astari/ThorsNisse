@@ -28,7 +28,7 @@ class DynamicSiteLoader
     std::map<int, Binder>           portMap;
     public:
         DynamicSiteLoader(Core::Service::Server& server);
-        void load(std::string const& site, int port, std::string const& host, std::string const& base);
+        std::tuple<bool, int>      load(std::string const& site, int port, std::string const& host, std::string const& base);
         std::tuple<bool, int, int> unload(int port, std::string const& host, std::string const& base);
 };
 

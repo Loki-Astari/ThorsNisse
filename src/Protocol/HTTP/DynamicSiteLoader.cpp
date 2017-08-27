@@ -11,13 +11,11 @@ DynamicSiteLoader::DynamicSiteLoader(Core::Service::Server& server)
     : server(server)
 {}
 
-void DynamicSiteLoader::load(std::string const& site, int port, std::string const& host, std::string const& base)
+std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port, std::string const& host, std::string const& base)
 {
     if (siteMap.find({host, base, port}) != siteMap.end())
     {
-        throw std::runtime_error(
-            ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: Host/Base already loaded: ", site, "/", base));
+        return {false, 0};
     }
     void* siteLib = ::dlopen(site.c_str(), RTLD_NOW | RTLD_LOCAL);
     if (siteLib == nullptr)
@@ -68,6 +66,7 @@ void DynamicSiteLoader::load(std::string const& site, int port, std::string cons
     }
     ++libCount[siteLib];
     std::cerr << this << ": " << "Loaded: " << site << " " << host << ":" << port << "/" << base << "\n";
+    return {true, libCount[siteLib]};
 }
 
 std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const& host, std::string const& base)

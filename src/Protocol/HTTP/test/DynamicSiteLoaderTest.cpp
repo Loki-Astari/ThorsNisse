@@ -29,18 +29,15 @@ TEST(DynamicSiteLoaderTest, UnLoadLib)
 }
 
 
-TEST(DynamicSiteLoaderExceptionTest, LoadLibFailsAlreadyLoaded)
+TEST(DynamicSiteLoaderTest, LoadLibFailsAlreadyLoaded)
 {
     Server              server;
     DynamicSiteLoader   loader(server);
     loader.load("TestLib/Loadable/Loadable.dylib", 80406, "test.com", "");
 
-    auto doTest = [&loader](){loader.load("TestLib/NotThere/NotThere.dylib", 80406, "test.com", "");};
+    auto result = loader.load("TestLib/NotThere/NotThere.dylib", 80406, "test.com", "");
 
-    ASSERT_THROW(
-        doTest(),
-        std::runtime_error
-    );
+    ASSERT_FALSE(std::get<0>(result));
 }
 TEST(DynamicSiteLoaderExceptionTest, LoadLibFailsToLoad)
 {
