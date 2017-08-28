@@ -76,14 +76,6 @@ TEST(SocketTest, ConnectSocket)
 {
     ConnectSocket   socket("amazon.com", 80);
 }
-TEST(SocketTest, ServerSocketAccept)
-{
-    ServerSocket    socket(12345678);
-    std::async([&socket](){ConnectSocket connect("127.0.0.1", 12345678);});
-    DataSocket      connection = socket.accept();
-
-    ASSERT_NE(-1, connection.getSocketId());
-}
 TEST(SocketTest, readOneLine)
 {
     int fd[2];

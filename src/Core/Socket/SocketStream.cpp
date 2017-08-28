@@ -81,7 +81,8 @@ std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize coun
 
     std::streamsize currentBufferSize = egptr() - gptr();
     std::streamsize nextChunkSize    = std::min(count, currentBufferSize);
-    std::copy_n(gptr(), nextChunkSize, dest);
+    //std::copy_n(gptr(), nextChunkSize, dest);
+    std::copy(gptr(), gptr() + nextChunkSize, dest);
     gbump(nextChunkSize);
 
     std::streamsize       retrieved  = nextChunkSize;
@@ -104,7 +105,8 @@ std::streamsize SocketStreamBuffer::xsgetn(char_type* dest, std::streamsize coun
                 break;
             }
             nextChunkSize    = std::min(nextChunkSize, egptr() - gptr());
-            std::copy_n(gptr(), nextChunkSize, dest + retrieved);
+            //std::copy_n(gptr(), nextChunkSize, dest + retrieved);
+            std::copy(gptr(), gptr() + nextChunkSize, dest + retrieved);
             gbump(nextChunkSize);
             retrieved += nextChunkSize;
         }
@@ -165,7 +167,8 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
         // If we have space in the internal buffer then just place it there.
         // We want a lot of little writtes to be buffered so we only talk to the stream
         // chunks of a resonable size.
-        std::copy_n(source, count, pptr());
+        //std::copy_n(source, count, pptr());
+        std::copy(source, source + count, pptr());
         pbump(count);
         return count;
     }
@@ -186,7 +189,8 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
         }
         else
         {
-            std::copy_n(source + exported, nextChunk, pptr());
+            //std::copy_n(source + exported, nextChunk, pptr());
+            std::copy(source + exported, source + exported + nextChunk, pptr());
             pbump(nextChunk);
             exported += nextChunk;
         }

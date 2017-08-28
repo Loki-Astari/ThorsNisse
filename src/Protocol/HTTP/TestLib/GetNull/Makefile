@@ -16,7 +16,7 @@ veryclean:	clean
 
 
 %.o: %.cpp
-	$(CXX) -std=c++1z -c -I.. $<
+	$(CXX) -std=c++17 -fPIC -c -I.. $<
 
 
 

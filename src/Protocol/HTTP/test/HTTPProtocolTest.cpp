@@ -49,6 +49,7 @@ TEST_F(HTTPProtocolTest, Construct)
     ReadRequestHandler      reader(service, std::move(socket), binder);
     unlink("XX");
 }
+/*
 TEST_F(HTTPProtocolTest, GetRequest)
 {
     unlink("XX");
@@ -185,7 +186,7 @@ TEST_F(HTTPProtocolTest, CheckBody)
     reader.eventActivate(readFD, EV_READ);
     unlink("XX");
 }
-
+*/
 /*
 TEST_F(HTTPProtocolTest, ConstructWriter)
 {

@@ -18778,12 +18778,12 @@ $as_echo "$as_me: With: ${with_ThorsSQLroot}" >&6;}
 $as_echo "$as_me: LDFLAGS: ${LDFLAGS}" >&6;}
         { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorSQL17D" >&5
 $as_echo "$as_me: LIB: ThorSQL17D" >&6;}
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&5
-$as_echo "$as_me: Meth: _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev" >&5
+$as_echo "$as_me: Meth: _ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev" >&6;}
 
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv in -lThorSQL17D" >&5
-$as_echo_n "checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv in -lThorSQL17D... " >&6; }
-if ${ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv+:} false; then :
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev in -lThorSQL17D" >&5
+$as_echo_n "checking for _ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev in -lThorSQL17D... " >&6; }
+if ${ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
@@ -18797,27 +18797,27 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv ();
+char _ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev ();
 int
 main ()
 {
-return _ZN10ThorsAnvil3SQL10Connection11getCreatorsEv ();
+return _ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv=yes
+  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev=yes
 else
-  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv=no
+  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&5
-$as_echo "$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" >&6; }
-if test "x$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsEv" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev" >&5
+$as_echo "$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev" >&6; }
+if test "x$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL10Connection11getCreatorsB5cxx11Ev" = xyes; then :
 
 
 $as_echo "#define HAVE_ThorsSQL 1" >>confdefs.h

@@ -13,9 +13,9 @@ DynamicSiteLoader::DynamicSiteLoader(Core::Service::Server& server)
 
 std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port, std::string const& host, std::string const& base)
 {
-    if (siteMap.find({host, base, port}) != siteMap.end())
+    if (siteMap.find(std::make_tuple(host, base, port)) != siteMap.end())
     {
-        return {false, 0};
+        return std::make_tuple(false, 0);
     }
     void* siteLib = ::dlopen(site.c_str(), RTLD_NOW | RTLD_LOCAL);
     if (siteLib == nullptr)
@@ -55,7 +55,7 @@ std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port,
     Site            newSite;
     (*addSite)(newSite);
 
-    siteMap[{host, base, port}] = siteLib;
+    siteMap[std::make_tuple(host, base, port)] = siteLib;
     Binder&     binder   = portMap[port];
 
     binder.addSite(host, base, std::move(newSite));
@@ -66,16 +66,16 @@ std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port,
     }
     ++libCount[siteLib];
     std::cerr << this << ": " << "Loaded: " << site << " " << host << ":" << port << "/" << base << "\n";
-    return {true, libCount[siteLib]};
+    return std::make_tuple(true, libCount[siteLib]);
 }
 
 std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const& host, std::string const& base)
 {
-    auto find = siteMap.find({host, base, port});
+    auto find = siteMap.find(std::make_tuple(host, base, port));
     if (find == siteMap.end())
     {
         std::cerr << this << ": Unknown Site: " << host << ":" << port << "/" << base << "\n";
-        return {false, 0, 0};
+        return std::make_tuple(false, 0, 0);
     }
 
     SiteInfo    siteLib = find->second;
@@ -92,7 +92,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
     if (unload.second != 0)
     {
         std::cerr << this << ": " << "Disabled: " << host << ":" << port << "/" << base << ": Waiting for active calls to finish\n";
-        return {unload.first, unload.second, libCount[siteLib]};
+        return std::make_tuple(unload.first, unload.second, libCount[siteLib]);
     }
 
     --libCount[siteLib];
@@ -100,7 +100,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
     if (libCount[siteLib] != 0)
     {
         std::cerr << this << ": " << "Disabled: " << host << ": " << port << "/" << base << ": Lib still bound\n";
-        return {true, 0, libCount[siteLib]};
+        return std::make_tuple(true, 0, libCount[siteLib]);
     }
 
     int result = ::dlclose(siteLib);
@@ -113,7 +113,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
                 "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host:port/base ", host, ":", port, "/", base, " Error: ", eMessage));
     }
     std::cerr << this << ": " << "UnLoaded: " << "----" << " " << host << ":" << port << "/" << base << "\n";
-    return {true, 0, 0};
+    return std::make_tuple(true, 0, 0);
 }
 
 #ifdef COVERAGE_TEST
