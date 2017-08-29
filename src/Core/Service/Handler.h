@@ -71,7 +71,6 @@ class HandlerSuspendable: public HandlerBase
     std::unique_ptr<CoRoutine>  worker;
     short                       firstEvent;
     public:
-        using HandlerBase::HandlerBase;
         HandlerSuspendable(Server& parent, LibSocketId socketId, short eventType)
             : HandlerSuspendable(parent, socketId, eventType, eventType)
         {}

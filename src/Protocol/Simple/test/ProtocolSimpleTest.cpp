@@ -23,7 +23,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandler)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9878);
         std::string message = "Test function ReadMessageHandler";
@@ -58,7 +58,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSize)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9879);
         std::string message = "Test function ReadMessageHandlerPartialSize";
@@ -93,7 +93,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9880);
         std::string message = "Test function ReadMessageHandlerPartialSizeInTwoChunks";
@@ -130,7 +130,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9881);
         std::string message = "Test function ReadMessageHandlerSizeInTwoChunks";
@@ -167,7 +167,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessage)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9882);
         std::string message = "Test function ReadMessageHandlerPartialMessage";
@@ -203,7 +203,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9883);
         std::string message = "Test Function ReadMessageHandlerPartialMessageInTwoChunks";
@@ -241,7 +241,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9884);
         std::string message = "Test function ReadMessageHandlerMessageInTwoChunks";
@@ -280,7 +280,7 @@ TEST(ProtocolSimpleTest, WriteMessageHandler)
         }
     });
 
-    auto future = std::async([&finished]()
+    auto future = std::async(std::launch::async, [&finished]()
     {
         ConnectSocket connect("127.0.0.1", 9885);
         std::string message;

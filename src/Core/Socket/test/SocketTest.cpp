@@ -78,8 +78,8 @@ TEST(SocketTest, ConnectSocket)
 }
 TEST(SocketTest, ServerSocketAccept)
 {
-    ServerSocket    socket(12345678);
-    std::async([&socket](){ConnectSocket connect("127.0.0.1", 12345678);});
+    ServerSocket    socket(12345678, true);
+    auto future = std::async( std::launch::async, [&socket](){ConnectSocket connect("127.0.0.1", 12345678);});
     DataSocket      connection = socket.accept();
 
     ASSERT_NE(-1, connection.getSocketId());

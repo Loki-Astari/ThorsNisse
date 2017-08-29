@@ -21,7 +21,7 @@ using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
 TEST(HandlerTest, SuspendResume)
 {
     Server    server;
-    std::tuple<bool, bool, bool>   hits = {false, false, false};
+    std::tuple<bool, bool, bool>   hits {false, false, false};
 
     server.listenOn<TestHandler>(9876, hits);
     auto future = std::async(std::launch::async, [&hits](){usleep(200000);while(!std::get<0>(hits)){ConnectSocket socket("127.0.0.1", 9876);}});
@@ -65,7 +65,7 @@ TEST(HandlerTestException, HandlerCreationFailsFirstNew)
     MOCK_SYS(event_new, [](LibEventBase*, LibSocketId, short, event_callback_fn, void*){return nullptr;});
 
     Server    server;
-    std::tuple<bool, bool, bool>   hits = {false, false, false};
+    std::tuple<bool, bool, bool>   hits {false, false, false};
 
     ASSERT_THROW(
         server.listenOn<TestHandler>(9876, hits),
@@ -78,7 +78,7 @@ TEST(HandlerTestException, HandlerCreationFailsSecondNew)
     MOCK_SYS(event_new, [&count](LibEventBase* eb, LibSocketId sid, short f, event_callback_fn cb, void* data) -> LibEvent* {++count;if (count == 1){return ::event_new(eb, sid, f, cb, data);}return nullptr;});
 
     Server    server;
-    std::tuple<bool, bool, bool>   hits = {false, false, false};
+    std::tuple<bool, bool, bool>   hits {false, false, false};
 
     ASSERT_THROW(
         server.listenOn<TestHandler>(9876, hits),
