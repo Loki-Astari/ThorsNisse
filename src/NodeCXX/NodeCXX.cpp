@@ -3,11 +3,36 @@
 #include "ThorsNisseProtocolSimple/ProtocolSimple.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
 #include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
+#include "ThorsNisseProtocolHTTP/DynamicSiteLoader.h"
 #include "ThorsNisseProtocolHTTP/DeveloperHandler.h"
 #include "ThorsNisseProtocolHTTP/Types.h"
 #include <sstream>
 
 #include <iostream>
+
+
+#ifndef HAVE_DEVLOADER
+namespace ThorsAnvil
+{
+    namespace Nisse
+    {
+        namespace Protocol
+        {
+            namespace HTTP
+            {
+struct DeveloperHandler: public Core::Service::HandlerNonSuspendable
+{
+    DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Protocol::HTTP::DynamicSiteLoader&)
+        : HandlerNonSuspendable(parent, socket.getSocketId(), EV_READ)
+    {}
+    virtual short eventActivate(Core::Service::LibSocketId, short) override
+    {return 0;}
+};
+            }
+        }
+    }
+}
+#endif
 
 namespace Nisse = ThorsAnvil::Nisse::Core::Service;
 namespace HTTP  = ThorsAnvil::Nisse::Protocol::HTTP;

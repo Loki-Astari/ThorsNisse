@@ -1,10 +1,16 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../)
 
+HAVE_DEVLOADER_yes			= -DHAVE_DEVLOADER
+HAVE_DEVLOADER				= $(HAVE_DEVLOADER_SER_$(HAVE_ThorsSerialize))
+THOR_SQL_NEEDED_yes			= ThorSQL ThorMySQL
+THOR_SERIALIZER_NEEDED_yes	= ThorSerialize
+THOR_NOTTRAVIS_NEEDED		= $(THOR_SQL_NEEDED_$(HAVE_ThorsSQL)) $(THOR_SERIALIZER_NEEDED_$(HAVE_ThorsSerialize))
+
 TARGET						= NodeCXX.app
-CXXFLAGS					+= -I$(event_ROOT_DIR)/include $(thorsSQL_ROOT_INCDIR)
+CXXFLAGS					+= -I$(event_ROOT_DIR)/include $(thorsSQL_ROOT_INCDIR) $(HAVE_DEVLOADER)
 LDLIBS						+= -L$(event_ROOT_DIR)/lib $(thorsSQL_ROOT_LIBDIR) -l$(event_ROOT_LIB) $(BOOST_SYSTEM_LIB) $(BOOST_CONTEXT_LIB) $(BOOST_COROUTINE_LIB) -ldl
-LINK_LIBS					= ThorsExpress ThorSQL ThorMySQL ThorSerialize
+LINK_LIBS					= ThorsExpress $(THOR_NOTTRAVIS_NEEDED)
 
 include $(THORSANVIL_ROOT)/build/tools/Makefile
 

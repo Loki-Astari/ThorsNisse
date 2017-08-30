@@ -1,3 +1,4 @@
+#if HAVE_DEVLOADER
 #include "DeveloperHandler.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
 #include "ThorSerialize/Traits.h"
@@ -126,4 +127,5 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
 #include "ThorSerialize/Serialize.tpp"
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>(int, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
+#endif
 #endif
