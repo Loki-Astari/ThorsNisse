@@ -8,7 +8,7 @@ THOR_SERIALIZER_NEEDED		= $(THOR_SERIALIZER_NEEDED_$(HAVE_ThorsSerialize))
 
 PRETEST						= TestLoadableLibBuild
 TARGET						= ThorsNisseProtocolHTTP.a
-CXXFLAGS					+= -I$(event_ROOT_DIR)/include $(thorsSerialize_ROOT_INCDIR) $(HAVE_DEVLOADER)
+CXXFLAGS					+= -I$(event_ROOT_DIR)/include $(thorsSerialize_ROOT_INCDIR) $(HAVE_DEVLOADER) -Wno-ignored-attributes
 LDLIBS						+= -L$(event_ROOT_DIR)/lib -l$(event_ROOT_LIB) $(thorsSerialize_ROOT_LIBDIR) $(BOOST_SYSTEM_LIB) $(BOOST_COROUTINE_LIB) $(BOOST_CONTEXT_LIB) -ldl
 LINK_LIBS					= ThorsNisseCoreService ThorsNisseCoreSocket ThorsSerialize
 TEST_IGNORE					= http_parser.cpp http_parser.h
