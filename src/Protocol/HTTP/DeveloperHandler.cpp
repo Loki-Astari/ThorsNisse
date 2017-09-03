@@ -1,8 +1,9 @@
-#if HAVE_DEVLOADER
 #include "DeveloperHandler.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
+#if HAVE_DEVLOADER
 #include "ThorSerialize/Traits.h"
 #include "ThorSerialize/JsonThor.h"
+#endif
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
@@ -22,7 +23,9 @@ struct LoadSite
     int             port;
 };
 
+#if HAVE_DEVLOADER
 ThorsAnvil_MakeTrait(LoadSite, action, lib, host, base, port);
+#endif
 
 short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
 {
@@ -42,14 +45,16 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     Core::Socket::ISocketStream   input(socket,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
     Core::Socket::OSocketStream   output(socket, [](){}, [](){});
 
-    LoadSite siteToLoad;
-    input >> ThorsAnvil::Serialize::jsonImport(siteToLoad);
-    std::cerr << this << ": " << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
-
     int         status  = 200;
     std::string message = "OK";
+#if HAVE_DEVLOADER
     try
     {
+        LoadSite siteToLoad;
+
+        input >> ThorsAnvil::Serialize::jsonImport(siteToLoad);
+        std::cerr << this << ": " << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
+
         if (siteToLoad.action == "Unload")
         {
             auto result = loader.unload(siteToLoad.port, siteToLoad.host, siteToLoad.base);
@@ -90,6 +95,12 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
             }
         }
     }
+#else
+    try
+    {
+        throw std::domain_error("Serialize Not installed. Thus functionality not enabled");
+    }
+#endif
     catch (std::domain_error const& e)
     {
         status  = 500;
@@ -124,8 +135,9 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
  */
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
+#if HAVE_DEVLOADER
 #include "ThorSerialize/Serialize.tpp"
+#endif
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>(int, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
-#endif
 #endif

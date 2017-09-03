@@ -1,7 +1,6 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_DEVELOPER_HANDLER_H
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_DEVELOPER_HANDLER_H
 
-#if HAVE_DEVLOADER
 #include "DynamicSiteLoader.h"
 #include "HttpScanner.h"
 #include "ThorsNisseCoreService/Server.h"
@@ -33,5 +32,4 @@ class DeveloperHandler: public Core::Service::HandlerNonSuspendable
     }
 }
 
-#endif
 #endif

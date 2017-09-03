@@ -1,8 +1,8 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../)
 
-THOR_SERIALIZER_NEEDED_yes▸ = ThorSerialize
-THOR_SERIALIZER_NEEDED▸ ▸   = $(THOR_SERIALIZER_NEEDED_$(HAVE_ThorsSerialize))
+THOR_SERIALIZER_NEEDED_yes	= ThorSerialize
+THOR_SERIALIZER_NEEDED		= $(THOR_SERIALIZER_NEEDED_$(HAVE_ThorsSerialize))
 
 TARGET						= ThorsExpress.slib
 SQL_LIB_yes					= ThorSQL ThorMySQL
