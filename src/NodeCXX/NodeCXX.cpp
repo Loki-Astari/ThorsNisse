@@ -52,6 +52,7 @@ int main(int argc, char* argv[])
             if (arg.substr(0,8)  == "--debug:")
             {
                 int port = std::stoi(arg.substr(8));
+                std::cerr << "Debugger: " << port << "\n";
                 server.listenOn<HTTP::DeveloperHandler>(port, siteLoader);
             }
         }
