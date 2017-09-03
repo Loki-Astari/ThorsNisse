@@ -1,3 +1,4 @@
+#if HAVE_DEVLOADER
 #include "DeveloperHandler.h"
 #include <gtest/gtest.h>
 #include "coverage/ThorMock.h"
@@ -106,4 +107,4 @@ TEST(DeveloperHandlerExceptionTest, UnLoadFail)
     server.start(0.1);
     future.wait();
 }
-
+#endif

@@ -78,8 +78,8 @@ TEST(SocketTest, ConnectSocket)
 }
 TEST(SocketTest, ServerSocketAccept)
 {
-    ServerSocket    socket(12345678);
-    std::async([&socket](){ConnectSocket connect("127.0.0.1", 12345678);});
+    ServerSocket    socket(12345678, true);
+    auto future = std::async( std::launch::async, [&socket](){ConnectSocket connect("127.0.0.1", 12345678);});
     DataSocket      connection = socket.accept();
 
     ASSERT_NE(-1, connection.getSocketId());
@@ -182,7 +182,7 @@ TEST(SocketExceptionTest, baseSocketCloseInvalidSocket)
 
 TEST(SocketExceptionTest, CloseFail_EBADF)
 {
-    MOCK_SYS(closeWrapper, [](int socketId){errno = EBADF;return -1;});
+    MOCK_SYS(closeWrapper, [](int){errno = EBADF;return -1;});
 
     DerivedFromBase  socket(5);
     ASSERT_THROW(
@@ -193,7 +193,7 @@ TEST(SocketExceptionTest, CloseFail_EBADF)
 
 TEST(SocketExceptionTest, CloseFail_EIO)
 {
-    MOCK_SYS(closeWrapper, [](int socketId){errno = EIO;return -1;});
+    MOCK_SYS(closeWrapper, [](int){errno = EIO;return -1;});
 
     DerivedFromBase  socket(5);
     ASSERT_THROW(
@@ -204,7 +204,7 @@ TEST(SocketExceptionTest, CloseFail_EIO)
 TEST(SocketExceptionTest, CloseFail_EINTR)
 {
     int count = 0;
-    MOCK_SYS(closeWrapper, [&count](int socketId){
+    MOCK_SYS(closeWrapper, [&count](int){
         ++count;
         if (count == 1) {errno = EINTR;return -1;}
         return 0;
@@ -218,7 +218,7 @@ TEST(SocketExceptionTest, CloseFail_EINTR)
 }
 TEST(SocketExceptionTest, CloseFail_Unknown)
 {
-    MOCK_SYS(closeWrapper, [](int socketId){errno = 9998;return -1;});
+    MOCK_SYS(closeWrapper, [](int){errno = 9998;return -1;});
 
     DerivedFromBase  socket(5);
     ASSERT_THROW(
@@ -270,7 +270,7 @@ TEST(SocketExceptionTest, ConnectionSocketFailsConnect)
     MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
     MOCK_SYS(gethostbyname, [](char const*){static char buf[5];static char* bufH[1];static HostEnt result;bufH[0]=buf;result.h_addr_list=bufH;result.h_length=0;return &result;});
     MOCK_SYS(connect,       [](int, SocketAddr const*, std::size_t){return -1;});
-    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
+    MOCK_SYS(closeWrapper,  [](int){return 0;});
     auto doTest = [](){ConnectSocket   connect("thorsanvil.com", 80);};
 
     ASSERT_THROW(
@@ -292,7 +292,7 @@ TEST(SocketExceptionTest, ServerSocketFailsToBind)
 {
     MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
     MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return -1;});
-    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
+    MOCK_SYS(closeWrapper,  [](int){return 0;});
 
     auto doTest = [](){ServerSocket   server(8080, true);};
 
@@ -306,7 +306,7 @@ TEST(SocketExceptionTest, ServerSocketFailsToListen)
     MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
     MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return 0;});
     MOCK_SYS(listen,        [](int, int){return -1;});
-    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
+    MOCK_SYS(closeWrapper,  [](int){return 0;});
 
     auto doTest = [](){ServerSocket   server(8080, true);};
 
@@ -320,7 +320,7 @@ TEST(SocketExceptionTest, ServerSocketAcceptFailsInvalidId)
     MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
     MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return 0;});
     MOCK_SYS(listen,        [](int, int){return 0;});
-    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
+    MOCK_SYS(closeWrapper,  [](int){return 0;});
 
     ServerSocket    server1(8080, true);
     ServerSocket    server2(std::move(server1));
@@ -334,7 +334,7 @@ TEST(SocketExceptionTest, ServerSocketAcceptFailsAcceptCall)
     MOCK_SYS(socketWrapper, [](int, int, int){return 5;});
     MOCK_SYS(bind,          [](int, SocketAddr const*, std::size_t){return 0;});
     MOCK_SYS(listen,        [](int, int){return 0;});
-    MOCK_SYS(closeWrapper,  [](int socketId){return 0;});
+    MOCK_SYS(closeWrapper,  [](int){return 0;});
     MOCK_SYS(acceptWrapper, [](int, SocketAddr*, socklen_t*){return -1;});
 
     ServerSocket    server(8080, true);

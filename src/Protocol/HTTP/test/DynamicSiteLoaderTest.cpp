@@ -88,7 +88,7 @@ TEST(DynamicSiteLoaderExceptionTest, UnLoadLibFailsDlCloseFail)
     Server              server;
     DynamicSiteLoader   loader(server);
     loader.load("TestLib/Loadable/Loadable.dylib", 80406, "test.com", "");
-    auto doTest = [&loader](){auto x = loader.unload(80406, "test.com", "");};
+    auto doTest = [&loader](){loader.unload(80406, "test.com", "");};
 
     ASSERT_THROW(
         doTest(),

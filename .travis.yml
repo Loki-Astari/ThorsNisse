@@ -1,3 +1,5 @@
+dist: trusty
+sudo: true
 git:
     submodules: false
 language: cpp
@@ -10,6 +12,7 @@ before_install:
     - if [ "$TRAVIS_OS_NAME" == "linux" ];                        then sudo apt-get update;fi
 install:
     - if [ "$TRAVIS_OS_NAME" == "linux" ];                        then sudo apt-get install -qq g++-7;fi
+    - if [ "$TRAVIS_OS_NAME" == "linux" ];                        then sudo apt-get install python-dev -y;fi
     - if [ "$TRAVIS_OS_NAME" == "linux" ];                        then sudo apt-get install -qq libevent-dev;fi
     - if [ "$TRAVIS_OS_NAME" == "linux" ];                        then sudo apt-get install -qq libboost-all-dev;fi
     - if [ "$TRAVIS_OS_NAME" == "linux" -a "$CXX" == "g++" ];     then sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-7;fi
@@ -22,9 +25,10 @@ before_script:
     - mv .gitmodules gitmodules.old
     - sed -e 's#git@\([^:]*\):#https://\1/#' gitmodules.old > .gitmodules
 script:
-    - ./configure --with-boost=/tmp/extra --disable-ThorsSQL --with-thor-build-on-travis
-    - LD_LIBRARY_PATH=/tmp/extra/lib make
+    - ./configure --with-boost=/tmp/extra --disable-ThorsSQL --disable-ThorsSerialize --with-thor-build-on-travis
+    - LD_LIBRARY_PATH=/tmp/extra/lib:usr/local/lib make
 branches:
   only:
       - master
       - merge_*
+

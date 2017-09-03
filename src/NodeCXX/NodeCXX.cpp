@@ -3,6 +3,7 @@
 #include "ThorsNisseProtocolSimple/ProtocolSimple.h"
 #include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
 #include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
+#include "ThorsNisseProtocolHTTP/DynamicSiteLoader.h"
 #include "ThorsNisseProtocolHTTP/DeveloperHandler.h"
 #include "ThorsNisseProtocolHTTP/Types.h"
 #include <sstream>
