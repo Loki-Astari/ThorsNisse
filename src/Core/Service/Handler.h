@@ -37,6 +37,7 @@ class HandlerBase
                                                                                 // Should make this private
         virtual short eventActivate(LibSocketId sockId, short eventType) = 0;
         virtual bool  suspendable() = 0;
+        virtual void  close() = 0;
         void setHandlers(short eventType, TimeVal* timeVal = nullptr);
     protected:
         void dropHandler();
@@ -54,10 +55,38 @@ class HandlerBase
         void setSuspend(HandlerBase& handlerToSuspend);
 };
 
-class HandlerNonSuspendable: public HandlerBase
+template<typename Stream>
+inline int getSocketId(Stream& stream)     {return stream.getSocketId();}
+template<>
+inline int getSocketId<int>(int& value)    {return value;}
+
+template<typename Stream>
+inline void closeStream(Stream& stream)    {stream.close();}
+template<>
+inline void closeStream<int>(int&)         {/*Ignore*/}
+
+template<typename Stream>
+class HandlerStream: public HandlerBase
+{
+    protected:
+        Stream      stream;
+        using HandlerBase::dropHandler;
+    public:
+        HandlerStream(Server& parent, Stream&& stream, short eventType, double timeout = 0)
+            : HandlerBase(parent, getSocketId(stream), eventType, timeout)
+            , stream(std::move(stream))
+        {}
+        virtual void  close() override
+        {
+            closeStream(stream);
+        }
+};
+
+template<typename Stream>
+class HandlerNonSuspendable: public HandlerStream<Stream>
 {
     public:
-        using HandlerBase::HandlerBase;
+        using HandlerStream<Stream>::HandlerStream;
         virtual void suspend(short) final {throw std::runtime_error("ThorsAnvil::Nisse::HandlerNonSuspendable::suspend: Failed");};
         virtual bool suspendable()  final {return false;}
 };
@@ -65,17 +94,18 @@ class HandlerNonSuspendable: public HandlerBase
 using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
 using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
-class HandlerSuspendable: public HandlerBase
+template<typename Stream>
+class HandlerSuspendable: public HandlerStream<Stream>
 {
     Yield*                      yield;
     std::unique_ptr<CoRoutine>  worker;
     short                       firstEvent;
     public:
-        HandlerSuspendable(Server& parent, LibSocketId socketId, short eventType)
-            : HandlerSuspendable(parent, socketId, eventType, eventType)
+        HandlerSuspendable(Server& parent, Stream&& stream, short eventType)
+            : HandlerSuspendable(parent, std::move(stream), eventType, eventType)
         {}
-        HandlerSuspendable(Server& parent, LibSocketId socketId, short eventType, short firstEvent)
-            : HandlerBase(parent, socketId, eventType, 0)
+        HandlerSuspendable(Server& parent, Stream&& stream, short eventType, short firstEvent)
+            : HandlerStream<Stream>(parent, std::move(stream), eventType, 0)
             , yield(nullptr)
             , firstEvent(firstEvent)
         {}
@@ -95,7 +125,7 @@ class HandlerSuspendable: public HandlerBase
             }
             if (!(*worker)())
             {
-                dropHandler();
+                this->dropHandler();
                 return 0;
             }
             return worker->get();
@@ -104,10 +134,9 @@ class HandlerSuspendable: public HandlerBase
 };
 
 template<typename ActHand, typename Param>
-class ServerHandler: public HandlerNonSuspendable
+class ServerHandler: public HandlerNonSuspendable<Socket::ServerSocket>
 {
     private:
-        Socket::ServerSocket    socket;
         Param&                  param;
     public:
         ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param);
@@ -116,17 +145,15 @@ class ServerHandler: public HandlerNonSuspendable
 };
 
 template<typename ActHand>
-class ServerHandler<ActHand, void>: public HandlerNonSuspendable
+class ServerHandler<ActHand, void>: public HandlerNonSuspendable<Socket::ServerSocket>
 {
-    private:
-        Socket::ServerSocket    socket;
     public:
         ServerHandler(Server& parent, Socket::ServerSocket&& so);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
 
-class TimerHandler: public HandlerNonSuspendable
+class TimerHandler: public HandlerNonSuspendable<int>
 {
     std::function<void()>        action;
     public:

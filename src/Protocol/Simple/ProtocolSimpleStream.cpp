@@ -5,31 +5,28 @@ using namespace ThorsAnvil::Nisse::Protocol::Simple;
 std::string const ReadMessageStreamHandler::failToReadMessage = "Message Read Failed";
 std::string const WriteMessageStreamHandler::messageSuffix    = " -> OK <-";
 
-ReadMessageStreamHandler::ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so)
-    : HandlerSuspendable(parent, so.getSocketId(), EV_READ)
-    , socket(std::move(so))
+ReadMessageStreamHandler::ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket)
+    : HandlerSuspendable(parent, std::move(socket), EV_READ)
 {}
 
 void ReadMessageStreamHandler::eventActivateNonBlocking()
 {
-    Core::Socket::ISocketStream   stream(socket, [&parent = *this](){parent.suspend(EV_READ);}, [](){});
+    Core::Socket::ISocketStream   istream(stream, [&parent = *this](){parent.suspend(EV_READ);}, [](){});
     Message                 message;
-    if (!(stream >> message))
+    if (!(istream >> message))
     {
         message.message = failToReadMessage;
     }
-    moveHandler<WriteMessageStreamHandler>(std::move(socket), std::move(message));
+    moveHandler<WriteMessageStreamHandler>(std::move(stream), std::move(message));
 }
 
-WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, Message&& ms)
-    : HandlerSuspendable(parent, so.getSocketId(), EV_WRITE, 0)
-    , socket(std::move(so))
+WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message&& ms)
+    : HandlerSuspendable(parent, std::move(socket), EV_WRITE, 0)
     , message(std::move(ms))
 {}
 
-WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, Message const& ms)
-    : HandlerSuspendable(parent, so.getSocketId(), EV_WRITE, 0)
-    , socket(std::move(so))
+WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message const& ms)
+    : HandlerSuspendable(parent, std::move(socket), EV_WRITE, 0)
     , message(ms)
 {}
 
@@ -38,9 +35,9 @@ WriteMessageStreamHandler::~WriteMessageStreamHandler()
 
 void WriteMessageStreamHandler::eventActivateNonBlocking()
 {
-    Core::Socket::OSocketStream   stream(socket, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
+    Core::Socket::OSocketStream   istream(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
     message.message += messageSuffix;
-    stream << message;
+    istream << message;
     dropHandler();
 }
 

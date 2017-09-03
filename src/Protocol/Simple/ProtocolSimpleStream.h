@@ -60,9 +60,8 @@ class Message
         }
 };
 
-class ReadMessageStreamHandler: public Core::Service::HandlerSuspendable
+class ReadMessageStreamHandler: public Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
 {
-    Core::Socket::DataSocket        socket;
     public:
         ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
         virtual void eventActivateNonBlocking() override;
@@ -70,9 +69,8 @@ class ReadMessageStreamHandler: public Core::Service::HandlerSuspendable
         static std::string const failToReadMessage;
 };
 
-class WriteMessageStreamHandler: public Core::Service::HandlerSuspendable
+class WriteMessageStreamHandler: public Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
 {
-    Core::Socket::DataSocket    socket;
     Message                     message;
     public:
         WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message&& message);

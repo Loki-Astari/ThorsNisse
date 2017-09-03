@@ -8,9 +8,8 @@
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 DeveloperHandler::DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader)
-    : HandlerNonSuspendable(parent, socket.getSocketId(), EV_READ | EV_WRITE)
+    : HandlerNonSuspendable(parent, std::move(socket), EV_READ | EV_WRITE)
     , loader(loader)
-    , socket(std::move(socket))
     , buffer(100)
 {}
 
@@ -33,7 +32,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     {
         bool                more;
         std::size_t         recved;
-        std::tie(more, recved) = socket.getMessageData(&buffer[0], 100, 0);
+        std::tie(more, recved) = stream.getMessageData(&buffer[0], 100, 0);
         scanner.scan(&buffer[0], recved);
 
         if (scanner.data.messageComplete || !more)
@@ -42,8 +41,8 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
         }
     }
 
-    Core::Socket::ISocketStream   input(socket,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-    Core::Socket::OSocketStream   output(socket, [](){}, [](){});
+    Core::Socket::ISocketStream   input(stream,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    Core::Socket::OSocketStream   output(stream, [](){}, [](){});
 
     int         status  = 200;
     std::string message = "OK";

@@ -16,11 +16,9 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
-class ReadRequestHandler: public Core::Service::HandlerSuspendable
+class ReadRequestHandler: public Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
 {
-    using DataSocket = ThorsAnvil::Nisse::Core::Socket::DataSocket;
     private:
-        Core::Socket::DataSocket    socket;
         Binder const&               binder;
         Response*                   flusher;
         bool                        running;

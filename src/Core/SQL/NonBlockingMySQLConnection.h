@@ -39,6 +39,7 @@ class NonBlockingMySQLConnection: public ThorsAnvil::SQL::Lib::ConnectionProxy
         virtual std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy> createStatementProxy(std::string const& statement) override;
         virtual int getSocketId() const override;
         virtual void setYield(std::function<void()>&&, std::function<void()>&&) override;
+        void close();
 };
 
             }

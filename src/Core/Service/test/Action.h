@@ -6,15 +6,13 @@
 #include "../CoRoutine.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 
-class Action: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable
+class Action: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
 {
     ThorsAnvil::Nisse::Core::Service::Server&           service;
-    ThorsAnvil::Nisse::Core::Socket::DataSocket         dataSocket;
     public:
-        Action(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& ds)
-            : HandlerNonSuspendable(parent, ds.getSocketId(), EV_READ | EV_PERSIST)
+        Action(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket)
+            : HandlerNonSuspendable(parent, std::move(socket), EV_READ | EV_PERSIST)
             , service(parent)
-            , dataSocket(std::move(ds))
         {}
         virtual short eventActivate(ThorsAnvil::Nisse::Core::Service::LibSocketId /*sockId*/, short /*eventType*/) override
         {
@@ -22,15 +20,13 @@ class Action: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable
             return 0;
         }
 };
-class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable
+class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
 {
     ThorsAnvil::Nisse::Core::Service::Server&           service;
-    ThorsAnvil::Nisse::Core::Socket::DataSocket         dataSocket;
     public:
-        ActionUnReg(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& ds)
-            : HandlerNonSuspendable(parent, ds.getSocketId(), EV_READ | EV_PERSIST)
+        ActionUnReg(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket)
+            : HandlerNonSuspendable(parent, std::move(socket), EV_READ | EV_PERSIST)
             , service(parent)
-            , dataSocket(std::move(ds))
         {}
         virtual short eventActivate(ThorsAnvil::Nisse::Core::Service::LibSocketId /*sockId*/, short /*eventType*/) override
         {
@@ -39,7 +35,7 @@ class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendabl
             return 0;
         }
 };
-class SwapHandler: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable
+class SwapHandler: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<int>
 {
     std::tuple<bool, bool, bool>& hit;
     public:
@@ -55,50 +51,46 @@ class SwapHandler: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendabl
         }
 };
 
-class TestHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
+class TestHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
 {
     ThorsAnvil::Nisse::Core::Service::Server&   server;
-    ThorsAnvil::Nisse::Core::Socket::DataSocket socket;
     std::tuple<bool, bool, bool>&               hit;
 
     public:
-        TestHandler(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::Nisse::Core::Socket::DataSocket&& so, std::tuple<bool, bool, bool>& hit)
-            : HandlerSuspendable(server, so.getSocketId(), EV_READ)
+        TestHandler(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket, std::tuple<bool, bool, bool>& hit)
+            : HandlerSuspendable(server, std::move(socket), EV_READ)
             , server(server)
-            , socket(std::move(so))
             , hit(hit)
         {}
         virtual void eventActivateNonBlocking() override
         {
             std::get<1>(hit) = true;
-            server.transferHandler<SwapHandler>(hit, socket.getSocketId());
+            server.transferHandler<SwapHandler>(hit, stream.getSocketId());
             server.flagShutDown();
             std::get<0>(hit) = true;
         }
 };
-class Test2Handler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
+class Test2Handler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<int>
 {
     public:
         Test2Handler(ThorsAnvil::Nisse::Core::Service::Server& server, int sid, short type)
-            : HandlerSuspendable(server, sid, type)
+            : HandlerSuspendable(server, std::move(sid), type)
         {}
         virtual void eventActivateNonBlocking() override
         {}
 };
-class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
+class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
 {
     using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
     using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
     ThorsAnvil::Nisse::Core::Service::Server&   server;
-    ThorsAnvil::Nisse::Core::Socket::DataSocket socket;
     std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&    active;
 
     public:
-        InHandlerTest(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::Nisse::Core::Socket::DataSocket&& so, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>& active)
-            : HandlerSuspendable(server, so.getSocketId(), EV_READ)
+        InHandlerTest(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>& active)
+            : HandlerSuspendable(server, std::move(socket), EV_READ)
             , server(server)
-            , socket(std::move(so))
             , active(active)
         {}
         virtual void eventActivateNonBlocking() override
