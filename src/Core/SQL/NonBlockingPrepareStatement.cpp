@@ -1,12 +1,13 @@
 #include "NonBlockingPrepareStatement.h"
 #include "NonBlockingMySQLConnection.h"
+#include "StreamCloser.h"
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Handler.h"
 #include "ThorMySQL/PrepareStatement.h"
 
 using namespace ThorsAnvil::Nisse::Core::SQL;
 
-class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
+class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<StreamCloser<NonBlockingMySQLConnection>>
 {
     NonBlockingMySQLConnection&         connection;
     NonBlockingPrepareStatement&        parent;
@@ -18,21 +19,22 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
                             NonBlockingPrepareStatement& parent,
                             ConnectionNonBlocking& nbStream,
                             std::string const& statement)
-            : HandlerSuspendable(service, connection.getSocketId(), EV_READ | EV_WRITE, EV_WRITE)
+            : HandlerSuspendable(service, make_StreamCloser(connection), EV_READ | EV_WRITE, EV_WRITE)
             , connection(connection)
             , parent(parent)
             , nbStream(nbStream)
             , statement(statement)
         {}
 
-        virtual void eventActivateNonBlocking() override
+        virtual bool eventActivateNonBlocking() override
         {
             ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.createProxy(nbStream, statement);
+            return true;
         }
 };
 
-class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
+class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<StreamCloser<NonBlockingMySQLConnection>>
 {
     NonBlockingMySQLConnection&         connection;
     NonBlockingPrepareStatement&        parent;
@@ -41,15 +43,16 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
         MySQLExecuteHandler(ThorsAnvil::Nisse::Core::Service::Server& service,
                             NonBlockingMySQLConnection& connection,
                             NonBlockingPrepareStatement& parent)
-            : HandlerSuspendable(service, connection.getSocketId(), EV_READ | EV_WRITE, EV_WRITE)
+            : HandlerSuspendable(service, make_StreamCloser(connection), EV_READ | EV_WRITE, EV_WRITE)
             , connection(connection)
             , parent(parent)
         {}
 
-        virtual void eventActivateNonBlocking() override
+        virtual bool eventActivateNonBlocking() override
         {
             ThorsAnvil::SQL::Lib::YieldSetter   setter(connection,[&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.executePrepare();
+            return true;
         }
 };
 

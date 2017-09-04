@@ -47,6 +47,8 @@ class SocketStreamBuffer: public std::streambuf
         virtual int_type        overflow(int_type ch = traits::eof()) override;
         virtual std::streamsize xsputn(char_type const* s,std::streamsize count) override;
 
+        virtual int             sync() override;
+
         virtual std::streampos seekoff(std::streamoff off, std::ios_base::seekdir way, std::ios_base::openmode which = std::ios_base::in | std::ios_base::out) override;
     private:
         std::streamsize writeToStream(char_type const* source, std::streamsize count);

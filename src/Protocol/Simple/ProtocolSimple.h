@@ -12,10 +12,9 @@ namespace ThorsAnvil
             namespace Simple
             {
 
-class ReadMessageHandler: public Core::Service::HandlerNonSuspendable
+class ReadMessageHandler: public Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket>
 {
     private:
-        Core::Socket::DataSocket            socket;
         std::size_t                         readSizeObject;
         std::size_t                         readBuffer;
         std::size_t                         bufferSize;
@@ -29,10 +28,9 @@ class ReadMessageHandler: public Core::Service::HandlerNonSuspendable
         static std::string const failIncompleteMessage;
 };
 
-class WriteMessageHandler: public Core::Service::HandlerNonSuspendable
+class WriteMessageHandler: public Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket>
 {
     private:
-        Core::Socket::DataSocket            socket;
         std::size_t                         writeSizeObject;
         std::size_t                         writeBuffer;
         std::string                         message;

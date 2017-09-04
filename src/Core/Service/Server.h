@@ -2,6 +2,7 @@
 #define THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 
 #include "EventUtil.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
 #include <unordered_map>
 #include <functional>
@@ -24,6 +25,17 @@ using EventBaseDeleter  = std::function<void(LibEventBase*)>;
 
 using EventHolder       = std::unique_ptr<LibEventBase, EventBaseDeleter>;
 using NisseManagHandler = std::unique_ptr<HandlerBase>;
+
+struct ServerConnection
+{
+    int port;
+    int maxConnections;
+    public:
+        ServerConnection(int port, int maxConnections = ThorsAnvil::Nisse::Core::Socket::ServerSocket::maxConnectionBacklog)
+            : port(port)
+            , maxConnections(maxConnections)
+        {}
+};
 
 class Server
 {
@@ -57,9 +69,9 @@ class Server
         void flagShutDown();
 
         template<typename Handler>
-        void listenOn(int port);
+        void listenOn(ServerConnection const& info);
         template<typename Handler, typename Param>
-        void listenOn(int port, Param& param);
+        void listenOn(ServerConnection const& info, Param& param);
 
         void addTimer(double timeOut, std::function<void()>&& action);
 

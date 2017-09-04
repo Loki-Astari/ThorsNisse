@@ -1,6 +1,7 @@
 #include "DynamicSiteLoader.h"
 #include "HTTPProtocol.h"
 #include "ThorsNisseCoreUtility/Utility.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 #include <dlfcn.h>
 #include <iostream>
 
@@ -9,6 +10,7 @@ using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 DynamicSiteLoader::DynamicSiteLoader(Core::Service::Server& server)
     : server(server)
+    , maxConnection(ThorsAnvil::Nisse::Core::Socket::ServerSocket::maxConnectionBacklog)
 {}
 
 std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port, std::string const& host, std::string const& base)
@@ -62,7 +64,8 @@ std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port,
 
     if (!portMapped)
     {
-        server.listenOn<ReadRequestHandler>(port, binder);
+        using ThorsAnvil::Nisse::Core::Service::ServerConnection;
+        server.listenOn<ReadRequestHandler>(ServerConnection(port, maxConnection), binder);
     }
     ++libCount[siteLib];
     std::cerr << this << ": " << "Loaded: " << site << " " << host << ":" << port << "/" << base << "\n";
@@ -116,6 +119,11 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
     return std::make_tuple(true, 0, 0);
 }
 
+void DynamicSiteLoader::setMaxWaitingConnections(int max)
+{
+    maxConnection = max;
+}
+
 #ifdef COVERAGE_TEST
 /*
  * This code is only compiled into the unit tests for code coverage purposes
@@ -124,6 +132,6 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
 #include "HTTPProtocol.h"
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler, ThorsAnvil::Nisse::Protocol::HTTP::Binder>(int, ThorsAnvil::Nisse::Protocol::HTTP::Binder&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler, ThorsAnvil::Nisse::Protocol::HTTP::Binder>(ServerConnection const&, ThorsAnvil::Nisse::Protocol::HTTP::Binder&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler, ThorsAnvil::Nisse::Protocol::HTTP::Binder>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, ThorsAnvil::Nisse::Protocol::HTTP::Binder&);
 #endif

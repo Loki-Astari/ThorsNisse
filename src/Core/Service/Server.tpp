@@ -16,15 +16,15 @@ namespace ThorsAnvil
             {
 
 template<typename Handler>
-inline void Server::listenOn(int port)
+inline void Server::listenOn(ServerConnection const& info)
 {
-    addHandler<ServerHandler<Handler, void>>(Socket::ServerSocket(port));
+    addHandler<ServerHandler<Handler, void>>(Socket::ServerSocket(info.port, false, info.maxConnections));
 }
 
 template<typename Handler, typename Param>
-inline void Server::listenOn(int port, Param& param)
+inline void Server::listenOn(ServerConnection const& info, Param& param)
 {
-    addHandler<ServerHandler<Handler, Param>>(Socket::ServerSocket(port), param);
+    addHandler<ServerHandler<Handler, Param>>(Socket::ServerSocket(info.port, false, info.maxConnections), param);
 }
 
 template<typename H, typename... Args>

@@ -32,9 +32,8 @@ class DevNullStreamBuf: public std::streambuf
         {}
 };
 
-ReadRequestHandler::ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, Binder const& binder)
-    : HandlerSuspendable(parent, so.getSocketId(), EV_READ)
-    , socket(std::move(so))
+ReadRequestHandler::ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Binder const& binder)
+    : HandlerSuspendable(parent, std::move(socket), EV_READ)
     , binder(binder)
     , flusher(nullptr)
     , running(false)
@@ -54,7 +53,7 @@ struct SetRunning
     }
 };
 
-void ReadRequestHandler::eventActivateNonBlocking()
+bool ReadRequestHandler::eventActivateNonBlocking()
 {
     SetRunning          setRunning(running);
     HttpScanner         scanner;
@@ -64,7 +63,7 @@ void ReadRequestHandler::eventActivateNonBlocking()
     {
         bool                more;
         std::size_t         recved;
-        std::tie(more, recved) = socket.getMessageData(&buffer[0], bufferLen, 0);
+        std::tie(more, recved) = stream.getMessageData(&buffer[0], bufferLen, 0);
         scanner.scan(&buffer[0], recved);
 
         if (scanner.data.messageComplete || !more)
@@ -73,8 +72,8 @@ void ReadRequestHandler::eventActivateNonBlocking()
         }
         suspend(EV_READ);
     }
-    Core::Socket::ISocketStream   input(socket,  [&parent = *this](){parent.suspend(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-    Core::Socket::OSocketStream   output(socket, [&parent = *this](){parent.suspend(EV_WRITE);}, [&parent = *this](){parent.flushing();});
+    Core::Socket::ISocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    Core::Socket::OSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [&parent = *this](){parent.flushing();});
     DevNullStreamBuf        devNullBuffer;
     if (scanner.data.method == Method::Head)
     {
@@ -84,7 +83,8 @@ void ReadRequestHandler::eventActivateNonBlocking()
     URI const     uri(scanner.data.headers.get("Host"), std::move(scanner.data.uri));
     Action const& action(binder.find(scanner.data.method, uri.host, uri.path));
     Request       request(scanner.data.method, URI(std::move(uri)), scanner.data.headers, input);
-    Response      response(*this, socket, output);
+    Response      response(*this, stream, output);
 
     action(request, response);
+    return true;
 }

@@ -6,9 +6,8 @@ std::string const ReadMessageHandler::failSizeMessage       = "Failed: Reading S
 std::string const ReadMessageHandler::failIncompleteMessage = "Failed: Size OK. But message incomplete";
 std::string const WriteMessageHandler::messageSuffix        = "-> 200 OK Replied";
 
-ReadMessageHandler::ReadMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so)
-    : HandlerNonSuspendable(parent, so.getSocketId(), EV_READ)
-    , socket(std::move(so))
+ReadMessageHandler::ReadMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket)
+    : HandlerNonSuspendable(parent, std::move(socket), EV_READ)
     , readSizeObject(0)
     , readBuffer(0)
 {}
@@ -19,7 +18,7 @@ short ReadMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, s
     std::size_t read;
     if (readSizeObject != sizeof(readSizeObject))
     {
-        std::tie(more, read) = socket.getMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), readSizeObject);
+        std::tie(more, read) = stream.getMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), readSizeObject);
         readSizeObject += read;
         if (readSizeObject != sizeof(readSizeObject))
         {
@@ -28,7 +27,7 @@ short ReadMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, s
                 // Did not get a size object
                 // And the stream was closed.
                 std::string fail = failSizeMessage;
-                moveHandler<WriteMessageHandler>(std::move(socket), std::move(fail), false);
+                moveHandler<WriteMessageHandler>(std::move(stream), std::move(fail), false);
                 return 0;
             }
             // We have not received all of the size object
@@ -38,7 +37,7 @@ short ReadMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, s
         }
         buffer.resize(bufferSize);
     }
-    std::tie(more, read) = socket.getMessageData(&buffer[0], bufferSize, readBuffer);
+    std::tie(more, read) = stream.getMessageData(&buffer[0], bufferSize, readBuffer);
     readBuffer += read;
     if (readBuffer != bufferSize)
     {
@@ -48,7 +47,7 @@ short ReadMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, s
             // There is no more data on the buffer.
             // We are going to give up and drop the
             std::string fail = failIncompleteMessage;
-            moveHandler<WriteMessageHandler>(std::move(socket), std::move(fail), false);
+            moveHandler<WriteMessageHandler>(std::move(stream), std::move(fail), false);
             return 0;
         }
         // We have not received all of the message
@@ -56,13 +55,12 @@ short ReadMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, s
         // try and read more when this function is re-called.
         return EV_READ;
     }
-    moveHandler<WriteMessageHandler>(std::move(socket), std::move(buffer), true);
+    moveHandler<WriteMessageHandler>(std::move(stream), std::move(buffer), true);
     return 0;
 }
 
-WriteMessageHandler::WriteMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& so, std::string const& m, bool ok)
-    : HandlerNonSuspendable(parent, so.getSocketId(), EV_WRITE)
-    , socket(std::move(so))
+WriteMessageHandler::WriteMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, std::string const& m, bool ok)
+    : HandlerNonSuspendable(parent, std::move(socket), EV_WRITE)
     , writeSizeObject(0)
     , writeBuffer(0)
     , message(m)
@@ -80,7 +78,7 @@ short WriteMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, 
     if (writeSizeObject != sizeof(writeSizeObject))
     {
         std::size_t bufferSize = message.size();
-        std::tie(more, written) = socket.putMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), writeSizeObject);
+        std::tie(more, written) = stream.putMessageData(reinterpret_cast<char*>(&bufferSize), sizeof(bufferSize), writeSizeObject);
         writeSizeObject += written;
         if (writeSizeObject != sizeof(writeSizeObject))
         {
@@ -92,7 +90,7 @@ short WriteMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, 
             return EV_WRITE;
         }
     }
-    std::tie(more, written) = socket.putMessageData(message.c_str(), message.size(), writeBuffer);
+    std::tie(more, written) = stream.putMessageData(message.c_str(), message.size(), writeBuffer);
     writeBuffer += written;
     if (writeBuffer != message.size())
     {
@@ -114,6 +112,6 @@ short WriteMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, 
  */
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Server.tpp"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageHandler>(int);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageHandler, std::string>(int, std::string&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageHandler>(ServerConnection const&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageHandler, std::string>(ServerConnection const&, std::string&);
 #endif

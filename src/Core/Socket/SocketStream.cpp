@@ -140,14 +140,11 @@ SocketStreamBuffer::int_type SocketStreamBuffer::overflow(int_type ch)
     }
 
     flushing();
-    std::streamsize written = writeToStream(pbase(), pptr() - pbase());
-    if (written != (pptr() - pbase()))
+    if (sync() != 0)
     {
+        // Failed to write data out.
+        // Indicate error by setting buffer appropriately
         setp(&buffer[0], &buffer[0]);
-    }
-    else
-    {
-        setp(&buffer[0], &buffer[buffer.size() - 1]);
     }
     return int_type(ch);
 }
@@ -196,6 +193,16 @@ std::streamsize SocketStreamBuffer::xsputn(char_type const* source, std::streams
         }
     }
     return exported;
+}
+
+int SocketStreamBuffer::sync()
+{
+    std::streamsize written = writeToStream(pbase(), pptr() - pbase());
+    int result = (written == (pptr() - pbase()))
+                        ? 0     // Success. Amount written equals buffer.
+                        : -1;   // Failure
+    setp(&buffer[0], &buffer[buffer.size() - 1]);
+    return result;
 }
 
 std::streamsize SocketStreamBuffer::writeToStream(char_type const* source, std::streamsize count)

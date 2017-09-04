@@ -8,9 +8,8 @@
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 DeveloperHandler::DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader)
-    : HandlerNonSuspendable(parent, socket.getSocketId(), EV_READ | EV_WRITE)
+    : HandlerNonSuspendable(parent, std::move(socket), EV_READ | EV_WRITE)
     , loader(loader)
-    , socket(std::move(socket))
     , buffer(100)
 {}
 
@@ -33,7 +32,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     {
         bool                more;
         std::size_t         recved;
-        std::tie(more, recved) = socket.getMessageData(&buffer[0], 100, 0);
+        std::tie(more, recved) = stream.getMessageData(&buffer[0], 100, 0);
         scanner.scan(&buffer[0], recved);
 
         if (scanner.data.messageComplete || !more)
@@ -42,8 +41,8 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
         }
     }
 
-    Core::Socket::ISocketStream   input(socket,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-    Core::Socket::OSocketStream   output(socket, [](){}, [](){});
+    Core::Socket::ISocketStream   input(stream,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    Core::Socket::OSocketStream   output(stream, [](){}, [](){});
 
     int         status  = 200;
     std::string message = "OK";
@@ -124,6 +123,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
            << "Content-Length: 0\r\n"
            << "\r\n";
 
+    output.flush();
     dropHandler();
     return 0;
 }
@@ -138,6 +138,6 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
 #if HAVE_DEVLOADER
 #include "ThorSerialize/Serialize.tpp"
 #endif
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>(int, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>(ServerConnection const&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
 #endif

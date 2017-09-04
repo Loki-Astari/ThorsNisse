@@ -16,10 +16,9 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
-class DeveloperHandler: public Core::Service::HandlerNonSuspendable
+class DeveloperHandler: public Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket>
 {
     DynamicSiteLoader&          loader;
-    Core::Socket::DataSocket    socket;
     HttpScanner                 scanner;
     std::vector<char>           buffer;
     public:
