@@ -9,7 +9,7 @@ ReadMessageStreamHandler::ReadMessageStreamHandler(Core::Service::Server& parent
     : HandlerSuspendable(parent, std::move(socket), EV_READ)
 {}
 
-void ReadMessageStreamHandler::eventActivateNonBlocking()
+bool ReadMessageStreamHandler::eventActivateNonBlocking()
 {
     Core::Socket::ISocketStream   istream(stream, [&parent = *this](){parent.suspend(EV_READ);}, [](){});
     Message                 message;
@@ -18,6 +18,7 @@ void ReadMessageStreamHandler::eventActivateNonBlocking()
         message.message = failToReadMessage;
     }
     moveHandler<WriteMessageStreamHandler>(std::move(stream), std::move(message));
+    return false;
 }
 
 WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message&& ms)
@@ -33,12 +34,12 @@ WriteMessageStreamHandler::WriteMessageStreamHandler(Core::Service::Server& pare
 WriteMessageStreamHandler::~WriteMessageStreamHandler()
 {}
 
-void WriteMessageStreamHandler::eventActivateNonBlocking()
+bool WriteMessageStreamHandler::eventActivateNonBlocking()
 {
     Core::Socket::OSocketStream   istream(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
     message.message += messageSuffix;
     istream << message;
-    dropHandler();
+    return true;
 }
 
 #ifdef COVERAGE_TEST

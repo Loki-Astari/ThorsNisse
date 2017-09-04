@@ -27,7 +27,7 @@ class ReadRequestHandler: public Core::Service::HandlerSuspendable<Core::Socket:
 
     public:
         ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Binder const& binder);
-        virtual void eventActivateNonBlocking() override;
+        virtual bool eventActivateNonBlocking() override;
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}
 };

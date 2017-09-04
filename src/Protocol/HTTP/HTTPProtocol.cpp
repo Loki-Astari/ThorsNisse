@@ -53,7 +53,7 @@ struct SetRunning
     }
 };
 
-void ReadRequestHandler::eventActivateNonBlocking()
+bool ReadRequestHandler::eventActivateNonBlocking()
 {
     SetRunning          setRunning(running);
     HttpScanner         scanner;
@@ -86,4 +86,5 @@ void ReadRequestHandler::eventActivateNonBlocking()
     Response      response(*this, stream, output);
 
     action(request, response);
+    return true;
 }

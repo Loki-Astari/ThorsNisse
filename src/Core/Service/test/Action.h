@@ -62,12 +62,13 @@ class TestHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<T
             , server(server)
             , hit(hit)
         {}
-        virtual void eventActivateNonBlocking() override
+        virtual bool eventActivateNonBlocking() override
         {
             std::get<1>(hit) = true;
             server.transferHandler<SwapHandler>(hit, stream.getSocketId());
             server.flagShutDown();
             std::get<0>(hit) = true;
+            return true;
         }
 };
 class Test2Handler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<int>
@@ -76,8 +77,10 @@ class Test2Handler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<
         Test2Handler(ThorsAnvil::Nisse::Core::Service::Server& server, int sid, short type)
             : HandlerSuspendable(server, std::move(sid), type)
         {}
-        virtual void eventActivateNonBlocking() override
-        {}
+        virtual bool eventActivateNonBlocking() override
+        {
+            return true;
+        }
 };
 class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
 {
@@ -93,11 +96,12 @@ class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
             , server(server)
             , active(active)
         {}
-        virtual void eventActivateNonBlocking() override
+        virtual bool eventActivateNonBlocking() override
         {
             std::get<0>(active) = true;
             std::get<1>(active)(server);
             server.flagShutDown();
+            return true;
         }
 };
 

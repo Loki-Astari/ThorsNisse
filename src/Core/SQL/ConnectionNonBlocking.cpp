@@ -36,11 +36,12 @@ class MySQLConnectionHandler: public Service::HandlerSuspendable<StreamCloser<Th
             , database(database)
             , options(options)
         {}
-        virtual void eventActivateNonBlocking() override
+        virtual bool eventActivateNonBlocking() override
         {
             stream.setYield([&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             connection.doConectToServer(username, password, database, options);
             stream.setYield([](){}, [](){});
+            return true;
         }
 };
 

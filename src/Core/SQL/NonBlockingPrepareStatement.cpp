@@ -26,10 +26,11 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
             , statement(statement)
         {}
 
-        virtual void eventActivateNonBlocking() override
+        virtual bool eventActivateNonBlocking() override
         {
             ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.createProxy(nbStream, statement);
+            return true;
         }
 };
 
@@ -47,10 +48,11 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
             , parent(parent)
         {}
 
-        virtual void eventActivateNonBlocking() override
+        virtual bool eventActivateNonBlocking() override
         {
             ThorsAnvil::SQL::Lib::YieldSetter   setter(connection,[&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.executePrepare();
+            return true;
         }
 };
 

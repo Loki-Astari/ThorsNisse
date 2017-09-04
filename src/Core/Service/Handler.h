@@ -113,24 +113,28 @@ class HandlerSuspendable: public HandlerStream<Stream>
         virtual bool suspendable()          final {return true;}
         virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) final
         {
+            bool dropHandler;
             if (worker == nullptr)
             {
-                worker.reset(new CoRoutine([&parentYield = this->yield, &parent = *this, firstEvent = this->firstEvent](Yield& yield)
+                worker.reset(new CoRoutine([&dropHandler, &parentYield = this->yield, &parent = *this, firstEvent = this->firstEvent](Yield& yield)
                     {
                         parentYield = &yield;
                         yield(firstEvent);
-                        parent.eventActivateNonBlocking();
+                        dropHandler = parent.eventActivateNonBlocking();
                         return 0;
                     }));
             }
             if (!(*worker)())
             {
-                this->dropHandler();
+                if (dropHandler)
+                {
+                    this->dropHandler();
+                }
                 return 0;
             }
             return worker->get();
         }
-        virtual void eventActivateNonBlocking() = 0;
+        virtual bool eventActivateNonBlocking() = 0;
 };
 
 template<typename ActHand, typename Param>
