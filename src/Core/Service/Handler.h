@@ -53,6 +53,7 @@ class HandlerBase
     private:
         friend class Server;
         void setSuspend(HandlerBase& handlerToSuspend);
+        void doDropHandler(bool closeStream);
 };
 
 template<typename Stream>

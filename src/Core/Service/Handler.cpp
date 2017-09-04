@@ -84,7 +84,21 @@ void HandlerBase::resume()
 
 void HandlerBase::dropHandler()
 {
+    doDropHandler(true);
+}
+
+void HandlerBase::doDropHandler(bool closeStream)
+{
+    /*
+     * Note:
+     *      Called from dropHandler() with closeStream = true;
+     *      Called from moveHandler() with closeStream = false;
+     */
     dropEvent();
+    if (closeStream)
+    {
+        close();
+    }
     parent.delHandler(this);
     if (suspended)
     {

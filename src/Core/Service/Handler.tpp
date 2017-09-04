@@ -21,7 +21,7 @@ inline void HandlerBase::addHandler(Args&&... args)
 template<typename H, typename... Args>
 inline void HandlerBase::moveHandler(Args&&... args)
 {
-    dropHandler();
+    doDropHandler(false);
     parent.addHandler<H>(std::forward<Args>(args)...);
 }
 
