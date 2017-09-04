@@ -123,6 +123,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
            << "Content-Length: 0\r\n"
            << "\r\n";
 
+    output.flush();
     dropHandler();
     return 0;
 }
