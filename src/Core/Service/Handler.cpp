@@ -7,6 +7,20 @@
 using namespace ThorsAnvil::Nisse::Core::Service;
 using TimeVal = struct timeval;
 
+namespace ThorsAnvil
+{
+    namespace Nisse
+    {
+        namespace Core
+        {
+            namespace Service
+            {
+CoRoutinePool  handlerPool;
+            }
+        }
+    }
+}
+
 void eventCB(LibSocketId socketId, short eventType, void* event)
 {
     HandlerBase* handler = reinterpret_cast<HandlerBase*>(event);

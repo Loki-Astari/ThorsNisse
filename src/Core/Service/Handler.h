@@ -6,6 +6,7 @@
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
 #include <functional>
+#include <iostream>
 
 extern "C" void eventCB(ThorsAnvil::Nisse::Core::Service::LibSocketId socketId, short eventType, void* event);
 
@@ -95,11 +96,118 @@ class HandlerNonSuspendable: public HandlerStream<Stream>
 using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
 using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
 
+class CoRoutinePool;
+class CoRoutineH
+{
+    std::function<short(std::function<void(short)>)>    action;
+    bool                        complete;
+    int                         id;
+    int                         next;
+    bool                        finished;
+    CoRoutine                   worker;
+    friend CoRoutinePool;
+    public:
+        CoRoutineH()
+            : complete(true)
+            , id(-1)
+            , next(-1)
+            , finished(false)
+            , worker([&complete = this->complete, &action = this->action, &finished = this->finished](Yield& yield)
+                        {
+                            try
+                            {
+                                short result = 0;
+                                yield(result);
+                                while (!finished)
+                                {
+                                    complete = false;
+                                    if (!finished)
+                                    {
+                                        result   = action([&yield, &finished](short type){yield(type);if (finished) {throw int(1);}});
+                                    }
+                                    complete = true;
+                                    yield(result);
+                                }
+                            }
+                            catch (int)
+                            {
+                                std::cerr << "The worker was re-started after it was destroyed\n";
+                            }
+                            catch (...)
+                            {
+                            }
+                        }
+                    )
+        {}
+        CoRoutineH& operator()()
+        {
+            worker();
+            return *this;
+        }
+        operator bool()
+        {
+            return !complete;
+        }
+        bool operator!()
+        {
+            return complete;
+        }
+        short get()
+        {
+            return worker.get();
+        }
+};
+
+class CoRoutinePool
+{
+    int                         next;
+    std::vector<CoRoutineH>     pool;
+
+    public:
+        CoRoutinePool()
+            : next(0)
+            , pool(100)
+        {
+            for (int loop = 0; loop < 100; ++loop)
+            {
+                pool[loop].id   = loop;
+                pool[loop].next = loop+1;
+            }
+            pool[99].next = -1;
+        }
+        ~CoRoutinePool()
+        {
+            for (int loop = 0; loop < 100; ++loop)
+            {
+                pool[loop].finished = true;
+            }
+        }
+
+        CoRoutineH& getNext(std::function<short(std::function<void(short)>)>&& action)
+        {
+            CoRoutineH& result = pool[next];
+            result.action = std::move(action);
+            std::cerr << "Pool: Get Next: " << next << " NewNext: " << result.next;
+            next = result.next;
+            result();
+            return result;
+        }
+        void putNext(CoRoutineH& old)
+        {
+            std::cerr << "Pool: Put Next: " << next << " OldNext: " << old.next;
+            old.next = next;
+            next     = old.id;
+        }
+};
+
+extern CoRoutinePool  handlerPool;
+
 template<typename Stream>
 class HandlerSuspendable: public HandlerStream<Stream>
 {
-    Yield*                      yield;
-    std::unique_ptr<CoRoutine>  worker;
+    std::function<void(short)>  yield;
+    //std::unique_ptr<CoRoutine>  worker;
+    CoRoutineH*                 worker;
     short                       firstEvent;
     public:
         HandlerSuspendable(Server& parent, Stream&& stream, short eventType)
@@ -108,25 +216,27 @@ class HandlerSuspendable: public HandlerStream<Stream>
         HandlerSuspendable(Server& parent, Stream&& stream, short eventType, short firstEvent)
             : HandlerStream<Stream>(parent, std::move(stream), eventType, 0)
             , yield(nullptr)
+            , worker(nullptr)
             , firstEvent(firstEvent)
         {}
-        virtual void suspend(short type)    final {(*yield)(type);}
+        virtual void suspend(short type)    final {yield(type);}
         virtual bool suspendable()          final {return true;}
         virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) final
         {
             bool dropHandler;
             if (worker == nullptr)
             {
-                worker.reset(new CoRoutine([&dropHandler, &parentYield = this->yield, &parent = *this, firstEvent = this->firstEvent](Yield& yield)
+                worker  = &handlerPool.getNext([&dropHandler, &parentYield = this->yield, &parent = *this, firstEvent = this->firstEvent](std::function<void(short)>&& yield)
                     {
-                        parentYield = &yield;
-                        yield(firstEvent);
+                        parentYield = std::move(yield);
+                        parentYield(firstEvent);
                         dropHandler = parent.eventActivateNonBlocking();
                         return 0;
-                    }));
+                    });
             }
             if (!(*worker)())
             {
+                handlerPool.putNext(*worker);
                 if (dropHandler)
                 {
                     this->dropHandler();
