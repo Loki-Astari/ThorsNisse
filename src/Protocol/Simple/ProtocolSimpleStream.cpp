@@ -51,8 +51,8 @@ bool WriteMessageStreamHandler::eventActivateNonBlocking()
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
 #include "ProtocolSimple.h"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageStreamHandler>(int);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageStreamHandler, Message>(int, Message&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageStreamHandler>(ServerConnection const&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageStreamHandler, Message>(ServerConnection const&, Message&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
 template void ThorsAnvil::Nisse::Core::Service::HandlerBase::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, Message>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, Message&&);
 template void ThorsAnvil::Nisse::Core::Service::HandlerBase::moveHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);

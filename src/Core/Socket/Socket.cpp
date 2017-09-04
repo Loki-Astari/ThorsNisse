@@ -151,7 +151,7 @@ ConnectSocket::ConnectSocket(std::string const& host, int port)
     }
 }
 
-ServerSocket::ServerSocket(int port, bool blocking)
+ServerSocket::ServerSocket(int port, bool blocking, int maxWaitingConnections)
     : BaseSocket(::socketWrapper(PF_INET, SOCK_STREAM, 0), blocking)
 {
     SocketAddrIn    serverAddr = {};
@@ -166,7 +166,7 @@ ServerSocket::ServerSocket(int port, bool blocking)
                                                    ": bind: ", Utility::systemErrorMessage()));
     }
 
-    if (::listen(getSocketId(), maxConnectionBacklog) != 0)
+    if (::listen(getSocketId(), maxWaitingConnections) != 0)
     {
         close();
         throw std::runtime_error(Utility::buildErrorMessage("ThorsAnvil::Socket::ServerSocket::", __func__,

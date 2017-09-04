@@ -112,6 +112,6 @@ short WriteMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, 
  */
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Server.tpp"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageHandler>(int);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageHandler, std::string>(int, std::string&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageHandler>(ServerConnection const&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageHandler, std::string>(ServerConnection const&, std::string&);
 #endif

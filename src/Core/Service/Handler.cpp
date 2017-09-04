@@ -147,6 +147,6 @@ void HandlerBase::setHandlers(short eventType, TimeVal* timeVal)
 #include "ThorsNisseCoreSocket/Socket.h"
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<TestHandler, std::tuple<bool, bool, bool>>(int, std::tuple<bool, bool, bool>&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<InHandlerTest, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>>(int, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<TestHandler, std::tuple<bool, bool, bool>>(ServerConnection const&, std::tuple<bool, bool, bool>&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<InHandlerTest, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>>(ServerConnection const&, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&);
 #endif

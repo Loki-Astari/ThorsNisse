@@ -40,6 +40,11 @@ int main(int argc, char* argv[])
         std::vector<std::string>    args(argv + 1, argv + argc);
         for (std::string const& arg: args)
         {
+            if (arg.substr(0,7) == "--wait:")
+            {
+                int maxWaitingConnections = std::stoi(arg.substr(7));
+                siteLoader.setMaxWaitingConnections(maxWaitingConnections);
+            }
             if (arg.substr(0,7) == "--load:")
             {
                 LoadSite            site;

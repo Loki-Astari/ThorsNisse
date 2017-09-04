@@ -149,8 +149,8 @@ bool Server::inHandler()
  */
 #include "Server.tpp"
 #include "test/Action.h"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(int);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(int);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(ServerConnection const&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(ServerConnection const&);
 template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 #endif

@@ -84,9 +84,9 @@ class ConnectSocket: public DataSocket
 // A server socket that listens on a port for a connection
 class ServerSocket: public BaseSocket
 {
-    static constexpr int maxConnectionBacklog = 5;
     public:
-        ServerSocket(int port, bool blocking = false);
+        static constexpr int maxConnectionBacklog = 5;
+        ServerSocket(int port, bool blocking = false, int maxWaitingConnections = maxConnectionBacklog);
 
         // An accepts waits for a connection and returns a socket
         // object that can be used by the client for communication
