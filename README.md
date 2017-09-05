@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Loki-Astari/ThorsNisse.svg?branch=master)](https://travis-ci.org/Loki-Astari/ThorsNisse)
 ![Repo Size](https://reposs.herokuapp.com/?path=Loki-Astari/ThorsSerializer)
-[![codecov.io](http://codecov.io/github/Loki-Astari/ThorsSQL/coverage.svg?branch=master)](http://codecov.io/github/Loki-Astari/ThorsSQL?branch=master)  
+[![codecov](https://codecov.io/gh/Loki-Astari/ThorsNisse/branch/master/graph/badge.svg)](https://codecov.io/gh/Loki-Astari/ThorsNisse)
 
 ![ThorStream](img/Nisse.jpg)
 
