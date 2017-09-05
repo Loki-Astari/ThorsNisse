@@ -27,6 +27,8 @@ before_script:
 script:
     - ./configure --with-boost=/tmp/extra --disable-ThorsSQL --disable-ThorsSerialize --with-thor-build-on-travis
     - LD_LIBRARY_PATH=/tmp/extra/lib:usr/local/lib make
+after_success:
+    - ./uploadcodecovrage
 branches:
   only:
       - master
