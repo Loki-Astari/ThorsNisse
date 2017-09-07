@@ -24,8 +24,10 @@ This is provided via the ThorSQL library (but requires some integration with the
 ## Details
 
 * Examples
-  * [Building a Server](doc/server.md)
-  * [Building a Module](doc/module.md)
+  * [Building a Server](doc/Building_A_Server.md)
+    * [class Server](doc/interface/server.md)
+    * [class Handler](doc/interface/handler.md)
+  * [Building a Module](doc/Building_A_Module.md)
 * Documentation
   * [Usage](doc/usage.md)
   * [Internal](doc/internal.md)
