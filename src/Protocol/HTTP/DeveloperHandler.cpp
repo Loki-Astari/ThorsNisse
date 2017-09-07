@@ -4,6 +4,7 @@
 #include "ThorSerialize/Traits.h"
 #include "ThorSerialize/JsonThor.h"
 #endif
+#include <iostream>
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
