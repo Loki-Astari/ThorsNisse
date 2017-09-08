@@ -67,7 +67,7 @@
 `define `[`HTTP_ERRNO_GEN`](#http__parser_8h_1a686e9a27372975330d034ecb3ead862c)            | 
 `define `[`HTTP_PARSER_ERRNO`](#http__parser_8h_1a356ebaa93536e6f94c2948a1416697c7)            | 
 `enum `[`state`](#http__parser_8cpp_1adc6e5733fc3c22f0a7b2914188c49c90)            | 
-`enum `[`header_states`](#http-parser-8cpp-1a30b263f03d96d31497fac23df89edbd9)            | 
+`enum `[`header_states`](#http__parser_8cpp_1a30b263f03d96d31497fac23df89edbd9)            | 
 `enum `[`http_host_state`](#http__parser_8cpp_1ae8df1d915c4ab1e80985eb2611ccbdc9)            | 
 `enum `[`http_status`](#http__parser_8h_1abc3b93f68c8bdd857ad32913628dfa8d)            | 
 `enum `[`http_method`](#http__parser_8h_1aacd5f203e33ac338ca5cb8f02a3ff3b8)            | 
@@ -75,8 +75,8 @@
 `enum `[`flags`](#http__parser_8h_1ab6b306ef981f5e21bb41ea2c2dbe8cd9)            | 
 `enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)            | 
 `enum `[`http_parser_url_fields`](#http__parser_8h_1a9ca1f91c2958091e2ac9e9b2f903d4eb)            | 
-`public void `[`eventCB`](#_handler_8cpp_1a8f640ceb307df43ea54cb5a536850dc5)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` socketId,short eventType,void * event)`            | 
-`public void `[`eventCB`](#_handler_8h_1aa41a407f92c3e6eef56caffa126d554c)`(`[`ThorsAnvil::Nisse::Core::Service::LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` socketId,short eventType,void * event)`            | 
+`public void `[`eventCB`](#_handler_8cpp_1a8f640ceb307df43ea54cb5a536850dc5)`(LibSocketId socketId,short eventType,void * event)`            | 
+`public void `[`eventCB`](#_handler_8h_1aa41a407f92c3e6eef56caffa126d554c)`(ThorsAnvil::Nisse::Core::Service::LibSocketId socketId,short eventType,void * event)`            | 
 `public inline int `[`closeWrapper`](#_socket_8h_1a4f5368baa5f8ff5006e0a7ae050adf77)`(int fd)`            | 
 `public inline int `[`socketWrapper`](#_socket_8h_1ae4c5d1e0cede32be5728c85b1d6fc7d6)`(int family,int type,int protocol)`            | 
 `public inline int `[`acceptWrapper`](#_socket_8h_1a5d0e612c30a9aa1ed325eed371d8d09c)`(int sockfd,sockaddr * addr,socklen_t * len)`            | 
@@ -84,18 +84,21 @@
 `public inline ssize_t `[`writeWrapper`](#_socket_8h_1a5148232bba46adb510156b2d23e3e9ff)`(int fd,void const * buf,size_t count)`            | 
 `public inline int `[`fcntlWrapper`](#_socket_8h_1a06c090df045a19d2d8dd2e8f80173afc)`(int fd,int cmd,int value)`            | 
 `public ThorsAnvil::SQL::Lib::ConnectionCreatorRegister< `[`NonBlockingMySQLConnection`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_non_blocking_my_s_q_l_connection)` > `[`mysqlNBConnection`](#_non_blocking_my_s_q_l_connection_8cpp_1a3b63f40df2c523cc721f8aba2dc3a1b8)`("mysqlNB")`            | 
+`public static SQL::Connection `[`connection`](#_add_beer_8cpp_1a2fc5b47f0439dba300ccf8952bc7a9a7)`("mysqlNB://test.com","test","testPassword","test")`            | 
+`public static SQL::Statement `[`listBeers`](#_add_beer_8cpp_1a1e0be1b870e73bb1fa91cb8a7089270f)`(connection,"SELECT Name,Age FROM Beers")`            | 
+`public void `[`addSite`](#_add_beer_8cpp_1a7ffb6e6a4e638a9514482c4a4e3c1550)`(`[`Express::Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` & site)`            | 
 `public void `[`addSite`](#all_8h_1a7b516c2fc54bbbb3b8c893a2e13166a3)`(`[`ThorsAnvil::Nisse::Protocol::HTTP::Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` & binder)`            | 
-`public `[`AddSiteFunction`](#all_8h_1af2509037829663d719de3f09f87789ab)` `[`getSiteAdder`](#all_8h_1ac823668512d86c1b9cf403c4afbbf8c2)`()`            | 
+`public AddSiteFunction `[`getSiteAdder`](#all_8h_1ac823668512d86c1b9cf403c4afbbf8c2)`()`            | 
 `public int `[`http_message_needs_eof`](#http__parser_8cpp_1a55b76c7f4422dba1cbb2d8af509d727f)`(const `[`http_parser`](#structhttp__parser)` * parser)`            | 
-`public static enum `[`state`](#http__parser_8cpp_1adc6e5733fc3c22f0a7b2914188c49c90)` `[`parse_url_char`](#http__parser_8cpp_1a071073630afc28dbbc7caee3f4d9e451)`(enum `[`state`](#http__parser_8cpp_1adc6e5733fc3c22f0a7b2914188c49c90)` s,const char ch)`            | 
+`public static enum state `[`parse_url_char`](#http__parser_8cpp_1a071073630afc28dbbc7caee3f4d9e451)`(enum state s,const char ch)`            | 
 `public size_t `[`http_parser_execute`](#http__parser_8cpp_1a5034165465db6c488ce8b75fd0f72faf)`(`[`http_parser`](#structhttp__parser)` * parser,const `[`http_parser_settings`](#structhttp__parser__settings)` * settings,const char * data,size_t len)`            | 
 `public int `[`http_should_keep_alive`](#http__parser_8cpp_1abefaa63b2505a6d38f96fc782c41d111)`(const `[`http_parser`](#structhttp__parser)` * parser)`            | 
-`public const char * `[`http_method_str`](#http__parser_8cpp_1acdafb72b3fddca085841586537406859)`(enum `[`http_method`](#http__parser_8h_1aacd5f203e33ac338ca5cb8f02a3ff3b8)` m)`            | 
-`public void `[`http_parser_init`](#http__parser_8cpp_1afb37506e1c2601889b0c3181688960f0)`(`[`http_parser`](#structhttp__parser)` * parser,enum `[`http_parser_type`](#http__parser_8h_1af9d6d304f8c255158175951b434cfa7a)` t)`            | 
+`public const char * `[`http_method_str`](#http__parser_8cpp_1acdafb72b3fddca085841586537406859)`(enum http_method m)`            | 
+`public void `[`http_parser_init`](#http__parser_8cpp_1afb37506e1c2601889b0c3181688960f0)`(`[`http_parser`](#structhttp__parser)` * parser,enum http_parser_type t)`            | 
 `public void `[`http_parser_settings_init`](#http__parser_8cpp_1a055a4e6834f07a0898a1802230852775)`(`[`http_parser_settings`](#structhttp__parser__settings)` * settings)`            | 
-`public const char * `[`http_errno_name`](#http__parser_8cpp_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)`            | 
-`public const char * `[`http_errno_description`](#http__parser_8cpp_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)`            | 
-`public static enum `[`http_host_state`](#http__parser_8cpp_1ae8df1d915c4ab1e80985eb2611ccbdc9)` `[`http_parse_host_char`](#http__parser_8cpp_1aea0aaac9aac43b835e359ed3542bf66f)`(enum `[`http_host_state`](#http__parser_8cpp_1ae8df1d915c4ab1e80985eb2611ccbdc9)` s,const char ch)`            | 
+`public const char * `[`http_errno_name`](#http__parser_8cpp_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum http_errno err)`            | 
+`public const char * `[`http_errno_description`](#http__parser_8cpp_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum http_errno err)`            | 
+`public static enum http_host_state `[`http_parse_host_char`](#http__parser_8cpp_1aea0aaac9aac43b835e359ed3542bf66f)`(enum http_host_state s,const char ch)`            | 
 `public static int `[`http_parse_host`](#http__parser_8cpp_1a12d758a13f2301dabab764226b96befb)`(const char * buf,struct `[`http_parser_url`](#structhttp__parser__url)` * u,int found_at)`            | 
 `public void `[`http_parser_url_init`](#http__parser_8cpp_1a64e907d36fbcc883033c6bbe5a78b1b3)`(struct `[`http_parser_url`](#structhttp__parser__url)` * u)`            | 
 `public int `[`http_parser_parse_url`](#http__parser_8cpp_1aeb269310a348fd68fd001b30b690fc83)`(const char * buf,size_t buflen,int is_connect,struct `[`http_parser_url`](#structhttp__parser__url)` * u)`            | 
@@ -103,30 +106,31 @@
 `public int `[`http_body_is_final`](#http__parser_8cpp_1a5156a631a251516a6e78b17e1faadbb2)`(const struct `[`http_parser`](#structhttp__parser)` * parser)`            | 
 `public unsigned long `[`http_parser_version`](#http__parser_8cpp_1a2559b4d373c7f0d85c77a2a3c308a5ee)`(void)`            | 
 `public unsigned long `[`http_parser_version`](#http__parser_8h_1a2559b4d373c7f0d85c77a2a3c308a5ee)`(void)`            | 
-`public void `[`http_parser_init`](#http__parser_8h_1a089b18502c937358df2adcea83db22bb)`(`[`http_parser`](#structhttp__parser)` * parser,enum `[`http_parser_type`](#http__parser_8h_1af9d6d304f8c255158175951b434cfa7a)` type)`            | 
+`public void `[`http_parser_init`](#http__parser_8h_1a089b18502c937358df2adcea83db22bb)`(`[`http_parser`](#structhttp__parser)` * parser,enum http_parser_type type)`            | 
 `public void `[`http_parser_settings_init`](#http__parser_8h_1a055a4e6834f07a0898a1802230852775)`(`[`http_parser_settings`](#structhttp__parser__settings)` * settings)`            | 
 `public size_t `[`http_parser_execute`](#http__parser_8h_1a5034165465db6c488ce8b75fd0f72faf)`(`[`http_parser`](#structhttp__parser)` * parser,const `[`http_parser_settings`](#structhttp__parser__settings)` * settings,const char * data,size_t len)`            | 
 `public int `[`http_should_keep_alive`](#http__parser_8h_1abefaa63b2505a6d38f96fc782c41d111)`(const `[`http_parser`](#structhttp__parser)` * parser)`            | 
-`public const char * `[`http_method_str`](#http__parser_8h_1acdafb72b3fddca085841586537406859)`(enum `[`http_method`](#http__parser_8h_1aacd5f203e33ac338ca5cb8f02a3ff3b8)` m)`            | 
-`public const char * `[`http_errno_name`](#http__parser_8h_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)`            | 
-`public const char * `[`http_errno_description`](#http__parser_8h_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)`            | 
+`public const char * `[`http_method_str`](#http__parser_8h_1acdafb72b3fddca085841586537406859)`(enum http_method m)`            | 
+`public const char * `[`http_errno_name`](#http__parser_8h_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum http_errno err)`            | 
+`public const char * `[`http_errno_description`](#http__parser_8h_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum http_errno err)`            | 
 `public void `[`http_parser_url_init`](#http__parser_8h_1a64e907d36fbcc883033c6bbe5a78b1b3)`(struct `[`http_parser_url`](#structhttp__parser__url)` * u)`            | 
 `public int `[`http_parser_parse_url`](#http__parser_8h_1aeb269310a348fd68fd001b30b690fc83)`(const char * buf,size_t buflen,int is_connect,struct `[`http_parser_url`](#structhttp__parser__url)` * u)`            | 
 `public void `[`http_parser_pause`](#http__parser_8h_1ab67d625ad2fe1623825eec73e18817de)`(`[`http_parser`](#structhttp__parser)` * parser,int paused)`            | 
 `public int `[`http_body_is_final`](#http__parser_8h_1af013473c413da1c0680fe8a9590f0047)`(const `[`http_parser`](#structhttp__parser)` * parser)`            | 
-`public int `[`onHeadersComplete`](#_http_scanner_8cpp_1a233f12cf59fde63cd84a51b045e6bd70)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser)`            | 
-`public int `[`onMessageBegin`](#_http_scanner_8cpp_1a3b813da2da7334d65706d7f60742b6dd)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` *)`            | 
-`public int `[`onMessageComplete`](#_http_scanner_8cpp_1a88351510e52e158666bd529e19be37f4)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` *)`            | 
-`public int `[`onUrl`](#_http_scanner_8cpp_1ad19d891bf8215e662970acaa2f82a568)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)`            | 
-`public int `[`onStatus`](#_http_scanner_8cpp_1a4a7136879820685ff0d38b5c983e87b0)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` *,const char *,std::size_t)`            | 
-`public int `[`onHeaderField`](#_http_scanner_8cpp_1ac255fc0009e579a8ad789ec4c4c9acea)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)`            | 
-`public int `[`onHeaderValue`](#_http_scanner_8cpp_1ac671c0f06d0b0f56af31cb8127655ab8)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)`            | 
-`public int `[`onBody`](#_http_scanner_8cpp_1acba49635817439c59b12c5c31016c139)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)`            | 
+`public int `[`onHeadersComplete`](#_http_scanner_8cpp_1a233f12cf59fde63cd84a51b045e6bd70)`(`[`HttpParser`](#structhttp__parser)` * parser)`            | 
+`public int `[`onMessageBegin`](#_http_scanner_8cpp_1a3b813da2da7334d65706d7f60742b6dd)`(`[`HttpParser`](#structhttp__parser)` *)`            | 
+`public int `[`onMessageComplete`](#_http_scanner_8cpp_1a88351510e52e158666bd529e19be37f4)`(`[`HttpParser`](#structhttp__parser)` *)`            | 
+`public int `[`onUrl`](#_http_scanner_8cpp_1ad19d891bf8215e662970acaa2f82a568)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)`            | 
+`public int `[`onStatus`](#_http_scanner_8cpp_1a4a7136879820685ff0d38b5c983e87b0)`(`[`HttpParser`](#structhttp__parser)` *,const char *,std::size_t)`            | 
+`public int `[`onHeaderField`](#_http_scanner_8cpp_1ac255fc0009e579a8ad789ec4c4c9acea)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)`            | 
+`public int `[`onHeaderValue`](#_http_scanner_8cpp_1ac671c0f06d0b0f56af31cb8127655ab8)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)`            | 
+`public int `[`onBody`](#_http_scanner_8cpp_1acba49635817439c59b12c5c31016c139)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)`            | 
 `namespace `[`ThorsAnvil::Nisse::Core::Service`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service) | 
 `namespace `[`ThorsAnvil::Nisse::Core::Socket`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket) | 
 `namespace `[`ThorsAnvil::Nisse::Core::SQL`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l) | 
 `namespace `[`ThorsAnvil::Nisse::Core::Utility`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility) | 
 `namespace `[`ThorsAnvil::Nisse::Protocol::HTTP`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p) | 
+`namespace `[`ThorsAnvil::Nisse::Protocol::Simple`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple) | 
 `class `[`DevNullStreamBuf`](#class_dev_null_stream_buf) | 
 `class `[`ThorsAnvil::Nisse::Protocol::HTTP::Headers::Inserter`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_headers_1_1_inserter) | 
 `class `[`MySQLExecuteHandler`](#class_my_s_q_l_execute_handler) | 
@@ -423,9 +427,9 @@ UF_FRAGMENT            |
 UF_USERINFO            | 
 UF_MAX            | 
 
-#### `public void `[`eventCB`](#_handler_8cpp_1a8f640ceb307df43ea54cb5a536850dc5)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` socketId,short eventType,void * event)` 
+#### `public void `[`eventCB`](#_handler_8cpp_1a8f640ceb307df43ea54cb5a536850dc5)`(LibSocketId socketId,short eventType,void * event)` 
 
-#### `public void `[`eventCB`](#_handler_8h_1aa41a407f92c3e6eef56caffa126d554c)`(`[`ThorsAnvil::Nisse::Core::Service::LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` socketId,short eventType,void * event)` 
+#### `public void `[`eventCB`](#_handler_8h_1aa41a407f92c3e6eef56caffa126d554c)`(ThorsAnvil::Nisse::Core::Service::LibSocketId socketId,short eventType,void * event)` 
 
 #### `public inline int `[`closeWrapper`](#_socket_8h_1a4f5368baa5f8ff5006e0a7ae050adf77)`(int fd)` 
 
@@ -441,29 +445,35 @@ UF_MAX            |
 
 #### `public ThorsAnvil::SQL::Lib::ConnectionCreatorRegister< `[`NonBlockingMySQLConnection`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_non_blocking_my_s_q_l_connection)` > `[`mysqlNBConnection`](#_non_blocking_my_s_q_l_connection_8cpp_1a3b63f40df2c523cc721f8aba2dc3a1b8)`("mysqlNB")` 
 
+#### `public static SQL::Connection `[`connection`](#_add_beer_8cpp_1a2fc5b47f0439dba300ccf8952bc7a9a7)`("mysqlNB://test.com","test","testPassword","test")` 
+
+#### `public static SQL::Statement `[`listBeers`](#_add_beer_8cpp_1a1e0be1b870e73bb1fa91cb8a7089270f)`(connection,"SELECT Name,Age FROM Beers")` 
+
+#### `public void `[`addSite`](#_add_beer_8cpp_1a7ffb6e6a4e638a9514482c4a4e3c1550)`(`[`Express::Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` & site)` 
+
 #### `public void `[`addSite`](#all_8h_1a7b516c2fc54bbbb3b8c893a2e13166a3)`(`[`ThorsAnvil::Nisse::Protocol::HTTP::Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` & binder)` 
 
-#### `public `[`AddSiteFunction`](#all_8h_1af2509037829663d719de3f09f87789ab)` `[`getSiteAdder`](#all_8h_1ac823668512d86c1b9cf403c4afbbf8c2)`()` 
+#### `public AddSiteFunction `[`getSiteAdder`](#all_8h_1ac823668512d86c1b9cf403c4afbbf8c2)`()` 
 
 #### `public int `[`http_message_needs_eof`](#http__parser_8cpp_1a55b76c7f4422dba1cbb2d8af509d727f)`(const `[`http_parser`](#structhttp__parser)` * parser)` 
 
-#### `public static enum `[`state`](#http__parser_8cpp_1adc6e5733fc3c22f0a7b2914188c49c90)` `[`parse_url_char`](#http__parser_8cpp_1a071073630afc28dbbc7caee3f4d9e451)`(enum `[`state`](#http__parser_8cpp_1adc6e5733fc3c22f0a7b2914188c49c90)` s,const char ch)` 
+#### `public static enum state `[`parse_url_char`](#http__parser_8cpp_1a071073630afc28dbbc7caee3f4d9e451)`(enum state s,const char ch)` 
 
 #### `public size_t `[`http_parser_execute`](#http__parser_8cpp_1a5034165465db6c488ce8b75fd0f72faf)`(`[`http_parser`](#structhttp__parser)` * parser,const `[`http_parser_settings`](#structhttp__parser__settings)` * settings,const char * data,size_t len)` 
 
 #### `public int `[`http_should_keep_alive`](#http__parser_8cpp_1abefaa63b2505a6d38f96fc782c41d111)`(const `[`http_parser`](#structhttp__parser)` * parser)` 
 
-#### `public const char * `[`http_method_str`](#http__parser_8cpp_1acdafb72b3fddca085841586537406859)`(enum `[`http_method`](#http__parser_8h_1aacd5f203e33ac338ca5cb8f02a3ff3b8)` m)` 
+#### `public const char * `[`http_method_str`](#http__parser_8cpp_1acdafb72b3fddca085841586537406859)`(enum http_method m)` 
 
-#### `public void `[`http_parser_init`](#http__parser_8cpp_1afb37506e1c2601889b0c3181688960f0)`(`[`http_parser`](#structhttp__parser)` * parser,enum `[`http_parser_type`](#http__parser_8h_1af9d6d304f8c255158175951b434cfa7a)` t)` 
+#### `public void `[`http_parser_init`](#http__parser_8cpp_1afb37506e1c2601889b0c3181688960f0)`(`[`http_parser`](#structhttp__parser)` * parser,enum http_parser_type t)` 
 
 #### `public void `[`http_parser_settings_init`](#http__parser_8cpp_1a055a4e6834f07a0898a1802230852775)`(`[`http_parser_settings`](#structhttp__parser__settings)` * settings)` 
 
-#### `public const char * `[`http_errno_name`](#http__parser_8cpp_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)` 
+#### `public const char * `[`http_errno_name`](#http__parser_8cpp_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum http_errno err)` 
 
-#### `public const char * `[`http_errno_description`](#http__parser_8cpp_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)` 
+#### `public const char * `[`http_errno_description`](#http__parser_8cpp_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum http_errno err)` 
 
-#### `public static enum `[`http_host_state`](#http__parser_8cpp_1ae8df1d915c4ab1e80985eb2611ccbdc9)` `[`http_parse_host_char`](#http__parser_8cpp_1aea0aaac9aac43b835e359ed3542bf66f)`(enum `[`http_host_state`](#http__parser_8cpp_1ae8df1d915c4ab1e80985eb2611ccbdc9)` s,const char ch)` 
+#### `public static enum http_host_state `[`http_parse_host_char`](#http__parser_8cpp_1aea0aaac9aac43b835e359ed3542bf66f)`(enum http_host_state s,const char ch)` 
 
 #### `public static int `[`http_parse_host`](#http__parser_8cpp_1a12d758a13f2301dabab764226b96befb)`(const char * buf,struct `[`http_parser_url`](#structhttp__parser__url)` * u,int found_at)` 
 
@@ -479,7 +489,7 @@ UF_MAX            |
 
 #### `public unsigned long `[`http_parser_version`](#http__parser_8h_1a2559b4d373c7f0d85c77a2a3c308a5ee)`(void)` 
 
-#### `public void `[`http_parser_init`](#http__parser_8h_1a089b18502c937358df2adcea83db22bb)`(`[`http_parser`](#structhttp__parser)` * parser,enum `[`http_parser_type`](#http__parser_8h_1af9d6d304f8c255158175951b434cfa7a)` type)` 
+#### `public void `[`http_parser_init`](#http__parser_8h_1a089b18502c937358df2adcea83db22bb)`(`[`http_parser`](#structhttp__parser)` * parser,enum http_parser_type type)` 
 
 #### `public void `[`http_parser_settings_init`](#http__parser_8h_1a055a4e6834f07a0898a1802230852775)`(`[`http_parser_settings`](#structhttp__parser__settings)` * settings)` 
 
@@ -487,11 +497,11 @@ UF_MAX            |
 
 #### `public int `[`http_should_keep_alive`](#http__parser_8h_1abefaa63b2505a6d38f96fc782c41d111)`(const `[`http_parser`](#structhttp__parser)` * parser)` 
 
-#### `public const char * `[`http_method_str`](#http__parser_8h_1acdafb72b3fddca085841586537406859)`(enum `[`http_method`](#http__parser_8h_1aacd5f203e33ac338ca5cb8f02a3ff3b8)` m)` 
+#### `public const char * `[`http_method_str`](#http__parser_8h_1acdafb72b3fddca085841586537406859)`(enum http_method m)` 
 
-#### `public const char * `[`http_errno_name`](#http__parser_8h_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)` 
+#### `public const char * `[`http_errno_name`](#http__parser_8h_1a8a93ed79c5d48491b72945ce11f75f7f)`(enum http_errno err)` 
 
-#### `public const char * `[`http_errno_description`](#http__parser_8h_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum `[`http_errno`](#http__parser_8h_1a14687aec2341ce0e62db2e543dd1da64)` err)` 
+#### `public const char * `[`http_errno_description`](#http__parser_8h_1a6dde757b0dee9b791e5d525c1ff2da0d)`(enum http_errno err)` 
 
 #### `public void `[`http_parser_url_init`](#http__parser_8h_1a64e907d36fbcc883033c6bbe5a78b1b3)`(struct `[`http_parser_url`](#structhttp__parser__url)` * u)` 
 
@@ -501,21 +511,21 @@ UF_MAX            |
 
 #### `public int `[`http_body_is_final`](#http__parser_8h_1af013473c413da1c0680fe8a9590f0047)`(const `[`http_parser`](#structhttp__parser)` * parser)` 
 
-#### `public int `[`onHeadersComplete`](#_http_scanner_8cpp_1a233f12cf59fde63cd84a51b045e6bd70)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser)` 
+#### `public int `[`onHeadersComplete`](#_http_scanner_8cpp_1a233f12cf59fde63cd84a51b045e6bd70)`(`[`HttpParser`](#structhttp__parser)` * parser)` 
 
-#### `public int `[`onMessageBegin`](#_http_scanner_8cpp_1a3b813da2da7334d65706d7f60742b6dd)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` *)` 
+#### `public int `[`onMessageBegin`](#_http_scanner_8cpp_1a3b813da2da7334d65706d7f60742b6dd)`(`[`HttpParser`](#structhttp__parser)` *)` 
 
-#### `public int `[`onMessageComplete`](#_http_scanner_8cpp_1a88351510e52e158666bd529e19be37f4)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` *)` 
+#### `public int `[`onMessageComplete`](#_http_scanner_8cpp_1a88351510e52e158666bd529e19be37f4)`(`[`HttpParser`](#structhttp__parser)` *)` 
 
-#### `public int `[`onUrl`](#_http_scanner_8cpp_1ad19d891bf8215e662970acaa2f82a568)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)` 
+#### `public int `[`onUrl`](#_http_scanner_8cpp_1ad19d891bf8215e662970acaa2f82a568)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)` 
 
-#### `public int `[`onStatus`](#_http_scanner_8cpp_1a4a7136879820685ff0d38b5c983e87b0)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` *,const char *,std::size_t)` 
+#### `public int `[`onStatus`](#_http_scanner_8cpp_1a4a7136879820685ff0d38b5c983e87b0)`(`[`HttpParser`](#structhttp__parser)` *,const char *,std::size_t)` 
 
-#### `public int `[`onHeaderField`](#_http_scanner_8cpp_1ac255fc0009e579a8ad789ec4c4c9acea)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)` 
+#### `public int `[`onHeaderField`](#_http_scanner_8cpp_1ac255fc0009e579a8ad789ec4c4c9acea)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)` 
 
-#### `public int `[`onHeaderValue`](#_http_scanner_8cpp_1ac671c0f06d0b0f56af31cb8127655ab8)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)` 
+#### `public int `[`onHeaderValue`](#_http_scanner_8cpp_1ac671c0f06d0b0f56af31cb8127655ab8)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)` 
 
-#### `public int `[`onBody`](#_http_scanner_8cpp_1acba49635817439c59b12c5c31016c139)`(`[`HttpParser`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1ab211dc8a582940056c134f168c62082b)` * parser,const char * at,std::size_t length)` 
+#### `public int `[`onBody`](#_http_scanner_8cpp_1acba49635817439c59b12c5c31016c139)`(`[`HttpParser`](#structhttp__parser)` * parser,const char * at,std::size_t length)` 
 
 # namespace `ThorsAnvil::Nisse::Core::Service` 
 
@@ -539,13 +549,13 @@ UF_MAX            |
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public  `[`HandlerBase`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a90a3836aa57cb5cdb0ec6a4ea6a4e0b0)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` socketId,short eventType,double timeout)` | 
+`public  `[`HandlerBase`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a90a3836aa57cb5cdb0ec6a4ea6a4e0b0)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,LibSocketId socketId,short eventType,double timeout)` | 
 `public virtual  `[`~HandlerBase`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a286f6bc60f067c25eed28464d33752ed)`()` | 
-`public void `[`activateEventHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a21c272362e2d9946c1fa832488dd2af4)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` | 
-`public short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a5cd0f8c6d7aa889c81f31f4ae2115d6e)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` | 
+`public void `[`activateEventHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a21c272362e2d9946c1fa832488dd2af4)`(LibSocketId sockId,short eventType)` | 
+`public short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a5cd0f8c6d7aa889c81f31f4ae2115d6e)`(LibSocketId sockId,short eventType)` | 
 `public bool `[`suspendable`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a2d5853f5aaa1d47000c6eecd938cb02a)`()` | 
 `public void `[`close`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1afcabcf697470c296bfd5965bf168300b)`()` | 
-`public void `[`setHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1ace0dbfa7df9a29acf4f57f9fac918d74)`(short eventType,`[`TimeVal`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1aae9f0596f7f574acc8553df8280502cf)` * timeVal)` | 
+`public void `[`setHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1ace0dbfa7df9a29acf4f57f9fac918d74)`(short eventType,TimeVal * timeVal)` | 
 `public void `[`dropEvent`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1ae5833dba04f71e0f95aae1b142f7ad90)`()` | 
 `protected void `[`dropHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a698741dec0b72eaa1f36c0cbfb18c5be)`()` | 
 `protected template<typename H,typename... Args>`  <br/>`void `[`addHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a8b24ced64d774e3dfb430174e123dfe4)`(Args &&... args)` | 
@@ -553,19 +563,19 @@ UF_MAX            |
 
 ## Members
 
-#### `public  `[`HandlerBase`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a90a3836aa57cb5cdb0ec6a4ea6a4e0b0)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` socketId,short eventType,double timeout)` 
+#### `public  `[`HandlerBase`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a90a3836aa57cb5cdb0ec6a4ea6a4e0b0)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,LibSocketId socketId,short eventType,double timeout)` 
 
 #### `public virtual  `[`~HandlerBase`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a286f6bc60f067c25eed28464d33752ed)`()` 
 
-#### `public void `[`activateEventHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a21c272362e2d9946c1fa832488dd2af4)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` 
+#### `public void `[`activateEventHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a21c272362e2d9946c1fa832488dd2af4)`(LibSocketId sockId,short eventType)` 
 
-#### `public short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a5cd0f8c6d7aa889c81f31f4ae2115d6e)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` 
+#### `public short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a5cd0f8c6d7aa889c81f31f4ae2115d6e)`(LibSocketId sockId,short eventType)` 
 
 #### `public bool `[`suspendable`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1a2d5853f5aaa1d47000c6eecd938cb02a)`()` 
 
 #### `public void `[`close`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1afcabcf697470c296bfd5965bf168300b)`()` 
 
-#### `public void `[`setHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1ace0dbfa7df9a29acf4f57f9fac918d74)`(short eventType,`[`TimeVal`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1aae9f0596f7f574acc8553df8280502cf)` * timeVal)` 
+#### `public void `[`setHandlers`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1ace0dbfa7df9a29acf4f57f9fac918d74)`(short eventType,TimeVal * timeVal)` 
 
 #### `public void `[`dropEvent`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_base_1ae5833dba04f71e0f95aae1b142f7ad90)`()` 
 
@@ -633,7 +643,7 @@ class ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
 `public inline  `[`HandlerSuspendable`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1a025db216ce21c83fd943fb39a41bd3e8)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,Stream && stream,short eventType,short firstEvent)` | 
 `public inline virtual void `[`suspend`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1a030cd3f698c725ebbb3c6dc1eda03932)`(short type)` | 
 `public inline virtual bool `[`suspendable`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1a524acdde99fea515ac46e38c4ba0516a)`()` | 
-`public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1ab55bc46834bfcb616471505788d40192)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)`,short)` | 
+`public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1ab55bc46834bfcb616471505788d40192)`(LibSocketId,short)` | 
 `public bool `[`eventActivateNonBlocking`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1af675d5b7f69219f6f8c3372e1823d856)`()` | 
 
 ## Members
@@ -646,7 +656,7 @@ class ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
 
 #### `public inline virtual bool `[`suspendable`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1a524acdde99fea515ac46e38c4ba0516a)`()` 
 
-#### `public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1ab55bc46834bfcb616471505788d40192)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)`,short)` 
+#### `public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1ab55bc46834bfcb616471505788d40192)`(LibSocketId,short)` 
 
 #### `public bool `[`eventActivateNonBlocking`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_handler_suspendable_1af675d5b7f69219f6f8c3372e1823d856)`()` 
 
@@ -702,7 +712,7 @@ class ThorsAnvil::Nisse::Core::Service::ServerHandler
 --------------------------------|---------------------------------------------
 `public  `[`ServerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_1aa50d03f4281fad03511eec37730e170a)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Socket::ServerSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_server_socket)` && so,Param & param)` | 
 `public  `[`~ServerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_1aa01858cd0aea394596be787a3b40e4e9)`()` | 
-`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_1a212febd5876eb2d6f23f0f796a85156b)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` | 
+`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_1a212febd5876eb2d6f23f0f796a85156b)`(LibSocketId sockId,short eventType)` | 
 
 ## Members
 
@@ -710,7 +720,7 @@ class ThorsAnvil::Nisse::Core::Service::ServerHandler
 
 #### `public  `[`~ServerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_1aa01858cd0aea394596be787a3b40e4e9)`()` 
 
-#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_1a212febd5876eb2d6f23f0f796a85156b)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` 
+#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_1a212febd5876eb2d6f23f0f796a85156b)`(LibSocketId sockId,short eventType)` 
 
 # class `ThorsAnvil::Nisse::Core::Service::ServerHandler< ActHand, void >` 
 
@@ -725,7 +735,7 @@ class ThorsAnvil::Nisse::Core::Service::ServerHandler< ActHand, void >
 --------------------------------|---------------------------------------------
 `public  `[`ServerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_3_01_act_hand_00_01void_01_4_1a8d4fcdfe9a833bb53c2fd759a8a844fb)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Socket::ServerSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_server_socket)` && so)` | 
 `public  `[`~ServerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_3_01_act_hand_00_01void_01_4_1a4988ab60e2180a8aad3dee58144688e0)`()` | 
-`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_3_01_act_hand_00_01void_01_4_1afc7456aa77aea64cd1b314ded8b979a7)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` | 
+`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_3_01_act_hand_00_01void_01_4_1afc7456aa77aea64cd1b314ded8b979a7)`(LibSocketId sockId,short eventType)` | 
 
 ## Members
 
@@ -733,7 +743,7 @@ class ThorsAnvil::Nisse::Core::Service::ServerHandler< ActHand, void >
 
 #### `public  `[`~ServerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_3_01_act_hand_00_01void_01_4_1a4988ab60e2180a8aad3dee58144688e0)`()` 
 
-#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_3_01_act_hand_00_01void_01_4_1afc7456aa77aea64cd1b314ded8b979a7)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` 
+#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server_handler_3_01_act_hand_00_01void_01_4_1afc7456aa77aea64cd1b314ded8b979a7)`(LibSocketId sockId,short eventType)` 
 
 # class `ThorsAnvil::Nisse::Core::Service::TimerHandler` 
 
@@ -747,13 +757,13 @@ class ThorsAnvil::Nisse::Core::Service::TimerHandler
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
 `public inline  `[`TimerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_timer_handler_1ac2b73905d4deb39350933097d8e353b9)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,double timeOut,std::function< void()> && action)` | 
-`public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_timer_handler_1a080d1ae942c2e05be213349da78de836)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)`,short)` | 
+`public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_timer_handler_1a080d1ae942c2e05be213349da78de836)`(LibSocketId,short)` | 
 
 ## Members
 
 #### `public inline  `[`TimerHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_timer_handler_1ac2b73905d4deb39350933097d8e353b9)`(`[`Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,double timeOut,std::function< void()> && action)` 
 
-#### `public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_timer_handler_1a080d1ae942c2e05be213349da78de836)`(`[`LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)`,short)` 
+#### `public inline virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_timer_handler_1a080d1ae942c2e05be213349da78de836)`(LibSocketId,short)` 
 
 # struct `ThorsAnvil::Nisse::Core::Service::ServerConnection` 
 
@@ -779,7 +789,7 @@ class ThorsAnvil::Nisse::Core::Service::TimerHandler
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public inline void `[`noActionNotifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1ac7997f883ebe20ae743e7a2ef88902a2)`()`            | 
+`public inline void `[`noActionNotifier`](#_socket_stream_8h_1ac7997f883ebe20ae743e7a2ef88902a2)`()`            | 
 `class `[`ThorsAnvil::Nisse::Core::Socket::BaseSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_base_socket) | 
 `class `[`ThorsAnvil::Nisse::Core::Socket::ConnectSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_connect_socket) | 
 `class `[`ThorsAnvil::Nisse::Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket) | 
@@ -790,7 +800,7 @@ class ThorsAnvil::Nisse::Core::Service::TimerHandler
 
 ## Members
 
-#### `public inline void `[`noActionNotifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1ac7997f883ebe20ae743e7a2ef88902a2)`()` 
+#### `public inline void `[`noActionNotifier`](#_socket_stream_8h_1ac7997f883ebe20ae743e7a2ef88902a2)`()` 
 
 # class `ThorsAnvil::Nisse::Core::Socket::BaseSocket` 
 
@@ -885,16 +895,16 @@ class ThorsAnvil::Nisse::Core::Socket::ISocketStream
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1aeb8f01b9e1e67b215fb17699f5c8179e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` | 
-`public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1a9fae9a71de28823ba723961bdd3f520e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing)` | 
+`public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1aeb8f01b9e1e67b215fb17699f5c8179e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` | 
+`public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1a9fae9a71de28823ba723961bdd3f520e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing)` | 
 `public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1a3967c2093308a668c0d10187a6771679)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream)` | 
 `public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1ab7a418109f3ec2b5efb79aebf2eafd79)`(`[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream)` && move) noexcept` | 
 
 ## Members
 
-#### `public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1aeb8f01b9e1e67b215fb17699f5c8179e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` 
+#### `public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1aeb8f01b9e1e67b215fb17699f5c8179e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` 
 
-#### `public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1a9fae9a71de28823ba723961bdd3f520e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing)` 
+#### `public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1a9fae9a71de28823ba723961bdd3f520e)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing)` 
 
 #### `public  `[`ISocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_i_socket_stream_1a3967c2093308a668c0d10187a6771679)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream)` 
 
@@ -911,13 +921,13 @@ class ThorsAnvil::Nisse::Core::Socket::OSocketStream
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public  `[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream_1a96ecb2e6f1d8f77da3975961c0ca35ce)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing)` | 
+`public  `[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream_1a96ecb2e6f1d8f77da3975961c0ca35ce)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing)` | 
 `public  `[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream_1af0c284688f69d53ec0d15f9442be4abb)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream)` | 
 `public  `[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream_1a35859d5b7ac94400e60786ae880e7f5b)`(`[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream)` && move) noexcept` | 
 
 ## Members
 
-#### `public  `[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream_1a96ecb2e6f1d8f77da3975961c0ca35ce)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing)` 
+#### `public  `[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream_1a96ecb2e6f1d8f77da3975961c0ca35ce)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing)` 
 
 #### `public  `[`OSocketStream`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_o_socket_stream_1af0c284688f69d53ec0d15f9442be4abb)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream)` 
 
@@ -955,7 +965,7 @@ class ThorsAnvil::Nisse::Core::Socket::SocketStreamBuffer
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
 `public virtual  `[`~SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a69699073f1560f599c2d55a07b77239b)`()` | 
-`public  `[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a4f6d845cf20163bace462c6888898a70)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` | 
+`public  `[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a4f6d845cf20163bace462c6888898a70)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` | 
 `public  `[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a1ab54593f2dcce2f37c5ee9f1fd7772a)`(`[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer)` && move) noexcept` | 
 `protected virtual int_type `[`underflow`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a7e84112110461887673b6696010d2952)`()` | 
 `protected virtual std::streamsize `[`xsgetn`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1aa1afe458c590e2bed98f7c7e4f3ecd9c)`(char_type * s,std::streamsize count)` | 
@@ -968,7 +978,7 @@ class ThorsAnvil::Nisse::Core::Socket::SocketStreamBuffer
 
 #### `public virtual  `[`~SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a69699073f1560f599c2d55a07b77239b)`()` 
 
-#### `public  `[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a4f6d845cf20163bace462c6888898a70)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` noAvailableData,`[`Notifier`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1a9deb260e5d993749f310de53105462af)` flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` 
+#### `public  `[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a4f6d845cf20163bace462c6888898a70)`(`[`DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` & stream,Notifier noAvailableData,Notifier flushing,std::vector< char > && bufData,char const * currentStart,char const * currentEnd)` 
 
 #### `public  `[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer_1a1ab54593f2dcce2f37c5ee9f1fd7772a)`(`[`SocketStreamBuffer`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_socket_stream_buffer)` && move) noexcept` 
 
@@ -990,7 +1000,7 @@ class ThorsAnvil::Nisse::Core::Socket::SocketStreamBuffer
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public template<typename Stream>`  <br/>[`StreamCloser`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_stream_closer)`< Stream > `[`make_StreamCloser`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1a194d28c9d26946c9ad58b7b49d5c56ff)`(Stream & stream)`            | 
+`public template<typename Stream>`  <br/>[`StreamCloser`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_stream_closer)`< Stream > `[`make_StreamCloser`](#_stream_closer_8h_1a194d28c9d26946c9ad58b7b49d5c56ff)`(Stream & stream)`            | 
 `class `[`ThorsAnvil::Nisse::Core::SQL::ConnectionNonBlocking`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_connection_non_blocking) | 
 `class `[`ThorsAnvil::Nisse::Core::SQL::MySQLConnectionHandler`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_my_s_q_l_connection_handler) | 
 `class `[`ThorsAnvil::Nisse::Core::SQL::NonBlockingMySQLConnection`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_non_blocking_my_s_q_l_connection) | 
@@ -999,7 +1009,7 @@ class ThorsAnvil::Nisse::Core::Socket::SocketStreamBuffer
 
 ## Members
 
-#### `public template<typename Stream>`  <br/>[`StreamCloser`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_stream_closer)`< Stream > `[`make_StreamCloser`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1a194d28c9d26946c9ad58b7b49d5c56ff)`(Stream & stream)` 
+#### `public template<typename Stream>`  <br/>[`StreamCloser`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_s_q_l_1_1_stream_closer)`< Stream > `[`make_StreamCloser`](#_stream_closer_8h_1a194d28c9d26946c9ad58b7b49d5c56ff)`(Stream & stream)` 
 
 # class `ThorsAnvil::Nisse::Core::SQL::ConnectionNonBlocking` 
 
@@ -1234,23 +1244,23 @@ class ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public template<typename... Args>`  <br/>`void `[`print`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a5792637fc51ea83f57498252ccee3cef)`(std::ostream & s,Args &... args)`            | 
-`public template<typename... Args>`  <br/>`std::string `[`buildStringFromParts`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a1b1432bc83595fb688f049e6abd4a0eb)`(Args const &... args)`            | 
-`public template<typename... Args>`  <br/>`std::string `[`buildErrorMessage`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a420a8de478c18d2470dcd4ca8fba8191)`(Args const &... args)`            | 
-`public inline std::string `[`errnoToName`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a23f9b88b61469b8d205338d543b0c7a3)`()`            | 
-`public inline std::string `[`systemErrorMessage`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1abad25618e95e91c9d6507e3b9384900b)`()`            | 
+`public template<typename... Args>`  <br/>`void `[`print`](#_utility_8h_1a5792637fc51ea83f57498252ccee3cef)`(std::ostream & s,Args &... args)`            | 
+`public template<typename... Args>`  <br/>`std::string `[`buildStringFromParts`](#_utility_8h_1a1b1432bc83595fb688f049e6abd4a0eb)`(Args const &... args)`            | 
+`public template<typename... Args>`  <br/>`std::string `[`buildErrorMessage`](#_utility_8h_1a420a8de478c18d2470dcd4ca8fba8191)`(Args const &... args)`            | 
+`public inline std::string `[`errnoToName`](#_utility_8h_1a23f9b88b61469b8d205338d543b0c7a3)`()`            | 
+`public inline std::string `[`systemErrorMessage`](#_utility_8h_1abad25618e95e91c9d6507e3b9384900b)`()`            | 
 
 ## Members
 
-#### `public template<typename... Args>`  <br/>`void `[`print`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a5792637fc51ea83f57498252ccee3cef)`(std::ostream & s,Args &... args)` 
+#### `public template<typename... Args>`  <br/>`void `[`print`](#_utility_8h_1a5792637fc51ea83f57498252ccee3cef)`(std::ostream & s,Args &... args)` 
 
-#### `public template<typename... Args>`  <br/>`std::string `[`buildStringFromParts`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a1b1432bc83595fb688f049e6abd4a0eb)`(Args const &... args)` 
+#### `public template<typename... Args>`  <br/>`std::string `[`buildStringFromParts`](#_utility_8h_1a1b1432bc83595fb688f049e6abd4a0eb)`(Args const &... args)` 
 
-#### `public template<typename... Args>`  <br/>`std::string `[`buildErrorMessage`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a420a8de478c18d2470dcd4ca8fba8191)`(Args const &... args)` 
+#### `public template<typename... Args>`  <br/>`std::string `[`buildErrorMessage`](#_utility_8h_1a420a8de478c18d2470dcd4ca8fba8191)`(Args const &... args)` 
 
-#### `public inline std::string `[`errnoToName`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1a23f9b88b61469b8d205338d543b0c7a3)`()` 
+#### `public inline std::string `[`errnoToName`](#_utility_8h_1a23f9b88b61469b8d205338d543b0c7a3)`()` 
 
-#### `public inline std::string `[`systemErrorMessage`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_utility_1abad25618e95e91c9d6507e3b9384900b)`()` 
+#### `public inline std::string `[`systemErrorMessage`](#_utility_8h_1abad25618e95e91c9d6507e3b9384900b)`()` 
 
 # namespace `ThorsAnvil::Nisse::Protocol::HTTP` 
 
@@ -1258,8 +1268,8 @@ class ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`enum `[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)            | 
-`public inline char const  * `[`getTimeString`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a97e917251e2bd9db7fdea6af5f53d774)`()`            | 
+`enum `[`Method`](#_types_8h_1a647c76a7f17d74a0ec479d066d790a15)            | 
+`public inline char const  * `[`getTimeString`](#_types_8h_1a97e917251e2bd9db7fdea6af5f53d774)`()`            | 
 `class `[`ThorsAnvil::Nisse::Protocol::HTTP::Binder`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder) | 
 `class `[`ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_developer_handler) | 
 `class `[`ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_dynamic_site_loader) | 
@@ -1276,7 +1286,7 @@ class ThorsAnvil::Nisse::Core::SQL::NonBlockingPrepareStatement
 
 ## Members
 
-#### `enum `[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15) 
+#### `enum `[`Method`](#_types_8h_1a647c76a7f17d74a0ec479d066d790a15) 
 
  Values                         | Descriptions                                
 --------------------------------|---------------------------------------------
@@ -1286,7 +1296,7 @@ Post            |
 Delete            | 
 Head            | 
 
-#### `public inline char const  * `[`getTimeString`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a97e917251e2bd9db7fdea6af5f53d774)`()` 
+#### `public inline char const  * `[`getTimeString`](#_types_8h_1a97e917251e2bd9db7fdea6af5f53d774)`()` 
 
 # class `ThorsAnvil::Nisse::Protocol::HTTP::Binder` 
 
@@ -1295,22 +1305,22 @@ Head            |
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
 `public  `[`Binder`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a192e6e3575ee87d3e842c7318c217af3)`()` | 
-`public void `[`setCustome404Action`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a81802b5d5c71d857f5b14ac2f9a25c39)`(`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` | 
+`public void `[`setCustome404Action`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a81802b5d5c71d857f5b14ac2f9a25c39)`(Action && action)` | 
 `public void `[`addSite`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a3e256b61e956644a6d0a6a2cb4536f8a)`(std::string const & host,std::string const & base,`[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` && site)` | 
 `public std::pair< bool, int > `[`remSite`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a3267d9b009f646cfa071beb28795222a)`(std::string const & host,std::string const & base)` | 
-`public `[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1acdad42238d44083fe8e11bc0c65e3305)`(`[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` method,std::string const & host,std::string const & path) const` | 
+`public Action `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1acdad42238d44083fe8e11bc0c65e3305)`(Method method,std::string const & host,std::string const & path) const` | 
 
 ## Members
 
 #### `public  `[`Binder`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a192e6e3575ee87d3e842c7318c217af3)`()` 
 
-#### `public void `[`setCustome404Action`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a81802b5d5c71d857f5b14ac2f9a25c39)`(`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` 
+#### `public void `[`setCustome404Action`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a81802b5d5c71d857f5b14ac2f9a25c39)`(Action && action)` 
 
 #### `public void `[`addSite`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a3e256b61e956644a6d0a6a2cb4536f8a)`(std::string const & host,std::string const & base,`[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` && site)` 
 
 #### `public std::pair< bool, int > `[`remSite`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1a3267d9b009f646cfa071beb28795222a)`(std::string const & host,std::string const & base)` 
 
-#### `public `[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1acdad42238d44083fe8e11bc0c65e3305)`(`[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` method,std::string const & host,std::string const & path) const` 
+#### `public Action `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_binder_1acdad42238d44083fe8e11bc0c65e3305)`(Method method,std::string const & host,std::string const & path) const` 
 
 # class `ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler` 
 
@@ -1324,13 +1334,13 @@ class ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
 `public  `[`DeveloperHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_developer_handler_1a0a2b13dc4a00861e7addfe9a6283841f)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,`[`DynamicSiteLoader`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_dynamic_site_loader)` & loader)` | 
-`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_developer_handler_1ac2e929bdbab123e1f9f3e015b313754b)`(`[`Core::Service::LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` | 
+`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_developer_handler_1ac2e929bdbab123e1f9f3e015b313754b)`(Core::Service::LibSocketId sockId,short eventType)` | 
 
 ## Members
 
 #### `public  `[`DeveloperHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_developer_handler_1a0a2b13dc4a00861e7addfe9a6283841f)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,`[`DynamicSiteLoader`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_dynamic_site_loader)` & loader)` 
 
-#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_developer_handler_1ac2e929bdbab123e1f9f3e015b313754b)`(`[`Core::Service::LibSocketId`](#namespace_thors_anvil_1_1_nisse_1_1_core_1_1_service_1a57450340c81079c67d728bc72965b4b9)` sockId,short eventType)` 
+#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_developer_handler_1ac2e929bdbab123e1f9f3e015b313754b)`(Core::Service::LibSocketId sockId,short eventType)` 
 
 # class `ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader` 
 
@@ -1427,15 +1437,15 @@ class ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public const `[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` `[`method`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1aa59c2f463ae2aa801fa3b3f4d238321a) | 
+`public const Method `[`method`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1aa59c2f463ae2aa801fa3b3f4d238321a) | 
 `public const `[`URI`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_u_r_i)` `[`uri`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1af102698b6fe4edd2388d57b31a4685b8) | 
 `public const `[`Headers`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_headers)` & `[`headers`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1ac58043d5885bf9dac55acbf8d8b9f870) | 
 `public std::istream & `[`body`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1a25847e5117686cb11bcf0371aa895e2e) | 
-`public  `[`Request`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1abc12f05578893c11ddbc2a281ad8bc7e)`(`[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` method,`[`URI`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_u_r_i)` && uri,`[`Headers`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_headers)` & headers,std::istream & body)` | 
+`public  `[`Request`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1abc12f05578893c11ddbc2a281ad8bc7e)`(Method method,`[`URI`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_u_r_i)` && uri,`[`Headers`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_headers)` & headers,std::istream & body)` | 
 
 ## Members
 
-#### `public const `[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` `[`method`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1aa59c2f463ae2aa801fa3b3f4d238321a) 
+#### `public const Method `[`method`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1aa59c2f463ae2aa801fa3b3f4d238321a) 
 
 #### `public const `[`URI`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_u_r_i)` `[`uri`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1af102698b6fe4edd2388d57b31a4685b8) 
 
@@ -1443,7 +1453,7 @@ class ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler
 
 #### `public std::istream & `[`body`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1a25847e5117686cb11bcf0371aa895e2e) 
 
-#### `public  `[`Request`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1abc12f05578893c11ddbc2a281ad8bc7e)`(`[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` method,`[`URI`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_u_r_i)` && uri,`[`Headers`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_headers)` & headers,std::istream & body)` 
+#### `public  `[`Request`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_request_1abc12f05578893c11ddbc2a281ad8bc7e)`(Method method,`[`URI`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_u_r_i)` && uri,`[`Headers`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_headers)` & headers,std::istream & body)` 
 
 # class `ThorsAnvil::Nisse::Protocol::HTTP::Response` 
 
@@ -1521,12 +1531,12 @@ class ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler
 `public  `[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1aa3354eda8806fec25437d1ef2b675593)`(`[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` &&) noexcept` | 
 `public `[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` & `[`operator=`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a2feec144fc2ce0be788cd0c11fa8b731)`(`[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` &&) noexcept` | 
 `public void `[`swap`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a6ac5cdb058e48fba60b9cdac414758ef)`(`[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` &) noexcept` | 
-`public inline void `[`get`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1adc56a7d556e155305032f0360da58b4f)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` | 
-`public inline void `[`put`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a567e78a7a98247936f4f4ad0f107c105)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` | 
-`public inline void `[`del`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a557b4abf1a417470fcfed3150e23fc6a)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` | 
-`public inline void `[`post`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a321ed775fcdcf1a7b3ef531fe3db0fc7)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` | 
-`public inline void `[`all`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a49abbb5a5b0f606a091de751a3a816c0)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` | 
-`public std::pair< bool, `[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` > `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a0b01fb89d1adaf9751cb03b9fbaff5a4)`(`[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` method,std::string const & path) const` | 
+`public inline void `[`get`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1adc56a7d556e155305032f0360da58b4f)`(std::string && path,Action && action)` | 
+`public inline void `[`put`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a567e78a7a98247936f4f4ad0f107c105)`(std::string && path,Action && action)` | 
+`public inline void `[`del`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a557b4abf1a417470fcfed3150e23fc6a)`(std::string && path,Action && action)` | 
+`public inline void `[`post`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a321ed775fcdcf1a7b3ef531fe3db0fc7)`(std::string && path,Action && action)` | 
+`public inline void `[`all`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a49abbb5a5b0f606a091de751a3a816c0)`(std::string && path,Action && action)` | 
+`public std::pair< bool, Action > `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a0b01fb89d1adaf9751cb03b9fbaff5a4)`(Method method,std::string const & path) const` | 
 
 ## Members
 
@@ -1538,17 +1548,17 @@ class ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler
 
 #### `public void `[`swap`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a6ac5cdb058e48fba60b9cdac414758ef)`(`[`Site`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site)` &) noexcept` 
 
-#### `public inline void `[`get`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1adc56a7d556e155305032f0360da58b4f)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` 
+#### `public inline void `[`get`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1adc56a7d556e155305032f0360da58b4f)`(std::string && path,Action && action)` 
 
-#### `public inline void `[`put`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a567e78a7a98247936f4f4ad0f107c105)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` 
+#### `public inline void `[`put`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a567e78a7a98247936f4f4ad0f107c105)`(std::string && path,Action && action)` 
 
-#### `public inline void `[`del`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a557b4abf1a417470fcfed3150e23fc6a)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` 
+#### `public inline void `[`del`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a557b4abf1a417470fcfed3150e23fc6a)`(std::string && path,Action && action)` 
 
-#### `public inline void `[`post`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a321ed775fcdcf1a7b3ef531fe3db0fc7)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` 
+#### `public inline void `[`post`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a321ed775fcdcf1a7b3ef531fe3db0fc7)`(std::string && path,Action && action)` 
 
-#### `public inline void `[`all`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a49abbb5a5b0f606a091de751a3a816c0)`(std::string && path,`[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` && action)` 
+#### `public inline void `[`all`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a49abbb5a5b0f606a091de751a3a816c0)`(std::string && path,Action && action)` 
 
-#### `public std::pair< bool, `[`Action`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1af0549c8b8ddc258d5f60ea43a1489f59)` > `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a0b01fb89d1adaf9751cb03b9fbaff5a4)`(`[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` method,std::string const & path) const` 
+#### `public std::pair< bool, Action > `[`find`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_site_1a0b01fb89d1adaf9751cb03b9fbaff5a4)`(Method method,std::string const & path) const` 
 
 # class `ThorsAnvil::Nisse::Protocol::HTTP::URI` 
 
@@ -1601,7 +1611,7 @@ class ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler
 `public std::string `[`uri`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1af3405ad68ef0af6b3305ac596bde552a) | 
 `public char const  * `[`bodyBegin`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a685b5e1dbb64cbb5e09e404e09918fe7) | 
 `public char const  * `[`bodyEnd`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a5cf136b806fb5fc45a3d80dbc77142d8) | 
-`public `[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` `[`method`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a3e1d2a264bff129bba9f46408d3dcbdf) | 
+`public Method `[`method`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a3e1d2a264bff129bba9f46408d3dcbdf) | 
 `public bool `[`messageComplete`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1ac054df7daba495cba93bb1b8fd7e1497) | 
 `public bool `[`gotValue`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a1a89d7a3595e788b53335d680f14e1b6) | 
 `public  `[`HttpParserData`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a6f41f2d68fe30f104613274fe95988d8)`()` | 
@@ -1621,7 +1631,7 @@ class ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler
 
 #### `public char const  * `[`bodyEnd`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a5cf136b806fb5fc45a3d80dbc77142d8) 
 
-#### `public `[`Method`](#namespace_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1a647c76a7f17d74a0ec479d066d790a15)` `[`method`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a3e1d2a264bff129bba9f46408d3dcbdf) 
+#### `public Method `[`method`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1a3e1d2a264bff129bba9f46408d3dcbdf) 
 
 #### `public bool `[`messageComplete`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_http_parser_data_1ac054df7daba495cba93bb1b8fd7e1497) 
 
@@ -1648,6 +1658,128 @@ class ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler
 #### `public inline bool `[`operator()`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_route_tester_1a150ea565d6ad5cb4e7d5a062a949af9a)`(`[`Route`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_route)` const & lhs,std::string const & rhs) const` 
 
 #### `public inline bool `[`operator()`](#struct_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_route_tester_1a6a662d1fca1d0ea9a9b2563b4ffccc26)`(`[`Route`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_route)` const & lhs,`[`Route`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_h_t_t_p_1_1_route)` const & rhs) const` 
+
+# namespace `ThorsAnvil::Nisse::Protocol::Simple` 
+
+## Summary
+
+ Members                        | Descriptions                                
+--------------------------------|---------------------------------------------
+`class `[`ThorsAnvil::Nisse::Protocol::Simple::Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message) | 
+`class `[`ThorsAnvil::Nisse::Protocol::Simple::ReadMessageHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_handler) | 
+`class `[`ThorsAnvil::Nisse::Protocol::Simple::ReadMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_stream_handler) | 
+`class `[`ThorsAnvil::Nisse::Protocol::Simple::WriteMessageHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_handler) | 
+`class `[`ThorsAnvil::Nisse::Protocol::Simple::WriteMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler) | 
+
+# class `ThorsAnvil::Nisse::Protocol::Simple::Message` 
+
+## Summary
+
+ Members                        | Descriptions                                
+--------------------------------|---------------------------------------------
+`public std::size_t `[`size`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1a6d0da01d58a4a4fd831dd8533b326921) | 
+`public std::string `[`message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1a05cc5fc09d2b32d962669fade16efdbc) | 
+`public  `[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1ab940665ad2ca8d7e89fff6c4d0ad0b7e)`() = default` | 
+`public inline  `[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1a206b3532b0d1fdd83b13ac944644d4d4)`(`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` const & move)` | 
+`public inline  `[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1aa7e55035b111a33eee9cc8a15ac6f730)`(`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` && move)` | 
+
+## Members
+
+#### `public std::size_t `[`size`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1a6d0da01d58a4a4fd831dd8533b326921) 
+
+#### `public std::string `[`message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1a05cc5fc09d2b32d962669fade16efdbc) 
+
+#### `public  `[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1ab940665ad2ca8d7e89fff6c4d0ad0b7e)`() = default` 
+
+#### `public inline  `[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1a206b3532b0d1fdd83b13ac944644d4d4)`(`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` const & move)` 
+
+#### `public inline  `[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message_1aa7e55035b111a33eee9cc8a15ac6f730)`(`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` && move)` 
+
+# class `ThorsAnvil::Nisse::Protocol::Simple::ReadMessageHandler` 
+
+```
+class ThorsAnvil::Nisse::Protocol::Simple::ReadMessageHandler
+  : public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable< Core::Socket::DataSocket >
+```  
+
+## Summary
+
+ Members                        | Descriptions                                
+--------------------------------|---------------------------------------------
+`public  `[`ReadMessageHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_handler_1aea60e5a005f7b33dbf60811c8932e78e)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket)` | 
+`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_handler_1a111e0000ba52e818f66cd80bde2375d4)`(Core::Service::LibSocketId sockId,short eventType)` | 
+
+## Members
+
+#### `public  `[`ReadMessageHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_handler_1aea60e5a005f7b33dbf60811c8932e78e)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket)` 
+
+#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_handler_1a111e0000ba52e818f66cd80bde2375d4)`(Core::Service::LibSocketId sockId,short eventType)` 
+
+# class `ThorsAnvil::Nisse::Protocol::Simple::ReadMessageStreamHandler` 
+
+```
+class ThorsAnvil::Nisse::Protocol::Simple::ReadMessageStreamHandler
+  : public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable< Core::Socket::DataSocket >
+```  
+
+## Summary
+
+ Members                        | Descriptions                                
+--------------------------------|---------------------------------------------
+`public  `[`ReadMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_stream_handler_1ae9e68807e519fbd7224d28a928c81027)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket)` | 
+`public virtual bool `[`eventActivateNonBlocking`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_stream_handler_1a89fa4a32ea60bd329e4db2ed679ffb54)`()` | 
+
+## Members
+
+#### `public  `[`ReadMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_stream_handler_1ae9e68807e519fbd7224d28a928c81027)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket)` 
+
+#### `public virtual bool `[`eventActivateNonBlocking`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_read_message_stream_handler_1a89fa4a32ea60bd329e4db2ed679ffb54)`()` 
+
+# class `ThorsAnvil::Nisse::Protocol::Simple::WriteMessageHandler` 
+
+```
+class ThorsAnvil::Nisse::Protocol::Simple::WriteMessageHandler
+  : public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable< Core::Socket::DataSocket >
+```  
+
+## Summary
+
+ Members                        | Descriptions                                
+--------------------------------|---------------------------------------------
+`public  `[`WriteMessageHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_handler_1abae9d24b511cbb0abfbdac1eef017d13)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,std::string const & message,bool ok)` | 
+`public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_handler_1a492277bb71b517fbdd1e9e21692ca2d1)`(Core::Service::LibSocketId sockId,short eventType)` | 
+
+## Members
+
+#### `public  `[`WriteMessageHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_handler_1abae9d24b511cbb0abfbdac1eef017d13)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,std::string const & message,bool ok)` 
+
+#### `public virtual short `[`eventActivate`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_handler_1a492277bb71b517fbdd1e9e21692ca2d1)`(Core::Service::LibSocketId sockId,short eventType)` 
+
+# class `ThorsAnvil::Nisse::Protocol::Simple::WriteMessageStreamHandler` 
+
+```
+class ThorsAnvil::Nisse::Protocol::Simple::WriteMessageStreamHandler
+  : public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable< Core::Socket::DataSocket >
+```  
+
+## Summary
+
+ Members                        | Descriptions                                
+--------------------------------|---------------------------------------------
+`public  `[`WriteMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1ac09eb850599d8680a53a1713043b4b5f)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` && message)` | 
+`public  `[`WriteMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1a0fb8fa4f1f9bb3890b78fb16726560dd)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` const & message)` | 
+`public  `[`~WriteMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1a6c2a419a602a1f1247cf97db23c39896)`()` | 
+`public virtual bool `[`eventActivateNonBlocking`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1aa64e225ef983077891576f770c5d2e20)`()` | 
+
+## Members
+
+#### `public  `[`WriteMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1ac09eb850599d8680a53a1713043b4b5f)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` && message)` 
+
+#### `public  `[`WriteMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1a0fb8fa4f1f9bb3890b78fb16726560dd)`(`[`Core::Service::Server`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_service_1_1_server)` & parent,`[`Core::Socket::DataSocket`](#class_thors_anvil_1_1_nisse_1_1_core_1_1_socket_1_1_data_socket)` && socket,`[`Message`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_message)` const & message)` 
+
+#### `public  `[`~WriteMessageStreamHandler`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1a6c2a419a602a1f1247cf97db23c39896)`()` 
+
+#### `public virtual bool `[`eventActivateNonBlocking`](#class_thors_anvil_1_1_nisse_1_1_protocol_1_1_simple_1_1_write_message_stream_handler_1aa64e225ef983077891576f770c5d2e20)`()` 
 
 # class `DevNullStreamBuf` 
 
@@ -1796,38 +1928,38 @@ PUBLIC
 
  Members                        | Descriptions                                
 --------------------------------|---------------------------------------------
-`public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_message_begin`](#structhttp__parser__settings_1ac44144daecc8e8adbd477b7e6a794e26) | 
-`public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_url`](#structhttp__parser__settings_1a9c24dfa900b49bf3439bbfba572b42fb) | 
-`public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_status`](#structhttp__parser__settings_1a6d0f0203f3461a8889ad471de119c993) | 
-`public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_header_field`](#structhttp__parser__settings_1acfb3fd7947c5ff3e16649c71aa13bff2) | 
-`public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_header_value`](#structhttp__parser__settings_1a2af4e9085fa79ee52b31e626179bc561) | 
-`public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_headers_complete`](#structhttp__parser__settings_1a743b24c8f33e0f1cf60a96c824c42071) | 
-`public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_body`](#structhttp__parser__settings_1aaa145d7c24c91f471b2079ecb6368ae4) | 
-`public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_message_complete`](#structhttp__parser__settings_1afdd5beef93a4a7b32bc61ae088da64d2) | 
-`public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_chunk_header`](#structhttp__parser__settings_1a497cf8f9d68e06e54684b71ee0f9f828) | 
-`public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_chunk_complete`](#structhttp__parser__settings_1ac1c8453573094795ef41d4ba26e78846) | 
+`public http_cb `[`on_message_begin`](#structhttp__parser__settings_1ac44144daecc8e8adbd477b7e6a794e26) | 
+`public http_data_cb `[`on_url`](#structhttp__parser__settings_1a9c24dfa900b49bf3439bbfba572b42fb) | 
+`public http_data_cb `[`on_status`](#structhttp__parser__settings_1a6d0f0203f3461a8889ad471de119c993) | 
+`public http_data_cb `[`on_header_field`](#structhttp__parser__settings_1acfb3fd7947c5ff3e16649c71aa13bff2) | 
+`public http_data_cb `[`on_header_value`](#structhttp__parser__settings_1a2af4e9085fa79ee52b31e626179bc561) | 
+`public http_cb `[`on_headers_complete`](#structhttp__parser__settings_1a743b24c8f33e0f1cf60a96c824c42071) | 
+`public http_data_cb `[`on_body`](#structhttp__parser__settings_1aaa145d7c24c91f471b2079ecb6368ae4) | 
+`public http_cb `[`on_message_complete`](#structhttp__parser__settings_1afdd5beef93a4a7b32bc61ae088da64d2) | 
+`public http_cb `[`on_chunk_header`](#structhttp__parser__settings_1a497cf8f9d68e06e54684b71ee0f9f828) | 
+`public http_cb `[`on_chunk_complete`](#structhttp__parser__settings_1ac1c8453573094795ef41d4ba26e78846) | 
 
 ## Members
 
-#### `public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_message_begin`](#structhttp__parser__settings_1ac44144daecc8e8adbd477b7e6a794e26) 
+#### `public http_cb `[`on_message_begin`](#structhttp__parser__settings_1ac44144daecc8e8adbd477b7e6a794e26) 
 
-#### `public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_url`](#structhttp__parser__settings_1a9c24dfa900b49bf3439bbfba572b42fb) 
+#### `public http_data_cb `[`on_url`](#structhttp__parser__settings_1a9c24dfa900b49bf3439bbfba572b42fb) 
 
-#### `public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_status`](#structhttp__parser__settings_1a6d0f0203f3461a8889ad471de119c993) 
+#### `public http_data_cb `[`on_status`](#structhttp__parser__settings_1a6d0f0203f3461a8889ad471de119c993) 
 
-#### `public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_header_field`](#structhttp__parser__settings_1acfb3fd7947c5ff3e16649c71aa13bff2) 
+#### `public http_data_cb `[`on_header_field`](#structhttp__parser__settings_1acfb3fd7947c5ff3e16649c71aa13bff2) 
 
-#### `public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_header_value`](#structhttp__parser__settings_1a2af4e9085fa79ee52b31e626179bc561) 
+#### `public http_data_cb `[`on_header_value`](#structhttp__parser__settings_1a2af4e9085fa79ee52b31e626179bc561) 
 
-#### `public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_headers_complete`](#structhttp__parser__settings_1a743b24c8f33e0f1cf60a96c824c42071) 
+#### `public http_cb `[`on_headers_complete`](#structhttp__parser__settings_1a743b24c8f33e0f1cf60a96c824c42071) 
 
-#### `public `[`http_data_cb`](#http__parser_8h_1a7a2b17230dcd129c4ed47e3f9c5110a2)` `[`on_body`](#structhttp__parser__settings_1aaa145d7c24c91f471b2079ecb6368ae4) 
+#### `public http_data_cb `[`on_body`](#structhttp__parser__settings_1aaa145d7c24c91f471b2079ecb6368ae4) 
 
-#### `public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_message_complete`](#structhttp__parser__settings_1afdd5beef93a4a7b32bc61ae088da64d2) 
+#### `public http_cb `[`on_message_complete`](#structhttp__parser__settings_1afdd5beef93a4a7b32bc61ae088da64d2) 
 
-#### `public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_chunk_header`](#structhttp__parser__settings_1a497cf8f9d68e06e54684b71ee0f9f828) 
+#### `public http_cb `[`on_chunk_header`](#structhttp__parser__settings_1a497cf8f9d68e06e54684b71ee0f9f828) 
 
-#### `public `[`http_cb`](#http__parser_8h_1aa87f59f70dbc2c48f11a6d9a3e00addc)` `[`on_chunk_complete`](#structhttp__parser__settings_1ac1c8453573094795ef41d4ba26e78846) 
+#### `public http_cb `[`on_chunk_complete`](#structhttp__parser__settings_1ac1c8453573094795ef41d4ba26e78846) 
 
 # struct `http_parser_url` 
 
