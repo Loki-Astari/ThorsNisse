@@ -67,7 +67,7 @@
 `define `[`HTTP_ERRNO_GEN`](#http__parser_8h_1a686e9a27372975330d034ecb3ead862c)            | 
 `define `[`HTTP_PARSER_ERRNO`](#http__parser_8h_1a356ebaa93536e6f94c2948a1416697c7)            | 
 `enum `[`state`](#http__parser_8cpp_1adc6e5733fc3c22f0a7b2914188c49c90)            | 
-`enum `[`header_states`](#http__parser_8cpp_1a30b263f03d96d31497fac23df89edbd9)            | 
+`enum `[`header_states`](#http-parser-8cpp-1a30b263f03d96d31497fac23df89edbd9)            | 
 `enum `[`http_host_state`](#http__parser_8cpp_1ae8df1d915c4ab1e80985eb2611ccbdc9)            | 
 `enum `[`http_status`](#http__parser_8h_1abc3b93f68c8bdd857ad32913628dfa8d)            | 
 `enum `[`http_method`](#http__parser_8h_1aacd5f203e33ac338ca5cb8f02a3ff3b8)            | 
