@@ -56,6 +56,8 @@ class HandlerBase
         void doDropHandler(bool closeStream);
 };
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
 template<typename Stream>
 inline int getSocketId(Stream& stream)     {return stream.getSocketId();}
 template<>
@@ -65,6 +67,8 @@ template<typename Stream>
 inline void closeStream(Stream& stream)    {stream.close();}
 template<>
 inline void closeStream<int>(int&)         {/*Ignore*/}
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
 template<typename Stream>
 class HandlerStream: public HandlerBase
