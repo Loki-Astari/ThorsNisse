@@ -38,6 +38,7 @@ class MySQLConnectionHandler: public Service::HandlerSuspendable<StreamCloser<Th
         {}
         virtual bool eventActivateNonBlocking() override
         {
+            // MIY TODO ThorsAnvil::SQL::Lib::YieldSetter   setter(stream, [&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             stream.setYield([&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             connection.doConectToServer(username, password, database, options);
             stream.setYield([](){}, [](){});

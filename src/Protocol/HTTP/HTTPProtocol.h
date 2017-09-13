@@ -21,7 +21,7 @@ class ReadRequestHandler: public Core::Service::HandlerSuspendable<Core::Socket:
     private:
         Binder const&               binder;
         Response*                   flusher;
-        bool                        running;
+        /*MIY TODO remove*/bool                        running;
 
         static constexpr std::size_t bufferLen = 80 * 1024;
 

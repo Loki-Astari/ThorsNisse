@@ -36,10 +36,10 @@ ReadRequestHandler::ReadRequestHandler(Core::Service::Server& parent, Core::Sock
     : HandlerSuspendable(parent, std::move(socket), EV_READ)
     , binder(binder)
     , flusher(nullptr)
-    , running(false)
+    /*MIY TODO remove*/, running(false)
 {}
 
-struct SetRunning
+/*MIY TODO Remove*/struct SetRunning
 {
     bool& running;
     SetRunning(bool& running)
@@ -55,7 +55,7 @@ struct SetRunning
 
 bool ReadRequestHandler::eventActivateNonBlocking()
 {
-    SetRunning          setRunning(running);
+    /*MIY TODO remove*/SetRunning          setRunning(running);
     HttpScanner         scanner;
     std::vector<char>   buffer(bufferLen);
 

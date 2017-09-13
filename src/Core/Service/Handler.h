@@ -4,6 +4,7 @@
 #include "EventUtil.h"
 #include "CoRoutine.h"
 #include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"
 #include <memory>
 #include <functional>
 
@@ -136,6 +137,20 @@ class HandlerSuspendable: public HandlerStream<Stream>
             return worker->get();
         }
         virtual bool eventActivateNonBlocking() = 0;
+};
+
+class HandlerSuspendableWithStream: public HandlerSuspendable<Socket::DataSocket>
+{
+    public:
+        using HandlerSuspendable::HandlerSuspendable;
+        virtual bool eventActivateWithStream(std::istream& input, std::ostream& output) = 0;
+        virtual bool eventActivateNonBlocking() final
+        {
+            Core::Socket::ISocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);},  [](){});
+            Core::Socket::OSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
+
+            return eventActivateWithStream(input, output);
+        }
 };
 
 template<typename ActHand, typename Param>
