@@ -1,0 +1,13 @@
+```cpp
+int main()
+{
+    Serv::Server      server;
+    MyStateObject     state;
+
+    server.addTimer(3.5, [](){std::cout << "Timer\n";});
+
+    // Start the event loop.
+    // While the event loop is running the timer will be activated every 3.5 seconds
+    server.start();
+}
+```

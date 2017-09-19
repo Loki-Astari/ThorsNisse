@@ -1,5 +1,6 @@
 #include "Server.h"
 #include "Handler.h"
+#include "ServerHandler.h"
 
 #include <iostream>
 
@@ -53,6 +54,11 @@ void Server::swap(Server& other)
 
 void Server::start(double check)
 {
+    /** MethodDesc:
+    Starts the event loop.
+    This method does not return immediately. A call to <code>flagShutDown()</code> will cause the event loop to exit after the current iteration.
+    @ param check Timeout period after which internal house keeping operations are performed.
+    */
     std::cout << "Nisse Started\n";
     running = true;
     while (!shutDownNext)
@@ -67,6 +73,10 @@ void Server::start(double check)
 
 void Server::flagShutDown()
 {
+    /** MethodDesc:
+    Marks the event loop for shut down.
+    After the current iteration of the event loop has finished it will exit. This will cause the `start()` function to return.
+    */
     shutDownNext = true;
     if (::event_base_loopbreak(eventBase.get()) != 0)
     {
@@ -113,6 +123,13 @@ void Server::delHandler(HandlerBase* oldHandler)
 
 void Server::addTimer(double timeOut, std::function<void()>&& action)
 {
+    /** MethodDesc:
+    Sets a timer to go off every `timeOut` seconds.
+    The result of the timmer going off is to execute the functot `action`.
+    @ param timeOut The time period (in seconds)  between running the action object.
+    @ param action Functor that is run every `timeOut` seconds.
+    @ example example/Server-addTimer.cpp
+    */
     addHandler<TimerHandler>(std::move(timeOut), std::move(action));
 }
 
@@ -142,15 +159,37 @@ bool Server::inHandler()
     // And that handler is non-suspendable
     return currentService && currentService->currentHandler && currentService->currentHandler->suspendable();
 }
+
+void Server::ignore(std::string const& type)
+{
+    if (cfg != nullptr)
+    {
+        ::event_config_free(cfg);
+        cfg = nullptr;
+    }
+    if (type != "")
+    {
+        cfg = ::event_config_new();
+        ::event_config_avoid_method(cfg, type.c_str());
+    }
+}
+
 #ifdef COVERAGE_TEST
 /*
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
 #include "Server.tpp"
+#include "Handler.tpp"
 #include "test/Action.h"
+
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(ServerConnection const&);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(ServerConnection const&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<TestHandler, std::tuple<bool, bool, bool>>(ServerConnection const&, std::tuple<bool, bool, bool>&);
+template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<InHandlerTest, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>>(ServerConnection const&, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&);
 template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template ThorsAnvil::Nisse::Core::Service::HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<TestHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::tuple<bool, bool, bool>&>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::tuple<bool, bool, bool>&);
+template ThorsAnvil::Nisse::Core::Service::HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<InHandlerTest, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)>>&>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)>>&);
+template ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>::HandlerSuspendable(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::DataSocket&&, short);
 #endif

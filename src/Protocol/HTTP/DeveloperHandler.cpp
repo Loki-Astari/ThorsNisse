@@ -136,6 +136,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
  */
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
+#include "ThorsNisseCoreService/ServerHandler.tpp"
 #if HAVE_DEVLOADER
 #include "ThorSerialize/Serialize.tpp"
 #endif

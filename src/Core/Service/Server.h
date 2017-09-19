@@ -1,6 +1,11 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 #define THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 
+/** LibDesc:
+A simple wrapper around libEvent.
+@ example example/LibDesc.cpp
+*/
+
 #include "EventUtil.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
@@ -8,7 +13,6 @@
 #include <functional>
 #include <string>
 #include <vector>
-#include <event.h>
 
 namespace ThorsAnvil
 {
@@ -28,6 +32,14 @@ using NisseManagHandler = std::unique_ptr<HandlerBase>;
 
 struct ServerConnection
 {
+    /** ClassDesc:
+    Used to simplify the definition of a port.
+    @ See Server::listenOn()
+    @ public constructor ServerConnection(int port, int maxConnections = ThorsAnvil::Nisse::Core::Socket::ServerSocket::maxConnectionBacklog)
+    @ public variable int port
+    @ public variable int maxConnections
+    @ example example/ServerConnection.cpp
+    */
     int port;
     int maxConnections;
     public:
@@ -39,6 +51,17 @@ struct ServerConnection
 
 class Server
 {
+    /** ClassDesc:
+    An object that acts as the main server event loop.
+    One of these objects can handle all the ports your application requires
+    @ public constructor Server()
+    @ public constructor Server(Server&&)
+    @ public constructor Server& operator=(Server&&)
+    @ public method void start(double check = 10.0)
+    @ public method void flagShutDown()
+    @ public method void listenOn(ServerConnection const& info[, Param& param])
+    @ public method void addTimer(double timeOut, std::function<void()>&& action)
+    */
     private:
         bool                            running;
         bool                            shutDownNext;
@@ -81,19 +104,7 @@ class Server
 
         static Server&       getCurrentHandler();
         static bool          inHandler();
-        static void ignore(std::string const& type = "")
-        {
-            if (cfg != nullptr)
-            {
-                ::event_config_free(cfg);
-                cfg = nullptr;
-            }
-            if (type != "")
-            {
-                cfg = ::event_config_new();
-                ::event_config_avoid_method(cfg, type.c_str());
-            }
-        }
+        static void ignore(std::string const& type = "");
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();
