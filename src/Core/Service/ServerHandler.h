@@ -15,6 +15,9 @@ namespace ThorsAnvil
 template<typename ActHand, typename Param>
 class ServerHandler: public HandlerNonSuspendable<Socket::ServerSocket>
 {
+    /** ClassDesc:
+    An implementation of HandlerNonSuspendable that is used to accept connections and create other handlers.
+    */
     private:
         Param&                  param;
     public:
@@ -34,6 +37,9 @@ class ServerHandler<ActHand, void>: public HandlerNonSuspendable<Socket::ServerS
 
 class TimerHandler: public HandlerNonSuspendable<int>
 {
+    /** ClassDesc:
+    An implementation of HandlerNonSuspendable that is used to implement the timer functionality.
+    */
     std::function<void()>        action;
     public:
         TimerHandler(Server& parent, double timeOut, std::function<void()>&& action);
