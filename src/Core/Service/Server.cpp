@@ -54,6 +54,11 @@ void Server::swap(Server& other)
 
 void Server::start(double check)
 {
+    /** MethodDesc:
+    Starts the event loop.
+    This method does not return immediately. A call to <code>flagShutDown()</code> will cause the event loop to exit after the current iteration.
+    @ param check Timeout period after which internal house keeping operations are performed.
+    */
     std::cout << "Nisse Started\n";
     running = true;
     while (!shutDownNext)
@@ -68,6 +73,10 @@ void Server::start(double check)
 
 void Server::flagShutDown()
 {
+    /** MethodDesc:
+    Marks the event loop for shut down.
+    After the current iteration of the event loop has finished it will exit. This will cause the `start()` function to return.
+    */
     shutDownNext = true;
     if (::event_base_loopbreak(eventBase.get()) != 0)
     {
@@ -114,6 +123,13 @@ void Server::delHandler(HandlerBase* oldHandler)
 
 void Server::addTimer(double timeOut, std::function<void()>&& action)
 {
+    /** MethodDesc:
+    Sets a timer to go off every `timeOut` seconds.
+    The result of the timmer going off is to execute the functot `action`.
+    @ param timeOut The time period (in seconds)  between running the action object.
+    @ param action Functor that is run every `timeOut` seconds.
+    @ example example/Server-addTimer.cpp
+    */
     addHandler<TimerHandler>(std::move(timeOut), std::move(action));
 }
 
