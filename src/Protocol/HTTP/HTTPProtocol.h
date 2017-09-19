@@ -5,6 +5,7 @@
 #include "Types.h"
 #include "HttpScanner.h"
 #include "ThorsNisseCoreService/Handler.h"
+#include "ThorsNisseCoreService/ServerHandler.h"
 #include <cstddef>
 
 namespace ThorsAnvil

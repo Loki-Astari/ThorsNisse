@@ -1,8 +1,6 @@
 #include "Handler.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"
 #include "Server.h"
-
-#include <iostream>
-#include <ctime>
 
 using namespace ThorsAnvil::Nisse::Core::Service;
 using TimeVal = struct timeval;
@@ -168,21 +166,33 @@ void HandlerBase::setHandlers(short eventType, TimeVal* timeVal)
     }
 }
 
+bool HandlerSuspendableWithStream::eventActivateNonBlocking()
+{
+    Core::Socket::ISocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);},  [](){});
+    Core::Socket::OSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
+
+    return eventActivateWithStream(input, output);
+}
+
 #ifdef COVERAGE_TEST
 /*
  * This code is only compiled into the unit tests for code coverage purposes
  * It is not part of the live code.
  */
-#include "Server.tpp"
 #include "Handler.tpp"
-#include "ServerHandler.tpp"
 #include "test/Action.h"
-#include "ThorsNisseCoreSocket/Socket.h"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<TestHandler, std::tuple<bool, bool, bool>>(ServerConnection const&, std::tuple<bool, bool, bool>&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<InHandlerTest, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>>(ServerConnection const&, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&);
 
 template void ThorsAnvil::Nisse::Core::Service::HandlerBase::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
 template void ThorsAnvil::Nisse::Core::Service::HandlerBase::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<TestHandler, std::tuple<bool, bool, bool> >::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::tuple<bool, bool, bool>&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<InHandlerTest, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)> > >::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)> >&);
+
+template void ThorsAnvil::Nisse::Core::Service::HandlerBase::addHandler<TestHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::tuple<bool, bool, bool>&>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::tuple<bool, bool, bool>&);
+template void ThorsAnvil::Nisse::Core::Service::HandlerBase::addHandler<InHandlerTest, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)>>&>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)>>&);
+template void ThorsAnvil::Nisse::Core::Service::HandlerStream<ThorsAnvil::Nisse::Core::Socket::ServerSocket>::close();
+template void ThorsAnvil::Nisse::Core::Service::HandlerStream<int>::close();
+template short ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<int>::eventActivate(int, short);
+
+template ThorsAnvil::Nisse::Core::Service::HandlerStream<ThorsAnvil::Nisse::Core::Socket::DataSocket>::HandlerStream(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::DataSocket&&, short, double);
+template ThorsAnvil::Nisse::Core::Service::HandlerStream<ThorsAnvil::Nisse::Core::Socket::ServerSocket>::HandlerStream(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, short, double);
+template ThorsAnvil::Nisse::Core::Service::HandlerStream<int>::HandlerStream(ThorsAnvil::Nisse::Core::Service::Server&, int&&, short, double);
+template ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<int>::HandlerSuspendable(ThorsAnvil::Nisse::Core::Service::Server&, int&&, short);
 #endif

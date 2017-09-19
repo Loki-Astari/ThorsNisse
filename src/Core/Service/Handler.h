@@ -4,9 +4,9 @@
 #include "EventUtil.h"
 #include "CoRoutine.h"
 #include "ThorsNisseCoreSocket/Socket.h"
-#include "ThorsNisseCoreSocket/SocketStream.h"
 #include <memory>
 #include <functional>
+#include <stdexcept>
 
 extern "C" void eventCB(ThorsAnvil::Nisse::Core::Service::LibSocketId socketId, short eventType, void* event);
 
@@ -90,14 +90,8 @@ class HandlerStream: public HandlerBase
         Stream      stream;
         using HandlerBase::dropHandler;
     public:
-        HandlerStream(Server& parent, Stream&& stream, short eventType, double timeout = 0)
-            : HandlerBase(parent, getSocketId(stream), eventType, timeout)
-            , stream(std::move(stream))
-        {}
-        virtual void  close() override
-        {
-            closeStream(stream);
-        }
+        HandlerStream(Server& parent, Stream&& stream, short eventType, double timeout = 0);
+        virtual void  close() override;
 };
 
 template<typename Stream>
@@ -136,14 +130,9 @@ class HandlerSuspendable: public HandlerStream<Stream>
     std::unique_ptr<CoRoutine>  worker;
     short                       firstEvent;
     public:
-        HandlerSuspendable(Server& parent, Stream&& stream, short eventType)
-            : HandlerSuspendable(parent, std::move(stream), eventType, eventType)
-        {}
-        HandlerSuspendable(Server& parent, Stream&& stream, short eventType, short firstEvent)
-            : HandlerStream<Stream>(parent, std::move(stream), eventType, 0)
-            , yield(nullptr)
-            , firstEvent(firstEvent)
-        {}
+        HandlerSuspendable(Server& parent, Stream&& stream, short eventType);
+        HandlerSuspendable(Server& parent, Stream&& stream, short eventType, short firstEvent);
+
         virtual void suspend(short type)    final {(*yield)(type);}
         virtual bool suspendable()          final {return true;}
         virtual short eventActivate(LibSocketId sockId, short eventType) final;
@@ -163,14 +152,8 @@ class HandlerSuspendableWithStream: public HandlerSuspendable<Socket::DataSocket
     */
     public:
         using HandlerSuspendable::HandlerSuspendable;
+        virtual bool eventActivateNonBlocking() final;
         virtual bool eventActivateWithStream(std::istream& input, std::ostream& output) = 0;
-        virtual bool eventActivateNonBlocking() final
-        {
-            Core::Socket::ISocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);},  [](){});
-            Core::Socket::OSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
-
-            return eventActivateWithStream(input, output);
-        }
 };
 
 

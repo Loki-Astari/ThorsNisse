@@ -132,6 +132,8 @@ void DynamicSiteLoader::setMaxWaitingConnections(int max)
 #include "HTTPProtocol.h"
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
+#include "ThorsNisseCoreService/ServerHandler.tpp"
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler, ThorsAnvil::Nisse::Protocol::HTTP::Binder>(ServerConnection const&, ThorsAnvil::Nisse::Protocol::HTTP::Binder&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ThorsAnvil::Nisse::Protocol::HTTP::ReadRequestHandler, ThorsAnvil::Nisse::Protocol::HTTP::Binder>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, ThorsAnvil::Nisse::Protocol::HTTP::Binder&);
+template ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>::HandlerSuspendable(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::DataSocket&&, short);
 #endif

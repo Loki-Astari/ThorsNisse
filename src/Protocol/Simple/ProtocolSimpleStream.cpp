@@ -50,6 +50,7 @@ bool WriteMessageStreamHandler::eventActivateNonBlocking()
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
+#include "ThorsNisseCoreService/ServerHandler.tpp"
 #include "ProtocolSimple.h"
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageStreamHandler>(ServerConnection const&);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageStreamHandler, Message>(ServerConnection const&, Message&);

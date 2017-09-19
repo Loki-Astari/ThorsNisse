@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVER_HANDLER_H
 #define THORSANVIL_NISSE_CORE_SERVICE_SERVER_HANDLER_H
 
-#include "Handler.h"
+#include "ThorsNisseCoreSocket/Socket.h"
 
 namespace ThorsAnvil
 {
@@ -11,6 +11,7 @@ namespace ThorsAnvil
         {
             namespace Service
             {
+template<typename Stream> class HandlerNonSuspendable;
 
 template<typename ActHand, typename Param>
 class ServerHandler: public HandlerNonSuspendable<Socket::ServerSocket>

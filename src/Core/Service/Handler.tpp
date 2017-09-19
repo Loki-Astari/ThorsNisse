@@ -1,5 +1,5 @@
-#ifndef THORSANVIL_NISSE_NISSE_HANDLER_TPP
-#define THORSANVIL_NISSE_NISSE_HANDLER_TPP
+#ifndef THORSANVIL_NISSE_CORE_SERVICE_HANDLER_TPP
+#define THORSANVIL_NISSE_CORE_SERVICE_HANDLER_TPP
 
 #include "Server.h"
 
@@ -40,7 +40,31 @@ inline void HandlerBase::moveHandler(Args&&... args)
 }
 
 template<typename Stream>
-short HandlerSuspendable::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
+inline HandlerStream<Stream>::HandlerStream(Server& parent, Stream&& stream, short eventType, double timeout)
+    : HandlerBase(parent, getSocketId(stream), eventType, timeout)
+    , stream(std::move(stream))
+{}
+
+template<typename Stream>
+inline void HandlerStream<Stream>::close()
+{
+    closeStream(stream);
+}
+
+template<typename Stream>
+HandlerSuspendable<Stream>::HandlerSuspendable(Server& parent, Stream&& stream, short eventType)
+    : HandlerSuspendable(parent, std::move(stream), eventType, eventType)
+{}
+
+template<typename Stream>
+HandlerSuspendable<Stream>::HandlerSuspendable(Server& parent, Stream&& stream, short eventType, short firstEvent)
+    : HandlerStream<Stream>(parent, std::move(stream), eventType, 0)
+    , yield(nullptr)
+    , firstEvent(firstEvent)
+{}
+
+template<typename Stream>
+inline short HandlerSuspendable<Stream>::eventActivate(LibSocketId /*sockId*/, short /*eventType*/)
 {
     /** MethodDesc:
     On first call will start the method `eventActivateNonBlocking()`. This method may suspend itself by calling `suspend()`.
@@ -48,6 +72,7 @@ short HandlerSuspendable::eventActivate(LibSocketId /*sockId*/, short /*eventTyp
     If `eventActivateNonBlocking()` returns true then `dropHandler()` is called to remove this handler as processing is complete.
     @ return This method returns the type of socket event that should be listend for in the main event loop.
     */
+    bool dropHandler;
     if (worker == nullptr)
     {
         worker.reset(new CoRoutine([&dropHandler, &parentYield = this->yield, &parent = *this, firstEvent = this->firstEvent](Yield& yield)

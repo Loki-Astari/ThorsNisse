@@ -13,7 +13,6 @@ A simple wrapper around libEvent.
 #include <functional>
 #include <string>
 #include <vector>
-#include <event.h>
 
 namespace ThorsAnvil
 {
@@ -105,19 +104,7 @@ class Server
 
         static Server&       getCurrentHandler();
         static bool          inHandler();
-        static void ignore(std::string const& type = "")
-        {
-            if (cfg != nullptr)
-            {
-                ::event_config_free(cfg);
-                cfg = nullptr;
-            }
-            if (type != "")
-            {
-                cfg = ::event_config_new();
-                ::event_config_avoid_method(cfg, type.c_str());
-            }
-        }
+        static void ignore(std::string const& type = "");
     private:
         void runLoop(double check);
         void purgeRetiredHandlers();

@@ -1,10 +1,7 @@
-#ifndef THORSANVIL_NISSE_NISSE_SERVICE_TPP
-#define THORSANVIL_NISSE_NISSE_SERVICE_TPP
+#ifndef THORSANVIL_NISSE_NISSE_SERVICE_SERVER_TPP
+#define THORSANVIL_NISSE_NISSE_SERVICE_SERVER_TPP
 
-#include "ServerHandler.h"
-#include "ThorsNisseCoreSocket/Socket.h"
-#include <memory>
-#include <vector>
+#include "Handler.h"
 
 namespace ThorsAnvil
 {
@@ -15,6 +12,7 @@ namespace ThorsAnvil
             namespace Service
             {
 
+template<typename Handler, typename Param> class ServerHandler;
 template<typename Handler>
 inline void Server::listenOn(ServerConnection const& info)
 {
