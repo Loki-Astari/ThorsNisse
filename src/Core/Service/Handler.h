@@ -153,40 +153,6 @@ class HandlerSuspendableWithStream: public HandlerSuspendable<Socket::DataSocket
         }
 };
 
-template<typename ActHand, typename Param>
-class ServerHandler: public HandlerNonSuspendable<Socket::ServerSocket>
-{
-    private:
-        Param&                  param;
-    public:
-        ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param);
-        ~ServerHandler();
-        virtual short eventActivate(LibSocketId sockId, short eventType) override;
-};
-
-template<typename ActHand>
-class ServerHandler<ActHand, void>: public HandlerNonSuspendable<Socket::ServerSocket>
-{
-    public:
-        ServerHandler(Server& parent, Socket::ServerSocket&& so);
-        ~ServerHandler();
-        virtual short eventActivate(LibSocketId sockId, short eventType) override;
-};
-
-class TimerHandler: public HandlerNonSuspendable<int>
-{
-    std::function<void()>        action;
-    public:
-        TimerHandler(Server& parent, double timeOut, std::function<void()>&& action)
-            : HandlerNonSuspendable(parent, -1, EV_PERSIST, timeOut)
-            , action(std::move(action))
-        {}
-        virtual short eventActivate(LibSocketId /*sockId*/, short /*eventType*/) override
-        {
-            action();
-            return 0;
-        }
-};
 
             }
         }

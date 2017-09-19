@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_NISSE_SERVICE_TPP
 #define THORSANVIL_NISSE_NISSE_SERVICE_TPP
 
-#include "Handler.h"
+#include "ServerHandler.h"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <memory>
 #include <vector>

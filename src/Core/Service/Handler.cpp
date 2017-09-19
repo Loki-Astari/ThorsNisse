@@ -143,10 +143,14 @@ void HandlerBase::setHandlers(short eventType, TimeVal* timeVal)
  */
 #include "Server.tpp"
 #include "Handler.tpp"
+#include "ServerHandler.tpp"
 #include "test/Action.h"
 #include "ThorsNisseCoreSocket/Socket.h"
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<Action, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<ActionUnReg, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<TestHandler, std::tuple<bool, bool, bool>>(ServerConnection const&, std::tuple<bool, bool, bool>&);
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<InHandlerTest, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>>(ServerConnection const&, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&);
+
+template void ThorsAnvil::Nisse::Core::Service::HandlerBase::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template void ThorsAnvil::Nisse::Core::Service::HandlerBase::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<TestHandler, std::tuple<bool, bool, bool> >::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::tuple<bool, bool, bool>&);
+template ThorsAnvil::Nisse::Core::Service::ServerHandler<InHandlerTest, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)> > >::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)> >&);
 #endif
