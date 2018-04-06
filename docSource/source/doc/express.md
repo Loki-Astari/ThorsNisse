@@ -3,8 +3,6 @@ layout: article
 generate: false
 ---
 
-# Express
-
 ```cpp
 // Must include this header
 #include "ThorsExpress/all.h"

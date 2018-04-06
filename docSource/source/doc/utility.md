@@ -3,8 +3,6 @@ layout: article
 generate: false
 ---
 
-## Utility
-
 ```cpp
 if (open("file", O_WRONLY) == -1)
 {

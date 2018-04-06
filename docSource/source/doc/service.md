@@ -3,7 +3,6 @@ layout: article
 generate: false
 ---
 
-## Service
 ```bash
  > g++ -std=c++1z Server.cpp -o Server -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17 -lboost_context-mt
  > curl --data "A test message in a bottle :)" http://localhost:8080;echo

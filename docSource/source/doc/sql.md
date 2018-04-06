@@ -3,8 +3,6 @@ layout: article
 generate: false
 ---
 
-## SQL
-
 ```cpp
 namespace Express = ThorsAnvil::Nisse::Protocol::HTTP;
 namespace SQL     = ThorsAnvil::SQL;

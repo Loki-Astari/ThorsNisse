@@ -3,8 +3,6 @@ layout: article
 generate: false
 ---
 
-## HTTP
-
 ```cpp--DeepDive
 class Site
 {

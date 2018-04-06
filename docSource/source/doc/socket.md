@@ -3,8 +3,6 @@ layout: article
 generate: false
 ---
 
-## Socket
-
 ```bash
  > g++ Socket.cpp -o Socket -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17
  > curl --data "A test message in a bottle :)" http://localhost:8080;echo

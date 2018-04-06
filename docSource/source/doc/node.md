@@ -3,8 +3,6 @@ layout: article
 generate: false
 ---
 
-# Node.Cxx
-
 To simplify development for those that simply want to write HTTP RESTful endpoints the server Node.Cxx is provided to handle all the boilerplate.
 
 Node.Cxx (Lovingly named after Node.js for the inspiration) is a simple HTTP server implemented using the ThorsNisse framework that will dynamically load [Express](#express) modules.

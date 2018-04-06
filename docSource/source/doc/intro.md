@@ -3,8 +3,6 @@ layout: article
 generate: false
 ---
 
-# Introduction
-
 [ThorsNisse](https://github.com/Loki-Astari/ThorsNisse) is RESTful server framework for C++.  
 It is based on Node.js and its family of associated packages. ThorsNisse uses transparently non-blocking `std::streams` to achieve high throughput and low complexity of development on a single threaded server.
 
