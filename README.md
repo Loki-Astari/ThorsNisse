@@ -4,7 +4,7 @@
 
 ![ThorStream](img/Nisse.jpg)
 
-# ThorsNisse
+# ThorsNisse 
 
 This is RESTful server framework for C++.  
 It is based on the Node.js server and uses transparently non-blocking streams to achieve high throughput and low complexity of development on a single threaded server.
