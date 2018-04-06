@@ -1,0 +1,1552 @@
+<!doctype html>						      |	<!DOCTYPE html>
+<html>								<html>
+<head>								<head>
+<meta charset="utf-8">						<meta charset="utf-8">
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"	<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
+<meta name="viewport" content="width=device-width, initial-sc	<meta name="viewport" content="width=device-width, initial-sc
+<title>API Reference</title>					<title>API Reference</title>
+							      |	<link href="stylesheet/style.css" rel="stylesheet" />
+<link href="images/favicon.ico" rel="icon" type="image/ico" / |	<link href="stylesheet/screen.css" rel="stylesheet" media="sc
+<link href="stylesheets/screen.css" rel="stylesheet" media="s |	<link href="stylesheet/print.css" rel="stylesheet" media="pri
+<link href="stylesheets/print.css" rel="stylesheet" media="pr <
+<script src="javascripts/all_nosearch.js"></script>		<script src="javascripts/all_nosearch.js"></script>
+</head>								</head>
+<body class="index" data-languages="[]">			<body class="index" data-languages="[]">
+<a href="#" id="nav-button">					<a href="#" id="nav-button">
+<span>								<span>
+NAV								NAV
+<img src="images/navbar.png" alt="Navbar" />			<img src="images/navbar.png" alt="Navbar" />
+</span>								</span>
+</a>								</a>
+<div class="toc-wrapper">					<div class="toc-wrapper">
+<img src="images/logo.png" class="logo" alt="Logo" />		<img src="images/logo.png" class="logo" alt="Logo" />
+<div id="toc" class="toc-list-h1">				<div id="toc" class="toc-list-h1">
+<li>								<li>
+<a href="#introduction" class="toc-h1 toc-link" data-title="I |	<a href="#Intorduction" class="toc-h1 toc-link" data-title="I
+</li>								</li>
+<li>								<li>
+<a href="#node-cxx" class="toc-h1 toc-link" data-title="Node. |	<a href="#Node.Cxx" class="toc-h1 toc-link" data-title="Node.
+</li>								</li>
+<li>								<li>
+<a href="#express" class="toc-h1 toc-link" data-title="Expres |	<a href="#Express" class="toc-h1 toc-link" data-title="Expres
+</li>								</li>
+<li>								<li>
+<a href="#core" class="toc-h1 toc-link" data-title="Core">Cor |	<a href="#Core" class="toc-h1 toc-link" data-title="Core">Cor
+<ul class="toc-list-h2">					<ul class="toc-list-h2">
+<li>								<li>
+<a href="#utility" class="toc-h2 toc-link" data-title="Core"> |	<a href="#Utility" class="toc-h2 toc-link" data-title="Utilit
+</li>								</li>
+<li>								<li>
+<a href="#socket" class="toc-h2 toc-link" data-title="Core">S |	<a href="#Socket" class="toc-h2 toc-link" data-title="Socket"
+<ul class="toc-list-h3">				      <
+<li>							      <
+<a href="#basesocket" class="toc-h3 toc-link" data-title="Cor <
+</li>							      <
+<li>							      <
+<a href="#datasocket" class="toc-h3 toc-link" data-title="Cor <
+</li>							      <
+<li>							      <
+<a href="#connectionsocket" class="toc-h3 toc-link" data-titl <
+</li>							      <
+<li>							      <
+<a href="#serversocket" class="toc-h3 toc-link" data-title="C <
+</li>							      <
+<li>							      <
+<a href="#socketstreambuffer" class="toc-h3 toc-link" data-ti <
+</li>							      <
+<li>							      <
+<a href="#isocketstream" class="toc-h3 toc-link" data-title=" <
+</li>							      <
+<li>							      <
+<a href="#osocketstream" class="toc-h3 toc-link" data-title=" <
+</li>							      <
+</ul>							      <
+</li>							      <
+<li>							      <
+<a href="#service" class="toc-h2 toc-link" data-title="Core"> <
+<ul class="toc-list-h3">				      <
+<li>							      <
+<a href="#handlerbase" class="toc-h3 toc-link" data-title="Co <
+</li>							      <
+<li>							      <
+<a href="#handlerstream" class="toc-h3 toc-link" data-title=" <
+</li>							      <
+<li>							      <
+<a href="#handlernonsuspendable" class="toc-h3 toc-link" data <
+</li>							      <
+<li>							      <
+<a href="#handlersuspendable" class="toc-h3 toc-link" data-ti <
+</li>							      <
+<li>							      <
+<a href="#handlersuspendablewithstream" class="toc-h3 toc-lin <
+</li>							      <
+<li>							      <
+<a href="#serverconnection" class="toc-h3 toc-link" data-titl <
+</li>							      <
+<li>							      <
+<a href="#server" class="toc-h3 toc-link" data-title="Core">S <
+</li>							      <
+<li>							      <
+<a href="#serverhandler" class="toc-h3 toc-link" data-title=" <
+</li>								</li>
+<li>								<li>
+<a href="#timerhandler" class="toc-h3 toc-link" data-title="C |	<a href="#Service" class="toc-h2 toc-link" data-title="Servic
+</li>							      <
+</ul>							      <
+</li>								</li>
+<li>								<li>
+<a href="#sql" class="toc-h2 toc-link" data-title="Core">SQL< |	<a href="#SQL" class="toc-h2 toc-link" data-title="SQL">SQL</
+</li>								</li>
+</ul>								</ul>
+</li>								</li>
+<li>								<li>
+<a href="#protocol" class="toc-h1 toc-link" data-title="Proto |	<a href="#Protocol" class="toc-h1 toc-link" data-title="Proto
+<ul class="toc-list-h2">					<ul class="toc-list-h2">
+<li>								<li>
+<a href="#simple" class="toc-h2 toc-link" data-title="Protoco |	<a href="#Simple" class="toc-h2 toc-link" data-title="Simple"
+</li>								</li>
+<li>								<li>
+<a href="#http" class="toc-h2 toc-link" data-title="Protocol" |	<a href="#HTTP" class="toc-h2 toc-link" data-title="HTTP">HTT
+</li>								</li>
+</ul>								</ul>
+</li>								</li>
+<li>								<li>
+<a href="#examples" class="toc-h1 toc-link" data-title="Examp |	<a href="#Examples" class="toc-h1 toc-link" data-title="Examp
+<ul class="toc-list-h2">				      <
+<li>							      <
+<a href="#addbeer" class="toc-h2 toc-link" data-title="Exampl <
+</li>							      <
+</ul>							      <
+</li>								</li>
+</div>								</div>
+<ul class="toc-footer">						<ul class="toc-footer">
+<li><a href='https://github.com/tripit/slate'>Documentation P |	<li><a href="">Generated by Andvari</a><br>
+							      >	<a href="https://github.com/Loki-Astari/andvari-theme-documen
+							      >	</li>
+</ul>								</ul>
+</div>								</div>
+<div class="page-wrapper">					<div class="page-wrapper">
+<div class="dark-box"></div>					<div class="dark-box"></div>
+<div class="content">						<div class="content">
+<h1 id='introduction'>Introduction</h1>			      |	<h1 id="Intorduction">Intorduction</h1>
+<p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsN |	<p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsN
+It is based on Node.js and its family of associated packages.	It is based on Node.js and its family of associated packages.
+<p>What does <strong>transparently non-blocking:</strong> mea	<p>What does <strong>transparently non-blocking:</strong> mea
+<ul>								<ul>
+<li>To the user of the std::stream it will appear to be stand	<li>To the user of the std::stream it will appear to be stand
+<li>To make the framework efficient any blocking read/write c	<li>To make the framework efficient any blocking read/write c
+</ul>								</ul>
+<h1 id='node-cxx'>Node.Cxx</h1>				      |	<h1 id="Node.Cxx">Node.Cxx</h1>
+<p>To simplify development for those that simply want to writ	<p>To simplify development for those that simply want to writ
+<p>Node.Cxx (Lovingly named after Node.js for the inspiration	<p>Node.Cxx (Lovingly named after Node.js for the inspiration
+<p>The Node.Cxx server takes two flags as arguments on startu	<p>The Node.Cxx server takes two flags as arguments on startu
+<pre class="highlight shell"><code> &gt; Node.cxx <span class |	<pre><code class="bash language-bash"> &gt; Node.cxx [--debug
+<span class="c">#</span>				      |	#
+<span class="c"># --debug:8081</span>			      |	# --debug:8081
+<span class="c">#      Loads the dynamic loader so it listens |	#      Loads the dynamic loader so it listens on port 8081
+<span class="c">#          To load a libray:</span>	      |	#          To load a libray:
+<span class="c">#              curl --data '{"action": "Load" |	#              curl --data '{"action": "Load",   "host": "tes
+<span class="c">#          To unload a library:</span>	      |	#          To unload a library:
+<span class="c">#              curl --data '{"action": "Unloa |	#              curl --data '{"action": "Unload", "host": "tes
+<span class="c">#</span>				      |	#
+<span class="c">#</span>				      |	#
+<span class="c"># --load:AddBeer.dylib:test.com::8080</span>  |	# --load:AddBeer.dylib:test.com::8080
+<span class="c">#      Loads the AddBeer.dylib express module |	#      Loads the AddBeer.dylib express module.
+<span class="c">#          And binds it to the root of http:/ |	#          And binds it to the root of http://test.com
+<span class="c">#</span>				      |	#
+<span class="c">#          Assume AddBeer defines the end poi |	#          Assume AddBeer defines the end pointes /AddBeer
+<span class="c">#          When a request to `http://test.com |	#          When a request to `http://test.com/AddBeer the ass
+<span class="c">#</span>				      |	#
+<span class="c"># --load:AddDrink.dylib:test.com:/drinks:8080 |	# --load:AddDrink.dylib:test.com:/drinks:8080
+<span class="c">#      Loads the AddDrink.dylib express modul |	#      Loads the AddDrink.dylib express module.
+<span class="c">#          And binds it to http://test.com/dr |	#          And binds it to http://test.com/drinks
+<span class="c">#</span>				      |	#
+<span class="c">#          Assume AddDrink defines the end po |	#          Assume AddDrink defines the end pointes /AddDrink
+<span class="c">#          When a request to `http://test.com |	#          When a request to `http://test.com/drinks/AddDrink
+<span class="c">#</span>				      |	#
+<span class="c">#          Note we did not bind AddDrink to t |	#          Note we did not bind AddDrink to the root of test.
+<span class="c">#          all routes defined by the library  |	#          all routes defined by the library in its code.
+</code></pre>							</code></pre>
+<table><thead>						      |	<p>|Command Line Flag        | Description
+<tr>							      |	|------------|------------
+<th>Command Line Flag</th>				      |	|--debug     | Installs the dynamic library loader.<br>This a
+<th>Description</th>					      |	|--load      | Loads a shared library that is linked with <a 
+</tr>							      |	<h1 id="Express">Express</h1>
+</thead><tbody>						      |	<pre><code class="cpp language-cpp">// Must include this head
+<tr>							      |	#include "ThorsExpress/all.h"
+<td>--debug</td>					      |	namespace HTTP = ThorsAnvil::Nisse::Protocol::HTTP;
+<td>Installs the dynamic library loader.<br>This allows share |	// Must define this function once.
+</tr>							      |	void addSite(HTTP::Site&amp; site)
+<tr>							      |	{
+<td>--load</td>						      |	site.get("/listBeer", [](HTTP::Request&amp; request, HTTP::Re
+<td>Loads a shared library that is linked with <a href="#expr |	{
+</tr>							      |	});
+</tbody></table>					      |	// You can add as many resources to as site as you need.
+<h1 id='express'>Express</h1><pre class="highlight cpp tab-cp |	}
+</span><span class="cp">#include "ThorsExpress/all.h"	      <
+</span>							      <
+<span class="k">namespace</span> <span class="n">HTTP</span>  <
+<span class="c1">// Must define this function once.	      <
+</span><span class="kt">void</span> <span class="nf">addSite< <
+<span class="p">{</span>				      <
+<span class="n">site</span><span class="p">.</span><span clas <
+<span class="p">{</span>				      <
+<span class="p">});</span>				      <
+<span class="c1">// You can add as many resources to as site  <
+</span><span class="p">}</span>				      <
+</code></pre>							</code></pre>
+<p>Express is a simple library that allows the definition of 	<p>Express is a simple library that allows the definition of 
+<h1 id='core'>Core</h1><h2 id='utility'>Utility</h2><pre clas |	<h1 id="Core">Core</h1>
+<span class="p">{</span>				      |	<h2 id="Utility">Utility</h2>
+<span class="k">throw</span> <span class="n">std</span><span  |	<pre><code class="cpp language-cpp">if (open("file", O_WRONLY
+<span class="n">buildErrorMessage</span><span class="p">(</sp |	{
+<span class="s">": open: "</span><span class="p">,</span> <sp |	throw std::runtime_error(
+<span class="p">}</span>				      |	buildErrorMessage("MyClass::", __func__,
+</code></pre><pre class="highlight cpp tab-cpp--DeepDive"><co |	": open: ", Utility::systemErrorMessage()));
+</span><span class="cm">/*				      |	}
+							      >	</code></pre>
+							      >	<pre><code class="cpp--DeepDive language-cpp--DeepDive">// Ut
+							      >	/*
+* Builds a string for a system error message.			* Builds a string for a system error message.
+* uses `errno` to build the name of the error and the associa	* uses `errno` to build the name of the error and the associa
+*/</span>						      |	*/
+<span class="kr">inline</span> <span class="n">std</span><spa |	inline std::string systemErrorMessage();
+<span class="cm">/*					      |	/*
+* Build an error message from a set of parameters.		* Build an error message from a set of parameters.
+* Slightly more compact than using 'operator&lt;&lt;` very us	* Slightly more compact than using 'operator&lt;&lt;` very us
+*/</span>						      |	*/
+<span class="k">template</span><span class="o">&lt;</span><sp |	template&lt;typename... Args&gt;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string buildErrorMessage(Args const&amp;... args);
+</code></pre>							</code></pre>
+<p>Provides common utility functions for other packages.      |	<p>Provides common utility functions for other packages.</p>
+<dl>								<dl>
+<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Utility</dd>	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Utility</dd>
+<dt>Headers:</dt><dd>ThorsNisseCoreUtility/</dd>		<dt>Headers:</dt><dd>ThorsNisseCoreUtility/</dd>
+<dt>Utility.h</dt><dd></p>				      |	<dt>Utility.h</dt><dd>
+<ul>							      |	* std::string systemErrorMessage();
+<li>std::string systemErrorMessage();</li>		      |	* std::string buildErrorMessage();
+<li>std::string buildErrorMessage();</li>		      |	</dd>
+</ul>							      |	</dl>
+<p></dd>						      |	<h2 id="Socket">Socket</h2>
+</dl></p>						      |	<pre><code class="bash language-bash"> &gt; g++ Socket.cpp -o
+<h2 id='socket'>Socket</h2><pre class="highlight shell"><code |	&gt; curl --data "A test message in a bottle :)" http://local
+&gt; curl --data <span class="s2">"A test message in a bottle |	</code></pre>
+</code></pre><pre class="highlight cpp tab-cpp"><code><span c |	<pre><code class="cpp language-cpp">// Server Side
+</span><span class="cp">#include "ThorsNisseCoreSocket/Socket |	#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"			#include "ThorsNisseCoreSocket/SocketStream.h"
+#include &lt;string&gt;						#include &lt;string&gt;
+</span><span class="kt">int</span> <span class="nf">main</spa |	int main()
+<span class="p">{</span>				      |	{
+<span class="k">namespace</span> <span class="n">Sock</span>  |	namespace Sock = ThorsAnvil::Nisse::Core::Socket;
+<span class="n">Sock</span><span class="o">::</span><span cla |	Sock::ServerSocket    server(8080);
+<span class="k">while</span><span class="p">(</span><span cla |	while(true)
+<span class="p">{</span>				      |	{
+<span class="n">Sock</span><span class="o">::</span><span cla |	Sock::DataSocket    connection = server.accept();
+<span class="n">Sock</span><span class="o">::</span><span cla |	Sock::ISocketStream input(connection);
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     request;
+<span class="n">std</span><span class="o">::</span><span clas |	std::getline(input, request);
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     header;
+<span class="n">std</span><span class="o">::</span><span clas |	std::size_t     bodySize = 0;
+<span class="k">while</span><span class="p">(</span><span cla |	while(std::getline(input, header) &amp;&amp; header != "\r")
+<span class="p">{</span>				      |	{
+<span class="cm">/*					      |	/*
+* Note: This code is still handling the intricacy of the HTTP	* Note: This code is still handling the intricacy of the HTTP
+*       so it is brittle. See Protocol/HTTP for help with han	*       so it is brittle. See Protocol/HTTP for help with han
+*       details of the protocol.				*       details of the protocol.
+*/</span>						      |	*/
+<span class="k">if</span> <span class="p">(</span><span class |	if (header.compare(0, 15, "Content-Length:") == 0) {
+<span class="n">bodySize</span> <span class="o">=</span> <spa |	bodySize = std::stoi(header.substr(15));
+<span class="p">}</span>				      |	}
+<span class="p">}</span>				      |	}
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     message;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     line;
+<span class="k">while</span><span class="p">(</span><span cla |	while(bodySize &gt; 0 &amp;&amp; std::getline(input, line))
+<span class="p">{</span>				      |	{
+<span class="n">message</span> <span class="o">+=</span> <spa |	message += line;
+<span class="n">message</span> <span class="o">+=</span> <spa |	message += "&lt;br&gt;";
+<span class="n">bodySize</span> <span class="o">-=</span> <sp |	bodySize -= (line.size() + 1);
+<span class="p">}</span>				      |	}
+<span class="n">Sock</span><span class="o">::</span><span cla |	Sock::OSocketStream output(connection);
+<span class="cm">/*					      |	/*
+* Note: This code is still handling the intricacy of the HTTP	* Note: This code is still handling the intricacy of the HTTP
+*       so it is brittle. See Protocol/HTTP for help with han	*       so it is brittle. See Protocol/HTTP for help with han
+*       details of the protocol.				*       details of the protocol.
+*/</span>						      |	*/
+<span class="n">output</span> <span class="o">&lt;&lt;</span> |	output &lt;&lt; "HTTP/1.1 200 OK\r\n"
+<span class="s">"Content-Length: "</span> <span class="o">&lt |	"Content-Length: " &lt;&lt; (11 + message.size()) &lt;&lt; "\
+<span class="s">"</span><span class="se">\r\n</span><span cla |	"\r\n"
+<span class="s">"It Worked: "</span> <span class="o">&lt;&lt; |	"It Worked: " &lt;&lt; message;
+<span class="p">}</span>				      |	}
+<span class="p">}</span>				      |	}
+</code></pre>							</code></pre>
+<p>A simple wrapper around BSD sockets so they are easy to us |	<p>A simple wrapper around BSD sockets so they are easy to us
+<dl>								<dl>
+<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Socket</dd>	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Socket</dd>
+<dt>Headers:</dt><dd>ThorsNisseCoreSocket/</dd>			<dt>Headers:</dt><dd>ThorsNisseCoreSocket/</dd>
+<dt>Socket.h</dt><dd></p>				      |	<dt>Socket.h</dt><dd>
+<ul>							      |	* class BaseSocket
+<li>class BaseSocket</li>				      |	* class DataSocket: public BaseSocket
+<li>class DataSocket: public BaseSocket</li>		      |	* class ConnectionSocket: public DataSocket
+<li>class ConnectionSocket: public DataSocket</li>	      |	* class ServerSocket: public BaseSocket
+<li>class ServerSocket: public BaseSocket</li>		      |	</dd>
+</ul>							      |	<dt>SocketStream.h</dt><dd>
+<p></dd>						      |	* class SocketStreamBuffer: public std::streambuf
+<dt>SocketStream.h</dt><dd></p>				      |	* class ISocketStream: public std::istream
+<ul>							      |	* class OSocketStream: public std::ostream
+<li>class SocketStreamBuffer: public std::streambuf</li>      |	</dd>
+<li>class ISocketStream: public std::istream</li>	      |	</dl>
+<li>class OSocketStream: public std::ostream</li>	      |	<h3 id="basesocket">BaseSocket</h3>
+</ul>							      <
+<p></dd>						      <
+</dl></p>						      <
+<h3 id='basesocket'>BaseSocket</h3>			      <
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">Class:    </div>	<div class="classRow"><div class="classItem">Class:    </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">Base of all the 	<div class="classRow"><div class="classDesc">Base of all the 
+This class should not be directly created.<br>			This class should not be directly created.<br>
+All socket classes are movable but not copyable.</div></div>	All socket classes are movable but not copyable.</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Members:<	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet">BaseSocket&</div	<div class="classRow"><div class="methodRet">BaseSocket&</div
+<div class="classRow"><div class="methodRet">void</div><div c	<div class="classRow"><div class="methodRet">void</div><div c
+<div class="classRow"><div class="methodRet">void</div><div c	<div class="classRow"><div class="methodRet">void</div><div c
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h3 id='datasocket'>DataSocket</h3>			      |	<h3 id="datasocket">DataSocket</h3>
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">Class:    </div>	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Data sockets define the read/write interface to a socket.<br>	Data sockets define the read/write interface to a socket.<br>
+This class should not be directly created			This class should not be directly created
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Members:<	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet">std::pair&lt;boo	<div class="classRow"><div class="methodRet">std::pair&lt;boo
+<div class="classRow"><div class="methodRet">std::pair&lt;boo	<div class="classRow"><div class="methodRet">std::pair&lt;boo
+<div class="classRow"><div class="methodRet">void</div><div c	<div class="classRow"><div class="methodRet">void</div><div c
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h4 id='datasocket-getmessagedata'>DataSocket::getMessageData |	<h4 id="datasocketgetmessagedata">DataSocket::getMessageData<
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">getMessageData()	<div class="classRow"><div class="classSect">getMessageData()
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Reads data from a sokcet into a buffer.<br>			Reads data from a sokcet into a buffer.<br>
+If the stream is blocking will not return until the requested	If the stream is blocking will not return until the requested
+If the stream in non blocking will return if the read operati	If the stream in non blocking will return if the read operati
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Return Value</di	<div class="classRow"><div class="classSect">Return Value</di
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+This method returns a pair: <code>std::pair&lt;bool, std::siz	This method returns a pair: <code>std::pair&lt;bool, std::siz
+The first member `bool` indicates if more data can potentiall	The first member `bool` indicates if more data can potentiall
+The second member `std::size_t` indicates exactly how many by	The second member `std::size_t` indicates exactly how many by
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div>	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">buffer</div><div	<div class="classRow"><div class="classItem">buffer</div><div
+<div class="classRow"><div class="classItem">size</div><div c	<div class="classRow"><div class="classItem">size</div><div c
+<div class="classRow"><div class="classItem">alreadyGot</div>	<div class="classRow"><div class="classItem">alreadyGot</div>
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h4 id='datasocket-putmessagedata'>DataSocket::putMessageData |	<h4 id="datasocketputmessagedata">DataSocket::putMessageData<
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">putMessageData()	<div class="classRow"><div class="classSect">putMessageData()
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Writes data from a buffer to a sokcet.<br>			Writes data from a buffer to a sokcet.<br>
+If the stream is blocking will not return until the requested	If the stream is blocking will not return until the requested
+If the stream in non blocking will return if the write operat	If the stream in non blocking will return if the write operat
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Return Value</di	<div class="classRow"><div class="classSect">Return Value</di
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+This method returns a pair: <code>std::pair&lt;bool, std::siz	This method returns a pair: <code>std::pair&lt;bool, std::siz
+The first member `bool` indicates if more data can potentiall	The first member `bool` indicates if more data can potentiall
+The second member `std::size_t` indicates exactly how many by	The second member `std::size_t` indicates exactly how many by
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div>	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">buffer</div><div	<div class="classRow"><div class="classItem">buffer</div><div
+<div class="classRow"><div class="classItem">size</div><div c	<div class="classRow"><div class="classItem">size</div><div c
+<div class="classRow"><div class="classItem">alreadyPut</div>	<div class="classRow"><div class="classItem">alreadyPut</div>
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h4 id='datasocket-putmessageclose'>DataSocket::putMessageClo |	<h4 id="datasocketputmessageclose">DataSocket::putMessageClos
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">putMessageClose(	<div class="classRow"><div class="classSect">putMessageClose(
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+closes the write end of the socket and flushes (write) data.	closes the write end of the socket and flushes (write) data.
+</div></div>							</div></div>
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h3 id='connectionsocket'>ConnectionSocket</h3>		      |	<h3 id="connectionsocket">ConnectionSocket</h3>
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">Class:    </div>	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Creates a connection to <code>host</code> on <code>port</code	Creates a connection to <code>host</code> on <code>port</code
+Note this class inherits from <code>DataSocket</code> so once	Note this class inherits from <code>DataSocket</code> so once
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Members:<	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h3 id='serversocket'>ServerSocket</h3>			      |	<h3 id="serversocket">ServerSocket</h3>
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">Class:    </div>	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Members:<	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet">DataSocket</div>	<div class="classRow"><div class="methodRet">DataSocket</div>
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h4 id='serversocket-accept'>ServerSocket::accept</h4>	      |	<h4 id="serversocketaccept">ServerSocket::accept</h4>
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">accept()</div></	<div class="classRow"><div class="classSect">accept()</div></
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+"Accept" a waiting connection request on the port and creates	"Accept" a waiting connection request on the port and creates
+If this is a non blocking socket and there is no waiting conn	If this is a non blocking socket and there is no waiting conn
+If this is a blocking socket wait for a connection<br>		If this is a blocking socket wait for a connection<br>
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Return Value</di	<div class="classRow"><div class="classSect">Return Value</di
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+A <code>DataSocket</code> is returned so data can be exchange	A <code>DataSocket</code> is returned so data can be exchange
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div>	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">blocking</div><d	<div class="classRow"><div class="classItem">blocking</div><d
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h3 id='socketstreambuffer'>SocketStreamBuffer</h3>	      |	<h3 id="socketstreambuffer">SocketStreamBuffer</h3>
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">Class:    </div>	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+This is a wrapper class for a <code>DataSocket</code> that al	This is a wrapper class for a <code>DataSocket</code> that al
+This class overrides just enough virtual functions to make th	This class overrides just enough virtual functions to make th
+This class provides no public API and is designed to be used 	This class provides no public API and is designed to be used 
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Members:<	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h3 id='isocketstream'>ISocketStream</h3>		      |	<h3 id="isocketstream">ISocketStream</h3>
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">Class:    </div>	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+An implementation of <code>std::istream</code> that uses <cod	An implementation of <code>std::istream</code> that uses <cod
+The <code>Notofer</code> is a primitive event callback mechan	The <code>Notofer</code> is a primitive event callback mechan
+A blocking read call to these streams calls the <code>Notifie	A blocking read call to these streams calls the <code>Notifie
+<code>using Notifier = std::function<void()>;</code>		<code>using Notifier = std::function<void()>;</code>
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Members:<	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h3 id='osocketstream'>OSocketStream</h3>		      |	<h3 id="osocketstream">OSocketStream</h3>
+<div class="classTable">					<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">Class:    </div>	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+An implementation of <code>std::ostream</code> that uses <cod	An implementation of <code>std::ostream</code> that uses <cod
+The <code>Notofer</code> is a primitive event callback mechan	The <code>Notofer</code> is a primitive event callback mechan
+A blocking write call to these streams calls the <code>Notifi	A blocking write call to these streams calls the <code>Notifi
+<code>using Notifier = std::function<void()>;</code>		<code>using Notifier = std::function<void()>;</code>
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Members:<	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet"></div><div class	<div class="classRow"><div class="methodRet"></div><div class
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h2 id='service'>Service</h2><pre class="highlight shell"><co |	<h2 id="Service">Service</h2>
+&gt; curl --data <span class="s2">"A test message in a bottle |	<pre><code class="bash language-bash"> &gt; g++ -std=c++1z Se
+</code></pre><pre class="highlight cpp tab-cpp"><code><span c |	&gt; curl --data "A test message in a bottle :)" http://local
+							      >	</code></pre>
+							      >	<pre><code class="cpp language-cpp">#include "ThorsNisseCoreS
+#include "ThorsNisseCoreService/Handler.h"			#include "ThorsNisseCoreService/Handler.h"
+#include "ThorsNisseCoreSocket/Socket.h"			#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"			#include "ThorsNisseCoreSocket/SocketStream.h"
+#include &lt;string&gt;						#include &lt;string&gt;
+</span><span class="k">namespace</span> <span class="n">Serv< |	namespace Serv = ThorsAnvil::Nisse::Core::Service;
+<span class="k">namespace</span> <span class="n">Sock</span>  |	namespace Sock = ThorsAnvil::Nisse::Core::Socket;
+<span class="k">class</span> <span class="nc">MyHandler</span |	class MyHandler: public Serv::HandlerSuspendableWithStream
+<span class="p">{</span>				      |	{
+<span class="k">public</span><span class="o">:</span>	      |	public:
+<span class="n">MyHandler</span><span class="p">(</span><span |	MyHandler(Serv::Server&amp; parent, Sock::DataSocket&amp;&amp
+<span class="o">:</span> <span class="n">HandlerSuspendableWi |	: HandlerSuspendableWithStream(parent, std::move(stream), EV_
+<span class="p">{}</span>				      |	{}
+<span class="k">virtual</span> <span class="kt">bool</span> < |	virtual bool eventActivateWithStream(std::istream&amp; input,
+<span class="p">{</span>				      |	{
+<span class="cm">/*					      |	/*
+* Note: The streams `input` and `output` are transparently no	* Note: The streams `input` and `output` are transparently no
+*       Any blocking read/write will transfer control back to	*       Any blocking read/write will transfer control back to
+*       event loop.						*       event loop.
+*								*
+* To the code in this function any read/write requests appear	* To the code in this function any read/write requests appear
+* So the writting code is still simple and looks like standar	* So the writting code is still simple and looks like standar
+*/</span>						      |	*/
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     request;
+<span class="n">std</span><span class="o">::</span><span clas |	std::getline(input, request);
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     header;
+<span class="n">std</span><span class="o">::</span><span clas |	std::size_t     bodySize = 0;
+<span class="k">while</span><span class="p">(</span><span cla |	while(std::getline(input, header) &amp;&amp; header != "\r")
+<span class="p">{</span>				      |	{
+<span class="cm">/*					      |	/*
+* Note: This code is still handling the intricacy of the HTTP	* Note: This code is still handling the intricacy of the HTTP
+*       so it is brittle. See Protocol/HTTP for help with han	*       so it is brittle. See Protocol/HTTP for help with han
+*       details of the protocol.				*       details of the protocol.
+*/</span>						      |	*/
+<span class="k">if</span> <span class="p">(</span><span class |	if (header.compare(0, 15, "Content-Length:") == 0) {
+<span class="n">bodySize</span> <span class="o">=</span> <spa |	bodySize = std::stoi(header.substr(15));
+<span class="p">}</span>				      |	}
+<span class="p">}</span>				      |	}
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     message;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     line;
+<span class="k">while</span><span class="p">(</span><span cla |	while(bodySize &gt; 0 &amp;&amp; std::getline(input, line))
+<span class="p">{</span>				      |	{
+<span class="n">message</span> <span class="o">+=</span> <spa |	message += line;
+<span class="n">message</span> <span class="o">+=</span> <spa |	message += "&lt;br&gt;";
+<span class="n">bodySize</span> <span class="o">-=</span> <sp |	bodySize -= (line.size() + 1);
+<span class="p">}</span>				      |	}
+<span class="cm">/*					      |	/*
+* Note: This code is still handling the intricacy of the HTTP	* Note: This code is still handling the intricacy of the HTTP
+*       so it is brittle. See Protocol/HTTP for help with han	*       so it is brittle. See Protocol/HTTP for help with han
+*       details of the protocol.				*       details of the protocol.
+*/</span>						      |	*/
+<span class="n">output</span> <span class="o">&lt;&lt;</span> |	output &lt;&lt; "HTTP/1.1 200 OK\r\n"
+<span class="s">"Content-Length: "</span> <span class="o">&lt |	"Content-Length: " &lt;&lt; (11 + message.size()) &lt;&lt; "\
+<span class="s">"</span><span class="se">\r\n</span><span cla |	"\r\n"
+<span class="s">"It Worked: "</span> <span class="o">&lt;&lt; |	"It Worked: " &lt;&lt; message;
+<span class="k">return</span> <span class="nb">true</span><sp |	return true;
+<span class="p">}</span>				      |	}
+<span class="p">};</span>				      |	};
+<span class="kt">int</span> <span class="nf">main</span><span |	int main()
+<span class="p">{</span>				      |	{
+<span class="n">Serv</span><span class="o">::</span><span cla |	Serv::Server      server;
+<span class="n">server</span><span class="p">.</span><span cl |	server.listenOn&lt;MyHandler&gt;(8080);
+<span class="n">server</span><span class="p">.</span><span cl |	server.listenOn&lt;MyHandler&gt;(Serv::ServerConnection(8081,
+<span class="c1">// Start the event loop.		      |	// Start the event loop.
+</span>    <span class="n">server</span><span class="p">.</sp |	server.start();
+<span class="p">}</span>				      |	}
+</code></pre>							</code></pre>
+<p>A simple wrapper around libEvent.			      |	<p>A simple wrapper around libEvent.</p>
+<dl>								<dl>
+<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Service</dd>	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Service</dd>
+<dt>Headers:</dt><dd>ThorsNisseCoreService/</dd>		<dt>Headers:</dt><dd>ThorsNisseCoreService/</dd>
+<dt>Handler.h</dt><dd></p>				      |	<dt>Server.h</dt><dd>
+<ul>							      |	* struct ServerConnection
+<li>class HandlerBase</li>				      |	* class Server
+<li>class HandlerStream: public HandlerBase</li>	      |	</dd>
+<li>class HandlerNonSuspendable: public HandlerStream<Stream> |	<dt>Handler.h</dt><dd>
+<li>class HandlerSuspendable: public HandlerStream<Stream></l |	* class HandlerBase
+<li>class HandlerSuspendableWithStream: public HandlerSuspend |	* class HandlerStream: public HandlerBase
+</ul>							      |	* class HandlerNonSuspendable: public HandlerStream
+<p></dd>						      |	* class HandlerSuspendable: public HandlerStream
+<dt>Server.h</dt><dd></p>				      |	</dd>
+<ul>							      |	<dt>ServerHandlers.h</dt><dd>
+<li>struct ServerConnection</li>			      |	* class ServerHandler: public HandlerNonSuspendable
+<li>class Server</li>					      |	* class TimerHandler: public HandlerNonSuspendable
+</ul>							      |	</dd>
+<p></dd>						      |	</dl>
+<dt>ServerHandlers.h</dt><dd></p>			      |	<h3 id="serverconnection">ServerConnection</h3>
+<ul>							      |	<pre><code class="cpp language-cpp">    Serv::Server      ser
+<li>class ServerHandler: public HandlerNonSuspendable<a href= |	// Implicit creation of ServerConnection
+<li>class TimerHandler: public HandlerNonSuspendable<int></li |	server.listenOn&lt;MyHandler&gt;(8080);
+</ul>							      |	// Explicit creation of ServerConnection
+<p></dd>						      |	server.listenOn&lt;MyHandler&gt;(Serv::ServerConnection(8081,
+</dl></p>						      |	</code></pre>
+<h3 id='handlerbase'>HandlerBase</h3>			      <
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div> |	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">class:  </div><d |	<div class="classRow"><div class="classItem">Struct:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+<br>							      <
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Construct |	<div class="classRow"><div class="classSect">Public Members:<
+</div>							      <
+<div class="classBlock">				      <
+<div class="classRow"><div class="methodRet"></div><div class <
+</div>							      <
+<div class="classBlock">				      <
+<div class="classRow"><div class="classSect">Protected Method <
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet">void</div><div c |	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet">void</div><div c |	<div class="classRow"><div class="methodRet">int</div><div cl
+<div class="classRow"><div class="methodRet">void</div><div c |	<div class="classRow"><div class="methodRet">int</div><div cl
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="classSect">Virtual Methods: <
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="methodRet">short</div><div  <
+<div class="classRow"><div class="methodRet">bool</div><div c <
+<div class="classRow"><div class="methodRet">void</div><div c <
+<div class="classRow"><div class="methodRet">void</div><div c <
+</div>								</div>
+<p></div>						      |	<h3 id="server">Server</h3>
+</div></p>						      |	<div class="classTable">
+<h4 id='handlerbase-eventactivate'>HandlerBase::eventActivate <
+<div class="classTable allowFloat">			      <
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">eventActivate(Li |	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classDesc">		      |	<div class="classRow"><div class="classItem">NameSpace:</div>
+Method called when there is data on the socket.<br>	      |	<div class="classRow"><div class="classItem">Class:    </div>
+</div></div>						      <
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Return Value</di <
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Return the type of event that you can next process on this st <
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div> |	<div class="classRow"><div class="classSect">Public Members:<
+</div>							      <
+<div class="classBlock">				      <
+<div class="classRow"><div class="classItem">sockId</div><div <
+<div class="classRow"><div class="classItem">eventType</div>< <
+</div>								</div>
+<p></div>						      <
+</div></p>						      <
+<h4 id='handlerbase-suspendable'>HandlerBase::suspendable</h4 <
+<div class="classTable allowFloat">			      <
+<div class="classLayout">				      <
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">suspendable()</d |	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="classDesc">		      |	<div class="classRow"><div class="methodRet"></div><div class
+Return true if the handler is suspendable and false otherwise |	<div class="classRow"><div class="methodRet"></div><div class
+It is best to inherit from `HandlerNonSuspendable` or aHandle |	<div class="classRow"><div class="methodRet">void</div><div c
+</div></div>						      |	<div class="classRow"><div class="methodRet">void</div><div c
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h4 id='handlerbase-suspend'>HandlerBase::suspend</h4>	      |	<h4 id="serverstart">Server::start</h4>
+<div class="classTable allowFloat">			      |	<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">suspend(short ty |	<div class="classRow"><div class="classSect">start(double che
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Suspend the execution of this class until `type` (EV_READ | E |	Starts the event loop.<br>
+This basically returns control to the main event loop until d |	This method does not return immediately. A call to <code>flag
+</div></div>							</div></div>
+</div>								</div>
+							      >	<div class="classBlock">
+							      >	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+</div>							      <
+<h4 id='handlerbase-close'>HandlerBase::close</h4>	      <
+<div class="classTable allowFloat">			      <
+<div class="classLayout">				      <
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">close()</div></d |	<div class="classRow"><div class="classItem">check</div><div 
+<div class="classRow"><div class="classDesc">		      <
+Close the stream associated with this handler.<br>	      <
+</div></div>						      <
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h4 id='handlerbase-drophandler'>HandlerBase::dropHandler</h4 |	<h4 id="serverflagshutdown">Server::flagShutDown</h4>
+<div class="classTable allowFloat">			      |	<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">dropHandler()</d |	<div class="classRow"><div class="classSect">flagShutDown()</
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+When a handler is finished processing events on a stream. It  |	Marks the event loop for shut down.<br>
+This is usually done automatically by higher level derived ha |	After the current iteration of the event loop has finished it
+</div></div>							</div></div>
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h4 id='handlerbase-addhandler'>HandlerBase::addHandler</h4>  |	<h4 id="serverlistenon">Server::listenOn</h4>
+							      >	<pre><code class="cpp language-cpp">class MyState
+							      >	{
+							      >	// Stuf
+							      >	};
+							      >	class MyHandler: public Serv::HandlerSuspendableWithStream
+							      >	{
+							      >	public:
+							      >	// Notice the last parameter is `state`.
+							      >	// This means a state object must be provided to the `listenO
+							      >	MyHandler(Serv::Server&amp; parent, Sock::DataSocket&amp;&amp
+							      >	: HandlerSuspendableWithStream(parent, std::move(stream), EV_
+							      >	{}
+							      >	virtual bool eventActivateWithStream(std::istream&amp; input,
+							      >	{ // Stuff }
+							      >	};
+							      >	int main()
+							      >	{
+							      >	Serv::Server      server;
+							      >	MyStateObject     state;
+							      >	// Because we pass state to the `listenOn()` method; this wil
+							      >	// `MyHandler` when it is created. This allows a user defined
+							      >	// across all connections.
+							      >	server.listenOn&lt;MyHandler&gt;(8080, state);
+							      >	// Start the event loop.
+							      >	server.start();
+							      >	}
+							      >	</code></pre>
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">addHandler(Args& |	<div class="classRow"><div class="classSect">listenOn(int por
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+If the handler wants to create other handlers.<br>	      |	This is a templatized function. The template type is the type
+An example of this is when the SQL handlers are added. They c |	When a connection is accepted and object of the template type
+							      >	The object is marked as listening to the accepted socket and 
+							      >	For more details see <a href="#HandlerBase">HandlerBase</a>.
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div>	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">args</div><div c |	<div class="classRow"><div class="classItem">port</div><div c
+							      >	<div class="classRow"><div class="classItem">data</div><div c
+							      >	</div>
+							      >	</div>
+</div>								</div>
+<p></div>						      |	<h4 id="serveraddtimer">Server::addTimer</h4>
+</div></p>						      |	<pre><code class="cpp language-cpp">int main()
+<h4 id='handlerbase-movehandler'>HandlerBase::moveHandler</h4 |	{
+							      >	Serv::Server      server;
+							      >	MyStateObject     state;
+							      >	server.addTimer(3.5, [](){std::cout &lt;&lt; "Timer\n";});
+							      >	// Start the event loop.
+							      >	// While the event loop is running the timer will be activate
+							      >	server.start();
+							      >	}
+							      >	</code></pre>
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">moveHandler(Args |	<div class="classRow"><div class="classSect">addTimer(double 
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+This is similar to `addHandler()`.<br>			      |	Sets a timer to go off every `timeOut` seconds.<br>
+The difference is that the current handler will immediately s |	The result of the timmer going off is to execute the functot 
+When the added handler calles `dropHandler()` control will be <
+Note: The current handler must be suspendable (otherwise an e <
+See: <a href="HandlerBase::suspendable">HandlerBase::suspenda <
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div>	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">args</div><div c |	<div class="classRow"><div class="classItem">timeOut</div><di
+							      >	<div class="classRow"><div class="classItem">action</div><div
+							      >	</div>
+</div>								</div>
+<p></div>						      |	</div>
+</div></p>						      |	<h3 id="handlerbase">HandlerBase</h3>
+<h3 id='handlerstream'>HandlerStream</h3>		      <
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">class:  </div><d |	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div> <
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+This class is templatized based on the type of stream the soc <
+The class basically defines a common class for holding the st <
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Construct |	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="methodRet"></div><div class
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Methods:< |	<div class="classRow"><div class="classSect">Protected Member
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+							      >	</div>
+							      >	<div class="classBlock">
+							      >	<div class="classRow"><div class="classSect">Virtual Members:
+							      >	</div>
+							      >	<div class="classBlock">
+							      >	<div class="classRow"><div class="methodRet">short</div><div 
+							      >	<div class="classRow"><div class="methodRet">bool</div><div c
+							      >	<div class="classROw"><div class="methodRet">void</div><div c
+<div class="classRow"><div class="methodRet">void</div><div c	<div class="classRow"><div class="methodRet">void</div><div c
+</div>								</div>
+<p></div>						      |	</div>
+</div></p>						      |	</div>
+<h3 id='handlernonsuspendable'>HandlerNonSuspendable</h3>     |	<h4 id="handlerbasedrophandler">HandlerBase::dropHandler</h4>
+<div class="classTable allowFloat">			      |	<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div> |	<div class="classRow"><div class="classSect">dropHandler()</d
+<div class="classRow"><div class="classItem">NameSpace:</div> |	<div class="classRow"><div class="classDesc">
+<div class="classRow"><div class="classItem">class:  </div><d |	When a handler is finished processing events on a stream. It 
+<div class="classRow"><div class="classItem">Parent:   </div> |	This is usually done automatically by higher level derived ha
+							      >	</div></div>
+							      >	</div>
+							      >	</div>
+</div>								</div>
+							      >	<h4 id="handlerbaseaddhandler">HandlerBase::addHandler</h4>
+							      >	<div class="classTable">
+							      >	<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+							      >	<div class="classRow"><div class="classSect">addHandler(Args&
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Defines `suspendable()` and `suspend()` for a class that is n |	If the handler wants to create other handlers.<br>
+This is used by some of ther server built in handlers that mu |	An example of this is when the SQL handlers are added. They c
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Construct |	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="classItem">args</div><div c
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="classSect">Public Methods:< <
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="methodRet">bool</div><div c <
+<div class="classRow"><div class="methodRet">void</div><div c <
+</div>								</div>
+<p></div>						      |	<h4 id="handlerbasemovehandler">HandlerBase::moveHandler</h4>
+</div></p>						      |	<div class="classTable">
+<h3 id='handlersuspendable'>HandlerSuspendable</h3>	      <
+<div class="classTable allowFloat">			      <
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div> |	<div class="classRow"><div class="classSect">moveHandler(Args
+<div class="classRow"><div class="classItem">NameSpace:</div> <
+<div class="classRow"><div class="classItem">class:  </div><d <
+<div class="classRow"><div class="classItem">Parent:   </div> <
+</div>							      <
+<div class="classBlock">				      <
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Defines a handler that is suspendable.<br>		      |	This is similar to `addHandler()`.<br>
+Implements `suspendable`, `suspsend()` and `eventActivate()`  |	The difference is that the current handler will immediately s
+The method `eventActivateNonBlocking()` should be overwridden |	When the added handler calles `dropHandler()` control will be
+							      >	<br>
+							      >	Note: The current handler must be suspendable (otherwise an e
+							      >	See:  <a href="HandlerBase::suspendable">HandlerBase::suspend
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Construct |	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="classItem">args</div><div c
+							      >	</div>
+</div>								</div>
+							      >	</div>
+							      >	<h4 id="handlerbaseeventactivate">HandlerBase::eventActivate<
+							      >	<div class="classTable">
+							      >	<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Methods:< |	<div class="classRow"><div class="classSect">eventActivate(Li
+							      >	<div class="classRow"><div class="classDesc">
+							      >	Method called when there is data on the socket.<br>
+							      >	</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet">bool</div><div c |	<div class="classRow"><div class="classSect">Return Value</di
+<div class="classRow"><div class="methodRet">void</div><div c |	<div class="classRow"><div class="classDesc">
+<div class="classRow"><div class="methodRet">short</div><div  |	Return the type of event that you can next process on this st
+							      >	</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Virtual Methods: |	<div class="classRow"><div class="classSect">Parameters</div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet">bool</div><div c |	<div class="classRow"><div class="classItem">sockId</div><div
+							      >	<div class="classRow"><div class="classItem">eventType</div><
+</div>								</div>
+<p></div>						      |	</div>
+</div></p>						      |	</div>
+<h4 id='handlersuspendable-eventactivatenonblocking'>HandlerS |	<h4 id="handlerbasesuspendable">HandlerBase::suspendable</h4>
+<div class="classTable allowFloat">			      |	<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">eventActivateNon |	<div class="classRow"><div class="classSect">suspendable()</d
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Called by eventActivate() to start processing of the stream.< |	Return true if the handler is suspendable and false otherwise
+If a blocking operation is about to be performed this method  |	It is best to inherit from `HandlerNonSuspendable` or aHandle
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="classSect">Return Value</di <
+<div class="classRow"><div class="classDesc">		      <
+Return true to cause the handler to be re-used.<br>Return fal <
+</div></div>						      <
+</div>								</div>
+<p></div>						      |	</div>
+</div></p>						      |	<h4 id="handlerbasesuspend">HandlerBase::suspend</h4>
+<h4 id='handlersuspendable-eventactivate'>HandlerSuspendable: |	<div class="classTable">
+<div class="classTable allowFloat">			      <
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">eventActivate(Li |	<div class="classRow"><div class="classSect">suspend(short ty
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+On first call will start the method `eventActivateNonBlocking |	Suspend the execution of this class until `type` (EV_READ | E
+On subsequent calls will resume `eventActivateNonBlocking()`  |	This basically returns control to the main event loop until d
+If `eventActivateNonBlocking()` returns true then `dropHandle <
+</div></div>							</div></div>
+</div>								</div>
+							      >	</div>
+							      >	</div>
+							      >	<h4 id="handlerbaseclose">HandlerBase::close</h4>
+							      >	<div class="classTable">
+							      >	<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Return Value</di |	<div class="classRow"><div class="classSect">close()</div></d
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+This method returns the type of socket event that should be l |	Close the stream associated with this handler.
+</div></div>							</div></div>
+</div>								</div>
+<p></div>						      |	</div>
+</div></p>						      |	</div>
+<h3 id='handlersuspendablewithstream'>HandlerSuspendableWithS |	<h3 id="handlerstream">HandlerStream</h3>
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">class:  </div><d |	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div> |	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+An implementation of `eventActivateNonBlocking()` that create |	This class is templatized based on the type of stream the soc
+These stream objects will call `suspend()` if they are about  |	The class basically defines a common class for holding the st
+Thus we have transparently non-blocking streams.<br>	      <
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Construct |	<div class="classRow"><div class="classSect">Public Members:<
+</div>							      <
+<div class="classBlock">				      <
+<div class="classRow"><div class="methodRet"></div><div class <
+</div>							      <
+<div class="classBlock">				      <
+<div class="classRow"><div class="classSect">Public Methods:< <
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet">bool</div><div c |	<div class="classRow"><div class="methodRet"></div><div class
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="classSect">Virtual Methods: <
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="methodRet">bool</div><div c <
+</div>								</div>
+<p></div>						      |	<h3 id="handlernonsuspendable">HandlerNonSuspendable</h3>
+</div></p>						      <
+<h3 id='serverconnection'>ServerConnection</h3><pre class="hi <
+<span class="c1">// Implicit creation of ServerConnection     <
+</span>    <span class="n">server</span><span class="p">.</sp <
+<span class="c1">// Explicit creation of ServerConnection     <
+</span>    <span class="n">server</span><span class="p">.</sp <
+</code></pre>						      <
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div> |	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">struct:  </div>< |	<div class="classRow"><div class="classItem">Class:    </div>
+							      >	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Used to simplify the definition of a port.<br>		      |	Defines `suspendable()` and `suspend()` for a class that is n
+@ See Server::listenOn()<br>				      |	This is used by some of ther server built in handlers that mu
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Construct |	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="methodRet"></div><div class
+							      >	<div class="classRow"><div class="methodRet"></div>bool<div c
+							      >	<div class="classRow"><div class="methodRet"></div>void<div c
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="classSect">Public Variables <
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="methodRet">int</div><div cl <
+<div class="classRow"><div class="methodRet">int</div><div cl <
+</div>								</div>
+<p></div>						      |	<h3 id="handlersuspendable">HandlerSuspendable</h3>
+</div></p>						      <
+<h3 id='server'>Server</h3>				      <
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div> |	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">class:  </div><d |	<div class="classRow"><div class="classItem">Class:    </div>
+							      >	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+An object that acts as the main server event loop.<br>	      |	Defines a handler that is suspendable.<br>
+One of these objects can handle all the ports your applicatio |	Implements `suspendable`, `suspsend()` and `eventActivate()` 
+							      >	The method `eventActivateNonBlocking()` should be overwridden
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Construct |	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="methodRet"></div>bool<div c
+<div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="methodRet"></div>void<div c
+							      >	<div class="classRow"><div class="methodRet"></div>short<div 
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Methods:< |	<div class="classRow"><div class="classSect">Virtual Members:
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="methodRet">void</div><div c |	<div class="classRow"><div class="methodRet">bool</div><div c
+<div class="classRow"><div class="methodRet">void</div><div c <
+<div class="classRow"><div class="methodRet">void</div><div c <
+<div class="classRow"><div class="methodRet">void</div><div c <
+</div>								</div>
+<p></div>						      |	</div>
+</div></p>						      |	</div>
+<h4 id='server-start'>Server::start</h4>		      |	<h4 id="handlersuspendableeventactivate">HandlerSuspendable::
+<div class="classTable allowFloat">			      |	<div class="classTable">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">start(double che |	<div class="classRow"><div class="classSect">eventActivate(Li
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Starts the event loop.<br>				      |	On first call will start the method `eventActivateNonBlocking
+This method does not return immediately. A call to <code>flag |	On subsequent calls will resume `eventActivateNonBlocking()` 
+							      >	If `eventActivateNonBlocking()` returns true then `dropHandle
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div> |	<div class="classRow"><div class="classSect">Return Value</di
+							      >	<div class="classRow"><div class="classDesc">
+							      >	This method returns the type of socket event that should be l
+							      >	</div></div>
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="classItem">check</div><div  <
+</div>								</div>
+<p></div>						      |	</div>
+</div></p>						      |	<h4 id="handlerbaseeventactivatenonblocking">HandlerBase::eve
+<h4 id='server-flagshutdown'>Server::flagShutDown</h4>	      |	<div class="classTable">
+<div class="classTable allowFloat">			      <
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">flagShutDown()</ |	<div class="classRow"><div class="classSect">eventActivateNon
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Marks the event loop for shut down.<br>			      |	Called by eventActivate() to start processing of the stream.<
+After the current iteration of the event loop has finished it |	If a blocking operation is about to be performed this method 
+</div></div>							</div></div>
+</div>								</div>
+							      >	<div class="classBlock">
+							      >	<div class="classRow"><div class="classSect">Return Value</di
+							      >	Return true to cause the handler to be re-used.<br>
+							      >	Return false to not drop the handler. This is used if somethi
+							      >	<div class="classRow"><div class="classDesc">
+							      >	</div></div>
+</div>								</div>
+</div>								</div>
+<h4 id='server-addtimer'>Server::addTimer</h4><pre class="hig |	</div>
+<span class="p">{</span>				      |	<h3 id="handlersuspendablewithstream">HandlerSuspendableWithS
+<span class="n">Serv</span><span class="o">::</span><span cla <
+<span class="n">MyStateObject</span>     <span class="n">stat <
+<span class="n">server</span><span class="p">.</span><span cl <
+<span class="c1">// Start the event loop.		      <
+</span>    <span class="c1">// While the event loop is runnin <
+</span>    <span class="n">server</span><span class="p">.</sp <
+<span class="p">}</span>				      <
+</code></pre>						      <
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">addTimer(double  |	<div class="classRow"><div class="classItem">Header:   </div>
+							      >	<div class="classRow"><div class="classItem">NameSpace:</div>
+							      >	<div class="classRow"><div class="classItem">Class:    </div>
+							      >	<div class="classRow"><div class="classItem">Parent:   </div>
+							      >	</div>
+							      >	<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Sets a timer to go off every `timeOut` seconds.<br>	      |	An implementation of `eventActivateNonBlocking()` that create
+The result of the timmer going off is to execute the functot  |	These stream objects will call `suspend()` if they are about 
+							      >	<br>
+							      >	Thus we have transparently non-blocking streams.
+</div></div>							</div></div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div> |	<div class="classRow"><div class="classSect">Public Members:<
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">timeOut</div><di |	<div class="classRow"><div class="methodRet"></div><div class
+<div class="classRow"><div class="classItem">action</div><div |	<div class="classRow"><div class="methodRet">bool</div><div c
+</div>								</div>
+<p></div>						      <
+</div></p>						      <
+<h4 id='server-listenon'>Server::listenOn</h4><pre class="hig <
+<span class="p">{</span>				      <
+<span class="c1">// Stuf				      <
+</span><span class="p">};</span>			      <
+<span class="k">class</span> <span class="nc">MyHandler</span <
+<span class="p">{</span>				      <
+<span class="k">public</span><span class="o">:</span>	      <
+<span class="c1">// Notice the last parameter is `state`.     <
+</span>        <span class="c1">// This means a state object  <
+</span>        <span class="n">MyHandler</span><span class="p <
+<span class="o">:</span> <span class="n">HandlerSuspendableWi <
+<span class="p">{}</span>				      <
+<span class="k">virtual</span> <span class="kt">bool</span> < <
+<span class="p">{</span> <span class="c1">// Stuff }	      <
+</span><span class="p">};</span>			      <
+<span class="kt">int</span> <span class="nf">main</span><span <
+<span class="p">{</span>				      <
+<span class="n">Serv</span><span class="o">::</span><span cla <
+<span class="n">MyStateObject</span>     <span class="n">stat <
+<span class="c1">// Because we pass state to the `listenOn()` <
+</span>    <span class="c1">// `MyHandler` when it is created <
+</span>    <span class="c1">// across all connections.	      <
+</span>    <span class="n">server</span><span class="p">.</sp <
+<span class="c1">// Start the event loop.		      <
+</span>    <span class="n">server</span><span class="p">.</sp <
+<span class="p">}</span>				      <
+</code></pre>						      <
+<div class="classTable allowFloat">			      <
+<div class="classLayout">				      <
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">listenOn(ServerC |	<div class="classRow"><div class="classSect">Virtual Members:
+<div class="classRow"><div class="classDesc">		      <
+This is a templatized function. The template type is the type <
+When a connection is accepted and object of the template type <
+The object is marked as listening to the accepted socket and  <
+For more details see <a href="#HandlerBase">HandlerBase</a>.< <
+</div></div>						      <
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Parameters</div> |	<div class="classRow"><div class="methodRet">bool</div><div c
+							      >	</div>
+</div>								</div>
+<div class="classBlock">				      <
+<div class="classRow"><div class="classItem">port</div><div c <
+<div class="classRow"><div class="classItem">param</div><div  <
+</div>								</div>
+<p></div>						      |	<h3 id="serverhandler">ServerHandler</h3>
+</div></p>						      <
+<h3 id='serverhandler'>ServerHandler</h3>		      <
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">class:  </div><d |	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+An implementation of HandlerNonSuspendable that is used to ac |	An implementation of HandlerNonSuspendable that is used to ac
+</div></div>							</div></div>
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h3 id='timerhandler'>TimerHandler</h3>			      |	<h3 id="timerhandler">TimerHandler</h3>
+<div class="classTable allowFloat">				<div class="classTable allowFloat">
+<div class="classLayout">					<div class="classLayout">
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classItem">Header:   </div>	<div class="classRow"><div class="classItem">Header:   </div>
+<div class="classRow"><div class="classItem">NameSpace:</div>	<div class="classRow"><div class="classItem">NameSpace:</div>
+<div class="classRow"><div class="classItem">class:  </div><d |	<div class="classRow"><div class="classItem">Class:    </div>
+<div class="classRow"><div class="classItem">Parent:   </div>	<div class="classRow"><div class="classItem">Parent:   </div>
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+An implementation of HandlerNonSuspendable that is used to im |	An implementation of HandlerNonSuspendable that is used to im
+</div></div>							</div></div>
+</div>								</div>
+</div>								</div>
+</div>								</div>
+<h2 id='sql'>SQL</h2><pre class="highlight cpp tab-cpp"><code |	<h2 id="SQL">SQL</h2>
+<span class="k">namespace</span> <span class="n">SQL</span>   |	<pre><code class="cpp language-cpp">namespace Express = Thors
+<span class="k">static</span> <span class="n">SQL</span><span |	namespace SQL     = ThorsAnvil::SQL;
+<span class="k">static</span> <span class="n">SQL</span><span |	static SQL::Connection connection("mysqlNB://test.com", "test
+<span class="k">class</span> <span class="nc">MyListBeerHandl |	static SQL::Statement  listBeers(connection, "SELECT Name, Ag
+<span class="p">{</span>				      |	class MyListBeerHandler: public HandlerSuspendable&lt;DataSoc
+<span class="k">virtual</span> <span class="kt">bool</span> < |	{
+<span class="p">{</span>				      |	virtual bool eventActivateNonBlocking()
+<span class="n">ISocketStream</span>   <span class="n">input< |	{
+<span class="n">std</span><span class="o">::</span><span clas |	ISocketStream   input(stream);
+<span class="n">std</span><span class="o">::</span><span clas |	std::string     request;
+<span class="n">std</span><span class="o">::</span><span clas |	std::getline(input, request);
+<span class="k">while</span><span class="p">(</span><span cla |	std::string     header;
+<span class="p">{}</span>				      |	while(std::getline(input, header) &amp;&amp; header != "\r")
+<span class="n">std</span><span class="o">::</span><span clas |	{}
+<span class="n">body</span> <span class="o">&lt;&lt;</span> < |	std::stringsttream body;
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;head&gt; |	body &lt;&lt; "&lt;html&gt;"
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;body&gt; |	&lt;&lt; "&lt;head&gt;&lt;title&gt;Beer List&lt;/title&gt;&lt
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;h1&gt;Be |	&lt;&lt; "&lt;body&gt;"
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;ol&gt;"< |	&lt;&lt; "&lt;h1&gt;Beer List&lt;/h1&gt;"
+<span class="c1">// Calling execute() suspends the current ha |	&lt;&lt; "&lt;ol&gt;";
+</span>        <span class="c1">// Control is returned (unsus |	// Calling execute() suspends the current handler.
+</span>        <span class="c1">//			      |	// Control is returned (unsuspends the handler) when the exec
+</span>        <span class="c1">// The execute function retur |	//
+</span>        <span class="c1">// DB. The lambda is executes |	// The execute function returns when all the rows have been r
+</span>        <span class="c1">// to build the response as a |	// DB. The lambda is executes once for each row that is rutur
+</span>        <span class="n">listBeers</span><span class="p |	// to build the response as a stream.
+<span class="p">{</span>				      |	listBeers.execute([&amp;body](std::string const&amp; name, in
+<span class="c1">// This call to the MySQL server is also non |	{
+</span>            <span class="c1">// If the call is going t |	// This call to the MySQL server is also non blocking.
+</span>            <span class="c1">// Allowing another conne |	// If the call is going to block control is returned to ThorN
+</span>            <span class="c1">// Its work.	      |	// Allowing another connection to be processed while the MySQ
+</span>            <span class="n">body</span> <span class="o |	// Its work.
+<span class="p">});</span>				      |	body &lt;&lt; "&lt;li&gt;" &lt;&lt; name &lt;&lt; " : " &lt;&
+<span class="n">body</span> <span class="o">&lt;&lt;</span> < |	});
+<span class="n">OSocketStream</span>   <span class="n">output |	body &lt;&lt; "&lt;/ol&gt;&lt;/body&gt;&lt;/html&gt;";
+<span class="n">output</span> <span class="o">&lt;&lt;</span> |	OSocketStream   output(stream);
+<span class="s">"Content-Length: "</span> <span class="o">&lt |	output &lt;&lt; "HTTP/1.1 200 OK\r\n"
+<span class="s">"</span><span class="se">\r\n</span><span cla |	"Content-Length: " &lt;&lt; body.size() &lt;&lt; "\r\n"
+<span class="o">&lt;&lt;</span> <span class="n">body</span><s |	"\r\n"
+<span class="p">}</span>				      |	&lt;&lt; body;
+<span class="p">};</span>				      |	}
+</code></pre><pre class="highlight cpp tab-cpp--DeepDive"><co |	};
+</code></pre>							</code></pre>
+<p>A PIMPL proxy for the ThorSQL library.<br>		      |	<pre><code class="cpp--DeepDive language-cpp--DeepDive">Pleas
+There are no user usable classes in this package. All the cla |	</code></pre>
+							      >	<p>A PIMPL proxy for the ThorSQL library.<br />
+							      >	There are no user usable classes in this package. All the cla
+<dl>								<dl>
+<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::SQL</dd>	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::SQL</dd>
+<dt>Headers:</dt><dd>ThorsNisseCoreSQL/</dd>			<dt>Headers:</dt><dd>ThorsNisseCoreSQL/</dd>
+</dl>								</dl>
+<h1 id='protocol'>Protocol</h1><h2 id='simple'>Simple</h2>    |	<h1 id="Protocol">Protocol</h1>
+<p>A very simple protocol. These classes are used to test the |	<h2 id="Simple">Simple</h2>
+							      >	<p>A very simple protocol. These classes are used to test the
+<dl>								<dl>
+<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::Simple</d	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::Simple</d
+<dt>Headers:</dt><dd>ThorsNisseProtocolSimple/</dd>		<dt>Headers:</dt><dd>ThorsNisseProtocolSimple/</dd>
+</dl></p>						      |	</dl>
+<h2 id='http'>HTTP</h2><pre class="highlight cpp tab-cpp--Dee |	<h2 id="HTTP">HTTP</h2>
+<span class="p">{</span>				      |	<pre><code class="cpp--DeepDive language-cpp--DeepDive">class
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">Site</span><span class="p">();</span>	      |	public:
+<span class="n">Site</span><span class="p">(</span><span clas |	Site();
+<span class="n">Site</span><span class="o">&amp;</span> <span |	Site(Site&amp;&amp;) noexcept;
+<span class="kt">void</span> <span class="n">swap</span><span |	Site&amp; operator=(Site&amp;&amp;) noexcept;
+<span class="kt">void</span> <span class="nf">get</span><span |	void swap(Site&amp;) noexcept;
+<span class="kt">void</span> <span class="nf">put</span><span |	void get(std::string&amp;&amp; path, Action&amp;&amp; action)
+<span class="kt">void</span> <span class="nf">del</span><span |	void put(std::string&amp;&amp; path, Action&amp;&amp; action)
+<span class="kt">void</span> <span class="nf">post</span><spa |	void del(std::string&amp;&amp; path, Action&amp;&amp; action)
+<span class="kt">void</span> <span class="nf">all</span><span |	void post(std::string&amp;&amp; path, Action&amp;&amp; action
+<span class="n">std</span><span class="o">::</span><span clas |	void all(std::string&amp;&amp; path, Action&amp;&amp; action)
+<span class="p">};</span>				      |	std::pair&lt;bool, Action&gt; find(Method method, std::string
+<span class="k">class</span> <span class="nc">Binder</span>   |	};
+<span class="p">{</span>				      |	class Binder
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">Binder</span><span class="p">();</span>	      |	public:
+<span class="kt">void</span> <span class="n">setCustome404Act |	Binder();
+<span class="kt">void</span> <span class="n">addSite</span><s |	void setCustome404Action(Action&amp;&amp; action);
+<span class="n">std</span><span class="o">::</span><span clas |	void addSite(std::string const&amp; host, std::string const&a
+<span class="n">Action</span> <span class="n">find</span><spa |	std::pair&lt;bool, int&gt; remSite(std::string const&amp; hos
+<span class="p">};</span>				      |	Action find(Method method, std::string const&amp; host, std::
+<span class="k">class</span> <span class="nc">DeveloperHandle |	};
+<span class="p">{</span>				      |	class DeveloperHandler: public Core::Service::HandlerNonSuspe
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">DeveloperHandler</span><span class="p">(</spa |	public:
+<span class="k">virtual</span> <span class="kt">short</span>  |	DeveloperHandler(Core::Service::Server&amp; parent, Core::Soc
+<span class="p">};</span>				      |	virtual short eventActivate(Core::Service::LibSocketId sockId
+<span class="k">class</span> <span class="nc">DynamicSiteLoad |	};
+<span class="p">{</span>				      |	class DynamicSiteLoader
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">DynamicSiteLoader</span><span class="p">(</sp |	public:
+<span class="n">std</span><span class="o">::</span><span clas |	DynamicSiteLoader(Core::Service::Server&amp; server);
+<span class="n">std</span><span class="o">::</span><span clas |	std::tuple&lt;bool, int&gt;      load(std::string const&amp; 
+<span class="kt">void</span>                       <span clas |	std::tuple&lt;bool, int, int&gt; unload(int port, std::string
+<span class="p">};</span>				      |	void                       setMaxWaitingConnections(int max);
+<span class="k">class</span> <span class="nc">ReadRequestHand |	};
+<span class="p">{</span>				      |	class ReadRequestHandler: public Core::Service::HandlerSuspen
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">ReadRequestHandler</span><span class="p">(</s |	public:
+<span class="k">virtual</span> <span class="kt">bool</span> < |	ReadRequestHandler(Core::Service::Server&amp; parent, Core::S
+<span class="kt">void</span> <span class="n">setFlusher</span |	virtual bool eventActivateNonBlocking() override;
+<span class="kt">void</span> <span class="n">flushing</span>< |	void setFlusher(Response* f){flusher = f;}
+<span class="p">};</span>				      |	void flushing()             {if (flusher){flusher-&gt;flushin
+<span class="k">struct</span> <span class="n">HttpParserData< |	};
+<span class="p">{</span>				      |	struct HttpParserData
+<span class="n">HttpParserData</span><span class="p">();</spa |	{
+<span class="kt">void</span> <span class="n">addCurrentHeader |	HttpParserData();
+<span class="n">Headers</span>                 <span class="n |	void addCurrentHeader();
+<span class="n">std</span><span class="o">::</span><span clas |	Headers                 headers;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string             currentHead;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string             currentValue;
+<span class="kt">char</span> <span class="k">const</span><spa |	std::string             uri;
+<span class="kt">char</span> <span class="k">const</span><spa |	char const*             bodyBegin;
+<span class="n">Method</span>                  <span class="n |	char const*             bodyEnd;
+<span class="kt">bool</span>                    <span class=" |	Method                  method;
+<span class="kt">bool</span>                    <span class=" |	bool                    messageComplete;
+<span class="p">};</span>				      |	bool                    gotValue;
+<span class="k">class</span> <span class="nc">HttpScanner</sp |	};
+<span class="p">{</span>				      |	class HttpScanner
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">HttpParserData</span>          <span class="n |	public:
+<span class="n">HttpScanner</span><span class="p">();</span>  |	HttpParserData          data;
+<span class="kt">void</span> <span class="n">scan</span><span |	HttpScanner();
+<span class="p">};</span>				      |	void scan(char const* buffer, std::size_t size);
+<span class="k">class</span> <span class="nc">Route</span>    |	};
+<span class="p">{</span>				      |	class Route
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">Route</span><span class="p">(</span><span cla |	public:
+<span class="n">Route</span><span class="p">(</span><span cla |	Route(std::string&amp;&amp; fullRoute);
+<span class="n">Route</span><span class="o">&amp;</span> <spa |	Route(Route const&amp;)            = delete;
+<span class="n">Route</span><span class="p">(</span><span cla |	Route&amp; operator=(Route const&amp;) = delete;
+<span class="kt">bool</span> <span class="k">operator</span>< |	Route(Route&amp;&amp;) = default;
+<span class="kt">bool</span> <span class="k">operator</span>< |	bool operator&lt;(Route const&amp; rhs) const;
+<span class="kt">bool</span> <span class="k">operator</span>< |	bool operator&lt;(std::string const&amp; rhs) const;
+<span class="kt">bool</span> <span class="k">operator</span>< |	bool operator&lt;=(std::string const&amp; rhs) const;
+<span class="p">};</span>				      |	bool operator==(std::string const&amp; rhs) const;
+<span class="k">struct</span> <span class="n">RouteTester</sp |	};
+<span class="p">{</span>				      |	struct RouteTester
+<span class="k">using</span> <span class="n">is_transparent</ |	{
+<span class="kt">bool</span> <span class="k">operator</span>< |	using is_transparent = std::true_type;
+<span class="kt">bool</span> <span class="k">operator</span>< |	bool operator()(std::string const&amp; lhs, Route const&amp; 
+<span class="kt">bool</span> <span class="k">operator</span>< |	bool operator()(Route const&amp; lhs, std::string const&amp; 
+<span class="p">};</span>				      |	bool operator()(Route const&amp; lhs, Route const&amp; rhs)  
+<span class="k">class</span> <span class="nc">Headers</span>  |	};
+<span class="p">{</span>				      |	class Headers
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="k">typedef</span> <span class="n">ConstIterator< |	public:
+<span class="k">class</span> <span class="nc">Inserter</span> |	typedef ConstIterator const_iterator;
+<span class="p">{</span>				      |	class Inserter
+<span class="n">ValueStore</span><span class="o">&amp;</span> |	{
+<span class="k">public</span><span class="o">:</span>	      |	ValueStore&amp;  valueStore;
+<span class="n">Inserter</span><span class="p">(</span><span  |	public:
+<span class="kt">void</span> <span class="k">operator</span>< |	Inserter(ValueStore&amp; valueStore);
+<span class="kt">void</span> <span class="k">operator</span>< |	void operator=(std::string&amp;&amp; value);
+<span class="p">};</span>				      |	void operator=(std::string const&amp; value);
+<span class="n">ConstIterator</span> <span class="n">begin</s |	};
+<span class="n">ConstIterator</span> <span class="n">end</spa |	ConstIterator begin() const {return std::cbegin(data);}
+<span class="n">Inserter</span> <span class="k">operator</spa |	ConstIterator end()   const {return std::cend(data);}
+<span class="n">std</span><span class="o">::</span><span clas |	Inserter operator[](std::string const&amp; key)    {return da
+<span class="n">std</span><span class="o">::</span><span clas |	std::size_t        getVersions(std::string const&amp; key) co
+<span class="p">};</span>				      |	std::string const&amp; get(std::string const&amp; key, std::s
+<span class="k">class</span> <span class="nc">URI</span>      |	};
+<span class="p">{</span>				      |	class URI
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="n">std</span><span class="o">::</span><span clas |	public:
+<span class="n">std</span><span class="o">::</span><span clas |	std::string original;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string normalized;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string schema;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string host;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string path;
+<span class="n">std</span><span class="o">::</span><span clas |	std::string query;
+<span class="kt">short</span>       <span class="n">port</spa |	std::string fragment;
+<span class="n">Headers</span>     <span class="n">queryParam |	short       port;
+<span class="n">URI</span><span class="p">(</span><span class |	Headers     queryParam;
+<span class="p">};</span>				      |	URI(std::string const&amp; hostAndPort, std::string&amp;&amp;
+<span class="k">class</span> <span class="nc">Request</span>  |	};
+<span class="p">{</span>				      |	class Request
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="k">const</span> <span class="n">Method</span>    |	public:
+<span class="k">const</span> <span class="n">URI</span>       |	const Method            method;
+<span class="k">const</span> <span class="n">Headers</span><s |	const URI               uri;
+<span class="n">std</span><span class="o">::</span><span clas |	const Headers&amp;          headers;
+<span class="n">Request</span><span class="p">(</span><span c |	std::istream&amp;           body;
+<span class="n">URI</span><span class="o">&amp;&amp;</span> < |	Request(Method method,
+<span class="n">Headers</span><span class="o">&amp;</span> <s |	URI&amp;&amp; uri,
+<span class="n">std</span><span class="o">::</span><span clas |	Headers&amp; headers,
+<span class="p">};</span>				      |	std::istream&amp; body);
+<span class="k">class</span> <span class="nc">Response</span> |	};
+<span class="p">{</span>				      |	class Response
+<span class="k">public</span><span class="o">:</span>	      |	{
+<span class="kt">short</span>                   <span class=" |	public:
+<span class="n">std</span><span class="o">::</span><span clas |	short                   resultCode;
+<span class="n">Headers</span>                 <span class="n |	std::string             resultMessage;
+<span class="n">std</span><span class="o">::</span><span clas |	Headers                 headers;
+<span class="n">Response</span><span class="p">(</span><span  |	std::ostream&amp;           body;
+<span class="n">Response</span><span class="p">(</span><span  |	Response(std::ostream&amp; body);
+<span class="n">DataSocket</span><span class="o">&amp;</span> |	Response(ReadRequestHandler&amp; flusher,
+<span class="n">std</span><span class="o">::</span><span clas |	DataSocket&amp; socket,
+<span class="kt">short</span> <span class="n">resultCode</spa |	std::ostream&amp; body,
+<span class="n">std</span><span class="o">::</span><span clas |	short resultCode = 200,
+<span class="o">~</span><span class="n">Response</span><span  |	std::string const&amp; resultMessage = "OK");
+<span class="kt">void</span> <span class="n">flushing</span>< |	~Response();
+<span class="p">};</span>				      |	void flushing(bool allDone = false);
+							      >	};
+</code></pre>							</code></pre>
+<p>An implementation of the HTTP protocol		      |	<p>An implementation of the HTTP protocol</p>
+<dl>								<dl>
+<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::HTTP</dd>	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::HTTP</dd>
+<dt>Headers:</dt><dd>ThorsNisseProtocolHTTP/</dd>		<dt>Headers:</dt><dd>ThorsNisseProtocolHTTP/</dd>
+<dt>Binder.h</dt><dd></p>				      |	<dt>Binder.h</dt><dd>
+<ul>							      |	* class Site
+<li>class Site</li>					      |	* class Binder
+<li>class Binder</li>					      |	</dd>
+</ul>							      |	<dt>DeveloperHandler.h</dt><dd>
+<p></dd>						      |	* class DeveloperHandler: public Core::Service::HandlerNonSus
+<dt>DeveloperHandler.h</dt><dd></p>			      |	</dd>
+<ul>							      |	<dt>DynamicSiteLoader.h</dt><dd>
+<li>class DeveloperHandler: public Core::Service::HandlerNonS |	* class DynamicSiteLoader
+</ul>							      |	</dd>
+<p></dd>						      |	<dt>HTTPProtocol.h</dt><dd>
+<dt>DynamicSiteLoader.h</dt><dd></p>			      |	* class ReadRequestHandler: public Core::Service::HandlerSusp
+<ul>							      |	</dd>
+<li>class DynamicSiteLoader</li>			      |	<dt>HttpScanner.h</dt><dd>
+</ul>							      |	* struct HttpParserData
+<p></dd>						      |	* class HttpScanner
+<dt>HTTPProtocol.h</dt><dd></p>				      |	</dd>
+<ul>							      |	<dt>Route.h</dt><dd>
+<li>class ReadRequestHandler: public Core::Service::HandlerSu |	* class Route
+</ul>							      |	* struct RouteTester
+<p></dd>						      |	</dd>
+<dt>HttpScanner.h</dt><dd></p>				      |	<dt>Types.h</dt><dd>
+<ul>							      |	* class Headers
+<li>struct HttpParserData</li>				      |	* class URI
+<li>class HttpScanner</li>				      |	* class Request
+</ul>							      |	* class Response
+<p></dd>						      |	</dd>
+<dt>Route.h</dt><dd></p>				      |	</dl>
+<ul>							      |	<h1 id="Examples">Examples</h1>
+<li>class Route</li>					      <
+<li>struct RouteTester</li>				      <
+</ul>							      <
+<p></dd>						      <
+<dt>Types.h</dt><dd></p>				      <
+<ul>							      <
+<li>class Headers</li>					      <
+<li>class URI</li>					      <
+<li>class Request</li>					      <
+<li>class Response</li>					      <
+</ul>							      <
+<p></dd>						      <
+</dl></p>						      <
+<h1 id='examples'>Examples</h1>				      <
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
+<h2 id='addbeer'>AddBeer</h2>				      |	<h2 id="addbeer">AddBeer</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
+</div>								</div>
+<div class="dark-box">					      |	<div class="dark-box"></div>
+</div>							      <
+</div>								</div>
+</body>								</body>
+</html>								</html>
