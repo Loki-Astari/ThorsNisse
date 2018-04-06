@@ -1,7 +1,22 @@
 {
     "author": "Loki Astari",
-    "title": "Loki Astari",
-    "description": "Thoughts of a former code monkey.",
+    "title": "ThorsNisse",
     "theme": "documentation",
-    "themeGit": "git@github.com:Loki-Astari/andvari-theme-documentation.git"
+    "themeGit": "git@github.com:Loki-Astari/andvari-theme-documentation.git",
+    "toc": [
+        {"Name": "Intorduction", "value": "intro.md"},
+        {"Name": "Node.Cxx", "value": "node.md"},
+        {"Name": "Express", "value": "express.md"},
+        {"Name": "Core", "Sub": [
+            {"Name": "Utility", "value": "util.md"},
+            {"Name": "Socket", "value":  "socket.md"},
+            {"Name": "Service", "value": "service.md"},
+            {"Name": "SQL", "value":     "sql.md"}
+        ]},
+        {"Name": "Protocol", "Sub": [
+            {"Name": "Simple", "value": "simple.md"},
+            {"Name": "HTTP", "value": "http.md"}
+        ]},
+        {"Name": "Examples", "value": "examples.md"}
+    ]
 }
