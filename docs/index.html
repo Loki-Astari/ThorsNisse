@@ -214,7 +214,8 @@
     <div class="dark-box"></div>
     <div class="content">
         
-    <h1 id="introduction">Introduction</h1>
+    
+        <h1 id="introduction">Introduction</h1>
     
                 <p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsNisse</a> is RESTful server framework for C++.<br />
 It is based on Node.js and its family of associated packages. ThorsNisse uses transparently non-blocking <code>std::streams</code> to achieve high throughput and low complexity of development on a single threaded server.</p>
@@ -227,7 +228,8 @@ It is based on Node.js and its family of associated packages. ThorsNisse uses tr
     
     
 
-    <h1 id="node-cxx">Node.Cxx</h1>
+    
+        <h1 id="node-cxx">Node.Cxx</h1>
     
                 <p>To simplify development for those that simply want to write HTTP RESTful endpoints the server Node.Cxx is provided to handle all the boilerplate.</p>
 <p>Node.Cxx (Lovingly named after Node.js for the inspiration) is a simple HTTP server implemented using the ThorsNisse framework that will dynamically load <a href="#express">Express</a> modules.</p>
@@ -267,7 +269,8 @@ It is based on Node.js and its family of associated packages. ThorsNisse uses tr
     
     
 
-    <h1 id="express">Express</h1>
+    
+        <h1 id="express">Express</h1>
     
                 <pre><code class="cpp language-cpp">// Must include this header
 #include "ThorsExpress/all.h"
@@ -288,11 +291,11 @@ void addSite(HTTP::Site&amp; site)
     
     
 
-    <h1 id="core">Core</h1>
     
     
         
-    <h2 id="utility">Utility</h2>
+    
+        <h2 id="utility">Utility</h2>
     
                 <pre><code class="cpp language-cpp">if (open("file", O_WRONLY) == -1)
 {
@@ -330,7 +333,8 @@ std::string buildErrorMessage(Args const&amp;... args);
     
     
 
-    <h2 id="socket">Socket</h2>
+    
+        <h2 id="socket">Socket</h2>
     
                 <pre><code class="bash language-bash"> &gt; g++ Socket.cpp -o Socket -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17
  &gt; curl --data "A test message in a bottle :)" http://localhost:8080;echo
@@ -675,38 +679,32 @@ int main()
     
     
         
-    <h3 id="basesocket">BaseSocket</h3>
     
     
 
-    <h3 id="datasocket">DataSocket</h3>
     
     
 
-    <h3 id="connectionsocket">ConnectionSocket</h3>
     
     
 
-    <h3 id="serversocket">ServerSocket</h3>
     
     
 
-    <h3 id="socketstreambuffer">SocketStreamBuffer</h3>
     
     
 
-    <h3 id="isocketstream">ISocketStream</h3>
     
     
 
-    <h3 id="osocketstream">OSocketStream</h3>
     
     
 
 
     
 
-    <h2 id="service">Service</h2>
+    
+        <h2 id="service">Service</h2>
     
                 <pre><code class="bash language-bash"> &gt; g++ -std=c++1z Server.cpp -o Server -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17 -lboost_context-mt
  &gt; curl --data "A test message in a bottle :)" http://localhost:8080;echo
@@ -1311,46 +1309,38 @@ int main()
     
     
         
-    <h3 id="handlerbase">HandlerBase</h3>
     
     
 
-    <h3 id="handlerstream">HandlerStream</h3>
     
     
 
-    <h3 id="handlernonsuspendable">HandlerNonSuspendable</h3>
     
     
 
-    <h3 id="handlersuspendable">HandlerSuspendable</h3>
     
     
 
-    <h3 id="handlersuspendablewithstream">HandlerSuspendableWithStream</h3>
     
     
 
-    <h3 id="serverconnection">ServerConnection</h3>
     
     
 
-    <h3 id="server">Server</h3>
     
     
 
-    <h3 id="serverhandler">ServerHandler</h3>
     
     
 
-    <h3 id="timerhandler">TimerHandler</h3>
     
     
 
 
     
 
-    <h2 id="sql">SQL</h2>
+    
+        <h2 id="sql">SQL</h2>
     
                 <pre><code class="cpp language-cpp">namespace Express = ThorsAnvil::Nisse::Protocol::HTTP;
 namespace SQL     = ThorsAnvil::SQL;
@@ -1417,11 +1407,11 @@ There are no user usable classes in this package. All the classes are used inter
 
     
 
-    <h1 id="protocol">Protocol</h1>
     
     
         
-    <h2 id="simple">Simple</h2>
+    
+        <h2 id="simple">Simple</h2>
     
                 <p>A very simple protocol. These classes are used to test the functionality of Core::Service without the extra baggage of the HTTP protocol.</p>
 <dl>
@@ -1432,7 +1422,8 @@ There are no user usable classes in this package. All the classes are used inter
     
     
 
-    <h2 id="http">HTTP</h2>
+    
+        <h2 id="http">HTTP</h2>
     
                 <pre><code class="cpp--DeepDive language-cpp--DeepDive">class Site
 {
@@ -1658,7 +1649,8 @@ class Response
 
     
 
-    <h1 id="examples">Examples</h1>
+    
+        <h1 id="examples">Examples</h1>
     
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
 <h2 id="addbeer">AddBeer</h2>
@@ -1667,7 +1659,6 @@ class Response
     
     
         
-    <h2 id="addbeer">AddBeer</h2>
     
     
 
