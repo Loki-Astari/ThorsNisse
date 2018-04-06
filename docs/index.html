@@ -22,85 +22,42 @@
 </a>
 
     <div class="toc-wrapper">
-        <img src="images/logo.png" class="logo" alt="Logo" />
-        <div id="toc" class="toc-list-h1">
-            <li>
-                <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-            </li>
-            <li>
-                <a href="#core" class="toc-h1 toc-link" data-title="Core">Core</a>
-                <ul class="toc-list-h2">
-                    <li><a href="#utility" class="toc-h2 toc-link" data-title="Core">Utility</a></li>
-                    <li><a href="#socket" class="toc-h2 toc-link" data-title="Core">Socket</a>
-                        <ul class="toc-list-h3">
-                            <li><a href="#basesocket" class="toc-h3 toc-link" data-title="Core">BaseSocket</a></li>
-                    </li>
-                </ul>
-            </li>
-        </div>
-        <ul class="toc-footer">
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
-        </ul>
-    </div>
-    <div class="page-wrapper">
-        <div class="dark-box"></div>
-        <div class="content">
-            <h1 id='introduction'>Introduction</h1>
-            <p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsNisse</a> is RESTful server framework for C++.<br> It is based on Node.js and its family of associated packages. ThorsNisse uses transparently non-blocking <code>std::streams</code> to achieve high throughput and low complexity of development on a single threaded server.</p>
-            <p>What does <strong>transparently non-blocking:</strong> mean?</p>
-            <ul>
-                <li>To the user of the std::stream it will appear to be standard blocking stream; thus allowing very normal looking C++ code to be written.</li>
-                <li>To make the framework efficient any blocking read/write calls transfers control back to the Nisse Framework so that other streams may be processed.</li>
+    <img src="images/logo.png" class="logo" alt="Logo" />
+    <div id="toc" class="toc-list-h1">
+        <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+        </li>
+        <li>
+            <a href="#core" class="toc-h1 toc-link" data-title="Core">Core</a>
+            <ul class="toc-list-h2">
+                <li><a href="#utility" class="toc-h2 toc-link" data-title="Core">Utility</a></li>
+                <li><a href="#socket" class="toc-h2 toc-link" data-title="Core">Socket</a>
+                    <ul class="toc-list-h3">
+                        <li><a href="#basesocket" class="toc-h3 toc-link" data-title="Core">BaseSocket</a></li>
+                </li>
             </ul>
-            <h1 id='node-cxx'>Node.Cxx</h1>
-            <p>To simplify development for those that simply want to write HTTP RESTful endpoints the server Node.Cxx is provided to handle all the boilerplate.</p>
-            <p>Node.Cxx (Lovingly named after Node.js for the inspiration) is a simple HTTP server implemented using the ThorsNisse framework that will dynamically load <a href="#express">Express</a> modules.</p>
-            <p>The Node.Cxx server takes two flags as arguments on startup:</p>
-            <pre class="highlight shell">
-                <code> &gt; Node.cxx
-                    <span class="o">[</span>--debug:&lt;port&gt;]
-                    <span class="o">[</span>--load:&lt;SharedLib&gt;:&lt;Host&gt;:&lt;Base&gt;:&lt;port&gt;]
-                    <span class="c">#</span>
-                    <span class="c"># --debug:8081</span>
-                    <span class="c">#      Loads the dynamic loader so it listens on port 8081</span>
-                    <span class="c">#          To load a libray:</span>
-                    <span class="c">#              curl --data '{"action": "Load",   "host": "test.com", "base": "", "port": 8080, "lib": "AddBeer.dylib"}' localhost:8081</span>
-                    <span class="c">#          To unload a library:</span>
-                    <span class="c">#              curl --data '{"action": "Unload", "host": "test.com", "base": "", "port": 8080}'  localhost:8081</span>
-                    <span class="c">#</span>
-                    <span class="c">#</span>
-                    <span class="c"># --load:AddBeer.dylib:test.com::8080</span>
-                    <span class="c">#      Loads the AddBeer.dylib express module.</span>
-                    <span class="c">#          And binds it to the root of http://test.com</span>
-                    <span class="c">#</span>
-                    <span class="c">#          Assume AddBeer defines the end pointes /AddBeer</span>
-                    <span class="c">#          When a request to `http://test.com/AddBeer the associated code will be called.</span>
-                    <span class="c">#</span>
-                    <span class="c"># --load:AddDrink.dylib:test.com:/drinks:8080</span>
-                    <span class="c">#      Loads the AddDrink.dylib express module.</span>
-                    <span class="c">#          And binds it to http://test.com/drinks</span>
-                    <span class="c">#</span>
-                    <span class="c">#          Assume AddDrink defines the end pointes /AddDrink</span>
-                    <span class="c">#          When a request to `http://test.com/drinks/AddDrink the associated code will be called.</span>
-                    <span class="c">#</span>
-                    <span class="c">#          Note we did not bind AddDrink to the root of test.com so you need to add the `Base` to</span>
-                    <span class="c">#          all routes defined by the library in its code.</span>
-                </code>
-            </pre>
-            <table>
-                <thead>
-                    <tr><th>Command Line Flag</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>--debug</td><td>Installs the dynamic library loader.<br>This allows shared libraries to be loaded/unloaded at runtime without restarting the server. Useful for building and debugging but should not be used in production.<br><br>As the command to load/unload library is simply a REST call to the specified port; this can be included into your build environment to un-install the old version and install the newly build version allowing a quick turn around for development.</td></tr>
-                    <tr><td>--load</td><td>Loads a shared library that is linked with <a href="#express">Express</a>.<br>This flag can be used multiple times.<br><br>The express module provides the facility to easily associate code with REST end points.<br><br>This flag uses the same underlying code as the REST call to load a site. So these sites can also be dynamically unloaded if required.</td></tr>
-                </tbody>
-            </table>
-            <h2 id='addbeer'>AddBeer</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-        </div>
-        <div class="dark-box"></div>
+        </li>
     </div>
+    <ul class="toc-footer">
+        <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+    </ul>
+</div>
+
+    <div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsNisse</a> is RESTful server framework for C++.<br> It is based on Node.js and its family of associated packages. ThorsNisse uses transparently non-blocking <code>std::streams</code> to achieve high throughput and low complexity of development on a single threaded server.</p>
+<p>What does <strong>transparently non-blocking:</strong> mean?</p>
+<ul>
+    <li>To the user of the std::stream it will appear to be standard blocking stream; thus allowing very normal looking C++ code to be written.</li>
+    <li>To make the framework efficient any blocking read/write calls transfers control back to the Nisse Framework so that other streams may be processed.</li>
+</ul>
+
+    </div>
+    <div class="dark-box"></div>
+</div>
+
 </body>
 
 
