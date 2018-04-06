@@ -1,122 +1,95 @@
-<!doctype html>						      |	<!DOCTYPE html>
-<html>								<html>
-<head>								<head>
-<meta charset="utf-8">						<meta charset="utf-8">
-<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"	<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"
-<meta name="viewport" content="width=device-width, initial-sc	<meta name="viewport" content="width=device-width, initial-sc
-<title>API Reference</title>					<title>API Reference</title>
-							      |	<link href="stylesheet/style.css" rel="stylesheet" />
-<link href="images/favicon.ico" rel="icon" type="image/ico" / |	<link href="stylesheet/screen.css" rel="stylesheet" media="sc
-<link href="stylesheets/screen.css" rel="stylesheet" media="s |	<link href="stylesheet/print.css" rel="stylesheet" media="pri
-<link href="stylesheets/print.css" rel="stylesheet" media="pr <
-<script src="javascripts/all_nosearch.js"></script>		<script src="javascripts/all_nosearch.js"></script>
-</head>								</head>
-<body class="index" data-languages="[]">			<body class="index" data-languages="[]">
-<a href="#" id="nav-button">					<a href="#" id="nav-button">
-<span>								<span>
-NAV								NAV
-<img src="images/navbar.png" alt="Navbar" />			<img src="images/navbar.png" alt="Navbar" />
-</span>								</span>
-</a>								</a>
-<div class="toc-wrapper">					<div class="toc-wrapper">
-<img src="images/logo.png" class="logo" alt="Logo" />		<img src="images/logo.png" class="logo" alt="Logo" />
-<div id="toc" class="toc-list-h1">				<div id="toc" class="toc-list-h1">
-<li>								<li>
-<a href="#introduction" class="toc-h1 toc-link" data-title="I |	<a href="#Intorduction" class="toc-h1 toc-link" data-title="I
+<a href="#node-cxx" class="toc-h1 toc-link" data-title="Node. |	<a href="#node.cxx" class="toc-h1 toc-link" data-title="Node.
 </li>								</li>
 <li>								<li>
-<a href="#node-cxx" class="toc-h1 toc-link" data-title="Node. |	<a href="#Node.Cxx" class="toc-h1 toc-link" data-title="Node.
+<a href="#express" class="toc-h1 toc-link" data-title="Expres	<a href="#express" class="toc-h1 toc-link" data-title="Expres
 </li>								</li>
 <li>								<li>
-<a href="#express" class="toc-h1 toc-link" data-title="Expres |	<a href="#Express" class="toc-h1 toc-link" data-title="Expres
-</li>								</li>
-<li>								<li>
-<a href="#core" class="toc-h1 toc-link" data-title="Core">Cor |	<a href="#Core" class="toc-h1 toc-link" data-title="Core">Cor
+<a href="#core" class="toc-h1 toc-link" data-title="Core">Cor	<a href="#core" class="toc-h1 toc-link" data-title="Core">Cor
 <ul class="toc-list-h2">					<ul class="toc-list-h2">
 <li>								<li>
-<a href="#utility" class="toc-h2 toc-link" data-title="Core"> |	<a href="#Utility" class="toc-h2 toc-link" data-title="Utilit
+<a href="#utility" class="toc-h2 toc-link" data-title="Core"> |	<a href="#utility" class="toc-h2 toc-link" data-title="Utilit
 </li>								</li>
 <li>								<li>
-<a href="#socket" class="toc-h2 toc-link" data-title="Core">S |	<a href="#Socket" class="toc-h2 toc-link" data-title="Socket"
-<ul class="toc-list-h3">				      <
-<li>							      <
-<a href="#basesocket" class="toc-h3 toc-link" data-title="Cor <
-</li>							      <
-<li>							      <
-<a href="#datasocket" class="toc-h3 toc-link" data-title="Cor <
-</li>							      <
-<li>							      <
-<a href="#connectionsocket" class="toc-h3 toc-link" data-titl <
-</li>							      <
-<li>							      <
-<a href="#serversocket" class="toc-h3 toc-link" data-title="C <
-</li>							      <
-<li>							      <
-<a href="#socketstreambuffer" class="toc-h3 toc-link" data-ti <
-</li>							      <
-<li>							      <
-<a href="#isocketstream" class="toc-h3 toc-link" data-title=" <
-</li>							      <
-<li>							      <
-<a href="#osocketstream" class="toc-h3 toc-link" data-title=" <
-</li>							      <
-</ul>							      <
-</li>							      <
-<li>							      <
-<a href="#service" class="toc-h2 toc-link" data-title="Core"> <
-<ul class="toc-list-h3">				      <
-<li>							      <
-<a href="#handlerbase" class="toc-h3 toc-link" data-title="Co <
-</li>							      <
-<li>							      <
-<a href="#handlerstream" class="toc-h3 toc-link" data-title=" <
-</li>							      <
-<li>							      <
-<a href="#handlernonsuspendable" class="toc-h3 toc-link" data <
-</li>							      <
-<li>							      <
-<a href="#handlersuspendable" class="toc-h3 toc-link" data-ti <
-</li>							      <
-<li>							      <
-<a href="#handlersuspendablewithstream" class="toc-h3 toc-lin <
-</li>							      <
-<li>							      <
-<a href="#serverconnection" class="toc-h3 toc-link" data-titl <
-</li>							      <
-<li>							      <
-<a href="#server" class="toc-h3 toc-link" data-title="Core">S <
-</li>							      <
-<li>							      <
-<a href="#serverhandler" class="toc-h3 toc-link" data-title=" <
+<a href="#socket" class="toc-h2 toc-link" data-title="Core">S |	<a href="#socket" class="toc-h2 toc-link" data-title="Socket"
+<ul class="toc-list-h3">					<ul class="toc-list-h3">
+<li>								<li>
+<a href="#basesocket" class="toc-h3 toc-link" data-title="Cor |	<a href="#basesocket" class="toc-h3 toc-link" data-title="Bas
 </li>								</li>
 <li>								<li>
-<a href="#timerhandler" class="toc-h3 toc-link" data-title="C |	<a href="#Service" class="toc-h2 toc-link" data-title="Servic
-</li>							      <
-</ul>							      <
+<a href="#datasocket" class="toc-h3 toc-link" data-title="Cor |	<a href="#datasocket" class="toc-h3 toc-link" data-title="Dat
 </li>								</li>
 <li>								<li>
-<a href="#sql" class="toc-h2 toc-link" data-title="Core">SQL< |	<a href="#SQL" class="toc-h2 toc-link" data-title="SQL">SQL</
+<a href="#connectionsocket" class="toc-h3 toc-link" data-titl |	<a href="#connectionsocket" class="toc-h3 toc-link" data-titl
+</li>								</li>
+<li>								<li>
+<a href="#serversocket" class="toc-h3 toc-link" data-title="C |	<a href="#serversocket" class="toc-h3 toc-link" data-title="S
+</li>								</li>
+<li>								<li>
+<a href="#socketstreambuffer" class="toc-h3 toc-link" data-ti |	<a href="#socketstreambuffer" class="toc-h3 toc-link" data-ti
+</li>								</li>
+<li>								<li>
+<a href="#isocketstream" class="toc-h3 toc-link" data-title=" |	<a href="#isocketstream" class="toc-h3 toc-link" data-title="
+</li>								</li>
+<li>								<li>
+<a href="#osocketstream" class="toc-h3 toc-link" data-title=" |	<a href="#osocketstream" class="toc-h3 toc-link" data-title="
 </li>								</li>
 </ul>								</ul>
 </li>								</li>
 <li>								<li>
-<a href="#protocol" class="toc-h1 toc-link" data-title="Proto |	<a href="#Protocol" class="toc-h1 toc-link" data-title="Proto
-<ul class="toc-list-h2">					<ul class="toc-list-h2">
+<a href="#service" class="toc-h2 toc-link" data-title="Core"> |	<a href="#service" class="toc-h2 toc-link" data-title="Servic
+<ul class="toc-list-h3">					<ul class="toc-list-h3">
 <li>								<li>
-<a href="#simple" class="toc-h2 toc-link" data-title="Protoco |	<a href="#Simple" class="toc-h2 toc-link" data-title="Simple"
+<a href="#handlerbase" class="toc-h3 toc-link" data-title="Co |	<a href="#handlerbase" class="toc-h3 toc-link" data-title="Ha
 </li>								</li>
 <li>								<li>
-<a href="#http" class="toc-h2 toc-link" data-title="Protocol" |	<a href="#HTTP" class="toc-h2 toc-link" data-title="HTTP">HTT
+<a href="#handlerstream" class="toc-h3 toc-link" data-title=" |	<a href="#handlerstream" class="toc-h3 toc-link" data-title="
+</li>								</li>
+<li>								<li>
+<a href="#handlernonsuspendable" class="toc-h3 toc-link" data |	<a href="#handlernonsuspendable" class="toc-h3 toc-link" data
+</li>								</li>
+<li>								<li>
+<a href="#handlersuspendable" class="toc-h3 toc-link" data-ti |	<a href="#handlersuspendable" class="toc-h3 toc-link" data-ti
+</li>								</li>
+<li>								<li>
+<a href="#handlersuspendablewithstream" class="toc-h3 toc-lin |	<a href="#handlersuspendablewithstream" class="toc-h3 toc-lin
+</li>								</li>
+<li>								<li>
+<a href="#serverconnection" class="toc-h3 toc-link" data-titl |	<a href="#serverconnection" class="toc-h3 toc-link" data-titl
+</li>								</li>
+<li>								<li>
+<a href="#server" class="toc-h3 toc-link" data-title="Core">S |	<a href="#server" class="toc-h3 toc-link" data-title="Server"
+</li>								</li>
+<li>								<li>
+<a href="#serverhandler" class="toc-h3 toc-link" data-title=" |	<a href="#serverhandler" class="toc-h3 toc-link" data-title="
+</li>								</li>
+<li>								<li>
+<a href="#timerhandler" class="toc-h3 toc-link" data-title="C |	<a href="#timerhandler" class="toc-h3 toc-link" data-title="T
 </li>								</li>
 </ul>								</ul>
 </li>								</li>
 <li>								<li>
-<a href="#examples" class="toc-h1 toc-link" data-title="Examp |	<a href="#Examples" class="toc-h1 toc-link" data-title="Examp
-<ul class="toc-list-h2">				      <
-<li>							      <
-<a href="#addbeer" class="toc-h2 toc-link" data-title="Exampl <
-</li>							      <
-</ul>							      <
+<a href="#sql" class="toc-h2 toc-link" data-title="Core">SQL< |	<a href="#sql" class="toc-h2 toc-link" data-title="SQL">SQL</
+</li>								</li>
+</ul>								</ul>
+</li>								</li>
+<li>								<li>
+<a href="#protocol" class="toc-h1 toc-link" data-title="Proto	<a href="#protocol" class="toc-h1 toc-link" data-title="Proto
+<ul class="toc-list-h2">					<ul class="toc-list-h2">
+<li>								<li>
+<a href="#simple" class="toc-h2 toc-link" data-title="Protoco |	<a href="#simple" class="toc-h2 toc-link" data-title="Simple"
+</li>								</li>
+<li>								<li>
+<a href="#http" class="toc-h2 toc-link" data-title="Protocol" |	<a href="#http" class="toc-h2 toc-link" data-title="HTTP">HTT
+</li>								</li>
+</ul>								</ul>
+</li>								</li>
+<li>								<li>
+<a href="#examples" class="toc-h1 toc-link" data-title="Examp	<a href="#examples" class="toc-h1 toc-link" data-title="Examp
+<ul class="toc-list-h2">					<ul class="toc-list-h2">
+<li>								<li>
+<a href="#addbeer" class="toc-h2 toc-link" data-title="Exampl |	<a href="#addbeer" class="toc-h2 toc-link" data-title="AddBee
+</li>								</li>
+</ul>								</ul>
 </li>								</li>
 </div>								</div>
 <ul class="toc-footer">						<ul class="toc-footer">
@@ -128,7 +101,7 @@ NAV								NAV
 <div class="page-wrapper">					<div class="page-wrapper">
 <div class="dark-box"></div>					<div class="dark-box"></div>
 <div class="content">						<div class="content">
-<h1 id='introduction'>Introduction</h1>			      |	<h1 id="Intorduction">Intorduction</h1>
+<h1 id='introduction'>Introduction</h1>			      |	<h1 id="intorduction">Intorduction</h1>
 <p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsN |	<p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsN
 It is based on Node.js and its family of associated packages.	It is based on Node.js and its family of associated packages.
 <p>What does <strong>transparently non-blocking:</strong> mea	<p>What does <strong>transparently non-blocking:</strong> mea
@@ -136,7 +109,7 @@ It is based on Node.js and its family of associated packages.	It is based on Nod
 <li>To the user of the std::stream it will appear to be stand	<li>To the user of the std::stream it will appear to be stand
 <li>To make the framework efficient any blocking read/write c	<li>To make the framework efficient any blocking read/write c
 </ul>								</ul>
-<h1 id='node-cxx'>Node.Cxx</h1>				      |	<h1 id="Node.Cxx">Node.Cxx</h1>
+<h1 id='node-cxx'>Node.Cxx</h1>				      |	<h1 id="node.cxx">Node.Cxx</h1>
 <p>To simplify development for those that simply want to writ	<p>To simplify development for those that simply want to writ
 <p>Node.Cxx (Lovingly named after Node.js for the inspiration	<p>Node.Cxx (Lovingly named after Node.js for the inspiration
 <p>The Node.Cxx server takes two flags as arguments on startu	<p>The Node.Cxx server takes two flags as arguments on startu
@@ -171,7 +144,7 @@ It is based on Node.js and its family of associated packages.	It is based on Nod
 <tr>							      |	|------------|------------
 <th>Command Line Flag</th>				      |	|--debug     | Installs the dynamic library loader.<br>This a
 <th>Description</th>					      |	|--load      | Loads a shared library that is linked with <a 
-</tr>							      |	<h1 id="Express">Express</h1>
+</tr>							      |	<h1 id="express">Express</h1>
 </thead><tbody>						      |	<pre><code class="cpp language-cpp">// Must include this head
 <tr>							      |	#include "ThorsExpress/all.h"
 <td>--debug</td>					      |	namespace HTTP = ThorsAnvil::Nisse::Protocol::HTTP;
@@ -196,8 +169,8 @@ It is based on Node.js and its family of associated packages.	It is based on Nod
 </span><span class="p">}</span>				      <
 </code></pre>							</code></pre>
 <p>Express is a simple library that allows the definition of 	<p>Express is a simple library that allows the definition of 
-<h1 id='core'>Core</h1><h2 id='utility'>Utility</h2><pre clas |	<h1 id="Core">Core</h1>
-<span class="p">{</span>				      |	<h2 id="Utility">Utility</h2>
+<h1 id='core'>Core</h1><h2 id='utility'>Utility</h2><pre clas |	<h1 id="core">Core</h1>
+<span class="p">{</span>				      |	<h2 id="utility">Utility</h2>
 <span class="k">throw</span> <span class="n">std</span><span  |	<pre><code class="cpp language-cpp">if (open("file", O_WRONLY
 <span class="n">buildErrorMessage</span><span class="p">(</sp |	{
 <span class="s">": open: "</span><span class="p">,</span> <sp |	throw std::runtime_error(
@@ -227,7 +200,7 @@ It is based on Node.js and its family of associated packages.	It is based on Nod
 <li>std::string systemErrorMessage();</li>		      |	* std::string buildErrorMessage();
 <li>std::string buildErrorMessage();</li>		      |	</dd>
 </ul>							      |	</dl>
-<p></dd>						      |	<h2 id="Socket">Socket</h2>
+<p></dd>						      |	<h2 id="socket">Socket</h2>
 </dl></p>						      |	<pre><code class="bash language-bash"> &gt; g++ Socket.cpp -o
 <h2 id='socket'>Socket</h2><pre class="highlight shell"><code |	&gt; curl --data "A test message in a bottle :)" http://local
 &gt; curl --data <span class="s2">"A test message in a bottle |	</code></pre>
@@ -562,9 +535,16 @@ A blocking write call to these streams calls the <code>Notifi	A blocking write c
 </div>								</div>
 </div>								</div>
 </div>								</div>
-<h2 id='service'>Service</h2><pre class="highlight shell"><co |	<h2 id="Service">Service</h2>
-&gt; curl --data <span class="s2">"A test message in a bottle |	<pre><code class="bash language-bash"> &gt; g++ -std=c++1z Se
-</code></pre><pre class="highlight cpp tab-cpp"><code><span c |	&gt; curl --data "A test message in a bottle :)" http://local
+<h2 id='service'>Service</h2><pre class="highlight shell"><co |	<h3 id="basesocket">BaseSocket</h3>
+&gt; curl --data <span class="s2">"A test message in a bottle |	<h3 id="datasocket">DataSocket</h3>
+</code></pre><pre class="highlight cpp tab-cpp"><code><span c |	<h3 id="connectionsocket">ConnectionSocket</h3>
+							      >	<h3 id="serversocket">ServerSocket</h3>
+							      >	<h3 id="socketstreambuffer">SocketStreamBuffer</h3>
+							      >	<h3 id="isocketstream">ISocketStream</h3>
+							      >	<h3 id="osocketstream">OSocketStream</h3>
+							      >	<h2 id="service">Service</h2>
+							      >	<pre><code class="bash language-bash"> &gt; g++ -std=c++1z Se
+							      >	&gt; curl --data "A test message in a bottle :)" http://local
 							      >	</code></pre>
 							      >	<pre><code class="cpp language-cpp">#include "ThorsNisseCoreS
 #include "ThorsNisseCoreService/Handler.h"			#include "ThorsNisseCoreService/Handler.h"
@@ -818,11 +798,11 @@ An example of this is when the SQL handlers are added. They c |	When a connectio
 <div class="classRow"><div class="classItem">args</div><div c |	<div class="classRow"><div class="classItem">port</div><div c
 							      >	<div class="classRow"><div class="classItem">data</div><div c
 							      >	</div>
-							      >	</div>
 </div>								</div>
-<p></div>						      |	<h4 id="serveraddtimer">Server::addTimer</h4>
-</div></p>						      |	<pre><code class="cpp language-cpp">int main()
-<h4 id='handlerbase-movehandler'>HandlerBase::moveHandler</h4 |	{
+<p></div>						      |	</div>
+</div></p>						      |	<h4 id="serveraddtimer">Server::addTimer</h4>
+<h4 id='handlerbase-movehandler'>HandlerBase::moveHandler</h4 |	<pre><code class="cpp language-cpp">int main()
+							      >	{
 							      >	Serv::Server      server;
 							      >	MyStateObject     state;
 							      >	server.addTimer(3.5, [](){std::cout &lt;&lt; "Timer\n";});
@@ -873,19 +853,19 @@ The class basically defines a common class for holding the st <
 </div>								</div>
 <div class="classBlock">					<div class="classBlock">
 <div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="methodRet"></div><div class
-</div>								</div>
-<div class="classBlock">					<div class="classBlock">
-<div class="classRow"><div class="classSect">Public Methods:< |	<div class="classRow"><div class="classSect">Protected Member
-</div>								</div>
-<div class="classBlock">					<div class="classBlock">
-							      >	<div class="classRow"><div class="methodRet">void</div><div c
-							      >	<div class="classRow"><div class="methodRet">void</div><div c
-							      >	<div class="classRow"><div class="methodRet">void</div><div c
 							      >	</div>
 							      >	<div class="classBlock">
-							      >	<div class="classRow"><div class="classSect">Virtual Members:
+							      >	<div class="classRow"><div class="classSect">Protected Member
 							      >	</div>
 							      >	<div class="classBlock">
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+							      >	<div class="classRow"><div class="methodRet">void</div><div c
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
+<div class="classRow"><div class="classSect">Public Methods:< |	<div class="classRow"><div class="classSect">Virtual Members:
+</div>								</div>
+<div class="classBlock">					<div class="classBlock">
 							      >	<div class="classRow"><div class="methodRet">short</div><div 
 							      >	<div class="classRow"><div class="methodRet">bool</div><div c
 							      >	<div class="classROw"><div class="methodRet">void</div><div c
@@ -955,8 +935,8 @@ The method `eventActivateNonBlocking()` should be overwridden |	When the added h
 <div class="classBlock">					<div class="classBlock">
 <div class="classRow"><div class="methodRet"></div><div class |	<div class="classRow"><div class="classItem">args</div><div c
 							      >	</div>
-</div>								</div>
 							      >	</div>
+</div>								</div>
 							      >	<h4 id="handlerbaseeventactivate">HandlerBase::eventActivate<
 							      >	<div class="classTable">
 							      >	<div class="classLayout">
@@ -1160,21 +1140,24 @@ This method does not return immediately. A call to <code>flag |	On subsequent ca
 <div class="classLayout">					<div class="classLayout">
 <div class="classBlock">					<div class="classBlock">
 <div class="classRow"><div class="classSect">flagShutDown()</ |	<div class="classRow"><div class="classSect">eventActivateNon
-<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
-Marks the event loop for shut down.<br>			      |	Called by eventActivate() to start processing of the stream.<
-After the current iteration of the event loop has finished it |	If a blocking operation is about to be performed this method 
-</div></div>							</div></div>
-</div>								</div>
+							      >	<div class="classRow"><div class="classDesc">
+							      >	Called by eventActivate() to start processing of the stream.<
+							      >	If a blocking operation is about to be performed this method 
+							      >	</div></div>
+							      >	</div>
 							      >	<div class="classBlock">
 							      >	<div class="classRow"><div class="classSect">Return Value</di
 							      >	Return true to cause the handler to be re-used.<br>
 							      >	Return false to not drop the handler. This is used if somethi
-							      >	<div class="classRow"><div class="classDesc">
-							      >	</div></div>
+<div class="classRow"><div class="classDesc">			<div class="classRow"><div class="classDesc">
+Marks the event loop for shut down.<br>			      <
+After the current iteration of the event loop has finished it <
+</div></div>							</div></div>
 </div>								</div>
 </div>								</div>
-<h4 id='server-addtimer'>Server::addTimer</h4><pre class="hig |	</div>
-<span class="p">{</span>				      |	<h3 id="handlersuspendablewithstream">HandlerSuspendableWithS
+</div>								</div>
+<h4 id='server-addtimer'>Server::addTimer</h4><pre class="hig |	<h3 id="handlersuspendablewithstream">HandlerSuspendableWithS
+<span class="p">{</span>				      <
 <span class="n">Serv</span><span class="o">::</span><span cla <
 <span class="n">MyStateObject</span>     <span class="n">stat <
 <span class="n">server</span><span class="p">.</span><span cl <
@@ -1248,14 +1231,13 @@ For more details see <a href="#HandlerBase">HandlerBase</a>.< <
 </div>								</div>
 <div class="classBlock">					<div class="classBlock">
 <div class="classRow"><div class="classSect">Parameters</div> |	<div class="classRow"><div class="methodRet">bool</div><div c
-							      >	</div>
 </div>								</div>
 <div class="classBlock">				      <
 <div class="classRow"><div class="classItem">port</div><div c <
 <div class="classRow"><div class="classItem">param</div><div  <
 </div>								</div>
-<p></div>						      |	<h3 id="serverhandler">ServerHandler</h3>
-</div></p>						      <
+<p></div>						      |	</div>
+</div></p>						      |	<h3 id="serverhandler">ServerHandler</h3>
 <h3 id='serverhandler'>ServerHandler</h3>		      <
 <div class="classTable allowFloat">				<div class="classTable allowFloat">
 <div class="classLayout">					<div class="classLayout">
@@ -1288,66 +1270,75 @@ An implementation of HandlerNonSuspendable that is used to im |	An implementatio
 </div>								</div>
 </div>								</div>
 </div>								</div>
-<h2 id='sql'>SQL</h2><pre class="highlight cpp tab-cpp"><code |	<h2 id="SQL">SQL</h2>
-<span class="k">namespace</span> <span class="n">SQL</span>   |	<pre><code class="cpp language-cpp">namespace Express = Thors
-<span class="k">static</span> <span class="n">SQL</span><span |	namespace SQL     = ThorsAnvil::SQL;
-<span class="k">static</span> <span class="n">SQL</span><span |	static SQL::Connection connection("mysqlNB://test.com", "test
-<span class="k">class</span> <span class="nc">MyListBeerHandl |	static SQL::Statement  listBeers(connection, "SELECT Name, Ag
-<span class="p">{</span>				      |	class MyListBeerHandler: public HandlerSuspendable&lt;DataSoc
-<span class="k">virtual</span> <span class="kt">bool</span> < |	{
-<span class="p">{</span>				      |	virtual bool eventActivateNonBlocking()
-<span class="n">ISocketStream</span>   <span class="n">input< |	{
-<span class="n">std</span><span class="o">::</span><span clas |	ISocketStream   input(stream);
-<span class="n">std</span><span class="o">::</span><span clas |	std::string     request;
-<span class="n">std</span><span class="o">::</span><span clas |	std::getline(input, request);
-<span class="k">while</span><span class="p">(</span><span cla |	std::string     header;
-<span class="p">{}</span>				      |	while(std::getline(input, header) &amp;&amp; header != "\r")
-<span class="n">std</span><span class="o">::</span><span clas |	{}
-<span class="n">body</span> <span class="o">&lt;&lt;</span> < |	std::stringsttream body;
-<span class="o">&lt;&lt;</span> <span class="s">"&lt;head&gt; |	body &lt;&lt; "&lt;html&gt;"
-<span class="o">&lt;&lt;</span> <span class="s">"&lt;body&gt; |	&lt;&lt; "&lt;head&gt;&lt;title&gt;Beer List&lt;/title&gt;&lt
-<span class="o">&lt;&lt;</span> <span class="s">"&lt;h1&gt;Be |	&lt;&lt; "&lt;body&gt;"
-<span class="o">&lt;&lt;</span> <span class="s">"&lt;ol&gt;"< |	&lt;&lt; "&lt;h1&gt;Beer List&lt;/h1&gt;"
-<span class="c1">// Calling execute() suspends the current ha |	&lt;&lt; "&lt;ol&gt;";
-</span>        <span class="c1">// Control is returned (unsus |	// Calling execute() suspends the current handler.
-</span>        <span class="c1">//			      |	// Control is returned (unsuspends the handler) when the exec
-</span>        <span class="c1">// The execute function retur |	//
-</span>        <span class="c1">// DB. The lambda is executes |	// The execute function returns when all the rows have been r
-</span>        <span class="c1">// to build the response as a |	// DB. The lambda is executes once for each row that is rutur
-</span>        <span class="n">listBeers</span><span class="p |	// to build the response as a stream.
-<span class="p">{</span>				      |	listBeers.execute([&amp;body](std::string const&amp; name, in
-<span class="c1">// This call to the MySQL server is also non |	{
-</span>            <span class="c1">// If the call is going t |	// This call to the MySQL server is also non blocking.
-</span>            <span class="c1">// Allowing another conne |	// If the call is going to block control is returned to ThorN
-</span>            <span class="c1">// Its work.	      |	// Allowing another connection to be processed while the MySQ
-</span>            <span class="n">body</span> <span class="o |	// Its work.
-<span class="p">});</span>				      |	body &lt;&lt; "&lt;li&gt;" &lt;&lt; name &lt;&lt; " : " &lt;&
-<span class="n">body</span> <span class="o">&lt;&lt;</span> < |	});
-<span class="n">OSocketStream</span>   <span class="n">output |	body &lt;&lt; "&lt;/ol&gt;&lt;/body&gt;&lt;/html&gt;";
-<span class="n">output</span> <span class="o">&lt;&lt;</span> |	OSocketStream   output(stream);
-<span class="s">"Content-Length: "</span> <span class="o">&lt |	output &lt;&lt; "HTTP/1.1 200 OK\r\n"
-<span class="s">"</span><span class="se">\r\n</span><span cla |	"Content-Length: " &lt;&lt; body.size() &lt;&lt; "\r\n"
-<span class="o">&lt;&lt;</span> <span class="n">body</span><s |	"\r\n"
-<span class="p">}</span>				      |	&lt;&lt; body;
-<span class="p">};</span>				      |	}
-</code></pre><pre class="highlight cpp tab-cpp--DeepDive"><co |	};
+<h2 id='sql'>SQL</h2><pre class="highlight cpp tab-cpp"><code |	<h3 id="handlerbase">HandlerBase</h3>
+<span class="k">namespace</span> <span class="n">SQL</span>   |	<h3 id="handlerstream">HandlerStream</h3>
+<span class="k">static</span> <span class="n">SQL</span><span |	<h3 id="handlernonsuspendable">HandlerNonSuspendable</h3>
+<span class="k">static</span> <span class="n">SQL</span><span |	<h3 id="handlersuspendable">HandlerSuspendable</h3>
+<span class="k">class</span> <span class="nc">MyListBeerHandl |	<h3 id="handlersuspendablewithstream">HandlerSuspendableWithS
+<span class="p">{</span>				      |	<h3 id="serverconnection">ServerConnection</h3>
+<span class="k">virtual</span> <span class="kt">bool</span> < |	<h3 id="server">Server</h3>
+<span class="p">{</span>				      |	<h3 id="serverhandler">ServerHandler</h3>
+<span class="n">ISocketStream</span>   <span class="n">input< |	<h3 id="timerhandler">TimerHandler</h3>
+<span class="n">std</span><span class="o">::</span><span clas |	<h2 id="sql">SQL</h2>
+<span class="n">std</span><span class="o">::</span><span clas |	<pre><code class="cpp language-cpp">namespace Express = Thors
+<span class="n">std</span><span class="o">::</span><span clas |	namespace SQL     = ThorsAnvil::SQL;
+<span class="k">while</span><span class="p">(</span><span cla |	static SQL::Connection connection("mysqlNB://test.com", "test
+<span class="p">{}</span>				      |	static SQL::Statement  listBeers(connection, "SELECT Name, Ag
+<span class="n">std</span><span class="o">::</span><span clas |	class MyListBeerHandler: public HandlerSuspendable&lt;DataSoc
+<span class="n">body</span> <span class="o">&lt;&lt;</span> < |	{
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;head&gt; |	virtual bool eventActivateNonBlocking()
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;body&gt; |	{
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;h1&gt;Be |	ISocketStream   input(stream);
+<span class="o">&lt;&lt;</span> <span class="s">"&lt;ol&gt;"< |	std::string     request;
+<span class="c1">// Calling execute() suspends the current ha |	std::getline(input, request);
+</span>        <span class="c1">// Control is returned (unsus |	std::string     header;
+</span>        <span class="c1">//			      |	while(std::getline(input, header) &amp;&amp; header != "\r")
+</span>        <span class="c1">// The execute function retur |	{}
+</span>        <span class="c1">// DB. The lambda is executes |	std::stringsttream body;
+</span>        <span class="c1">// to build the response as a |	body &lt;&lt; "&lt;html&gt;"
+</span>        <span class="n">listBeers</span><span class="p |	&lt;&lt; "&lt;head&gt;&lt;title&gt;Beer List&lt;/title&gt;&lt
+<span class="p">{</span>				      |	&lt;&lt; "&lt;body&gt;"
+<span class="c1">// This call to the MySQL server is also non |	&lt;&lt; "&lt;h1&gt;Beer List&lt;/h1&gt;"
+</span>            <span class="c1">// If the call is going t |	&lt;&lt; "&lt;ol&gt;";
+</span>            <span class="c1">// Allowing another conne |	// Calling execute() suspends the current handler.
+</span>            <span class="c1">// Its work.	      |	// Control is returned (unsuspends the handler) when the exec
+</span>            <span class="n">body</span> <span class="o |	//
+<span class="p">});</span>				      |	// The execute function returns when all the rows have been r
+<span class="n">body</span> <span class="o">&lt;&lt;</span> < |	// DB. The lambda is executes once for each row that is rutur
+<span class="n">OSocketStream</span>   <span class="n">output |	// to build the response as a stream.
+<span class="n">output</span> <span class="o">&lt;&lt;</span> |	listBeers.execute([&amp;body](std::string const&amp; name, in
+<span class="s">"Content-Length: "</span> <span class="o">&lt |	{
+<span class="s">"</span><span class="se">\r\n</span><span cla |	// This call to the MySQL server is also non blocking.
+<span class="o">&lt;&lt;</span> <span class="n">body</span><s |	// If the call is going to block control is returned to ThorN
+<span class="p">}</span>				      |	// Allowing another connection to be processed while the MySQ
+<span class="p">};</span>				      |	// Its work.
+</code></pre><pre class="highlight cpp tab-cpp--DeepDive"><co |	body &lt;&lt; "&ltlt;li&gt;" &lt;&lt; name &lt;&lt; " : " &lt
+							      >	});
+							      >	body &lt;&lt; "&lt;/ol&gt;&lt;/body&gt;&lt;/html&gt;";
+							      >	OSocketStream   output(stream);
+							      >	output &lt;&lt; "HTTP/1.1 200 OK\r\n"
+							      >	"Content-Length: " &lt;&lt; body.size() &lt;&lt; "\r\n"
+							      >	"\r\n"
+							      >	&lt;&lt; body;
+							      >	}
+							      >	};
+							      >	</code></pre>
+							      >	<pre><code class="cpp--DeepDive language-cpp--DeepDive">Pleas
 </code></pre>							</code></pre>
-<p>A PIMPL proxy for the ThorSQL library.<br>		      |	<pre><code class="cpp--DeepDive language-cpp--DeepDive">Pleas
-There are no user usable classes in this package. All the cla |	</code></pre>
-							      >	<p>A PIMPL proxy for the ThorSQL library.<br />
-							      >	There are no user usable classes in this package. All the cla
+<p>A PIMPL proxy for the ThorSQL library.<br>		      |	<p>A PIMPL proxy for the ThorSQL library.<br />
+There are no user usable classes in this package. All the cla |	There are no user usable classes in this package. All the cla
 <dl>								<dl>
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::SQL</dd>	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::SQL</dd>
 <dt>Headers:</dt><dd>ThorsNisseCoreSQL/</dd>			<dt>Headers:</dt><dd>ThorsNisseCoreSQL/</dd>
 </dl>								</dl>
-<h1 id='protocol'>Protocol</h1><h2 id='simple'>Simple</h2>    |	<h1 id="Protocol">Protocol</h1>
-<p>A very simple protocol. These classes are used to test the |	<h2 id="Simple">Simple</h2>
+<h1 id='protocol'>Protocol</h1><h2 id='simple'>Simple</h2>    |	<h1 id="protocol">Protocol</h1>
+<p>A very simple protocol. These classes are used to test the |	<h2 id="simple">Simple</h2>
 							      >	<p>A very simple protocol. These classes are used to test the
 <dl>								<dl>
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::Simple</d	<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::Simple</d
 <dt>Headers:</dt><dd>ThorsNisseProtocolSimple/</dd>		<dt>Headers:</dt><dd>ThorsNisseProtocolSimple/</dd>
 </dl></p>						      |	</dl>
-<h2 id='http'>HTTP</h2><pre class="highlight cpp tab-cpp--Dee |	<h2 id="HTTP">HTTP</h2>
+<h2 id='http'>HTTP</h2><pre class="highlight cpp tab-cpp--Dee |	<h2 id="http">HTTP</h2>
 <span class="p">{</span>				      |	<pre><code class="cpp--DeepDive language-cpp--DeepDive">class
 <span class="k">public</span><span class="o">:</span>	      |	{
 <span class="n">Site</span><span class="p">();</span>	      |	public:
@@ -1526,7 +1517,7 @@ There are no user usable classes in this package. All the cla |	</code></pre>
 </ul>							      |	* class Response
 <p></dd>						      |	</dd>
 <dt>Route.h</dt><dd></p>				      |	</dl>
-<ul>							      |	<h1 id="Examples">Examples</h1>
+<ul>							      |	<h1 id="examples">Examples</h1>
 <li>class Route</li>					      <
 <li>struct RouteTester</li>				      <
 </ul>							      <
@@ -1544,6 +1535,7 @@ There are no user usable classes in this package. All the cla |	</code></pre>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
 <h2 id='addbeer'>AddBeer</h2>				      |	<h2 id="addbeer">AddBeer</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
+							      >	<h2 id="addbeer">AddBeer</h2>
 </div>								</div>
 <div class="dark-box">					      |	<div class="dark-box"></div>
 </div>							      <

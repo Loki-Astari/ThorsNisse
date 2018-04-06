@@ -4,7 +4,7 @@
     "theme": "documentation",
     "themeGit": "git@github.com:Loki-Astari/andvari-theme-documentation.git",
     "toc": [
-        {"name": "Intorduction", "value": "intro.md"},
+        {"name": "Introduction", "value": "intro.md"},
         {"name": "Node.Cxx", "value": "node.md"},
         {"name": "Express", "value": "express.md"},
         {"name": "Core", "sub": [

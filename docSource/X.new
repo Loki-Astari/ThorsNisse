@@ -21,44 +21,101 @@ NAV
 <img src="images/logo.png" class="logo" alt="Logo" />
 <div id="toc" class="toc-list-h1">
 <li>
-<a href="#Intorduction" class="toc-h1 toc-link" data-title="Intorduction">Intorduction</a>
+<a href="#intorduction" class="toc-h1 toc-link" data-title="Intorduction">Intorduction</a>
 </li>
 <li>
-<a href="#Node.Cxx" class="toc-h1 toc-link" data-title="Node.Cxx">Node.Cxx</a>
+<a href="#node.cxx" class="toc-h1 toc-link" data-title="Node.Cxx">Node.Cxx</a>
 </li>
 <li>
-<a href="#Express" class="toc-h1 toc-link" data-title="Express">Express</a>
+<a href="#express" class="toc-h1 toc-link" data-title="Express">Express</a>
 </li>
 <li>
-<a href="#Core" class="toc-h1 toc-link" data-title="Core">Core</a>
+<a href="#core" class="toc-h1 toc-link" data-title="Core">Core</a>
 <ul class="toc-list-h2">
 <li>
-<a href="#Utility" class="toc-h2 toc-link" data-title="Utility">Utility</a>
+<a href="#utility" class="toc-h2 toc-link" data-title="Utility">Utility</a>
 </li>
 <li>
-<a href="#Socket" class="toc-h2 toc-link" data-title="Socket">Socket</a>
+<a href="#socket" class="toc-h2 toc-link" data-title="Socket">Socket</a>
+<ul class="toc-list-h3">
+<li>
+<a href="#basesocket" class="toc-h3 toc-link" data-title="BaseSocket">BaseSocket</a>
 </li>
 <li>
-<a href="#Service" class="toc-h2 toc-link" data-title="Service">Service</a>
+<a href="#datasocket" class="toc-h3 toc-link" data-title="DataSocket">DataSocket</a>
 </li>
 <li>
-<a href="#SQL" class="toc-h2 toc-link" data-title="SQL">SQL</a>
+<a href="#connectionsocket" class="toc-h3 toc-link" data-title="ConnectionSocket">ConnectionSocket</a>
+</li>
+<li>
+<a href="#serversocket" class="toc-h3 toc-link" data-title="ServerSocket">ServerSocket</a>
+</li>
+<li>
+<a href="#socketstreambuffer" class="toc-h3 toc-link" data-title="SocketStreamBuffer">SocketStreamBuffer</a>
+</li>
+<li>
+<a href="#isocketstream" class="toc-h3 toc-link" data-title="ISocketStream">ISocketStream</a>
+</li>
+<li>
+<a href="#osocketstream" class="toc-h3 toc-link" data-title="OSocketStream">OSocketStream</a>
 </li>
 </ul>
 </li>
 <li>
-<a href="#Protocol" class="toc-h1 toc-link" data-title="Protocol">Protocol</a>
-<ul class="toc-list-h2">
+<a href="#service" class="toc-h2 toc-link" data-title="Service">Service</a>
+<ul class="toc-list-h3">
 <li>
-<a href="#Simple" class="toc-h2 toc-link" data-title="Simple">Simple</a>
+<a href="#handlerbase" class="toc-h3 toc-link" data-title="HandlerBase">HandlerBase</a>
 </li>
 <li>
-<a href="#HTTP" class="toc-h2 toc-link" data-title="HTTP">HTTP</a>
+<a href="#handlerstream" class="toc-h3 toc-link" data-title="HandlerStream">HandlerStream</a>
+</li>
+<li>
+<a href="#handlernonsuspendable" class="toc-h3 toc-link" data-title="HandlerNonSuspendable">HandlerNonSuspendable</a>
+</li>
+<li>
+<a href="#handlersuspendable" class="toc-h3 toc-link" data-title="HandlerSuspendable">HandlerSuspendable</a>
+</li>
+<li>
+<a href="#handlersuspendablewithstream" class="toc-h3 toc-link" data-title="HandlerSuspendableWithStream">HandlerSuspendableWithStream</a>
+</li>
+<li>
+<a href="#serverconnection" class="toc-h3 toc-link" data-title="ServerConnection">ServerConnection</a>
+</li>
+<li>
+<a href="#server" class="toc-h3 toc-link" data-title="Server">Server</a>
+</li>
+<li>
+<a href="#serverhandler" class="toc-h3 toc-link" data-title="ServerHandler">ServerHandler</a>
+</li>
+<li>
+<a href="#timerhandler" class="toc-h3 toc-link" data-title="TimerHandler">TimerHandler</a>
 </li>
 </ul>
 </li>
 <li>
-<a href="#Examples" class="toc-h1 toc-link" data-title="Examples">Examples</a>
+<a href="#sql" class="toc-h2 toc-link" data-title="SQL">SQL</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#protocol" class="toc-h1 toc-link" data-title="Protocol">Protocol</a>
+<ul class="toc-list-h2">
+<li>
+<a href="#simple" class="toc-h2 toc-link" data-title="Simple">Simple</a>
+</li>
+<li>
+<a href="#http" class="toc-h2 toc-link" data-title="HTTP">HTTP</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#examples" class="toc-h1 toc-link" data-title="Examples">Examples</a>
+<ul class="toc-list-h2">
+<li>
+<a href="#addbeer" class="toc-h2 toc-link" data-title="AddBeer">AddBeer</a>
+</li>
+</ul>
 </li>
 </div>
 <ul class="toc-footer">
@@ -70,7 +127,7 @@ NAV
 <div class="page-wrapper">
 <div class="dark-box"></div>
 <div class="content">
-<h1 id="Intorduction">Intorduction</h1>
+<h1 id="intorduction">Intorduction</h1>
 <p><a href="https://github.com/Loki-Astari/ThorsNisse">ThorsNisse</a> is RESTful server framework for C++.<br />
 It is based on Node.js and its family of associated packages. ThorsNisse uses transparently non-blocking <code>std::streams</code> to achieve high throughput and low complexity of development on a single threaded server.</p>
 <p>What does <strong>transparently non-blocking:</strong> mean?</p>
@@ -78,7 +135,7 @@ It is based on Node.js and its family of associated packages. ThorsNisse uses tr
 <li>To the user of the std::stream it will appear to be standard blocking stream; thus allowing very normal looking C++ code to be written.</li>
 <li>To make the framework efficient any blocking read/write calls transfers control back to the Nisse Framework so that other streams may be processed.</li>
 </ul>
-<h1 id="Node.Cxx">Node.Cxx</h1>
+<h1 id="node.cxx">Node.Cxx</h1>
 <p>To simplify development for those that simply want to write HTTP RESTful endpoints the server Node.Cxx is provided to handle all the boilerplate.</p>
 <p>Node.Cxx (Lovingly named after Node.js for the inspiration) is a simple HTTP server implemented using the ThorsNisse framework that will dynamically load <a href="#express">Express</a> modules.</p>
 <p>The Node.Cxx server takes two flags as arguments on startup:</p>
@@ -113,7 +170,7 @@ It is based on Node.js and its family of associated packages. ThorsNisse uses tr
 |------------|------------
 |--debug     | Installs the dynamic library loader.<br>This allows shared libraries to be loaded/unloaded at runtime without restarting the server. Useful for building and debugging but should not be used in production.<br><br>As the command to load/unload library is simply a REST call to the specified port; this can be included into your build environment to un-install the old version and install the newly build version allowing a quick turn around for development.
 |--load      | Loads a shared library that is linked with <a href="#express">Express</a>.<br>This flag can be used multiple times.<br><br>The express module provides the facility to easily associate code with REST end points.<br><br>This flag uses the same underlying code as the REST call to load a site. So these sites can also be dynamically unloaded if required.</p>
-<h1 id="Express">Express</h1>
+<h1 id="express">Express</h1>
 <pre><code class="cpp language-cpp">// Must include this header
 #include "ThorsExpress/all.h"
 namespace HTTP = ThorsAnvil::Nisse::Protocol::HTTP;
@@ -127,8 +184,8 @@ site.get("/listBeer", [](HTTP::Request&amp; request, HTTP::Response&amp; respons
 }
 </code></pre>
 <p>Express is a simple library that allows the definition of simple HTTP site modules that can be loaded/unload dynamically. Though each site object is simple each one can be bound to a different relative paths on a site.</p>
-<h1 id="Core">Core</h1>
-<h2 id="Utility">Utility</h2>
+<h1 id="core">Core</h1>
+<h2 id="utility">Utility</h2>
 <pre><code class="cpp language-cpp">if (open("file", O_WRONLY) == -1)
 {
 throw std::runtime_error(
@@ -158,7 +215,7 @@ std::string buildErrorMessage(Args const&amp;... args);
 * std::string buildErrorMessage();
 </dd>
 </dl>
-<h2 id="Socket">Socket</h2>
+<h2 id="socket">Socket</h2>
 <pre><code class="bash language-bash"> &gt; g++ Socket.cpp -o Socket -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17
 &gt; curl --data "A test message in a bottle :)" http://localhost:8080;echo
 </code></pre>
@@ -489,7 +546,14 @@ A blocking write call to these streams calls the <code>Notifier noData</code>. T
 </div>
 </div>
 </div>
-<h2 id="Service">Service</h2>
+<h3 id="basesocket">BaseSocket</h3>
+<h3 id="datasocket">DataSocket</h3>
+<h3 id="connectionsocket">ConnectionSocket</h3>
+<h3 id="serversocket">ServerSocket</h3>
+<h3 id="socketstreambuffer">SocketStreamBuffer</h3>
+<h3 id="isocketstream">ISocketStream</h3>
+<h3 id="osocketstream">OSocketStream</h3>
+<h2 id="service">Service</h2>
 <pre><code class="bash language-bash"> &gt; g++ -std=c++1z Server.cpp -o Server -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17 -lboost_context-mt
 &gt; curl --data "A test message in a bottle :)" http://localhost:8080;echo
 </code></pre>
@@ -1072,7 +1136,16 @@ An implementation of HandlerNonSuspendable that is used to implement the timer f
 </div>
 </div>
 </div>
-<h2 id="SQL">SQL</h2>
+<h3 id="handlerbase">HandlerBase</h3>
+<h3 id="handlerstream">HandlerStream</h3>
+<h3 id="handlernonsuspendable">HandlerNonSuspendable</h3>
+<h3 id="handlersuspendable">HandlerSuspendable</h3>
+<h3 id="handlersuspendablewithstream">HandlerSuspendableWithStream</h3>
+<h3 id="serverconnection">ServerConnection</h3>
+<h3 id="server">Server</h3>
+<h3 id="serverhandler">ServerHandler</h3>
+<h3 id="timerhandler">TimerHandler</h3>
+<h2 id="sql">SQL</h2>
 <pre><code class="cpp language-cpp">namespace Express = ThorsAnvil::Nisse::Protocol::HTTP;
 namespace SQL     = ThorsAnvil::SQL;
 static SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
@@ -1105,7 +1178,7 @@ listBeers.execute([&amp;body](std::string const&amp; name, int age)
 // If the call is going to block control is returned to ThorNisse framework
 // Allowing another connection to be processed while the MySQL server finishes
 // Its work.
-body &lt;&lt; "&lt;li&gt;" &lt;&lt; name &lt;&lt; " : " &lt;&lt; age &lt;&lt; "&lt;/li&gt;";
+body &lt;&lt; "&ltlt;li&gt;" &lt;&lt; name &lt;&lt; " : " &lt;&lt; age &lt;&lt; "&lt;/li&gt;";
 });
 body &lt;&lt; "&lt;/ol&gt;&lt;/body&gt;&lt;/html&gt;";
 OSocketStream   output(stream);
@@ -1124,14 +1197,14 @@ There are no user usable classes in this package. All the classes are used inter
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::SQL</dd>
 <dt>Headers:</dt><dd>ThorsNisseCoreSQL/</dd>
 </dl>
-<h1 id="Protocol">Protocol</h1>
-<h2 id="Simple">Simple</h2>
+<h1 id="protocol">Protocol</h1>
+<h2 id="simple">Simple</h2>
 <p>A very simple protocol. These classes are used to test the functionality of Core::Service without the extra baggage of the HTTP protocol.</p>
 <dl>
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::Simple</dd>
 <dt>Headers:</dt><dd>ThorsNisseProtocolSimple/</dd>
 </dl>
-<h2 id="HTTP">HTTP</h2>
+<h2 id="http">HTTP</h2>
 <pre><code class="cpp--DeepDive language-cpp--DeepDive">class Site
 {
 public:
@@ -1310,10 +1383,11 @@ void flushing(bool allDone = false);
 * class Response
 </dd>
 </dl>
-<h1 id="Examples">Examples</h1>
+<h1 id="examples">Examples</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
 <h2 id="addbeer">AddBeer</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+<h2 id="addbeer">AddBeer</h2>
 </div>
 <div class="dark-box"></div>
 </div>
