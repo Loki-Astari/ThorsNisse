@@ -4,3 +4,6 @@
 [submodule "src/http-parser"]
 	path = src/Protocol/HTTP/http-parser
 	url = git@github.com:nodejs/http-parser.git
+[submodule "docSource/themes/documentation"]
+	path = docSource/themes/documentation
+	url = git@github.com:Loki-Astari/andvari-theme-documentation.git
