@@ -6,7 +6,9 @@
 #include <ostream>
 #include <experimental/string_view>
 
+#pragma vera-pushoff
 namespace stx = std::experimental;
+#pragma vera-pop
 
 namespace ThorsAnvil
 {
