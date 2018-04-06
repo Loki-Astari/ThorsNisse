@@ -4,19 +4,19 @@
     "theme": "documentation",
     "themeGit": "git@github.com:Loki-Astari/andvari-theme-documentation.git",
     "toc": [
-        {"Name": "Intorduction", "value": "intro.md"},
-        {"Name": "Node.Cxx", "value": "node.md"},
-        {"Name": "Express", "value": "express.md"},
-        {"Name": "Core", "Sub": [
-            {"Name": "Utility", "value": "util.md"},
-            {"Name": "Socket", "value":  "socket.md"},
-            {"Name": "Service", "value": "service.md"},
-            {"Name": "SQL", "value":     "sql.md"}
+        {"name": "Intorduction", "value": "intro.md"},
+        {"name": "Node.Cxx", "value": "node.md"},
+        {"name": "Express", "value": "express.md"},
+        {"name": "Core", "sub": [
+            {"name": "Utility", "value": "util.md"},
+            {"name": "Socket", "value":  "socket.md"},
+            {"name": "Service", "value": "service.md"},
+            {"name": "SQL", "value":     "sql.md"}
         ]},
-        {"Name": "Protocol", "Sub": [
-            {"Name": "Simple", "value": "simple.md"},
-            {"Name": "HTTP", "value": "http.md"}
+        {"name": "Protocol", "sub": [
+            {"name": "Simple", "value": "simple.md"},
+            {"name": "HTTP", "value": "http.md"}
         ]},
-        {"Name": "Examples", "value": "examples.md"}
+        {"name": "Examples", "value": "examples.md"}
     ]
 }
