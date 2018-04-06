@@ -8,7 +8,7 @@
         {"name": "Node.Cxx", "value": "node.md"},
         {"name": "Express", "value": "express.md"},
         {"name": "Core", "sub": [
-            {"name": "Utility", "value": "util.md"},
+            {"name": "Utility", "value": "utility.md"},
             {"name": "Socket", "value":  "socket.md"},
             {"name": "Service", "value": "service.md"},
             {"name": "SQL", "value":     "sql.md"}
