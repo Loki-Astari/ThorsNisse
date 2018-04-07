@@ -44,6 +44,7 @@ using Action = std::function<void(Request&, Response&)>;
  *      NisseServer server;
  *      server.listenOn<ReadRequestHandler>(80, host);
  */
+// @class
 class Site
 {
     public:
@@ -68,6 +69,7 @@ class Site
         mutable int activeItems;
 };
 
+// @class
 class Binder
 {
     static Action& getDefault404Action();

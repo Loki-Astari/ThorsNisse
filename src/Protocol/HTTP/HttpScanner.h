@@ -17,6 +17,7 @@ namespace ThorsAnvil
 using HttpParser            = http_parser;
 using HttpParserSettings    = http_parser_settings;
 
+// @class
 struct HttpParserData
 {
     HttpParserData();
@@ -33,6 +34,7 @@ struct HttpParserData
         bool                    gotValue;
 };
 
+// @class
 class HttpScanner
 {
     HttpParserSettings      settings;

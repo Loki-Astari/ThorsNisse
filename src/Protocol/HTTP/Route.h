@@ -19,6 +19,7 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
+// @class
 class Route
 {
     /*
@@ -73,6 +74,7 @@ class Route
         }
 };
 
+// @class
 struct RouteTester
 {
     using is_transparent = std::true_type;

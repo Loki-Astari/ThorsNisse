@@ -1,5 +1,5 @@
 ---
-layout: type
+layout: class
 generate: false
 typeInfo:
     namespace: ThorsAnvil::Nisse::Core::Service

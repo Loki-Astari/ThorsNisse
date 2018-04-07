@@ -50,6 +50,7 @@ inline char const* getTimeString()
 }
 
 
+// @class
 class Headers
 {
     using ValueStore    = std::vector<std::string>;
@@ -76,6 +77,7 @@ class Headers
         std::string const& get(std::string const& key, std::size_t version = 0) const;
 };
 
+// @class
 class URI
 {
     public:
@@ -96,6 +98,7 @@ class URI
         std::string::size_type findSection(std::string const& s, char value, std::string::size_type pos);
 };
 
+// @class
 class Request
 {
     public:
@@ -111,6 +114,7 @@ class Request
 };
 
 class ReadRequestHandler;
+// @class
 class Response
 {
     using DataSocket = ThorsAnvil::Nisse::Core::Socket::DataSocket;

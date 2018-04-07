@@ -12,6 +12,7 @@ all: $(OBJ)
 build: all
 test:  all
 install: all
+doc:
 
 clean:
 	rm -rf $(OBJ) AddBeer.dylib

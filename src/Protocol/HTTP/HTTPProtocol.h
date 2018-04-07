@@ -17,6 +17,7 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
+// @class
 class ReadRequestHandler: public Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
 {
     private:

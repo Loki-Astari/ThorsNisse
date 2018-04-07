@@ -1,55 +1,3 @@
----
-layout: package
-generate: false
-nameSpace:  ThorsAnvil::Nisse::Core::Service
-headers:
-    base: ThorsNisseCoreService/
-    files:
-        - name:   Server.h
-          functions: []
-          classes:
-            - name:   ServerConnection
-              parent:
-            - name:   Server
-              parent:
-        - name:   Handler.h
-          functions: []
-          classes:
-            - name:   HandlerBase
-              parent:
-            - name:   HandlerStream
-              parent: HandlerBase
-            - name:   HandlerNonSuspendable
-              parent: HandlerStream
-            - name:   HandlerSuspendable
-              parent: HandlerStream
-        - name:   ServerHandlers.h
-          functions: []
-          classes:
-            - name:   ServerHandler
-              parent: HandlerNonSuspendable
-            - name:   TimerHandler
-              parent: HandlerNonSuspendable
-children:
-    - name: ServerConnection
-      value: core.service.ServerConnection.md
-    - name: Server
-      value: core.service.Server.md
-    - name: HandlerBase
-      value: core.service.HandlerBase.md
-    - name: HandlerStream
-      value: core.service.HandlerStream.md
-    - name: HandlerNonSuspendable
-      value: core.service.HandlerNonSuspendable.md
-    - name: HandlerSuspendable
-      value: core.service.HandlerSuspendable.md
-    - name: HandlerSuspendableWithStream
-      value: core.service.HandlerSuspendableWithStream.md
-    - name: ServerHandler
-      value: core.service.ServerHandler.md
-    - name: TimerHandler
-      value: core.service.TimerHandler.md
----
 
 ```bash
  > g++ -std=c++1z Server.cpp -o Server -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17 -lboost_context-mt
@@ -130,3 +78,4 @@ int main()
 }
 ```
 A simple wrapper around libEvent.
+

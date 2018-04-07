@@ -1,21 +1,3 @@
----
-layout: package
-generate: false
-nameSpace:  ThorsAnvil::Nisse::Core::Utility
-headers:
-    base: ThorsNisseCoreUtility/
-    files:
-        - name:   utility.h
-          classes: []
-          functions:
-            - return: std::string,
-              name:   systemErrorMessage
-              param:  []
-            - return: std::string
-              name:   buildErrorMessage
-              param:  []
----
-
 ```cpp
 if (open("file", O_WRONLY) == -1)
 {
@@ -41,4 +23,5 @@ std::string buildErrorMessage(Args const&... args);
 ```
 
 Provides common utility functions for other packages.
+
 

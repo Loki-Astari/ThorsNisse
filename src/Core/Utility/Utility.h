@@ -32,8 +32,9 @@ std::string buildStringFromParts(Args const&... args)
     return msg.str();
 }
 
+// @function
 template<typename... Args>
-std::string buildErrorMessage(Args const&... args)
+std::string buildErrorMessage(char x, int y, Args const&... args)
 {
     return buildStringFromParts(args...);
 }
@@ -93,6 +94,7 @@ inline std::string errnoToName()
     return "Unknown: ";
 }
 
+// @function
 inline std::string systemErrorMessage()
 {
     std::string result = errnoToName();

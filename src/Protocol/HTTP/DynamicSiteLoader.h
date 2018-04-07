@@ -17,6 +17,7 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
+// @class
 class DynamicSiteLoader
 {
     using SiteKey  = std::tuple<std::string, std::string, int>;

@@ -1,59 +1,3 @@
----
-layout: package
-generate: false
-nameSpace:  ThorsAnvil::Nisse::Protocol::HTTP
-headers:
-    base: ThorsNisseProtocolHTTP/
-    files:
-        - name:   Binder.h
-          functions: []
-          classes:
-            - name: Site
-              parent:
-            - name: Binder
-              parent:
-        - name:   DeveloperHandler.h
-          functions: []
-          classes:
-            - name: DeveloperHandler
-              parent: Core::Service::HandlerNonSuspendable
-        - name:   DynamicSiteLoader.h
-          functions: []
-          classes:
-            - name: DynamicSiteLoader
-              parent: 
-        - name:   HTTPProtocol.h
-          functions: []
-          classes:
-            - name: ReadRequestHandler
-              parent: Core::Service::HandlerSuspendable
-        - name:   HttpScanner.h
-          functions: []
-          classes:
-            - name: HttpParserData
-              parent: 
-            - name: HttpParserData
-              parent: 
-        - name:   Route.h
-          functions: []
-          classes:
-            - name: Route
-              parent: 
-            - name: RouteTester
-              parent: 
-        - name:   Types.h
-          functions: []
-          classes:
-            - name: Headers
-              parent: 
-            - name: URI
-              parent: 
-            - name: Request
-              parent: 
-            - name: Response
-              parent: 
----
-
 ```cpp--DeepDive
 class Site
 {
@@ -229,4 +173,5 @@ class Response
 ```
 
 An implementation of the HTTP protocol
+
 

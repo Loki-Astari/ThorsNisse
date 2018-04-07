@@ -20,6 +20,10 @@ using Notifier = std::function<void()>;
 
 inline void noActionNotifier(){}
 
+// @class
+// This is a wrapper class for a <code>DataSocket</code> that allows the socket to be treated like <code>std::streambuf</code>.
+// This class overrides just enough virtual functions to make the <code>ISocketStream</code> and <code>OSocketStream</code> useful.
+// This class provides no public API and is designed to be used solely with the following stream objects.
 class SocketStreamBuffer: public std::streambuf
 {
     private:
@@ -55,28 +59,47 @@ class SocketStreamBuffer: public std::streambuf
         std::streamsize readFromStream(char_type* dest, std::streamsize count, bool fill = true);
 };
 
+// @class
+// An implementation of <code>std::istream</code> that uses <code>SocketStreamBuffer</code> as the buffer.
+// The <code>Notofer</code> is a primitive event callback mechanism.
+// A blocking read call to these streams calls the <code>Notifier noData</code>.
+// This is used by the <a href="#Server">Server</a> infrastructure to yield control back to the main event loop.
+// <code>using Notifier = std::function<void()>;</code>
 class ISocketStream: public std::istream
 {
     SocketStreamBuffer buffer;
 
     public:
+        // @method
         ISocketStream(DataSocket& stream,
                       Notifier noAvailableData, Notifier flushing,
                       std::vector<char>&& bufData, char const* currentStart, char const* currentEnd);
+        // @method
         ISocketStream(DataSocket& stream,
                       Notifier noAvailableData, Notifier flushing);
+        // @method
         ISocketStream(DataSocket& stream);
+        // @method
         ISocketStream(ISocketStream&& move) noexcept;
 };
 
+// @class
+// An implementation of <code>std::istream</code> that uses <code>SocketStreamBuffer</code> as the buffer.
+// The <code>Notofer</code> is a primitive event callback mechanism.
+// A blocking read call to these streams calls the <code>Notifier noData</code>.cw
+// This is used by the <a href="#Server">Server</a> infrastructure to yield control back to the main event loop.
+// <code>using Notifier = std::function<void()>;</code>
 class OSocketStream: public std::ostream
 {
     SocketStreamBuffer buffer;
 
     public:
+        // @method
         OSocketStream(DataSocket& stream,
                       Notifier noAvailableData, Notifier flushing);
+        // @method
         OSocketStream(DataSocket& stream);
+        // @method
         OSocketStream(OSocketStream&& move) noexcept;
 };
 

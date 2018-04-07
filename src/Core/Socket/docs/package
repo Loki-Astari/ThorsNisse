@@ -1,47 +1,3 @@
----
-layout: package
-generate: false
-nameSpace:  ThorsAnvil::Nisse::Core::Socket
-headers:
-    base: ThorsNisseCoreSocket/
-    files:
-        - name:   Socket.h
-          functions: []
-          classes:
-            - name:   BaseSocket
-              parent:
-            - name:   DataSocket
-              parent: BaseSocket
-            - name:   ConnectionSocket
-              parent: DataSocket
-            - name:   ServerSocket
-              parent: BaseSocket
-        - name:   SocketStream.h
-          functions: []
-          classes:
-            - name:   SocketStreamBuffer
-              parent: std::streambuf
-            - name:   ISocketStream
-              parent: std::istream
-            - name:   OSocketStream
-              parent: std::ostream
-children:
-    - name: BaseSocket
-      value: core.socket.BaseSocket.md
-    - name: DataSocket
-      value: core.socket.DataSocket.md
-    - name: ConnectionSocket
-      value: core.socket.ConnectionSocket.md
-    - name: ServerSocket
-      value: core.socket.ServerSocket.md
-    - name: SocketStreamBuffer
-      value: core.socket.SocketStreambuffer.md
-    - name: ISocketStream
-      value: core.socket.ISocketStream.md
-    - name: OSocketStream
-      value: core.socket.OSocketStream.md
----
-
 ```bash
  > g++ Socket.cpp -o Socket -I${THOR_ROOT}/include -L${THOR_ROOT}/lib -lThorsExpress17
  > curl --data "A test message in a bottle :)" http://localhost:8080;echo
@@ -100,4 +56,5 @@ int main()
     }
 }
 ```
+
 
