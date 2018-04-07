@@ -1,6 +1,57 @@
 ---
-layout: article
+layout: package
 generate: false
+nameSpace:  ThorsAnvil::Nisse::Protocol::HTTP
+headers:
+    base: ThorsNisseProtocolHTTP/
+    files:
+        - name:   Binder.h
+          methods: []
+          classes:
+            - name: Site
+              parent:
+            - name: Binder
+              parent:
+        - name:   DeveloperHandler.h
+          methods: []
+          classes:
+            - name: DeveloperHandler
+              parent: Core::Service::HandlerNonSuspendable
+        - name:   DynamicSiteLoader.h
+          methods: []
+          classes:
+            - name: DynamicSiteLoader
+              parent: 
+        - name:   HTTPProtocol.h
+          methods: []
+          classes:
+            - name: ReadRequestHandler
+              parent: Core::Service::HandlerSuspendable
+        - name:   HttpScanner.h
+          methods: []
+          classes:
+            - name: HttpParserData
+              parent: 
+            - name: HttpParserData
+              parent: 
+        - name:   Route.h
+          methods: []
+          classes:
+            - name: Route
+              parent: 
+            - name: RouteTester
+              parent: 
+        - name:   Types.h
+          methods: []
+          classes:
+            - name: Headers
+              parent: 
+            - name: URI
+              parent: 
+            - name: Request
+              parent: 
+            - name: Response
+              parent: 
 ---
 
 ```cpp--DeepDive
@@ -178,49 +229,4 @@ class Response
 ```
 
 An implementation of the HTTP protocol
-<dl>
-<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::HTTP</dd>
-<dt>Headers:</dt><dd>ThorsNisseProtocolHTTP/</dd>
-<dt>Binder.h</dt><dd>
-
-* class Site
-* class Binder
-
-</dd>
-<dt>DeveloperHandler.h</dt><dd>
-
-* class DeveloperHandler: public Core::Service::HandlerNonSuspendable
-
-</dd>
-<dt>DynamicSiteLoader.h</dt><dd>
-
-* class DynamicSiteLoader
-
-</dd>
-<dt>HTTPProtocol.h</dt><dd>
-
-* class ReadRequestHandler: public Core::Service::HandlerSuspendable
-
-</dd>
-<dt>HttpScanner.h</dt><dd>
-
-* struct HttpParserData
-* class HttpScanner
-
-</dd>
-<dt>Route.h</dt><dd>
-
-* class Route
-* struct RouteTester
-
-</dd>
-<dt>Types.h</dt><dd>
-
-* class Headers
-* class URI
-* class Request
-* class Response
-
-</dd>
-</dl>
 

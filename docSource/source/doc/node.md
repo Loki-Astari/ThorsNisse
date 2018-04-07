@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: plain
 generate: false
 ---
 

@@ -1,6 +1,10 @@
 ---
-layout: article
+layout: package
 generate: false
+nameSpace:  ThorsAnvil::Nisse::Core::SQL
+headers:
+    base: ThorsNisseCoreSQL/
+    files: []
 ---
 
 ```cpp
@@ -59,9 +63,4 @@ Please refer to the ThorSQL library for details.
 ```
 A PIMPL proxy for the ThorSQL library.  
 There are no user usable classes in this package. All the classes are used internally by ThorSQL library. There usage is unlocked by using the prefix "mysqlNB" in the connection string.
-
-<dl>
-<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::SQL</dd>
-<dt>Headers:</dt><dd>ThorsNisseCoreSQL/</dd>
-</dl>
 

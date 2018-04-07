@@ -1,6 +1,19 @@
 ---
-layout: article
+layout: package
 generate: false
+nameSpace:  ThorsAnvil::Nisse::Core::Utility
+headers:
+    base: ThorsNisseCoreUtility/
+    files:
+        - name:   utility.h
+          classes: []
+          methods:
+            - return: std::string,
+              name:   systemErrorMessage
+              param:  []
+            - return: std::string
+              name:   buildErrorMessage
+              param:  []
 ---
 
 ```cpp
@@ -28,14 +41,4 @@ std::string buildErrorMessage(Args const&... args);
 ```
 
 Provides common utility functions for other packages.
-<dl>
-<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Utility</dd>
-<dt>Headers:</dt><dd>ThorsNisseCoreUtility/</dd>
-<dt>Utility.h</dt><dd>
-
-* std::string systemErrorMessage();
-* std::string buildErrorMessage();
-
-</dd>
-</dl>
 

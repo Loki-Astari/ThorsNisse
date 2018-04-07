@@ -7,36 +7,8 @@
         {"name": "Introduction", "value": "intro.md"},
         {"name": "Node.Cxx", "value": "node.md"},
         {"name": "Express", "value": "express.md"},
-        {"name": "Core", "sub": [
-            {"name": "Utility", "value": "utility.md"},
-            {"name": "Socket", "value":  "socket.md", "sub": [
-                {"name": "BaseSocket"},
-                {"name": "DataSocket"},
-                {"name": "ConnectionSocket"},
-                {"name": "ServerSocket"},
-                {"name": "SocketStreamBuffer"},
-                {"name": "ISocketStream"},
-                {"name": "OSocketStream"}
-            ]},
-            {"name": "Service", "value": "service.md", "sub": [
-                {"name": "HandlerBase"},
-                {"name": "HandlerStream"},
-                {"name": "HandlerNonSuspendable"},
-                {"name": "HandlerSuspendable"},
-                {"name": "HandlerSuspendableWithStream"},
-                {"name": "ServerConnection"},
-                {"name": "Server"},
-                {"name": "ServerHandler"},
-                {"name": "TimerHandler"}
-            ]},
-            {"name": "SQL", "value":     "sql.md"}
-        ]},
-        {"name": "Protocol", "sub": [
-            {"name": "Simple", "value": "simple.md"},
-            {"name": "HTTP", "value": "http.md"}
-        ]},
-        {"name": "Examples", "value": "examples.md", "sub": [
-            {"name": "AddBeer"}
-        ]}
+        {"name": "Core", "value": "core.md"},
+        {"name": "Protocol", "value": "protocol.md"},
+        {"name": "Examples", "value": "examples.md"}
     ]
 }
