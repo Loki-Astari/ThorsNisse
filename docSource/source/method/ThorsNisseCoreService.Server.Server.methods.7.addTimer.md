@@ -4,14 +4,22 @@ generate: false
 methodInfo:
     parent: Server
     name: addTimer
-    description: Sets a timer to go off every `timeOut` seconds.<br>The result of the timmer going off is to execute the functot `action`.
+    mark:  
+    description:  |
+        Sets a timer to go off every `timeOut` seconds.
+        The result of the timmer going off is to execute the functot `action`.
+    return:
+        type: ' void'
+        description: ''
     parameters:
         - name: timeOut
-          type: double
-          description: The time period (in seconds)  between running the action object.
+          type: 'double'
+          default: 
+          description: 'The time period (in seconds) between running the action object. Functor that is run every `timeOut` seconds.'
         - name: action
-          type: std::function<void()>&&
-          description: Functor that is run every `timeOut` seconds.
+          type: 'std::function<void()>&&'
+          default: 
+          description: 'The time period (in seconds) between running the action object. Functor that is run every `timeOut` seconds.'
 ---
 ```cpp
 int main()

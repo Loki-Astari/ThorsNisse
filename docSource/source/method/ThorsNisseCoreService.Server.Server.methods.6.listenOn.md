@@ -4,14 +4,24 @@ generate: false
 methodInfo:
     parent: Server
     name: listenOn
-    description: This is a templatized function. The template type is the type of object that will handle a connection once it has been established.<br>When a connection is accepted and object of the template type is created and passed a reference to the server, stream and `data` (see parameters)<br>The object is marked as listening to the accepted socket and when data is available on the socket the <code>eventActivate()</code> method is called allowing the data to be processed.<br>For more details see <a href="#HandlerBase">HandlerBase</a>.
+    mark:  
+    description:  |
+        This is a templatized function. The template type is the type of object that will handle a connection once it has been established.
+        When a connection is accepted and object of the template type is created and passed a reference to the server, stream and `data` (see parameters).
+        The object is marked as listening to the accepted socket and when data is available on the socket the <code>eventActivate()</code> method is called allowing the data to be processed.
+        For more details see <a href="#HandlerBase">HandlerBase</a>.
+    return:
+        type: ' void'
+        description: ''
     parameters:
-        - name: port
-          type: short
-          description: The port that is being listen too.
-        - name: data
-          type: Param&
-          description: A reference to an object that is passed to the constructor of the handler type. This allows a state object to be passed to the constructor.
+        - name: info
+          type: 'ServerConnection const&'
+          default: 
+          description: 'The port that is being listen too.'
+        - name: param
+          type: 'Param&'
+          default: 
+          description: 'A reference to an object that is passed to the constructor of the handler type. This allows a state object to be passed to the constructor.'
 ---
 ```cpp
 class MyState

@@ -4,7 +4,11 @@ generate: false
 methodInfo:
     parent: HandlerBase
     name: close
-    description: Close the stream associated with this handler
+    mark:  = 0
+    description:  |
+        Close the stream associated with this handler.
+    return:
+        type: ' void '
+        description: ''
     parameters: []
 ---
-

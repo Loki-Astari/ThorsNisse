@@ -3,61 +3,60 @@ layout: class
 generate: false
 typeInfo:
     namespace: ThorsAnvil::Nisse::Core::Service
-    header:    ThorsNisseCoreSocket/Handler.h
+    header:    ThorsNisseCoreService/Handler.h
     classname: HandlerBase
-    parent:
-    description:
+    parent:    
+    description: 
     methods:
-        - return:
+        - return: ' '
           name: Constructor
-          param: ['Server', 'LibSocketId', 'short', 'double']
-          mark:
+          param: [  ' Server& parent', ' LibSocketId socketId', ' short eventType', ' double timeout = 0' ]
+          mark:  
     protected:
-        - return: void
-          name: dropHAndler
-          param: []
-          mark:
-        - return: void
+        - return: ' void'
+          name: dropHandler
+          param: [  ]
+          mark: 
+        - return: ' void'
           name: addHandler
-          param: ['args&&...']
-          mark:
-        - return: void
+          param: [  ' Args&&... args' ]
+          mark:  
+        - return: ' void'
           name: moveHandler
-          param: ['args&&...']
-          mark:
+          param: [  ' Args&&... args' ]
+          mark:  
     virtual:
-        - return: short
+        - return: ' short'
           name: eventActivate
-          param: ['LibSocketId', 'short']
-          mark:
-        - return: bool
+          param: [  ' LibSocketId sockId', ' short eventType' ]
+          mark:  = 0
+        - return: ' bool '
           name: suspendable
-          param: []
-          mark:
-        - return: void
-          name: suspend
-          param: ['short']
-          mark:
-        - return: void
+          param: [  ]
+          mark:  = 0
+        - return: ' void '
           name: close
-          param: []
-          mark:
+          param: [  ]
+          mark:  = 0
+        - return: ' void'
+          name: suspend
+          param: [  ' short type' ]
+          mark:  = 0
 children:
-    - name: HandlerBase::dropHandler
-      value: core.service.HandlerBase.dropHandler.md
-    - name: HandlerBase::addHandler
-      value: core.service.HandlerBase.addHandler.md
-    - name: HandlerBase::moveHandler
-      value: core.service.HandlerBase.moveHandler.md
-    - name: HandlerBase::eventActivate
-      value: core.service.HandlerBase.eventActivate.md
-    - name: HandlerBase::suspendable
-      value: core.service.HandlerBase.suspendable.md
-    - name: HandlerBase::suspend
-      value: core.service.HandlerBase.suspend.md
-    - name: HandlerBase::close
-      value: core.service.HandlerBase.close.md
-    - name: HandlerBase::eventActivateNonBlocking
-      value: core.service.HandlerBase.eventActivateNonBlocking.md
+    - name: Constructor
+      value: ThorsNisseCoreService.HandlerBase.methods.1.md
+    - name: dropHandler
+      value: ThorsNisseCoreService.HandlerBase.protected.1.md
+    - name: addHandler
+      value: ThorsNisseCoreService.HandlerBase.protected.2.md
+    - name: moveHandler
+      value: ThorsNisseCoreService.HandlerBase.protected.3.md
+    - name: eventActivate
+      value: ThorsNisseCoreService.HandlerBase.virtual.1.md
+    - name: suspendable
+      value: ThorsNisseCoreService.HandlerBase.virtual.2.md
+    - name: close
+      value: ThorsNisseCoreService.HandlerBase.virtual.3.md
+    - name: suspend
+      value: ThorsNisseCoreService.HandlerBase.virtual.4.md
 ---
-

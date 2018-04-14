@@ -3,55 +3,82 @@ layout: package
 generate: false
 nameSpace:  ThorsAnvil::Nisse::Protocol::HTTP
 headers:
-    base: ThorsNisseProtocolHTTP/
+    base: ThorsNisseProtocolHTTP
     files:
         - name:   Binder.h
           functions: []
           classes:
-            - name: Site
-              parent:
-            - name: Binder
-              parent:
+            - name:   Site
+              parent: 
+            - name:   Binder
+              parent: 
         - name:   DeveloperHandler.h
           functions: []
           classes:
-            - name: DeveloperHandler
+            - name:   DeveloperHandler
               parent: Core::Service::HandlerNonSuspendable
         - name:   DynamicSiteLoader.h
           functions: []
           classes:
-            - name: DynamicSiteLoader
+            - name:   DynamicSiteLoader
               parent: 
         - name:   HTTPProtocol.h
           functions: []
           classes:
-            - name: ReadRequestHandler
+            - name:   ReadRequestHandler
               parent: Core::Service::HandlerSuspendable
         - name:   HttpScanner.h
           functions: []
           classes:
-            - name: HttpParserData
+            - name:   HttpParserData
               parent: 
-            - name: HttpParserData
+            - name:   HttpScanner
               parent: 
         - name:   Route.h
           functions: []
           classes:
-            - name: Route
+            - name:   Route
               parent: 
-            - name: RouteTester
+            - name:   RouteTester
               parent: 
         - name:   Types.h
           functions: []
           classes:
-            - name: Headers
+            - name:   Headers
               parent: 
-            - name: URI
+            - name:   URI
               parent: 
-            - name: Request
+            - name:   Request
               parent: 
-            - name: Response
+            - name:   Response
               parent: 
+children:
+    - name: Site
+      value: ThorsNisseProtocolHTTP.Binder.Site.md
+    - name: Binder
+      value: ThorsNisseProtocolHTTP.Binder.Binder.md
+    - name: DeveloperHandler
+      value: ThorsNisseProtocolHTTP.DeveloperHandler.DeveloperHandler.md
+    - name: DynamicSiteLoader
+      value: ThorsNisseProtocolHTTP.DynamicSiteLoader.DynamicSiteLoader.md
+    - name: ReadRequestHandler
+      value: ThorsNisseProtocolHTTP.HTTPProtocol.ReadRequestHandler.md
+    - name: HttpParserData
+      value: ThorsNisseProtocolHTTP.HttpScanner.HttpParserData.md
+    - name: HttpScanner
+      value: ThorsNisseProtocolHTTP.HttpScanner.HttpScanner.md
+    - name: Route
+      value: ThorsNisseProtocolHTTP.Route.Route.md
+    - name: RouteTester
+      value: ThorsNisseProtocolHTTP.Route.RouteTester.md
+    - name: Headers
+      value: ThorsNisseProtocolHTTP.Types.Headers.md
+    - name: URI
+      value: ThorsNisseProtocolHTTP.Types.URI.md
+    - name: Request
+      value: ThorsNisseProtocolHTTP.Types.Request.md
+    - name: Response
+      value: ThorsNisseProtocolHTTP.Types.Response.md
 ---
 
 ```cpp--DeepDive

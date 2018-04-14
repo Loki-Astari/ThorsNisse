@@ -3,18 +3,26 @@ layout: class
 generate: false
 typeInfo:
     namespace: ThorsAnvil::Nisse::Core::Service
-    header:    ThorsNisseCoreSocket/Handler.h
+    header:    ThorsNisseCoreService/Handler.h
     classname: HandlerStream
     parent:    HandlerBase
-    description: This class is templatized based on the type of stream the socket represents.<br>The class basically defines a common class for holding the stream object and how to close it when requried.
+    description:  |
+        This class is templatized based on the type of stream the socket represents.
+        The class basically defines a common class for holding the stream object and how to close it when required.
     methods:
-        - return: 
+        - return: ' '
           name: Constructor
-          param: ['Server&', 'LibSocketId', 'short']
-          mark:
-        - return: void
+          param: [  ' Server& parent', ' Stream&& stream', ' short eventType', ' double timeout = 0' ]
+          mark:  
+    protected: []
+    virtual:
+        - return: ' void '
           name: close
-          param: []
-          mark:
+          param: [  ]
+          mark:  override
+children:
+    - name: Constructor
+      value: ThorsNisseCoreService.HandlerStream.methods.1.md
+    - name: close
+      value: ThorsNisseCoreService.HandlerStream.virtual.1.md
 ---
-

@@ -4,10 +4,16 @@ generate: false
 methodInfo:
     parent: HandlerBase
     name: addHandler
-    description: If the handler wants to create other handlers.<br>An example of this is when the SQL handlers are added. They create connections to the SQL server that require their own event handlers.
+    mark:  
+    description:  |
+        If the handler wants to create other handlers.
+        An example of this is when the SQL handlers are added. They create connections to the SQL server that require their own event handlers.
+    return:
+        type: ' void'
+        description: ''
     parameters:
-        - name: 'args'
+        - name: args
           type: 'Args&&...'
-          description: Arguments passed to the constructor of the new handler
+          default: 
+          description: 'Arguments passed to the constructor of the new handler.'
 ---
-

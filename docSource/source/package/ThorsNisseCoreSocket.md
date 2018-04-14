@@ -3,16 +3,16 @@ layout: package
 generate: false
 nameSpace:  ThorsAnvil::Nisse::Core::Socket
 headers:
-    base: ThorsNisseCoreSocket/
+    base: ThorsNisseCoreSocket
     files:
         - name:   Socket.h
           functions: []
           classes:
             - name:   BaseSocket
-              parent:
+              parent: 
             - name:   DataSocket
               parent: BaseSocket
-            - name:   ConnectionSocket
+            - name:   ConnectSocket
               parent: DataSocket
             - name:   ServerSocket
               parent: BaseSocket
@@ -27,19 +27,19 @@ headers:
               parent: std::ostream
 children:
     - name: BaseSocket
-      value: core.socket.BaseSocket.md
+      value: ThorsNisseCoreSocket.Socket.BaseSocket.md
     - name: DataSocket
-      value: core.socket.DataSocket.md
-    - name: ConnectionSocket
-      value: core.socket.ConnectionSocket.md
+      value: ThorsNisseCoreSocket.Socket.DataSocket.md
+    - name: ConnectSocket
+      value: ThorsNisseCoreSocket.Socket.ConnectSocket.md
     - name: ServerSocket
-      value: core.socket.ServerSocket.md
+      value: ThorsNisseCoreSocket.Socket.ServerSocket.md
     - name: SocketStreamBuffer
-      value: core.socket.SocketStreambuffer.md
+      value: ThorsNisseCoreSocket.SocketStream.SocketStreamBuffer.md
     - name: ISocketStream
-      value: core.socket.ISocketStream.md
+      value: ThorsNisseCoreSocket.SocketStream.ISocketStream.md
     - name: OSocketStream
-      value: core.socket.OSocketStream.md
+      value: ThorsNisseCoreSocket.SocketStream.OSocketStream.md
 ---
 
 ```bash

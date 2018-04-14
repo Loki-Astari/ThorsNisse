@@ -4,10 +4,11 @@ generate: false
 methodInfo:
     parent: DataSocket
     name: putMessageClose
-    description: closes the write end of the socket and flushes (write) data
+    mark:  
+    description:  |
+        closes the write end of the socket and flushes (write) data.
     return:
-        type: void
-        description: closes the write end of the socket and flushes (write) data.
+        type: ' void       '
+        description: 'closes the write end of the socket and flushes (write) data.'
     parameters: []
 ---
-

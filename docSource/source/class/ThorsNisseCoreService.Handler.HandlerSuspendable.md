@@ -3,34 +3,51 @@ layout: class
 generate: false
 typeInfo:
     namespace: ThorsAnvil::Nisse::Core::Service
-    header:    ThorsNisseCoreSocket/Handler.h
+    header:    ThorsNisseCoreService/Handler.h
     classname: HandlerSuspendable
     parent:    HandlerStream
-    description: Defines a handler that is suspendable.<br>Implements `suspendable`, `suspsend()` and `eventActivate()` as these all work together to define a class that can be suspended.<br>The method `eventActivateNonBlocking()` should be overwridden by derived classes to provide functionaliy.
+    description:  |
+        Defines a handler that is suspendable.
+        Implements `suspendable`, `suspsend()` and `eventActivate()` as these all work together to define a class that can be suspended.
+        The method `eventActivateNonBlocking()` should be overridden by derived classes to provide functionally.
     methods:
-        - return: 
-          name:  Constructor
-          param: ['Server&', 'LibSocketId', 'short']
-          mark:
-        - return: bool
-          name: suspendable
-          param: []
-          mark:
-        - return: void
-          name: suspend
-          param: ['short']
-          mark:
-        - return: short
-          name: eventActivate
-          param: ['LibSocketId', 'short']
-          mark:
+        - return: ' '
+          name: Constructor
+          param: [  ' Server& parent', ' Stream&& stream', ' short eventType' ]
+          mark:  
+        - return: ' '
+          name: Constructor
+          param: [  ' Server& parent', ' Stream&& stream', ' short eventType', ' short firstEvent' ]
+          mark:  
+    protected: []
     virtual:
-        - return: bool
-          name:  eventActivateNonBlocking
-          param: []
-          mark:
+        - return: ' void'
+          name: suspend
+          param: [  ' short type' ]
+          mark:  final 
+        - return: ' bool'
+          name: suspendable
+          param: [  ]
+          mark:  final
+        - return: ' short'
+          name: eventActivate
+          param: [  ' LibSocketId sockId', ' short eventType' ]
+          mark:  final
+        - return: ' bool'
+          name: eventActivateNonBlocking
+          param: [  ]
+          mark:  = 0
 children:
-    - name: HandlerSuspendable::eventActivate
-      value: core.service.HandlerSuspendable.eventActivate.md
+    - name: Constructor
+      value: ThorsNisseCoreService.HandlerSuspendable.methods.1.md
+    - name: Constructor
+      value: ThorsNisseCoreService.HandlerSuspendable.methods.2.md
+    - name: suspend
+      value: ThorsNisseCoreService.HandlerSuspendable.virtual.1.md
+    - name: suspendable
+      value: ThorsNisseCoreService.HandlerSuspendable.virtual.2.md
+    - name: eventActivate
+      value: ThorsNisseCoreService.HandlerSuspendable.virtual.3.md
+    - name: eventActivateNonBlocking
+      value: ThorsNisseCoreService.HandlerSuspendable.virtual.4.md
 ---
-

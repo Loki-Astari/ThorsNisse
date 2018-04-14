@@ -6,18 +6,22 @@ typeInfo:
     header:    ThorsNisseCoreSocket/Socket.h
     classname: ServerSocket
     parent:    BaseSocket
-    description: 
+    description:  |
+        A server socket that listens on a port for a connection
     methods:
-        - return:
+        - return: ' '
           name: Constructor
-          param: ['int', 'bool', 'int']
-          mark:
-        - return: DataSocket
+          param: [  ' int port', ' bool blocking = false', ' int maxWaitingConnections = maxConnectionBacklog' ]
+          mark:  
+        - return: ' DataSocket'
           name: accept
-          param: [bool]
-          mark:
+          param: [  ' bool blocking = false' ]
+          mark:  
+    protected: []
+    virtual: []
 children:
-    - name: serversocket::accept
-      value: core.socket.ServerSocket.accept.md
+    - name: Constructor
+      value: ThorsNisseCoreSocket.ServerSocket.methods.1.md
+    - name: accept
+      value: ThorsNisseCoreSocket.ServerSocket.methods.2.md
 ---
-

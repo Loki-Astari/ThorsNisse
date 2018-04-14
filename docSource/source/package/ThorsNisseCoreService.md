@@ -3,27 +3,29 @@ layout: package
 generate: false
 nameSpace:  ThorsAnvil::Nisse::Core::Service
 headers:
-    base: ThorsNisseCoreService/
+    base: ThorsNisseCoreService
     files:
-        - name:   Server.h
-          functions: []
-          classes:
-            - name:   ServerConnection
-              parent:
-            - name:   Server
-              parent:
         - name:   Handler.h
           functions: []
           classes:
             - name:   HandlerBase
-              parent:
+              parent: 
             - name:   HandlerStream
               parent: HandlerBase
             - name:   HandlerNonSuspendable
               parent: HandlerStream
             - name:   HandlerSuspendable
               parent: HandlerStream
-        - name:   ServerHandlers.h
+            - name:   HandlerSuspendableWithStream
+              parent: HandlerSuspendable
+        - name:   Server.h
+          functions: []
+          classes:
+            - name:   ServerConnection
+              parent: 
+            - name:   Server
+              parent: 
+        - name:   ServerHandler.h
           functions: []
           classes:
             - name:   ServerHandler
@@ -31,24 +33,24 @@ headers:
             - name:   TimerHandler
               parent: HandlerNonSuspendable
 children:
-    - name: ServerConnection
-      value: core.service.ServerConnection.md
-    - name: Server
-      value: core.service.Server.md
     - name: HandlerBase
-      value: core.service.HandlerBase.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.md
     - name: HandlerStream
-      value: core.service.HandlerStream.md
+      value: ThorsNisseCoreService.Handler.HandlerStream.md
     - name: HandlerNonSuspendable
-      value: core.service.HandlerNonSuspendable.md
+      value: ThorsNisseCoreService.Handler.HandlerNonSuspendable.md
     - name: HandlerSuspendable
-      value: core.service.HandlerSuspendable.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendable.md
     - name: HandlerSuspendableWithStream
-      value: core.service.HandlerSuspendableWithStream.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendableWithStream.md
+    - name: ServerConnection
+      value: ThorsNisseCoreService.Server.ServerConnection.md
+    - name: Server
+      value: ThorsNisseCoreService.Server.Server.md
     - name: ServerHandler
-      value: core.service.ServerHandler.md
+      value: ThorsNisseCoreService.ServerHandler.ServerHandler.md
     - name: TimerHandler
-      value: core.service.TimerHandler.md
+      value: ThorsNisseCoreService.ServerHandler.TimerHandler.md
 ---
 
 ```bash
@@ -130,3 +132,4 @@ int main()
 }
 ```
 A simple wrapper around libEvent.
+

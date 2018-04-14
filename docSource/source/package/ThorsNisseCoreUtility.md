@@ -3,17 +3,22 @@ layout: package
 generate: false
 nameSpace:  ThorsAnvil::Nisse::Core::Utility
 headers:
-    base: ThorsNisseCoreUtility/
+    base: ThorsNisseCoreUtility
     files:
-        - name:   utility.h
-          classes: []
+        - name:   Utility.h
           functions:
-            - return: std::string,
-              name:   systemErrorMessage
-              param:  []
             - return: std::string
               name:   buildErrorMessage
-              param:  []
+              param:  [   char x,  int y,  Args const&... args  ]
+            - return: std::string
+              name:   systemErrorMessage
+              param:  [  ]
+          classes: []
+children:
+    - name: buildErrorMessage
+      value: ThorsNisseCoreUtility.Utility.buildErrorMessage.md
+    - name: systemErrorMessage
+      value: ThorsNisseCoreUtility.Utility.systemErrorMessage.md
 ---
 
 ```cpp
