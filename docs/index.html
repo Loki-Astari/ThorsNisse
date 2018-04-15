@@ -48,6 +48,22 @@
     <li>
         <a href="#utility" class="toc-h2 toc-link" data-title="Core">Utility</a>
     
+                <ul class="toc-list-h3">
+                    
+    <li>
+        <a href="#builderrormessage" class="toc-h3 toc-link" data-title="Core">buildErrorMessage</a>
+    
+    </li>
+
+    <li>
+        <a href="#systemerrormessage" class="toc-h3 toc-link" data-title="Core">systemErrorMessage</a>
+    
+    </li>
+
+
+
+                </ul>
+    
     </li>
 
     <li>
@@ -66,7 +82,7 @@
     </li>
 
     <li>
-        <a href="#connectionsocket" class="toc-h3 toc-link" data-title="Core">ConnectionSocket</a>
+        <a href="#connectsocket" class="toc-h3 toc-link" data-title="Core">ConnectSocket</a>
     
     </li>
 
@@ -102,16 +118,6 @@
                 <ul class="toc-list-h3">
                     
     <li>
-        <a href="#serverconnection" class="toc-h3 toc-link" data-title="Core">ServerConnection</a>
-    
-    </li>
-
-    <li>
-        <a href="#server" class="toc-h3 toc-link" data-title="Core">Server</a>
-    
-    </li>
-
-    <li>
         <a href="#handlerbase" class="toc-h3 toc-link" data-title="Core">HandlerBase</a>
     
     </li>
@@ -133,6 +139,16 @@
 
     <li>
         <a href="#handlersuspendablewithstream" class="toc-h3 toc-link" data-title="Core">HandlerSuspendableWithStream</a>
+    
+    </li>
+
+    <li>
+        <a href="#serverconnection" class="toc-h3 toc-link" data-title="Core">ServerConnection</a>
+    
+    </li>
+
+    <li>
+        <a href="#server" class="toc-h3 toc-link" data-title="Core">Server</a>
     
     </li>
 
@@ -175,6 +191,77 @@
 
     <li>
         <a href="#http" class="toc-h2 toc-link" data-title="Protocol">HTTP</a>
+    
+                <ul class="toc-list-h3">
+                    
+    <li>
+        <a href="#site" class="toc-h3 toc-link" data-title="Protocol">Site</a>
+    
+    </li>
+
+    <li>
+        <a href="#binder" class="toc-h3 toc-link" data-title="Protocol">Binder</a>
+    
+    </li>
+
+    <li>
+        <a href="#developerhandler" class="toc-h3 toc-link" data-title="Protocol">DeveloperHandler</a>
+    
+    </li>
+
+    <li>
+        <a href="#dynamicsiteloader" class="toc-h3 toc-link" data-title="Protocol">DynamicSiteLoader</a>
+    
+    </li>
+
+    <li>
+        <a href="#readrequesthandler" class="toc-h3 toc-link" data-title="Protocol">ReadRequestHandler</a>
+    
+    </li>
+
+    <li>
+        <a href="#httpparserdata" class="toc-h3 toc-link" data-title="Protocol">HttpParserData</a>
+    
+    </li>
+
+    <li>
+        <a href="#httpscanner" class="toc-h3 toc-link" data-title="Protocol">HttpScanner</a>
+    
+    </li>
+
+    <li>
+        <a href="#route" class="toc-h3 toc-link" data-title="Protocol">Route</a>
+    
+    </li>
+
+    <li>
+        <a href="#routetester" class="toc-h3 toc-link" data-title="Protocol">RouteTester</a>
+    
+    </li>
+
+    <li>
+        <a href="#headers" class="toc-h3 toc-link" data-title="Protocol">Headers</a>
+    
+    </li>
+
+    <li>
+        <a href="#uri" class="toc-h3 toc-link" data-title="Protocol">URI</a>
+    
+    </li>
+
+    <li>
+        <a href="#request" class="toc-h3 toc-link" data-title="Protocol">Request</a>
+    
+    </li>
+
+    <li>
+        <a href="#response" class="toc-h3 toc-link" data-title="Protocol">Response</a>
+    
+    </li>
+
+
+
+                </ul>
     
     </li>
 
@@ -336,15 +423,15 @@ std::string buildErrorMessage(Args const&amp;... args);</code></pre>
 <p>Provides common utility functions for other packages.</p>
 <dl>
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Utility</dd>
-<dt>Headers:</dt><dd>ThorsNisseCoreUtility/</dd>
+<dt>Headers:</dt><dd>ThorsNisseCoreUtility</dd>
 
-    <dt>utility.h</dt><dd>
+    <dt>Utility.h</dt><dd>
         <ul>
         
         
-            <li>std::string, systemErrorMessage()</li>
-        
             <li>std::string buildErrorMessage()</li>
+        
+            <li>std::string systemErrorMessage()</li>
         
         </ul>
     </dd>
@@ -353,6 +440,51 @@ std::string buildErrorMessage(Args const&amp;... args);</code></pre>
 
 
     
+    
+        
+    
+    <h3 id="builderrormessage">buildErrorMessage</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreUtility/Utility.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Utility</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue"></div><div></div></div>
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="systemerrormessage">systemErrorMessage</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreUtility/Utility.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Utility</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue"></div><div></div></div>
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+
     
 
     
@@ -414,7 +546,7 @@ int main()
 }</code></pre>
 <dl>
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Socket</dd>
-<dt>Headers:</dt><dd>ThorsNisseCoreSocket/</dd>
+<dt>Headers:</dt><dd>ThorsNisseCoreSocket</dd>
 
     <dt>Socket.h</dt><dd>
         <ul>
@@ -423,7 +555,7 @@ int main()
         
             <li>DataSocket BaseSocket</li>
         
-            <li>ConnectionSocket DataSocket</li>
+            <li>ConnectSocket DataSocket</li>
         
             <li>ServerSocket BaseSocket</li>
         
@@ -456,46 +588,157 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">BaseSocket</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">BaseSocket</div><div></div></div>
             
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">Base of all the socket classes.<br>This class should not be directly created.<br>All socket classes are movable but not copyable.</div></div>
-        </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Move Constructor()</div>
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Move-Constructor()</div>
                         <div class="methodMark">noexcept</div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">BaseSocket&</div>
-                        <div class="methodName">Move Assignment()</div>
+                        <div class="methodRet"> BaseSocket&</div>
+                        <div class="methodName">Move-Assignment()</div>
                         <div class="methodMark">noexcept</div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void</div>
                         <div class="methodName">swap()</div>
                         <div class="methodMark">noexcept</div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void</div>
                         <div class="methodName">close()</div>
                         <div class="methodMark"></div>
                     </div>
                 
-            </div>
         
+        
+        
+        </div>
+    </div>
+</div>
+<p>Base of all the socket classes.
+This class should not be directly created.
+All socket classes are movable but not copyable.
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="move-constructor">Move-Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">BaseSocket</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">BaseSocket&& move</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="move-assignment">Move-Assignment</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">operator=</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: BaseSocket&</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">BaseSocket&& move</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="swap">swap</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">swap</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">BaseSocket& other</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="close">close</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">close</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
         
         
     </div>
@@ -503,6 +746,9 @@ int main()
 
 
     
+    
+
+
     
 
     
@@ -511,43 +757,74 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">DataSocket</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">DataSocket</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">BaseSocket</div></div>
             
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">Data sockets define the read/write interface to a socket.<br>This class should not be directly created</div></div>
-        </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet">std::pair<bool, std::size_t></div>
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> std::pair<bool, std::size_t></div>
                         <div class="methodName">getMessageData()</div>
                         <div class="methodMark"></div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">std::pair<bool, std::size_t></div>
+                        <div class="methodRet"> std::pair<bool, std::size_t></div>
                         <div class="methodName">putMessageData()</div>
                         <div class="methodMark"></div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void </div>
                         <div class="methodName">putMessageClose()</div>
                         <div class="methodMark"></div>
                     </div>
                 
-            </div>
         
         
+        
+        </div>
+    </div>
+</div>
+<p>Data sockets define the read/write interface to a socket.
+This class should not be directly created
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">DataSocket</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">int socketId</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">bool blocking</div><div class="classValue"></div></div>
+            
+        </div>
         
     </div>
 </div>
@@ -555,20 +832,23 @@ int main()
 
     
     
-        
+
     
-    <h4 id="datasocket::getmessagedata">DataSocket::getMessageData</h4>
+    <h4 id="getmessagedata">getMessageData</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">getMessageData</div></div>
-            <div class="classRow"><div class="classDesc">Reads data from a sokcet into a buffer.<br>If the stream is blocking will not return until the requested amount of data has been read or there is no more data to read.<br>If the stream in non blocking will return if the read operation would block.</div></div>
+            <div class="classRow"><div class="classDesc">Reads data from a sokcet into a buffer.
+If the stream is blocking will not return until the requested amount of data has been read or there is no more data to read.
+If the stream in non blocking will return if the read operation would block.
+</div></div>
         </div>
         
         <div class="classBlock">
-            <div class="classRow"><div class="classSect">Return Value</div></div>
-            <div class="classRow"><div class="classDesc">This method returns a <code>std::pair&lt;bool, std::size_t&gt;</code><br>The first member `bool` indicates if more data can potentially be read from the stream. If the socket was cut or the EOF reached then this value will be false<br>The second member `std::size_t` indicates exactly how many bytes were read from this stream.</div></div>
+            <div class="classRow"><div class="classSect">Return Value: std::pair<bool, std::size_t></div></div>
+            <div class="classRow"><div class="classDesc">This method returns a <code>std::pair&lt;bool, std::size_t&gt;</code>. The first member `bool` indicates if more data can potentially be read from the stream. If the socket was cut or the EOF reached then this value will be false. The second member `std::size_t` indicates exactly how many bytes were read from this stream.</div></div>
         </div>
         
         
@@ -577,11 +857,11 @@ int main()
         </div>
         <div class="classBlock">
             
-            <div class="classRow"><div class="classItem">buffer</div><div class="classValue">The buffer data will be read into.</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">char* buffer</div><div class="classValue">The buffer data will be read into. The size of the buffer. Offset into buffer (and amount size is reduced by) as this amount was read on a previous call).</div></div>
             
-            <div class="classRow"><div class="classItem">size</div><div class="classValue">The size of the buffer.</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">std::size_t size</div><div class="classValue">This method returns a <code>std::pair&lt;bool, std::size_t&gt;</code>. The first member `bool` indicates if more data can potentially be read from the stream. If the socket was cut or the EOF reached then this value will be false. The second member `std::size_t` indicates exactly how many bytes were read from this stream. The size of the buffer. Offset into buffer (and amount size is reduced by) as this amount was read on a previous call).</div></div>
             
-            <div class="classRow"><div class="classItem">alreadyGot</div><div class="classValue">Offset into buffer (and amount size is reduced by) as this amount was read on a previous call).</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">std::size_t alreadyGot</div><div class="classValue">Offset into buffer (and amount size is reduced by) as this amount was read on a previous call).</div></div>
             
         </div>
         
@@ -593,18 +873,21 @@ int main()
     
 
     
-    <h4 id="datasocket::putmessagedata">DataSocket::putMessageData</h4>
+    <h4 id="putmessagedata">putMessageData</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">putMessageData</div></div>
-            <div class="classRow"><div class="classDesc">Writes data from a buffer to a sokcet.<br>If the stream is blocking will not return until the requested amount of data has been written or the socket was closed to writting.<br>If the stream in non blocking will return if the write operation would block.</div></div>
+            <div class="classRow"><div class="classDesc">Writes data from a buffer to a sokcet.
+If the stream is blocking will not return until the requested amount of data has been written or the socket was closed to writting.
+If the stream in non blocking will return if the write operation would block.
+</div></div>
         </div>
         
         <div class="classBlock">
-            <div class="classRow"><div class="classSect">Return Value</div></div>
-            <div class="classRow"><div class="classDesc">This method returns a <code>std::pair&lt;bool, std::size_t&gt;</code><br>The first member `bool` indicates if more data can potentially be written to the stream. If the socket was cut or closed then this value will be false<br>The second member `std::size_t` indicates exactly how many bytes were written to this stream.</div></div>
+            <div class="classRow"><div class="classSect">Return Value: std::pair<bool, std::size_t></div></div>
+            <div class="classRow"><div class="classDesc">This method returns a <code>std::pair&lt;bool, std::size_t&gt;</code>. The first member `bool` indicates if more data can potentially be written to the stream. If the socket was cut or closed then this value will be false. The second member `std::size_t` indicates exactly how many bytes were written to this stream.</div></div>
         </div>
         
         
@@ -613,11 +896,11 @@ int main()
         </div>
         <div class="classBlock">
             
-            <div class="classRow"><div class="classItem">buffer</div><div class="classValue">The buffer data will be written from.</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">char const* buffer</div><div class="classValue">The buffer data will be written from. The size of the buffer. Offset into buffer (and amount size is reduced by) as this amount was written on a previous call).</div></div>
             
-            <div class="classRow"><div class="classItem">size</div><div class="classValue">The size of the buffer.</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">std::size_t size</div><div class="classValue">This method returns a <code>std::pair&lt;bool, std::size_t&gt;</code>. The first member `bool` indicates if more data can potentially be written to the stream. If the socket was cut or closed then this value will be false. The second member `std::size_t` indicates exactly how many bytes were written to this stream. The size of the buffer. Offset into buffer (and amount size is reduced by) as this amount was written on a previous call).</div></div>
             
-            <div class="classRow"><div class="classItem">alreadyPut</div><div class="classValue">Offset into buffer (and amount size is reduced by) as this amount was written on a previous call).</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">std::size_t alreadyPut</div><div class="classValue">Offset into buffer (and amount size is reduced by) as this amount was written on a previous call).</div></div>
             
         </div>
         
@@ -629,17 +912,18 @@ int main()
     
 
     
-    <h4 id="datasocket::putmessageclose">DataSocket::putMessageClose</h4>
+    <h4 id="putmessageclose">putMessageClose</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">putMessageClose</div></div>
-            <div class="classRow"><div class="classDesc">closes the write end of the socket and flushes (write) data</div></div>
+            <div class="classRow"><div class="classDesc">closes the write end of the socket and flushes (write) data.
+</div></div>
         </div>
         
         <div class="classBlock">
-            <div class="classRow"><div class="classSect">Return Value</div></div>
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
             <div class="classRow"><div class="classDesc">closes the write end of the socket and flushes (write) data.</div></div>
         </div>
         
@@ -655,102 +939,48 @@ int main()
     
 
     
-    <h3 id="connectionsocket">ConnectionSocket</h3>
+    <h3 id="connectsocket">ConnectSocket</h3>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ConnectionSocket</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ConnectSocket</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">DataSocket</div></div>
             
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">Creates a connection to <code>host</code> on <code>port</code>.<br>Note this class inherits from <code>DataSocket</code> so once created you can read/write to the socket.</div></div>
-        </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet"></div>
+                        <div class="methodRet"> </div>
                         <div class="methodName">Constructor()</div>
                         <div class="methodMark"></div>
                     </div>
                 
-            </div>
         
         
         
+        </div>
     </div>
 </div>
+<p>Creates a connection to <code>host</code> on <code>port</code>.
+Note this class inherits from <code>DataSocket</code> so once created you can read/write to the socket.
+</p>
 
 
     
     
-
+        
     
-    <h3 id="serversocket">ServerSocket</h3>
+    <h4 id="constructor">Constructor</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ServerSocket</div></div>
-            
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">BaseSocket</div></div>
-            
-        </div>
-        <div class="classBlock">
+            <div class="classRow"><div class="classSect">ConnectSocket</div></div>
             <div class="classRow"><div class="classDesc"></div></div>
-        </div>
-        
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">DataSocket</div>
-                        <div class="methodName">accept()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-            </div>
-        
-        
-        
-    </div>
-</div>
-
-
-    
-    
-        
-    
-    <h4 id="serversocket::accept">serversocket::accept</h4>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">accept</div></div>
-            <div class="classRow"><div class="classDesc">\"Accept\" a waiting connection request on the port and creates a two way socket for communication on another port.<br>If this is a non blocking socket and there is no waiting connection an exception is thrown.<br>If this is a blocking socket wait for a connection<br></div></div>
-        </div>
-        
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">Return Value</div></div>
-            <div class="classRow"><div class="classDesc">A <code>DataSocket</code> is returned so data can be exchange across the socket.</div></div>
         </div>
         
         
@@ -759,7 +989,118 @@ int main()
         </div>
         <div class="classBlock">
             
-            <div class="classRow"><div class="classItem">blocking</div><div class="classValue">Passed to the constructor of the <code>DataSocket</code> that is returned.</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">std::string const& host</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">int port</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+
+    
+
+    
+    <h3 id="serversocket">ServerSocket</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ServerSocket</div><div></div></div>
+            
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">BaseSocket</div></div>
+            
+        
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> DataSocket</div>
+                        <div class="methodName">accept()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p>A server socket that listens on a port for a connection
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">ServerSocket</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">int port</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">bool blocking</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">int maxWaitingConnections</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="accept">accept</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">accept</div></div>
+            <div class="classRow"><div class="classDesc">"Accept" a waiting connection request on the port and creates a two way socket for communication on another port.
+If this is a non blocking socket and there is no waiting connection an exception is thrown.
+If this is a blocking socket wait for a connection.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: DataSocket</div></div>
+            <div class="classRow"><div class="classDesc">A <code>DataSocket</code> is returned so data can be exchange across the socket. Passed to the constructor of the <code>DataSocket</code> that is returned.</div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">bool blocking</div><div class="classValue">Passed to the constructor of the <code>DataSocket</code> that is returned.</div></div>
             
         </div>
         
@@ -779,24 +1120,28 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">SocketStreamBuffer</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/SocketStream.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">SocketStreamBuffer</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">std::streambuffer</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">std::streambuf</div></div>
             
+        
+        
+        
         </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">This is a wrapper class for a <code>DataSocket</code> that allows the socket to be treated like <code>std::streambuf</code>.<br>This class overrides just enough virtual functions to make the <code>ISocketStream</code> and <code>OSocketStream</code> useful.<br>This class provides no public API and is designed to be used solely with the following stream objects.</div></div>
-        </div>
-        
-        
-        
     </div>
 </div>
+<p>This is a wrapper class for a <code>DataSocket</code> that allows the socket to be treated like <code>std::streambuf</code>.
+This class overrides just enough virtual functions to make the <code>ISocketStream</code> and <code>OSocketStream</code> useful.
+This class provides no public API and is designed to be used solely with the following stream objects.
+</p>
 
 
     
+    
+        
+
     
 
     
@@ -805,49 +1150,179 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ISocketStream</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/SocketStream.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ISocketStream</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">std::istream</div></div>
             
+        
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Move-Constructor()</div>
+                        <div class="methodMark">noexcept</div>
+                    </div>
+                
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p>An implementation of <code>std::istream</code> that uses <code>SocketStreamBuffer</code> as the buffer.
+The <code>Notofer</code> is a primitive event callback mechanism.
+A blocking read call to these streams calls the <code>Notifier noData</code>.
+This is used by the <a href="#Server">Server</a> infrastructure to yield control back to the main event loop.
+<code>using Notifier = std::function<void()>;</code>
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">ISocketStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
         </div>
         <div class="classBlock">
-            <div class="classRow"><div class="classDesc">An implementation of <code>std::istream</code> that uses <code>SocketStreamBuffer</code> as the buffer.<br>The <code>Notofer</code> is a primitive event callback mechanism.<br>A blocking read call to these streams calls the <code>Notifier noData</code>. This is used by the <a href="#Server">Server</a> infastructure to yield control back to the main event loop.<br><code>using Notifier = std::function<void()>;</code></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">DataSocket& stream</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Notifier noAvailableData</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Notifier flushing</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">std::vector<char>&& bufData</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">char const* currentStart</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">char const* currentEnd</div><div class="classValue"></div></div>
+            
         </div>
-        
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Move Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-            </div>
-        
-        
         
     </div>
 </div>
 
 
     
+    
+
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">ISocketStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">DataSocket& stream</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Notifier noAvailableData</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Notifier flushing</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">ISocketStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">DataSocket& stream</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="move-constructor">Move-Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">ISocketStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">ISocketStream&& move</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+
     
 
     
@@ -856,49 +1331,136 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Socket.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">OSocketStream</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/SocketStream.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Socket</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">OSocketStream</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">std::ostream</div></div>
             
+        
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Move-Constructor()</div>
+                        <div class="methodMark">noexcept</div>
+                    </div>
+                
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p>An implementation of <code>std::istream</code> that uses <code>SocketStreamBuffer</code> as the buffer.
+The <code>Notofer</code> is a primitive event callback mechanism.
+A blocking read call to these streams calls the <code>Notifier noData</code>.cw
+This is used by the <a href="#Server">Server</a> infrastructure to yield control back to the main event loop.
+<code>using Notifier = std::function<void()>;</code>
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">OSocketStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
         </div>
         <div class="classBlock">
-            <div class="classRow"><div class="classDesc">An implementation of <code>std::ostream</code> that uses <code>SocketStreamBuffer</code> as the buffer.<br>The <code>Notofer</code> is a primitive event callback mechanism.A blocking write call to these streams calls the <code>Notifier noData</code>. This is used by the <a href="#Server">Server</a> infastructure to yield control back to the main event loop.<br><code>using Notifier = std::function<void()>;</code></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">DataSocket& stream</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Notifier noAvailableData</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Notifier flushing</div><div class="classValue"></div></div>
+            
         </div>
-        
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Move Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-            </div>
-        
-        
         
     </div>
 </div>
 
 
     
+    
+
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">OSocketStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">DataSocket& stream</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="move-constructor">Move-Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">OSocketStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">OSocketStream&& move</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+
     
 
 
@@ -984,18 +1546,7 @@ int main()
 <p>A simple wrapper around libEvent.</p>
 <dl>
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Core::Service</dd>
-<dt>Headers:</dt><dd>ThorsNisseCoreService/</dd>
-
-    <dt>Server.h</dt><dd>
-        <ul>
-        
-            <li>ServerConnection </li>
-        
-            <li>Server </li>
-        
-        
-        </ul>
-    </dd>
+<dt>Headers:</dt><dd>ThorsNisseCoreService</dd>
 
     <dt>Handler.h</dt><dd>
         <ul>
@@ -1008,11 +1559,24 @@ int main()
         
             <li>HandlerSuspendable HandlerStream</li>
         
+            <li>HandlerSuspendableWithStream HandlerSuspendable</li>
+        
         
         </ul>
     </dd>
 
-    <dt>ServerHandlers.h</dt><dd>
+    <dt>Server.h</dt><dd>
+        <ul>
+        
+            <li>ServerConnection </li>
+        
+            <li>Server </li>
+        
+        
+        </ul>
+    </dd>
+
+    <dt>ServerHandler.h</dt><dd>
         <ul>
         
             <li>ServerHandler HandlerNonSuspendable</li>
@@ -1030,318 +1594,109 @@ int main()
     
         
     
-    <h3 id="serverconnection">ServerConnection</h3>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Server.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ServerConnection</div></div>
-            
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc"></div></div>
-        </div>
-        
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">int</div>
-                        <div class="methodName">port()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">int</div>
-                        <div class="methodName">maxConnections()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-            </div>
-        
-        
-        
-    </div>
-</div>
-
-
-    
-    
-
-    
-    <h3 id="server">Server</h3>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Server.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Server</div></div>
-            
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc"></div></div>
-        </div>
-        
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Default Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Move Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Move Assignment()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">void</div>
-                        <div class="methodName">start()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">void</div>
-                        <div class="methodName">flagShutDown()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">void</div>
-                        <div class="methodName">listenOn()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">void</div>
-                        <div class="methodName">addTimer()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-            </div>
-        
-        
-        
-    </div>
-</div>
-
-
-    
-    
-        
-    
-    <h4 id="server::start">Server::start</h4>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">start</div></div>
-            <div class="classRow"><div class="classDesc">Starts the event loop.<br>This method does not return immediately. A call to <code>flagShutDown()</code> will cause the event loop to exit after the current iteration.</div></div>
-        </div>
-        
-        
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">Parameters</div></div>
-        </div>
-        <div class="classBlock">
-            
-            <div class="classRow"><div class="classItem">check</div><div class="classValue">Timeout period after which internal house keeping operations are performed.</div></div>
-            
-        </div>
-        
-    </div>
-</div>
-
-
-    
-    
-
-    
-    <h4 id="server::flagshutdown">Server::flagShutDown</h4>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">flagShutDown</div></div>
-            <div class="classRow"><div class="classDesc">Marks the event loop for shut down.<br>After the current iteration of the event loop has finished it will exit. This will cause the `start()` function to return.</div></div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-    
-    
-
-    
-    <h4 id="server::listenon">Server::listenOn</h4>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">listenOn</div></div>
-            <div class="classRow"><div class="classDesc">This is a templatized function. The template type is the type of object that will handle a connection once it has been established.<br>When a connection is accepted and object of the template type is created and passed a reference to the server, stream and `data` (see parameters)<br>The object is marked as listening to the accepted socket and when data is available on the socket the <code>eventActivate()</code> method is called allowing the data to be processed.<br>For more details see <a href="#HandlerBase">HandlerBase</a>.</div></div>
-        </div>
-        
-        
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">Parameters</div></div>
-        </div>
-        <div class="classBlock">
-            
-            <div class="classRow"><div class="classItem">port</div><div class="classValue">The port that is being listen too.</div></div>
-            
-            <div class="classRow"><div class="classItem">data</div><div class="classValue">A reference to an object that is passed to the constructor of the handler type. This allows a state object to be passed to the constructor.</div></div>
-            
-        </div>
-        
-    </div>
-</div>
-
-
-    
-    
-
-    
-    <h4 id="server::addtimer">Server::addTimer</h4>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">addTimer</div></div>
-            <div class="classRow"><div class="classDesc">Sets a timer to go off every `timeOut` seconds.<br>The result of the timmer going off is to execute the functot `action`.</div></div>
-        </div>
-        
-        
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">Parameters</div></div>
-        </div>
-        <div class="classBlock">
-            
-            <div class="classRow"><div class="classItem">timeOut</div><div class="classValue">The time period (in seconds)  between running the action object.</div></div>
-            
-            <div class="classRow"><div class="classItem">action</div><div class="classValue">Functor that is run every `timeOut` seconds.</div></div>
-            
-        </div>
-        
-    </div>
-</div>
-
-
-    
-    
-
-
-    
-
-    
     <h3 id="handlerbase">HandlerBase</h3>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Handler.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerBase</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/Handler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerBase</div><div></div></div>
             
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc"></div></div>
-        </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet"></div>
+                        <div class="methodRet"> </div>
                         <div class="methodName">Constructor()</div>
                         <div class="methodMark"></div>
                     </div>
                 
-            </div>
         
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Protected Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Protected Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet">void</div>
-                        <div class="methodName">dropHAndler()</div>
+                        <div class="methodRet"> void</div>
+                        <div class="methodName">dropHandler()</div>
                         <div class="methodMark"></div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void</div>
                         <div class="methodName">addHandler()</div>
                         <div class="methodMark"></div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void</div>
                         <div class="methodName">moveHandler()</div>
                         <div class="methodMark"></div>
                     </div>
                 
-            </div>
         
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Virtual Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Virtual Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet">short</div>
+                        <div class="methodRet"> short</div>
                         <div class="methodName">eventActivate()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">= 0</div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">bool</div>
+                        <div class="methodRet"> bool </div>
                         <div class="methodName">suspendable()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">= 0</div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">void</div>
-                        <div class="methodName">suspend()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void </div>
                         <div class="methodName">close()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">= 0</div>
                     </div>
                 
-            </div>
+                    <div class="classRow">
+                        <div class="methodRet"> void</div>
+                        <div class="methodName">suspend()</div>
+                        <div class="methodMark">= 0</div>
+                    </div>
+                
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">HandlerBase</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">Server& parent</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">LibSocketId socketId</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">short eventType</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">double timeout</div><div class="classValue"></div></div>
+            
+        </div>
         
     </div>
 </div>
@@ -1349,15 +1704,22 @@ int main()
 
     
     
-        
+
     
-    <h4 id="handlerbase::drophandler">HandlerBase::dropHandler</h4>
+    <h4 id="drophandler">dropHandler</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">dropHandler</div></div>
-            <div class="classRow"><div class="classDesc">When a handler is finished processing events on a stream. It can call dropHandler() to remove itself from the event loop.<br>This is usually done automatically by higher level derived handlers.</div></div>
+            <div class="classRow"><div class="classDesc">When a handler is finished processing events on a stream. It can call dropHandler() to remove itself from the event loop.
+This is usually done automatically by higher level derived handlers.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
         </div>
         
         
@@ -1369,13 +1731,20 @@ int main()
     
 
     
-    <h4 id="handlerbase::addhandler">HandlerBase::addHandler</h4>
+    <h4 id="addhandler">addHandler</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">addHandler</div></div>
-            <div class="classRow"><div class="classDesc">If the handler wants to create other handlers.<br>An example of this is when the SQL handlers are added. They create connections to the SQL server that require their own event handlers.</div></div>
+            <div class="classRow"><div class="classDesc">If the handler wants to create other handlers.
+An example of this is when the SQL handlers are added. They create connections to the SQL server that require their own event handlers.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
         </div>
         
         
@@ -1384,7 +1753,7 @@ int main()
         </div>
         <div class="classBlock">
             
-            <div class="classRow"><div class="classItem">args</div><div class="classValue">Arguments passed to the constructor of the new handler</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">Args&&... args</div><div class="classValue">Arguments passed to the constructor of the new handler.</div></div>
             
         </div>
         
@@ -1396,13 +1765,22 @@ int main()
     
 
     
-    <h4 id="handlerbase::movehandler">HandlerBase::moveHandler</h4>
+    <h4 id="movehandler">moveHandler</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">moveHandler</div></div>
-            <div class="classRow"><div class="classDesc">This is similar to `addHandler()`.<br>The difference is that the current handler will immediately suspend until the created handler complets.<br>When the added handler calles `dropHandler()` control will be returned to the current handler at the point it suspended.<br><br>Note- The current handler must be suspendable (otherwise an exception is thrown).See-  <a href="HandlerBase::suspendable">HandlerBase::suspendable</a></div></div>
+            <div class="classRow"><div class="classDesc">This is similar to `addHandler()`.
+The difference is that the current handler will immediately suspend until the created handler complets.
+When the added handler calls `dropHandler()` control will be returned to the current handler at the point it suspended.
+Note- The current handler must be suspendable (otherwise an exception is thrown).See-  <a href="HandlerBase::suspendable">HandlerBase::suspendable</a>
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
         </div>
         
         
@@ -1411,7 +1789,7 @@ int main()
         </div>
         <div class="classBlock">
             
-            <div class="classRow"><div class="classItem">args</div><div class="classValue">Arguments passed to the constructor of the new handler</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">Args&&... args</div><div class="classValue">Arguments passed to the constructor of the new handler</div></div>
             
         </div>
         
@@ -1423,17 +1801,18 @@ int main()
     
 
     
-    <h4 id="handlerbase::eventactivate">HandlerBase::eventActivate</h4>
+    <h4 id="eventactivate">eventActivate</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">eventActivate</div></div>
-            <div class="classRow"><div class="classDesc">Method called when there is data on the socket.<br></div></div>
+            <div class="classRow"><div class="classDesc">Method called when there is data on the socket.
+</div></div>
         </div>
         
         <div class="classBlock">
-            <div class="classRow"><div class="classSect">Return Value</div></div>
+            <div class="classRow"><div class="classSect">Return Value: short</div></div>
             <div class="classRow"><div class="classDesc">Return the type of event that you can next process on this stream- EV_READ or EV_WRITE or (EV_READ | EV_WITE)</div></div>
         </div>
         
@@ -1443,9 +1822,9 @@ int main()
         </div>
         <div class="classBlock">
             
-            <div class="classRow"><div class="classItem">sockId</div><div class="classValue">The socket with data available on it.</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">LibSocketId sockId</div><div class="classValue">The socket with data available on it.</div></div>
             
-            <div class="classRow"><div class="classItem">eventType</div><div class="classValue">The type of event that caused this handler to be triggered (EV_READ | EV_WRITE)</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">short eventType</div><div class="classValue">The type of event that caused this handler to be triggered (EV_READ | EV_WRITE)</div></div>
             
         </div>
         
@@ -1457,13 +1836,20 @@ int main()
     
 
     
-    <h4 id="handlerbase::suspendable">HandlerBase::suspendable</h4>
+    <h4 id="suspendable">suspendable</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">suspendable</div></div>
-            <div class="classRow"><div class="classDesc">Return true if the handler is suspendable and false otherwise.<br>It is best to inherit from `HandlerNonSuspendable` or aHandlerNonSuspendable` rather than implement this yourself.</div></div>
+            <div class="classRow"><div class="classDesc">Return true if the handler is suspendable and false otherwise.
+It is best to inherit from `HandlerNonSuspendable` or aHandlerNonSuspendable` rather than implement this yourself.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: bool</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
         </div>
         
         
@@ -1475,13 +1861,45 @@ int main()
     
 
     
-    <h4 id="handlerbase::suspend">HandlerBase::suspend</h4>
+    <h4 id="close">close</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">close</div></div>
+            <div class="classRow"><div class="classDesc">Close the stream associated with this handler.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="suspend">suspend</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">suspend</div></div>
-            <div class="classRow"><div class="classDesc">Suspend the execution of this class until `type` (EV_READ | EV_WRITE) is available for this socket.<br>This basically returns control to the main event loop until data is available. This is used by the stream handlers to return control to the main event loop if they would block when reading     from a stream.</div></div>
+            <div class="classRow"><div class="classDesc">Suspend the execution of this class until `type` (EV_READ | EV_WRITE) is available for this socket.
+This basically returns control to the main event loop until data is available.
+This is used by the stream handlers to return control to the main event loop if they would block when reading from a stream.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
         </div>
         
         
@@ -1490,50 +1908,9 @@ int main()
         </div>
         <div class="classBlock">
             
-            <div class="classRow"><div class="classItem">type</div><div class="classValue">the type of event we are wiaitng for</div></div>
+            <div class="classRow">&nbsp;<div class="classItem">short type</div><div class="classValue">The type of event we are waiting for.</div></div>
             
         </div>
-        
-    </div>
-</div>
-
-
-    
-    
-
-    
-    <h4 id="handlerbase::close">HandlerBase::close</h4>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">close</div></div>
-            <div class="classRow"><div class="classDesc">Close the stream associated with this handler</div></div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-    
-    
-
-    
-    <h4 id="handlerbase::eventactivatenonblocking">HandlerBase::eventActivateNonBlocking</h4>
-    
-        <div class="classTable">
-    <div class="classLayout">
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">eventActivateNonBlocking</div></div>
-            <div class="classRow"><div class="classDesc">Called by eventActivate() to start processing of the stream.<br>If a blocking operation is about to be performed this method should call `suspend()` to return control to the main event loop.</div></div>
-        </div>
-        
-        <div class="classBlock">
-            <div class="classRow"><div class="classSect">Return Value</div></div>
-            <div class="classRow"><div class="classDesc">Return true to cause the handler to be re-used.<br>Return false to not drop the handler. This is used if something clever is happening.</div></div>
-        </div>
-        
         
     </div>
 </div>
@@ -1551,36 +1928,91 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Handler.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerStream</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/Handler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerStream</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerBase</div></div>
             
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">This class is templatized based on the type of stream the socket represents.<br>The class basically defines a common class for holding the stream object and how to close it when requried.</div></div>
-        </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet"></div>
+                        <div class="methodRet"> </div>
                         <div class="methodName">Constructor()</div>
                         <div class="methodMark"></div>
                     </div>
                 
+        
+        
+        
+                <div class="classRow"><div class="classSect">Virtual Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
                     <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void </div>
                         <div class="methodName">close()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">override</div>
                     </div>
                 
-            </div>
         
+        </div>
+    </div>
+</div>
+<p>This class is templatized based on the type of stream the socket represents.
+The class basically defines a common class for holding the stream object and how to close it when required.
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">HandlerStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">Server& parent</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Stream&& stream</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">short eventType</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">double timeout</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="close">close</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">close</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
         
         
     </div>
@@ -1588,6 +2020,9 @@ int main()
 
 
     
+    
+
+
     
 
     
@@ -1596,42 +2031,87 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Handler.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerNonSuspendable</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/Handler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerNonSuspendable</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerStream</div></div>
             
+        
+        
+        
+                <div class="classRow"><div class="classSect">Virtual Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> void</div>
+                        <div class="methodName">suspend()</div>
+                        <div class="methodMark">final</div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> bool</div>
+                        <div class="methodName">suspendable()</div>
+                        <div class="methodMark">final</div>
+                    </div>
+                
+        
+        </div>
+    </div>
+</div>
+<p>Defines `suspendable()` and `suspend()` for a class that is non suspendable.
+This is used by some of there server built in handlers that must complete. It is unlikely that this will be useful for a user defined handler.
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="suspend">suspend</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">suspend</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
         </div>
         <div class="classBlock">
-            <div class="classRow"><div class="classDesc">Defines `suspendable()` and `suspend()` for a class that is non suspendable.<br>This is used by some of ther server built in handlers that must complete. It is unlikely that this will be useful for a user defined handler.</div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem"> short</div><div class="classValue"></div></div>
+            
         </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
-                
-                    <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">bool</div>
-                        <div class="methodName">suspendable()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">void</div>
-                        <div class="methodName">suspend()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-            </div>
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="suspendable">suspendable</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">suspendable</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
         
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: bool</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
         
         
     </div>
@@ -1639,6 +2119,9 @@ int main()
 
 
     
+    
+
+
     
 
     
@@ -1647,62 +2130,92 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Handler.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerSuspendable</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/Handler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerSuspendable</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerStream</div></div>
             
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">Defines a handler that is suspendable.<br>Implements `suspendable`, `suspsend()` and `eventActivate()` as these all work together to define a class that can be suspended.<br>The method `eventActivateNonBlocking()` should be overwridden by derived classes to provide functionaliy.</div></div>
-        </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet"></div>
+                        <div class="methodRet"> </div>
                         <div class="methodName">Constructor()</div>
                         <div class="methodMark"></div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">bool</div>
-                        <div class="methodName">suspendable()</div>
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
                         <div class="methodMark"></div>
                     </div>
                 
+        
+        
+        
+                <div class="classRow"><div class="classSect">Virtual Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
                     <div class="classRow">
-                        <div class="methodRet">void</div>
+                        <div class="methodRet"> void</div>
                         <div class="methodName">suspend()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">final</div>
                     </div>
                 
                     <div class="classRow">
-                        <div class="methodRet">short</div>
+                        <div class="methodRet"> bool</div>
+                        <div class="methodName">suspendable()</div>
+                        <div class="methodMark">final</div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> short</div>
                         <div class="methodName">eventActivate()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">final</div>
                     </div>
-                
-            </div>
-        
-        
-        
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Virtual Members:</div></div>
-            </div>
-            <div class="classBlock">
                 
                     <div class="classRow">
-                        <div class="methodRet">bool</div>
+                        <div class="methodRet"> bool</div>
                         <div class="methodName">eventActivateNonBlocking()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">= 0</div>
                     </div>
                 
-            </div>
+        
+        </div>
+    </div>
+</div>
+<p>Defines a handler that is suspendable.
+Implements `suspendable`, `suspsend()` and `eventActivate()` as these all work together to define a class that can be suspended.
+The method `eventActivateNonBlocking()` should be overridden by derived classes to provide functionally.
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">HandlerSuspendable</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">Server& parent</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Stream&& stream</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">short eventType</div><div class="classValue"></div></div>
+            
+        </div>
         
     </div>
 </div>
@@ -1710,20 +2223,145 @@ int main()
 
     
     
-        
+
     
-    <h4 id="handlersuspendable::eventactivate">HandlerSuspendable::eventActivate</h4>
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">HandlerSuspendable</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">Server& parent</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Stream&& stream</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">short eventType</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">short firstEvent</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="suspend">suspend</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">suspend</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">short type</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="suspendable">suspendable</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">suspendable</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: bool</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="eventactivate">eventActivate</h4>
     
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
             <div class="classRow"><div class="classSect">eventActivate</div></div>
-            <div class="classRow"><div class="classDesc">On first call will start the method `eventActivateNonBlocking()`. This method may suspend itself by calling `suspend()`.<br>On subsequent calls will resume `eventActivateNonBlocking()` at the point where `suspend()` was called.<br>If `eventActivateNonBlocking()` returns true then `dropHandler()` is called to remove this handler as processing is complete.<br></div></div>
+            <div class="classRow"><div class="classDesc">On first call will start the method `eventActivateNonBlocking()`. This method may suspend itself by calling `suspend()`.
+On subsequent calls will resume `eventActivateNonBlocking()` at the point where `suspend()` was called.
+If `eventActivateNon Blocking()` returns true then `dropHandler()` is called to remove this handler as processing is complete.
+</div></div>
         </div>
         
         <div class="classBlock">
-            <div class="classRow"><div class="classSect">Return Value</div></div>
-            <div class="classRow"><div class="classDesc">This method returns the type of socket event that should be listend for in the main event loop.</div></div>
+            <div class="classRow"><div class="classSect">Return Value: short</div></div>
+            <div class="classRow"><div class="classDesc">This method returns the type of socket event that should be listened for in the main event loop.</div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">LibSocketId sockId</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">short eventType</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="eventactivatenonblocking">eventActivateNonBlocking</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">eventActivateNonBlocking</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: bool</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
         </div>
         
         
@@ -1743,56 +2381,447 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/Handler.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerSuspendableWithStream</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/Handler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerSuspendableWithStream</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerSuspendable</div></div>
             
-        </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">An implementation of `eventActivateNonBlocking()` that creates input and output stream objects.<br>These stream objects will call `suspend()` if they are about to perform a blocking operation on the underlying socket.<br><br>Thus we have transparently non-blocking streams.</div></div>
-        </div>
         
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Public Members:</div></div>
-            </div>
-            <div class="classBlock">
+        
+        
+                <div class="classRow"><div class="classSect">Virtual Members:</div><div class="classValue"></div><div class="classValue"></div></div>
                 
                     <div class="classRow">
-                        <div class="methodRet"></div>
-                        <div class="methodName">Constructor()</div>
-                        <div class="methodMark"></div>
-                    </div>
-                
-                    <div class="classRow">
-                        <div class="methodRet">bool</div>
+                        <div class="methodRet"> bool</div>
                         <div class="methodName">eventActivateNonBlocking()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">final</div>
                     </div>
-                
-            </div>
-        
-        
-        
-            <div class="classBlock">
-                <div class="classRow"><div class="classSect">Virtual Members:</div></div>
-            </div>
-            <div class="classBlock">
                 
                     <div class="classRow">
-                        <div class="methodRet">bool</div>
+                        <div class="methodRet"> bool</div>
                         <div class="methodName">eventActivateWithStream()</div>
-                        <div class="methodMark"></div>
+                        <div class="methodMark">= 0</div>
                     </div>
                 
-            </div>
+        
+        </div>
+    </div>
+</div>
+<p>An implementation of `eventActivateNonBlocking()` that creates input and output stream objects.
+These stream objects will call `suspend()` if they are about to perform a blocking operation on the underlying socket.
+
+Thus we have transparently non-blocking streams.
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="eventactivatenonblocking">eventActivateNonBlocking</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">eventActivateNonBlocking</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: bool</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
         
     </div>
 </div>
 
 
     
+    
+
+    
+    <h4 id="eventactivatewithstream">eventActivateWithStream</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">eventActivateWithStream</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: bool</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">std::istream& input</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">std::ostream& output</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+
+    
+
+    
+    <h3 id="serverconnection">ServerConnection</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/Server.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ServerConnection</div><div></div></div>
+            
+        
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p>Used to simplify the definition of a port.
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="constructor">Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">ServerConnection</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">int port</div><div class="classValue"></div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">int maxConnections</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+
+    
+
+    
+    <h3 id="server">Server</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/Server.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Server</div><div></div></div>
+            
+        
+                <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Default-Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> </div>
+                        <div class="methodName">Move-Constructor()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> Server&</div>
+                        <div class="methodName">Move-Assignment()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> void</div>
+                        <div class="methodName">start()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> void</div>
+                        <div class="methodName">flagShutDown()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> void</div>
+                        <div class="methodName">listenOn()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+                    <div class="classRow">
+                        <div class="methodRet"> void</div>
+                        <div class="methodName">addTimer()</div>
+                        <div class="methodMark"></div>
+                    </div>
+                
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p>An object that acts as the main server event loop.
+One of these objects can handle all the ports your application requires
+</p>
+
+
+    
+    
+        
+    
+    <h4 id="default-constructor">Default-Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Server</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="move-constructor">Move-Constructor</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Server</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem"> Server&&</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="move-assignment">Move-Assignment</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">operator=</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: Server&</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem"> Server&&</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="start">start</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">start</div></div>
+            <div class="classRow"><div class="classDesc">Starts the event loop.
+This method does not return immediately. A call to <code>flagShutDown()</code> will cause the event loop to exit after the current iteration.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">double check</div><div class="classValue"></div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="flagshutdown">flagShutDown</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">flagShutDown</div></div>
+            <div class="classRow"><div class="classDesc">Marks the event loop for shut down.
+After the current iteration of the event loop has finished it will exit. This will cause the `start()` function to return.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="listenon">listenOn</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">listenOn</div></div>
+            <div class="classRow"><div class="classDesc">This is a templatized function. The template type is the type of object that will handle a connection once it has been established.
+When a connection is accepted and object of the template type is created and passed a reference to the server, stream and `data` (see parameters).
+The object is marked as listening to the accepted socket and when data is available on the socket the <code>eventActivate()</code> method is called allowing the data to be processed.
+For more details see <a href="#HandlerBase">HandlerBase</a>.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">ServerConnection const& info</div><div class="classValue">The port that is being listen too.</div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">Param& param</div><div class="classValue">A reference to an object that is passed to the constructor of the handler type. This allows a state object to be passed to the constructor.</div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+    
+    <h4 id="addtimer">addTimer</h4>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">addTimer</div></div>
+            <div class="classRow"><div class="classDesc">Sets a timer to go off every `timeOut` seconds.
+The result of the timmer going off is to execute the functot `action`.
+</div></div>
+        </div>
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Return Value: void</div></div>
+            <div class="classRow"><div class="classDesc"></div></div>
+        </div>
+        
+        
+        <div class="classBlock">
+            <div class="classRow"><div class="classSect">Parameters</div></div>
+        </div>
+        <div class="classBlock">
+            
+            <div class="classRow">&nbsp;<div class="classItem">double timeOut</div><div class="classValue">The time period (in seconds) between running the action object. Functor that is run every `timeOut` seconds.</div></div>
+            
+            <div class="classRow">&nbsp;<div class="classItem">std::function<void()>&& action</div><div class="classValue">The time period (in seconds) between running the action object. Functor that is run every `timeOut` seconds.</div></div>
+            
+        </div>
+        
+    </div>
+</div>
+
+
+    
+    
+
+
     
 
     
@@ -1801,24 +2830,26 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/ServerHandlers.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ServerHandler</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/ServerHandler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ServerHandler</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerNonSuspendable</div></div>
             
+        
+        
+        
         </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">An implementation of HandlerNonSuspendable that is used to accept connections and create other handlers.</div></div>
-        </div>
-        
-        
-        
     </div>
 </div>
+<p>An implementation of HandlerNonSuspendable that is used to accept connections and create other handlers.
+</p>
 
 
     
+    
+        
+
     
 
     
@@ -1827,24 +2858,26 @@ int main()
         <div class="classTable">
     <div class="classLayout">
         <div class="classBlock">
-            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreSocket/ServerHandlers.h</div></div>
-            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div></div>
-            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">TimerHandler</div></div>
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseCoreService/ServerHandler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">TimerHandler</div><div></div></div>
             
             <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerNonSuspendable</div></div>
             
+        
+        
+        
         </div>
-        <div class="classBlock">
-            <div class="classRow"><div class="classDesc">An implementation of HandlerNonSuspendable that is used to implement the timer functionality.</div></div>
-        </div>
-        
-        
-        
     </div>
 </div>
+<p>An implementation of HandlerNonSuspendable that is used to implement the timer functionality.
+</p>
 
 
     
+    
+        
+
     
 
 
@@ -2116,7 +3149,7 @@ class Response
 <p>An implementation of the HTTP protocol</p>
 <dl>
 <dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Protocol::HTTP</dd>
-<dt>Headers:</dt><dd>ThorsNisseProtocolHTTP/</dd>
+<dt>Headers:</dt><dd>ThorsNisseProtocolHTTP</dd>
 
     <dt>Binder.h</dt><dd>
         <ul>
@@ -2161,7 +3194,7 @@ class Response
         
             <li>HttpParserData </li>
         
-            <li>HttpParserData </li>
+            <li>HttpScanner </li>
         
         
         </ul>
@@ -2198,6 +3231,338 @@ class Response
 
     
     
+        
+    
+    <h3 id="site">Site</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Binder.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Site</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="binder">Binder</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Binder.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Binder</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="developerhandler">DeveloperHandler</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/DeveloperHandler.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">DeveloperHandler</div><div></div></div>
+            
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">Core::Service::HandlerNonSuspendable</div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="dynamicsiteloader">DynamicSiteLoader</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/DynamicSiteLoader.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">DynamicSiteLoader</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="readrequesthandler">ReadRequestHandler</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/HTTPProtocol.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ReadRequestHandler</div><div></div></div>
+            
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">Core::Service::HandlerSuspendable</div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="httpparserdata">HttpParserData</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/HttpScanner.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HttpParserData</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="httpscanner">HttpScanner</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/HttpScanner.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HttpScanner</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="route">Route</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Route.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Route</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="routetester">RouteTester</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Route.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">RouteTester</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="headers">Headers</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Types.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Headers</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="uri">URI</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Types.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">URI</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="request">Request</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Types.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Request</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+    
+    <h3 id="response">Response</h3>
+    
+        <div class="classTable">
+    <div class="classLayout">
+        <div class="classBlock">
+            <div class="classRow"><div class="classItem">Header:   </div><div class="classValue">ThorsNisseProtocolHTTP/Types.h</div><div></div></div>
+            <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
+            <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">Response</div><div></div></div>
+            
+        
+        
+        
+        </div>
+    </div>
+</div>
+<p></p>
+
+
+    
+    
+        
+
+    
+
+
+    
 
 
     
@@ -2214,6 +3579,12 @@ class Response
     <h2 id="addbeer">AddBeer</h2>
     
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+<dl>
+<dt>NameSpace:</dt><dd>ThorsAnvil::Nisse::Example::AddBeer</dd>
+<dt>Headers:</dt><dd>ThorsNisseExampleAddBeer/</dd>
+
+</dl>
+
 
     
     
