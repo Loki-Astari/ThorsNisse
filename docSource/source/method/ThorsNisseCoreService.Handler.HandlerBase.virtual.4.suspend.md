@@ -10,8 +10,8 @@ methodInfo:
         This basically returns control to the main event loop until data is available.
         This is used by the stream handlers to return control to the main event loop if they would block when reading from a stream.
     return:
-        type: ' void'
-        description: ''
+        type: 'void'
+        description: 
     parameters:
         - name: type
           type: 'short'

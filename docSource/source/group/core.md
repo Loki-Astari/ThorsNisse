@@ -3,11 +3,11 @@ layout: plain
 generate: false
 children:
     -   name:   Utility
-        value:  core.utility.md
+        value:  ThorsNisseCoreUtility.md
     -   name:   Socket
-        value:  core.socket.md
+        value:  ThorsNisseCoreSocket.md
     -   name:   Service
-        value:  core.service.md
+        value:  ThorsNisseCoreService.md
     -   name:   SQL
-        value:  core.sql.md
+        value:  ThorsNisseCoreSQL.md
 ---

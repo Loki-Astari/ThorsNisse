@@ -7,15 +7,15 @@ methodInfo:
     mark:  = 0
     description: 
     return:
-        type: ' bool'
-        description: ''
+        type: 'bool'
+        description: 
     parameters:
         - name: input
           type: 'std::istream&'
           default: 
-          description: ''
+          description: 
         - name: output
           type: 'std::ostream&'
           default: 
-          description: ''
+          description: 
 ---

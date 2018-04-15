@@ -7,23 +7,23 @@ methodInfo:
     mark:  
     description: 
     return:
-        type: '        '
-        description: ''
+        type: 
+        description: 
     parameters:
         - name: parent
           type: 'Server&'
           default: 
-          description: ''
+          description: 
         - name: stream
           type: 'Stream&&'
           default: 
-          description: ''
+          description: 
         - name: eventType
           type: 'short'
           default: 
-          description: ''
+          description: 
         - name: timeout
           type: 'double'
           default:  0
-          description: ''
+          description: 
 ---

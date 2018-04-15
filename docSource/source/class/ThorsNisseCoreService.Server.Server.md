@@ -42,17 +42,17 @@ typeInfo:
     virtual: []
 children:
     - name: Default-Constructor
-      value: ThorsNisseCoreService.Server.methods.1.md
+      value: ThorsNisseCoreService.Server.Server.methods.1.Default-Constructor.md
     - name: Move-Constructor
-      value: ThorsNisseCoreService.Server.methods.2.md
+      value: ThorsNisseCoreService.Server.Server.methods.2.Move-Constructor.md
     - name: Move-Assignment
-      value: ThorsNisseCoreService.Server.methods.3.md
+      value: ThorsNisseCoreService.Server.Server.methods.3.Move-Assignment.md
     - name: start
-      value: ThorsNisseCoreService.Server.methods.4.md
+      value: ThorsNisseCoreService.Server.Server.methods.4.start.md
     - name: flagShutDown
-      value: ThorsNisseCoreService.Server.methods.5.md
+      value: ThorsNisseCoreService.Server.Server.methods.5.flagShutDown.md
     - name: listenOn
-      value: ThorsNisseCoreService.Server.methods.6.md
+      value: ThorsNisseCoreService.Server.Server.methods.6.listenOn.md
     - name: addTimer
-      value: ThorsNisseCoreService.Server.methods.7.md
+      value: ThorsNisseCoreService.Server.Server.methods.7.addTimer.md
 ---

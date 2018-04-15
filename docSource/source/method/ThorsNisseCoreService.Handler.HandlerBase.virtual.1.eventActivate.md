@@ -8,7 +8,7 @@ methodInfo:
     description:  |
         Method called when there is data on the socket.
     return:
-        type: ' short'
+        type: 'short'
         description: 'Return the type of event that you can next process on this stream- EV_READ or EV_WRITE or (EV_READ | EV_WITE)'
     parameters:
         - name: sockId

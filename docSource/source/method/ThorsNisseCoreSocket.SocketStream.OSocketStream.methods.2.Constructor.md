@@ -7,11 +7,11 @@ methodInfo:
     mark:  
     description: 
     return:
-        type: '        '
-        description: ''
+        type: 
+        description: 
     parameters:
         - name: stream
           type: 'DataSocket&'
           default: 
-          description: ''
+          description: 
 ---

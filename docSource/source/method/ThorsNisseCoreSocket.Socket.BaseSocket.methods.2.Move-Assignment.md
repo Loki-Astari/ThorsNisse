@@ -7,11 +7,11 @@ methodInfo:
     mark:  noexcept
     description: 
     return:
-        type: ' BaseSocket&'
-        description: ''
+        type: 'BaseSocket&'
+        description: 
     parameters:
         - name: move
           type: 'BaseSocket&&'
           default: 
-          description: ''
+          description: 
 ---

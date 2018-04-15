@@ -39,15 +39,15 @@ typeInfo:
           mark:  = 0
 children:
     - name: Constructor
-      value: ThorsNisseCoreService.HandlerSuspendable.methods.1.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendable.methods.1.Constructor.md
     - name: Constructor
-      value: ThorsNisseCoreService.HandlerSuspendable.methods.2.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendable.methods.2.Constructor.md
     - name: suspend
-      value: ThorsNisseCoreService.HandlerSuspendable.virtual.1.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendable.virtual.1.suspend.md
     - name: suspendable
-      value: ThorsNisseCoreService.HandlerSuspendable.virtual.2.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendable.virtual.2.suspendable.md
     - name: eventActivate
-      value: ThorsNisseCoreService.HandlerSuspendable.virtual.3.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendable.virtual.3.eventActivate.md
     - name: eventActivateNonBlocking
-      value: ThorsNisseCoreService.HandlerSuspendable.virtual.4.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendable.virtual.4.eventActivateNonBlocking.md
 ---

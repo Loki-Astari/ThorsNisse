@@ -29,9 +29,9 @@ typeInfo:
     virtual: []
 children:
     - name: Constructor
-      value: ThorsNisseCoreSocket.OSocketStream.methods.1.md
+      value: ThorsNisseCoreSocket.SocketStream.OSocketStream.methods.1.Constructor.md
     - name: Constructor
-      value: ThorsNisseCoreSocket.OSocketStream.methods.2.md
+      value: ThorsNisseCoreSocket.SocketStream.OSocketStream.methods.2.Constructor.md
     - name: Move-Constructor
-      value: ThorsNisseCoreSocket.OSocketStream.methods.3.md
+      value: ThorsNisseCoreSocket.SocketStream.OSocketStream.methods.3.Move-Constructor.md
 ---

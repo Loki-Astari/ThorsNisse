@@ -33,11 +33,11 @@ typeInfo:
     virtual: []
 children:
     - name: Constructor
-      value: ThorsNisseCoreSocket.ISocketStream.methods.1.md
+      value: ThorsNisseCoreSocket.SocketStream.ISocketStream.methods.1.Constructor.md
     - name: Constructor
-      value: ThorsNisseCoreSocket.ISocketStream.methods.2.md
+      value: ThorsNisseCoreSocket.SocketStream.ISocketStream.methods.2.Constructor.md
     - name: Constructor
-      value: ThorsNisseCoreSocket.ISocketStream.methods.3.md
+      value: ThorsNisseCoreSocket.SocketStream.ISocketStream.methods.3.Constructor.md
     - name: Move-Constructor
-      value: ThorsNisseCoreSocket.ISocketStream.methods.4.md
+      value: ThorsNisseCoreSocket.SocketStream.ISocketStream.methods.4.Move-Constructor.md
 ---

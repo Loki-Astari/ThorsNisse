@@ -7,11 +7,11 @@ methodInfo:
     mark:  noexcept
     description: 
     return:
-        type: '        '
-        description: ''
+        type: 
+        description: 
     parameters:
         - name: move
           type: 'OSocketStream&&'
           default: 
-          description: ''
+          description: 
 ---

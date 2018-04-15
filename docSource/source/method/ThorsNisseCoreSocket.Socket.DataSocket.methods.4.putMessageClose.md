@@ -8,7 +8,7 @@ methodInfo:
     description:  |
         closes the write end of the socket and flushes (write) data.
     return:
-        type: ' void       '
+        type: 'void'
         description: 'closes the write end of the socket and flushes (write) data.'
     parameters: []
 ---

@@ -21,7 +21,7 @@ typeInfo:
     virtual: []
 children:
     - name: Constructor
-      value: ThorsNisseCoreSocket.ServerSocket.methods.1.md
+      value: ThorsNisseCoreSocket.Socket.ServerSocket.methods.1.Constructor.md
     - name: accept
-      value: ThorsNisseCoreSocket.ServerSocket.methods.2.md
+      value: ThorsNisseCoreSocket.Socket.ServerSocket.methods.2.accept.md
 ---

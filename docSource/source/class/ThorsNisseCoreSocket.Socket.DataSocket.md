@@ -30,11 +30,11 @@ typeInfo:
     virtual: []
 children:
     - name: Constructor
-      value: ThorsNisseCoreSocket.DataSocket.methods.1.md
+      value: ThorsNisseCoreSocket.Socket.DataSocket.methods.1.Constructor.md
     - name: getMessageData
-      value: ThorsNisseCoreSocket.DataSocket.methods.2.md
+      value: ThorsNisseCoreSocket.Socket.DataSocket.methods.2.getMessageData.md
     - name: putMessageData
-      value: ThorsNisseCoreSocket.DataSocket.methods.3.md
+      value: ThorsNisseCoreSocket.Socket.DataSocket.methods.3.putMessageData.md
     - name: putMessageClose
-      value: ThorsNisseCoreSocket.DataSocket.methods.4.md
+      value: ThorsNisseCoreSocket.Socket.DataSocket.methods.4.putMessageClose.md
 ---

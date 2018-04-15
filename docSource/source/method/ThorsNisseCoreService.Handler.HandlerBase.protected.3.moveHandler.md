@@ -11,8 +11,8 @@ methodInfo:
         When the added handler calls `dropHandler()` control will be returned to the current handler at the point it suspended.
         Note- The current handler must be suspendable (otherwise an exception is thrown).See-  <a href="HandlerBase::suspendable">HandlerBase::suspendable</a>
     return:
-        type: ' void'
-        description: ''
+        type: 'void'
+        description: 
     parameters:
         - name: args
           type: 'Args&&...'

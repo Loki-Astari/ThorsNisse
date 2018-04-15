@@ -7,7 +7,7 @@ methodInfo:
     mark:  
     description: 
     return:
-        type: ' void'
-        description: ''
+        type: 'void'
+        description: 
     parameters: []
 ---

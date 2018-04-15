@@ -22,7 +22,7 @@ typeInfo:
           mark:  final
 children:
     - name: suspend
-      value: ThorsNisseCoreService.HandlerNonSuspendable.virtual.1.md
+      value: ThorsNisseCoreService.Handler.HandlerNonSuspendable.virtual.1.suspend.md
     - name: suspendable
-      value: ThorsNisseCoreService.HandlerNonSuspendable.virtual.2.md
+      value: ThorsNisseCoreService.Handler.HandlerNonSuspendable.virtual.2.suspendable.md
 ---

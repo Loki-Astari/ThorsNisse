@@ -10,15 +10,15 @@ methodInfo:
         On subsequent calls will resume `eventActivateNonBlocking()` at the point where `suspend()` was called.
         If `eventActivateNon Blocking()` returns true then `dropHandler()` is called to remove this handler as processing is complete.
     return:
-        type: ' short'
+        type: 'short'
         description: 'This method returns the type of socket event that should be listened for in the main event loop.'
     parameters:
         - name: sockId
           type: 'LibSocketId'
           default: 
-          description: ''
+          description: 
         - name: eventType
           type: 'short'
           default: 
-          description: ''
+          description: 
 ---

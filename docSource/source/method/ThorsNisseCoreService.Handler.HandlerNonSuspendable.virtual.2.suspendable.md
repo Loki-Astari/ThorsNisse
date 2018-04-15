@@ -7,7 +7,7 @@ methodInfo:
     mark:  final 
     description: 
     return:
-        type: ' bool'
-        description: ''
+        type: 'bool'
+        description: 
     parameters: []
 ---

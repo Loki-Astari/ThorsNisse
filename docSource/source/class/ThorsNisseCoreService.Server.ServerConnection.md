@@ -17,7 +17,7 @@ typeInfo:
     virtual: []
 children:
     - name: Constructor
-      value: ThorsNisseCoreService.ServerConnection.methods.1.md
+      value: ThorsNisseCoreService.Server.ServerConnection.methods.1.Constructor.md
 ---
 ```cpp
     Serv::Server      server;

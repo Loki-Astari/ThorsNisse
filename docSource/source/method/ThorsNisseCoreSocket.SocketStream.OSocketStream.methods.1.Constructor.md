@@ -7,19 +7,19 @@ methodInfo:
     mark:  
     description: 
     return:
-        type: '        '
-        description: ''
+        type: 
+        description: 
     parameters:
         - name: stream
           type: 'DataSocket&'
           default: 
-          description: ''
+          description: 
         - name: noAvailableData
           type: 'Notifier'
           default: 
-          description: ''
+          description: 
         - name: flushing
           type: 'Notifier'
           default: 
-          description: ''
+          description: 
 ---

@@ -7,7 +7,7 @@ methodInfo:
     mark:  
     description: 
     return:
-        type: '        '
-        description: ''
+        type: 
+        description: 
     parameters: []
 ---

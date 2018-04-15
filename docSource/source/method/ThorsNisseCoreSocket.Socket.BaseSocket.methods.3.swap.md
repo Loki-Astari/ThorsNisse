@@ -7,11 +7,11 @@ methodInfo:
     mark:  noexcept
     description: 
     return:
-        type: ' void'
-        description: ''
+        type: 'void'
+        description: 
     parameters:
         - name: other
           type: 'BaseSocket&'
           default: 
-          description: ''
+          description: 
 ---

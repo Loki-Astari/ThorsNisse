@@ -44,19 +44,19 @@ typeInfo:
           mark:  = 0
 children:
     - name: Constructor
-      value: ThorsNisseCoreService.HandlerBase.methods.1.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.methods.1.Constructor.md
     - name: dropHandler
-      value: ThorsNisseCoreService.HandlerBase.protected.1.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.protected.1.dropHandler.md
     - name: addHandler
-      value: ThorsNisseCoreService.HandlerBase.protected.2.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.protected.2.addHandler.md
     - name: moveHandler
-      value: ThorsNisseCoreService.HandlerBase.protected.3.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.protected.3.moveHandler.md
     - name: eventActivate
-      value: ThorsNisseCoreService.HandlerBase.virtual.1.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.virtual.1.eventActivate.md
     - name: suspendable
-      value: ThorsNisseCoreService.HandlerBase.virtual.2.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.virtual.2.suspendable.md
     - name: close
-      value: ThorsNisseCoreService.HandlerBase.virtual.3.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.virtual.3.close.md
     - name: suspend
-      value: ThorsNisseCoreService.HandlerBase.virtual.4.md
+      value: ThorsNisseCoreService.Handler.HandlerBase.virtual.4.suspend.md
 ---

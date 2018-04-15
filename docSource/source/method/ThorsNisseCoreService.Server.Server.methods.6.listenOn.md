@@ -11,8 +11,8 @@ methodInfo:
         The object is marked as listening to the accepted socket and when data is available on the socket the <code>eventActivate()</code> method is called allowing the data to be processed.
         For more details see <a href="#HandlerBase">HandlerBase</a>.
     return:
-        type: ' void'
-        description: ''
+        type: 'void'
+        description: 
     parameters:
         - name: info
           type: 'ServerConnection const&'

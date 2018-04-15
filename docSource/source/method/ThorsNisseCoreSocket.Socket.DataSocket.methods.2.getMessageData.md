@@ -10,7 +10,7 @@ methodInfo:
         If the stream is blocking will not return until the requested amount of data has been read or there is no more data to read.
         If the stream in non blocking will return if the read operation would block.
     return:
-        type: ' std::pair<bool, std::size_t>'
+        type: 'std::pair<bool, std::size_t>'
         description: 'This method returns a <code>std::pair&lt;bool, std::size_t&gt;</code>. The first member `bool` indicates if more data can potentially be read from the stream. If the socket was cut or the EOF reached then this value will be false. The second member `std::size_t` indicates exactly how many bytes were read from this stream.'
     parameters:
         - name: buffer

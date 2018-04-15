@@ -22,7 +22,7 @@ typeInfo:
           mark:  override
 children:
     - name: Constructor
-      value: ThorsNisseCoreService.HandlerStream.methods.1.md
+      value: ThorsNisseCoreService.Handler.HandlerStream.methods.1.Constructor.md
     - name: close
-      value: ThorsNisseCoreService.HandlerStream.virtual.1.md
+      value: ThorsNisseCoreService.Handler.HandlerStream.virtual.1.close.md
 ---

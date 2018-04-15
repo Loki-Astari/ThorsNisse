@@ -8,7 +8,7 @@ methodInfo:
     description:  |
         Close the stream associated with this handler.
     return:
-        type: ' void '
-        description: ''
+        type: 'void'
+        description: 
     parameters: []
 ---

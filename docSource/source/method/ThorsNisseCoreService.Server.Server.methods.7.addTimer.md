@@ -9,8 +9,8 @@ methodInfo:
         Sets a timer to go off every `timeOut` seconds.
         The result of the timmer going off is to execute the functot `action`.
     return:
-        type: ' void'
-        description: ''
+        type: 'void'
+        description: 
     parameters:
         - name: timeOut
           type: 'double'

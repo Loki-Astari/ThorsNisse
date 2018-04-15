@@ -24,7 +24,7 @@ typeInfo:
           mark:  = 0
 children:
     - name: eventActivateNonBlocking
-      value: ThorsNisseCoreService.HandlerSuspendableWithStream.virtual.1.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendableWithStream.virtual.1.eventActivateNonBlocking.md
     - name: eventActivateWithStream
-      value: ThorsNisseCoreService.HandlerSuspendableWithStream.virtual.2.md
+      value: ThorsNisseCoreService.Handler.HandlerSuspendableWithStream.virtual.2.eventActivateWithStream.md
 ---

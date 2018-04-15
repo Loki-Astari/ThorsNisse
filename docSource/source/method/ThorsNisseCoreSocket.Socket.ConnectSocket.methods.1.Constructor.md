@@ -7,15 +7,15 @@ methodInfo:
     mark:  
     description: 
     return:
-        type: '        '
-        description: ''
+        type: 
+        description: 
     parameters:
         - name: host
           type: 'std::string const&'
           default: 
-          description: ''
+          description: 
         - name: port
           type: 'int'
           default: 
-          description: ''
+          description: 
 ---

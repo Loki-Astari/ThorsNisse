@@ -7,15 +7,15 @@ methodInfo:
     mark:  
     description: 
     return:
-        type: '        '
-        description: ''
+        type: 
+        description: 
     parameters:
         - name: socketId
           type: 'int'
           default: 
-          description: ''
+          description: 
         - name: blocking
           type: 'bool'
           default:  false
-          description: ''
+          description: 
 ---

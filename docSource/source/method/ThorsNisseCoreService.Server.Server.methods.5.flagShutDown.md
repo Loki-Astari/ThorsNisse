@@ -9,7 +9,7 @@ methodInfo:
         Marks the event loop for shut down.
         After the current iteration of the event loop has finished it will exit. This will cause the `start()` function to return.
     return:
-        type: ' void'
-        description: ''
+        type: 'void'
+        description: 
     parameters: []
 ---

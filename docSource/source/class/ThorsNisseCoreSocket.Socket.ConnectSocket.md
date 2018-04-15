@@ -18,5 +18,5 @@ typeInfo:
     virtual: []
 children:
     - name: Constructor
-      value: ThorsNisseCoreSocket.ConnectSocket.methods.1.md
+      value: ThorsNisseCoreSocket.Socket.ConnectSocket.methods.1.Constructor.md
 ---
