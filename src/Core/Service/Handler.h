@@ -68,7 +68,7 @@ class HandlerBase
         // This is similar to `addHandler()`.
         // The difference is that the current handler will immediately suspend until the created handler complets.
         // When the added handler calls `dropHandler()` control will be returned to the current handler at the point it suspended.
-        // Note- The current handler must be suspendable (otherwise an exception is thrown).See-  <a href="HandlerBase::suspendable">HandlerBase::suspendable</a>
+        // Note- The current handler must be suspendable (otherwise an exception is thrown).See-  href="HandlerBase::suspendable">HandlerBase::suspendable
         // @param args Arguments passed to the constructor of the new handler
         template<typename H, typename... Args>
         void moveHandler(Args&&... args);
@@ -164,7 +164,7 @@ class HandlerSuspendable: public HandlerStream<Stream>
 // @class
 // An implementation of `eventActivateNonBlocking()` that creates input and output stream objects.
 // These stream objects will call `suspend()` if they are about to perform a blocking operation on the underlying socket.
-// 
+//
 // Thus we have transparently non-blocking streams.
 class HandlerSuspendableWithStream: public HandlerSuspendable<Socket::DataSocket>
 {

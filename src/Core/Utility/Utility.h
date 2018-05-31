@@ -34,7 +34,7 @@ std::string buildStringFromParts(Args const&... args)
 
 // @function
 template<typename... Args>
-std::string buildErrorMessage(char x, int y, Args const&... args)
+std::string buildErrorMessage(char const*, char const*, Args const&... args)
 {
     return buildStringFromParts(args...);
 }

@@ -26,7 +26,7 @@ std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port,
         eMessage = (eMessage) ? eMessage : "Unknown";
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: dlopen: Failed to load: ", site, " Error: ", eMessage));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: dlopen: Failed to load: ", site.c_str(), " Error: ", eMessage));
     }
 
     using AddSiteFunction =  void (*)(ThorsAnvil::Nisse::Protocol::HTTP::Site& binder);
@@ -41,7 +41,7 @@ std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port,
         eMessage = (eMessage) ? eMessage : "Unknown";
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: dlsym: Failed to load: ", site, " Error: ", eMessage));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: dlsym: Failed to load: ", site.c_str(), " Error: ", eMessage));
     }
 
     AddSiteFunction addSite = (*getSiteAdder)();
@@ -49,7 +49,7 @@ std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port,
     {
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: addSite: Failed to load: ", site, " Error: "));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::load: addSite: Failed to load: ", site.c_str(), " Error: "));
     }
 
     bool portMapped = portMap.find(port) != portMap.end();
@@ -89,7 +89,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
     {
         throw std::domain_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find host:port/base: ", host, ":" , port, "/", base));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: Failed to unload: Could not find host:port/base: ", host.c_str(), ":" , port, "/", base));
     }
 
     if (unload.second != 0)
@@ -113,7 +113,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
         eMessage = (eMessage) ? eMessage : "Unknown";
         throw std::runtime_error(
             ThorsAnvil::Nisse::Core::Utility::buildErrorMessage(
-                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host:port/base ", host, ":", port, "/", base, " Error: ", eMessage));
+                "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::unload: dlclose: Failed to unload: host:port/base ", host.c_str(), ":", port, "/", base, " Error: ", eMessage));
     }
     std::cerr << this << ": " << "UnLoaded: " << "----" << " " << host << ":" << port << "/" << base << "\n";
     return std::make_tuple(true, 0, 0);
