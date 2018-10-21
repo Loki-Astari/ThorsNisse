@@ -26,7 +26,7 @@ class NonBlockingMySQLConnection: public ThorsAnvil::SQL::Lib::ConnectionProxy
 {
     private:
         MySQL::MySQLStream                        stream;
-        MySQL::PackageBuffer<MySQL::MySQLStream>  buffer;
+        MySQL::PackageBuffer                      buffer;
         MySQL::ConectReader                       reader;
         MySQL::ConectWriter                       writer;
         ConnectionNonBlocking                     connection;

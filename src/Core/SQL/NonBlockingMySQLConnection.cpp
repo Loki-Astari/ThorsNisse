@@ -9,7 +9,7 @@ NonBlockingMySQLConnection::NonBlockingMySQLConnection(
                             std::string const& password,
                             std::string const& database,
                             ThorsAnvil::SQL::Options const& options)
-    : stream(host, port, true)
+    : stream(host, port)
     , buffer(stream, true)
     , reader(buffer)
     , writer(buffer)
