@@ -13,11 +13,11 @@ headers:
             - name:   HandlerStream
               parent: HandlerBase
             - name:   HandlerNonSuspendable
-              parent: HandlerStream
+              parent: HandlerStream<Stream>
             - name:   HandlerSuspendable
-              parent: HandlerStream
+              parent: HandlerStream<Stream>
             - name:   HandlerSuspendableWithStream
-              parent: HandlerSuspendable
+              parent: HandlerSuspendable<Socket::DataSocket>
         - name:   Server.h
           functions: []
           classes:
@@ -29,9 +29,9 @@ headers:
           functions: []
           classes:
             - name:   ServerHandler
-              parent: HandlerNonSuspendable
+              parent: HandlerNonSuspendable<Socket::ServerSocket>
             - name:   TimerHandler
-              parent: HandlerNonSuspendable
+              parent: HandlerNonSuspendable<int>
 children:
     - name: HandlerBase
       value: ThorsNisseCoreService.Handler.HandlerBase.md

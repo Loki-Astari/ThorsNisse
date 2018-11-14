@@ -5,7 +5,7 @@ typeInfo:
     namespace: ThorsAnvil::Nisse::Core::Service
     header:    ThorsNisseCoreService/Handler.h
     classname: HandlerNonSuspendable
-    parent:    HandlerStream
+    parent:    HandlerStream<Stream>
     description:  |
         Defines `suspendable()` and `suspend()` for a class that is non suspendable.
         This is used by some of there server built in handlers that must complete. It is unlikely that this will be useful for a user defined handler.

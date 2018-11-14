@@ -5,7 +5,7 @@ typeInfo:
     namespace: ThorsAnvil::Nisse::Core::Service
     header:    ThorsNisseCoreService/ServerHandler.h
     classname: TimerHandler
-    parent:    HandlerNonSuspendable
+    parent:    HandlerNonSuspendable<int>
     description:  |
         An implementation of HandlerNonSuspendable that is used to implement the timer functionality.
     methods: []

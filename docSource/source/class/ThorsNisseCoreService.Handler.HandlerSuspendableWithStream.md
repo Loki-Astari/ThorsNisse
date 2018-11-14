@@ -5,11 +5,10 @@ typeInfo:
     namespace: ThorsAnvil::Nisse::Core::Service
     header:    ThorsNisseCoreService/Handler.h
     classname: HandlerSuspendableWithStream
-    parent:    HandlerSuspendable
+    parent:    HandlerSuspendable<Socket::DataSocket>
     description:  |
         An implementation of `eventActivateNonBlocking()` that creates input and output stream objects.
         These stream objects will call `suspend()` if they are about to perform a blocking operation on the underlying socket.
-        
         Thus we have transparently non-blocking streams.
     methods: []
     protected: []

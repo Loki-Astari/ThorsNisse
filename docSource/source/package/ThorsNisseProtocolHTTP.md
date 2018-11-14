@@ -16,7 +16,7 @@ headers:
           functions: []
           classes:
             - name:   DeveloperHandler
-              parent: Core::Service::HandlerNonSuspendable
+              parent: Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket>
         - name:   DynamicSiteLoader.h
           functions: []
           classes:
@@ -26,7 +26,7 @@ headers:
           functions: []
           classes:
             - name:   ReadRequestHandler
-              parent: Core::Service::HandlerSuspendable
+              parent: Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
         - name:   HttpScanner.h
           functions: []
           classes:

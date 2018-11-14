@@ -9,7 +9,7 @@ methodInfo:
         This is similar to `addHandler()`.
         The difference is that the current handler will immediately suspend until the created handler complets.
         When the added handler calls `dropHandler()` control will be returned to the current handler at the point it suspended.
-        Note- The current handler must be suspendable (otherwise an exception is thrown).See-  <a href="HandlerBase::suspendable">HandlerBase::suspendable</a>
+        Note- The current handler must be suspendable (otherwise an exception is thrown).See-  href="HandlerBase::suspendable">HandlerBase::suspendable
     return:
         type: 'void'
         description: 

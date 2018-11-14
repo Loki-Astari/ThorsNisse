@@ -9,7 +9,7 @@ headers:
           functions:
             - return: std::string
               name:   buildErrorMessage
-              param:  [   char x,  int y,  Args const&... args  ]
+              param:  [   char const*,  char const*,  Args const&... args  ]
             - return: std::string
               name:   systemErrorMessage
               param:  [  ]
