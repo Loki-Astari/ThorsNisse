@@ -1555,11 +1555,11 @@ int main()
         
             <li>HandlerStream HandlerBase</li>
         
-            <li>HandlerNonSuspendable HandlerStream</li>
+            <li>HandlerNonSuspendable HandlerStream<Stream></li>
         
-            <li>HandlerSuspendable HandlerStream</li>
+            <li>HandlerSuspendable HandlerStream<Stream></li>
         
-            <li>HandlerSuspendableWithStream HandlerSuspendable</li>
+            <li>HandlerSuspendableWithStream HandlerSuspendable<Socket::DataSocket></li>
         
         
         </ul>
@@ -1579,9 +1579,9 @@ int main()
     <dt>ServerHandler.h</dt><dd>
         <ul>
         
-            <li>ServerHandler HandlerNonSuspendable</li>
+            <li>ServerHandler HandlerNonSuspendable<Socket::ServerSocket></li>
         
-            <li>TimerHandler HandlerNonSuspendable</li>
+            <li>TimerHandler HandlerNonSuspendable<int></li>
         
         
         </ul>
@@ -1774,7 +1774,7 @@ An example of this is when the SQL handlers are added. They create connections t
             <div class="classRow"><div class="classDesc">This is similar to `addHandler()`.
 The difference is that the current handler will immediately suspend until the created handler complets.
 When the added handler calls `dropHandler()` control will be returned to the current handler at the point it suspended.
-Note- The current handler must be suspendable (otherwise an exception is thrown).See-  <a href="HandlerBase::suspendable">HandlerBase::suspendable</a>
+Note- The current handler must be suspendable (otherwise an exception is thrown).See-  href="HandlerBase::suspendable">HandlerBase::suspendable
 </div></div>
         </div>
         
@@ -2035,7 +2035,7 @@ The class basically defines a common class for holding the stream object and how
             <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
             <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerNonSuspendable</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerStream</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerStream<Stream></div></div>
             
         
         
@@ -2134,7 +2134,7 @@ This is used by some of there server built in handlers that must complete. It is
             <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
             <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerSuspendable</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerStream</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerStream<Stream></div></div>
             
         
                 <div class="classRow"><div class="classSect">Public Members:</div><div class="classValue"></div><div class="classValue"></div></div>
@@ -2385,7 +2385,7 @@ If `eventActivateNon Blocking()` returns true then `dropHandler()` is called to 
             <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
             <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">HandlerSuspendableWithStream</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerSuspendable</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerSuspendable<Socket::DataSocket></div></div>
             
         
         
@@ -2410,7 +2410,6 @@ If `eventActivateNon Blocking()` returns true then `dropHandler()` is called to 
 </div>
 <p>An implementation of `eventActivateNonBlocking()` that creates input and output stream objects.
 These stream objects will call `suspend()` if they are about to perform a blocking operation on the underlying socket.
-
 Thus we have transparently non-blocking streams.
 </p>
 
@@ -2834,7 +2833,7 @@ The result of the timmer going off is to execute the functot `action`.
             <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
             <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ServerHandler</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerNonSuspendable</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerNonSuspendable<Socket::ServerSocket></div></div>
             
         
         
@@ -2862,7 +2861,7 @@ The result of the timmer going off is to execute the functot `action`.
             <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Core::Service</div><div></div></div>
             <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">TimerHandler</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerNonSuspendable</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">HandlerNonSuspendable<int></div></div>
             
         
         
@@ -3165,7 +3164,7 @@ class Response
     <dt>DeveloperHandler.h</dt><dd>
         <ul>
         
-            <li>DeveloperHandler Core::Service::HandlerNonSuspendable</li>
+            <li>DeveloperHandler Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket></li>
         
         
         </ul>
@@ -3183,7 +3182,7 @@ class Response
     <dt>HTTPProtocol.h</dt><dd>
         <ul>
         
-            <li>ReadRequestHandler Core::Service::HandlerSuspendable</li>
+            <li>ReadRequestHandler Core::Service::HandlerSuspendable<Core::Socket::DataSocket></li>
         
         
         </ul>
@@ -3292,7 +3291,7 @@ class Response
             <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
             <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">DeveloperHandler</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">Core::Service::HandlerNonSuspendable</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket></div></div>
             
         
         
@@ -3344,7 +3343,7 @@ class Response
             <div class="classRow"><div class="classItem">NameSpace:</div><div class="classValue">ThorsAnvil::Nisse::Protocol::HTTP</div><div></div></div>
             <div class="classRow"><div class="classItem">Class:    </div><div class="classValue">ReadRequestHandler</div><div></div></div>
             
-            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">Core::Service::HandlerSuspendable</div></div>
+            <div class="classRow"><div class="classItem">Parent:   </div><div class="classValue">Core::Service::HandlerSuspendable<Core::Socket::DataSocket></div></div>
             
         
         
@@ -3601,12 +3600,3 @@ class Response
 
 
 </html>
-t/css" href="/css/style.css">
-    </head>
-    <body>
-        <h1>A heading for the standard page</h1>
-        
-
-    </body>
-</html>
-
