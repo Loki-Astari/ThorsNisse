@@ -8,6 +8,7 @@ BUILD		= $(realpath $(CWD)/../../..)
 include ../../../Makefile.config
 
 all: $(OBJ)
+	@echo "$(CXX) -shared -o AddBeer.dylib $(OBJ) -L/usr/local/lib -L$(BUILD)/build/lib $(thorsSQL_ROOT_LIBDIR) -lThorsExpress17D -lThorSQL17D -lThorMySQL17D "
 	$(CXX) -shared -o AddBeer.dylib $(OBJ) -L/usr/local/lib -L$(BUILD)/build/lib $(thorsSQL_ROOT_LIBDIR) -lThorsExpress17D -lThorSQL17D -lThorMySQL17D 
 build: all
 test:  all

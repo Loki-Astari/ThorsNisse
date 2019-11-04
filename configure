@@ -727,6 +727,8 @@ BOOST_CONTEXT_LIB
 BOOST_COROUTINE_LIB
 BOOST_SYSTEM_LIB
 COV
+crypto_ROOT_INCDIR
+crypto_ROOT_LIBDIR
 THOR_TARGETLIBS
 VERATOOL
 TestVera
@@ -806,6 +808,8 @@ with_boost
 with_boost_libdir
 with_boost_python
 enable_vera
+with_hostbuild
+with_cryptoroot
 with_boost_system
 with_boost_coroutine
 with_boost_context
@@ -1494,6 +1498,11 @@ Optional Packages:
                           libraries are located.
   --with-boost-python     specify yes/no or the boost python library or suffix
                           to use
+  --with-hostbuild=<dir>  Use the build tools located at <dir>
+
+  --with-cryptoroot=<location>
+                          Directory of CRYPTO_ROOT
+
   --with-boost-system[=special-lib]
                           use the System library from boost - it is possible
                           to specify a certain library for the linker e.g.
@@ -4801,9 +4810,11 @@ fi
 
 
     VERATOOL="";
+    subconfigvera=""
     if test "x$enable_vera" == "xno"; then :
 
-            VERATOOL='echo "Disabled Static Analysis" ||';
+            VERATOOL='off';
+            subconfigvera="--disable-vera";
 
 else
 
@@ -4890,10 +4901,110 @@ fi
 
 
 
-    pushd build/third
-    ./setup "$CXX" || as_fn_error 1 "Failed to set up the test utilities" "$LINENO" 5
-    popd
 
+# Check whether --with-hostbuild was given.
+if test "${with_hostbuild+set}" = set; then :
+  withval=$with_hostbuild;
+fi
+
+
+    if test "${with_hostbuild}" != ""; then :
+
+            rm -rf build;
+            ln -s ${with_hostbuild} build
+
+
+fi
+
+
+    if test "${with_hostbuild}" == ""; then :
+
+            pushd build/third
+            ./setup "$CXX" || as_fn_error 1 "Failed to set up the test utilities" "$LINENO" 5
+            popd
+
+
+fi
+
+
+
+# Check whether --with-cryptoroot was given.
+if test "${with_cryptoroot+set}" = set; then :
+  withval=$with_cryptoroot;
+fi
+
+    ORIG_LDFLAGS="${LDFLAGS}"
+    LDFLAGS="$LDFLAGS -L$with_cryptoroot/lib"
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for SHA1_Init in -lcrypto" >&5
+$as_echo_n "checking for SHA1_Init in -lcrypto... " >&6; }
+if ${ac_cv_lib_crypto_SHA1_Init+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lcrypto  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char SHA1_Init ();
+int
+main ()
+{
+return SHA1_Init ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_crypto_SHA1_Init=yes
+else
+  ac_cv_lib_crypto_SHA1_Init=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_crypto_SHA1_Init" >&5
+$as_echo "$ac_cv_lib_crypto_SHA1_Init" >&6; }
+if test "x$ac_cv_lib_crypto_SHA1_Init" = xyes; then :
+
+            if test "$with_cryptoroot" != ""; then :
+
+                    crypto_ROOT_LIBDIR="-L $with_cryptoroot/lib"
+
+                    crypto_ROOT_INCDIR="-I $with_cryptoroot/include"
+
+
+fi
+
+else
+  as_fn_error 1 "
+
+Error: Could not find libcrypto
+
+        On a mac you will need to install openssl
+        and define the crypto root directory to configuration.
+
+            brew install openssl
+            ./configure --with-cryptoroot=/usr/local/Cellar/openssl/1.0.2j/
+
+        On Linux you will need to install openssl
+
+            sudo apt-get install openssl
+            sudo apt-get install libssl-dev
+
+                " "$LINENO" 5
+
+fi
+
+
+    LDFLAGS="${ORIG_LDFLAGS}"
 
 
 
@@ -6023,7 +6134,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 			cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-#include <boost/context/all.hpp>namespace boost{namespace context{namespace detail{}}}using namespace boost::context;using namespace boost::context::detail;
+#include <boost/context/detail/exception.hpp>namespace boost{namespace context{namespace detail{}}}using namespace boost::context;using namespace boost::context::detail;
 int
 main ()
 {

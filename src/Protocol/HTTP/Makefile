@@ -25,6 +25,7 @@ FILE_WARNING_FLAGS	+= -Wno-unknown-pragmas
 %/Route.o:				FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES)
 %/Types.o:				FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES)
 
+COVERAGE_REQUIRED			= 1
 
 include $(THORSANVIL_ROOT)/build/tools/Makefile
 
