@@ -14,11 +14,11 @@ Route::Route(std::string&& fr)
         }
         auto next = fullRoute.find('/', find);
 
-        route.emplace_back(stx::string_view(fullRoute).substr(start, (find - start)));
-        names.emplace_back(stx::string_view(fullRoute).substr(find + 1, (next - find - 1)));
+        route.emplace_back(std::string_view(fullRoute).substr(start, (find - start)));
+        names.emplace_back(std::string_view(fullRoute).substr(find + 1, (next - find - 1)));
         start = next;
     }
-    route.emplace_back(stx::string_view(fullRoute).substr(start));
+    route.emplace_back(std::string_view(fullRoute).substr(start));
 }
 
 bool Route::operator<(Route const& rhs) const
@@ -60,7 +60,7 @@ int Route::compare(std::string const& rhs) const
     for (std::size_t loop = 0; loop < route.size(); ++loop)
     {
         // Check the current segment against the route.
-        auto test = route[loop].compare(stx::string_view(rhs).substr(start, route[loop].size()));
+        auto test = route[loop].compare(std::string_view(rhs).substr(start, route[loop].size()));
         if (test != 0)
         {
             // They are not equal so can quit
