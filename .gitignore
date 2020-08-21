@@ -14,3 +14,5 @@ debug/
 release/
 coverage/
 stamp-h?
+
+build

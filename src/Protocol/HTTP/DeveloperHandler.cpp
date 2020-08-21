@@ -52,7 +52,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     {
         LoadSite siteToLoad;
 
-        input >> ThorsAnvil::Serialize::jsonImport(siteToLoad);
+        input >> ThorsAnvil::Serialize::jsonImporter(siteToLoad);
         std::cerr << this << ": " << "Got: " << siteToLoad.action << " lib: " << siteToLoad.lib << " Host: " << siteToLoad.host << ":" << siteToLoad.port << "/" << siteToLoad.base << "\n";
 
         if (siteToLoad.action == "Unload")
