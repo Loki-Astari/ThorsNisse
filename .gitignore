@@ -13,6 +13,7 @@ libtool
 debug/
 release/
 coverage/
+report/
 stamp-h?
 
 build

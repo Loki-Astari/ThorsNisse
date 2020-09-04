@@ -60,8 +60,8 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
-/* When on code that uses ThorsSQL will be compiled. */
-#undef HAVE_ThorsSQL
+/* When on code that uses ThorsDB will be compiled. */
+#undef HAVE_ThorsDB
 
 /* When on code that uses ThorsSerialize will be compiled. */
 #undef HAVE_ThorsSerialize

@@ -676,9 +676,9 @@ INSTALL_PROGRAM
 HAVE_ThorsSerialize
 thorsSerialize_ROOT_INCDIR
 thorsSerialize_ROOT_LIBDIR
-HAVE_ThorsSQL
-thorsSQL_ROOT_INCDIR
-thorsSQL_ROOT_LIBDIR
+HAVE_ThorsDB
+thorsDB_ROOT_INCDIR
+thorsDB_ROOT_LIBDIR
 CXX_STD_FLAG
 CXXSTDVER
 ExpFlag20
@@ -825,8 +825,8 @@ with_aix_soname
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
-with_ThorsSQLroot
-enable_ThorsSQL
+with_ThorsDBroot
+enable_ThorsDB
 with_ThorsSerializeroot
 enable_ThorsSerialize
 enable_dependency_tracking
@@ -1472,8 +1472,8 @@ Optional Features:
   --enable-fast-install[=PKGS]
                           optimize for fast installation [default=yes]
   --disable-libtool-lock  avoid locking (might break parallel builds)
-  --disable-ThorsSQL      Don't use ThorsSQL. This means features that use
-                          ThorsSQL will be disabled.
+  --disable-ThorsDB       Don't use ThorsDB. This means features that use
+                          ThorsDB will be disabled.
 
   --disable-ThorsSerialize
                           Don't use ThorsSerialize. This means features that
@@ -1532,8 +1532,8 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
   --with-sysroot[=DIR]    Search for dependent libraries within DIR (or the
                           compiler's sysroot if not specified).
-  --with-ThorsSQLroot=<location>
-                          Directory of ThorsSQL_ROOT
+  --with-ThorsDBroot=<location>
+                          Directory of ThorsDB_ROOT
 
   --with-ThorsSerializeroot=<location>
                           Directory of ThorsSerialize_ROOT
@@ -18841,44 +18841,44 @@ fi
 
 
 
-# Check whether --with-ThorsSQLroot was given.
-if test "${with_ThorsSQLroot+set}" = set; then :
-  withval=$with_ThorsSQLroot;
+# Check whether --with-ThorsDBroot was given.
+if test "${with_ThorsDBroot+set}" = set; then :
+  withval=$with_ThorsDBroot;
 fi
 
-    # Check whether --enable-ThorsSQL was given.
-if test "${enable_ThorsSQL+set}" = set; then :
-  enableval=$enable_ThorsSQL;
+    # Check whether --enable-ThorsDB was given.
+if test "${enable_ThorsDB+set}" = set; then :
+  enableval=$enable_ThorsDB;
 fi
 
-    if flag=enable_ThorsSQL
+    if flag=enable_ThorsDB
         test "x${!flag}" != "xno"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: Got HERE" >&5
 $as_echo "$as_me: Got HERE" >&6;}
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Name: SQL" >&5
-$as_echo "$as_me: Name: SQL" >&6;}
-        { $as_echo "$as_me:${as_lineno-$LINENO}: With: ${with_ThorsSQLroot}" >&5
-$as_echo "$as_me: With: ${with_ThorsSQLroot}" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Name: DB" >&5
+$as_echo "$as_me: Name: DB" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: With: ${with_ThorsDBroot}" >&5
+$as_echo "$as_me: With: ${with_ThorsDBroot}" >&6;}
 
-        if test "${with_ThorsSQLroot}" == ""; then
-            declare with_ThorsSQLroot="/usr/local"
+        if test "${with_ThorsDBroot}" == ""; then
+            declare with_ThorsDBroot="/usr/local"
         fi
         ORIG_LDFLAGS="${LDFLAGS}"
-        LDFLAGS="$LDFLAGS -L${with_ThorsSQLroot}/lib"
+        LDFLAGS="$LDFLAGS -L${with_ThorsDBroot}/lib"
         { $as_echo "$as_me:${as_lineno-$LINENO}: LDFLAGS: ${LDFLAGS}" >&5
 $as_echo "$as_me: LDFLAGS: ${LDFLAGS}" >&6;}
-        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorSQL17D" >&5
-$as_echo "$as_me: LIB: ThorSQL17D" >&6;}
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev" >&5
-$as_echo "$as_me: Meth: _ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorsDB17D" >&5
+$as_echo "$as_me: LIB: ThorsDB17D" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&5
+$as_echo "$as_me: Meth: _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&6;}
 
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev in -lThorSQL17D" >&5
-$as_echo_n "checking for _ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev in -lThorSQL17D... " >&6; }
-if ${ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev+:} false; then :
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev in -lThorsDB17D" >&5
+$as_echo_n "checking for _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev in -lThorsDB17D... " >&6; }
+if ${ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lThorSQL17D  $LIBS"
+LIBS="-lThorsDB17D  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -18888,49 +18888,49 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char _ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev ();
+char _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev ();
 int
 main ()
 {
-return _ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev ();
+return _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev ();
   ;
   return 0;
 }
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev=yes
+  ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev=yes
 else
-  ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev=no
+  ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev" >&5
-$as_echo "$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev" >&6; }
-if test "x$ac_cv_lib_ThorSQL17D__ZN10ThorsAnvil3SQL3Lib15ConnectionProxyD2Ev" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&5
+$as_echo "$ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&6; }
+if test "x$ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" = xyes; then :
 
 
-$as_echo "#define HAVE_ThorsSQL 1" >>confdefs.h
+$as_echo "#define HAVE_ThorsDB 1" >>confdefs.h
 
-                thorsSQL_ROOT_LIBDIR=-L${with_ThorsSQLroot}/lib
-                thorsSQL_ROOT_INCDIR=-I${with_ThorsSQLroot}/include
-                HAVE_ThorsSQL=yes
+                thorsDB_ROOT_LIBDIR=-L${with_ThorsDBroot}/lib
+                thorsDB_ROOT_INCDIR=-I${with_ThorsDBroot}/include
+                HAVE_ThorsDB=yes
 
 else
   as_fn_error 1 "
 
-Error: Could not find libThorSQL17D
+Error: Could not find libThorsDB17D
 
-You can solve this by installing libThorSQL
-    https://github.com/Loki-Astari/ThorsSQL
+You can solve this by installing libThorsDB
+    https://github.com/Loki-Astari/ThorsDB
 
 Alternately specify install location with:
-    --with-ThorsSQLroot=<location of ThorsSQL installation>
+    --with-ThorsDBroot=<location of ThorsDB installation>
 
-If you do not want to use features that need ThorSQL then it
+If you do not want to use features that need ThorDB then it
 can be disabled with:
-    --disable-ThorsSQL
+    --disable-ThorsDB
 
                 " "$LINENO" 5
 

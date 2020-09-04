@@ -1,5 +1,6 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
+COVERAGE_REQUIRED			= 40
 
 HAVE_DEVLOADER_yes			= -DHAVE_DEVLOADER
 HAVE_DEVLOADER				= $(HAVE_DEVLOADER_$(HAVE_ThorsSerialize))
