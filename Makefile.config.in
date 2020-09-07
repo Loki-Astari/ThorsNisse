@@ -13,13 +13,16 @@ THOR_STATIC_LOAD_FLAG=@THOR_STATIC_LOAD_FLAG@
 THOR_STATIC_NOLOAD_FLAG=@THOR_STATIC_NOLOAD_FLAG@
 
 
-thorsDB_ROOT_LIBDIR=@thorsDB_ROOT_LIBDIR@
-thorsDB_ROOT_INCDIR=@thorsDB_ROOT_INCDIR@
+ThorsDB_ROOT_DIR=@ThorsDB_ROOT_DIR@
+ThorsDB_ROOT_LIB=@ThorsDB_ROOT_LIB@
 HAVE_ThorsDB=@HAVE_ThorsDB@
+ThorsDB_ISTHOR=true
 
-thorsSerialize_ROOT_LIBDIR=@thorsSerialize_ROOT_LIBDIR@
-thorsSerialize_ROOT_INCDIR=@thorsSerialize_ROOT_INCDIR@
+ThorsSerialize_ROOT_DIR=@ThorsSerialize_ROOT_DIR@
+ThorsSerialize_ROOT_LIB=@ThorsSerialize_ROOT_LIB@
 HAVE_ThorsSerialize=@HAVE_ThorsSerialize@
-crypto_ROOT_INCDIR=@crypto_ROOT_INCDIR@
-crypto_ROOT_LIBDIR=@crypto_ROOT_LIBDIR@
+ThorsDB_ISTHOR=true
+
+crypto_ROOT_DIR=@crypto_ROOT_DIR@
+crypto_ROOT_LIB=@crypto_ROOT_LIB@
 

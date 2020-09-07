@@ -674,11 +674,11 @@ INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
 HAVE_ThorsSerialize
-thorsSerialize_ROOT_INCDIR
-thorsSerialize_ROOT_LIBDIR
+ThorsSerialize_ROOT_LIB
+ThorsSerialize_ROOT_DIR
 HAVE_ThorsDB
-thorsDB_ROOT_INCDIR
-thorsDB_ROOT_LIBDIR
+ThorsDB_ROOT_LIB
+ThorsDB_ROOT_DIR
 CXX_STD_FLAG
 CXXSTDVER
 ExpFlag20
@@ -729,8 +729,8 @@ BOOST_CONTEXT_LIB
 BOOST_COROUTINE_LIB
 BOOST_SYSTEM_LIB
 COV
-crypto_ROOT_INCDIR
-crypto_ROOT_LIBDIR
+crypto_ROOT_LIB
+crypto_ROOT_DIR
 TestVera
 THOR_TARGETLIBS
 VERATOOL
@@ -5030,9 +5030,9 @@ if test "x$ac_cv_lib_crypto_SHA1_Init" = xyes; then :
 
             if test "$with_cryptoroot" != ""; then :
 
-                    crypto_ROOT_LIBDIR="-L $with_cryptoroot/lib"
+                    crypto_ROOT_DIR=$with_cryptoroot
 
-                    crypto_ROOT_INCDIR="-I $with_cryptoroot/include"
+                    crypto_ROOT_LIB=crypto
 
 
 fi
@@ -18867,18 +18867,18 @@ $as_echo "$as_me: With: ${with_ThorsDBroot}" >&6;}
         LDFLAGS="$LDFLAGS -L${with_ThorsDBroot}/lib"
         { $as_echo "$as_me:${as_lineno-$LINENO}: LDFLAGS: ${LDFLAGS}" >&5
 $as_echo "$as_me: LDFLAGS: ${LDFLAGS}" >&6;}
-        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorsDB17D" >&5
-$as_echo "$as_me: LIB: ThorsDB17D" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorsDB17" >&5
+$as_echo "$as_me: LIB: ThorsDB17" >&6;}
         { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&5
 $as_echo "$as_me: Meth: _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&6;}
 
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev in -lThorsDB17D" >&5
-$as_echo_n "checking for _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev in -lThorsDB17D... " >&6; }
-if ${ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev+:} false; then :
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev in -lThorsDB17" >&5
+$as_echo_n "checking for _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev in -lThorsDB17... " >&6; }
+if ${ac_cv_lib_ThorsDB17__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lThorsDB17D  $LIBS"
+LIBS="-lThorsDB17  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -18898,29 +18898,31 @@ return _ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev ();
 }
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev=yes
+  ac_cv_lib_ThorsDB17__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev=yes
 else
-  ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev=no
+  ac_cv_lib_ThorsDB17__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&5
-$as_echo "$ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&6; }
-if test "x$ac_cv_lib_ThorsDB17D__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorsDB17__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&5
+$as_echo "$ac_cv_lib_ThorsDB17__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" >&6; }
+if test "x$ac_cv_lib_ThorsDB17__ZN10ThorsAnvil2DB6Access3Lib15ConnectionProxyD2Ev" = xyes; then :
 
 
 $as_echo "#define HAVE_ThorsDB 1" >>confdefs.h
 
-                thorsDB_ROOT_LIBDIR=-L${with_ThorsDBroot}/lib
-                thorsDB_ROOT_INCDIR=-I${with_ThorsDBroot}/include
+                ThorsDB_ROOT_DIR=${with_ThorsDBroot}
+
+                ThorsDB_ROOT_LIB=ThorsDB
+
                 HAVE_ThorsDB=yes
 
 else
   as_fn_error 1 "
 
-Error: Could not find libThorsDB17D
+Error: Could not find libThorsDB17
 
 You can solve this by installing libThorsDB
     https://github.com/Loki-Astari/ThorsDB
@@ -18974,18 +18976,18 @@ $as_echo "$as_me: With: ${with_ThorsSerializeroot}" >&6;}
         LDFLAGS="$LDFLAGS -L${with_ThorsSerializeroot}/lib"
         { $as_echo "$as_me:${as_lineno-$LINENO}: LDFLAGS: ${LDFLAGS}" >&5
 $as_echo "$as_me: LDFLAGS: ${LDFLAGS}" >&6;}
-        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorSerialize17D" >&5
-$as_echo "$as_me: LIB: ThorSerialize17D" >&6;}
+        { $as_echo "$as_me:${as_lineno-$LINENO}: LIB: ThorSerialize17" >&5
+$as_echo "$as_me: LIB: ThorSerialize17" >&6;}
         { $as_echo "$as_me:${as_lineno-$LINENO}: Meth: _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&5
 $as_echo "$as_me: Meth: _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&6;}
 
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv in -lThorSerialize17D" >&5
-$as_echo_n "checking for _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv in -lThorSerialize17D... " >&6; }
-if ${ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv+:} false; then :
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv in -lThorSerialize17" >&5
+$as_echo_n "checking for _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv in -lThorSerialize17... " >&6; }
+if ${ac_cv_lib_ThorSerialize17__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lThorSerialize17D  $LIBS"
+LIBS="-lThorSerialize17  $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -19005,29 +19007,31 @@ return _ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv ();
 }
 _ACEOF
 if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv=yes
+  ac_cv_lib_ThorSerialize17__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv=yes
 else
-  ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv=no
+  ac_cv_lib_ThorSerialize17__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv=no
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
 LIBS=$ac_check_lib_save_LIBS
 fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&5
-$as_echo "$ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&6; }
-if test "x$ac_cv_lib_ThorSerialize17D__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" = xyes; then :
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_ThorSerialize17__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&5
+$as_echo "$ac_cv_lib_ThorSerialize17__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" >&6; }
+if test "x$ac_cv_lib_ThorSerialize17__ZN10ThorsAnvil9Serialize10JsonParser12getNextTokenEv" = xyes; then :
 
 
 $as_echo "#define HAVE_ThorsSerialize 1" >>confdefs.h
 
-                thorsSerialize_ROOT_LIBDIR=-L${with_ThorsSerializeroot}/lib
-                thorsSerialize_ROOT_INCDIR=-I${with_ThorsSerializeroot}/include
+                ThorsSerialize_ROOT_DIR=${with_ThorsSerializeroot}
+
+                ThorsSerialize_ROOT_LIB=ThorSerialize
+
                 HAVE_ThorsSerialize=yes
 
 else
   as_fn_error 1 "
 
-Error: Could not find libThorSerialize17D
+Error: Could not find libThorSerialize17
 
 You can solve this by installing libThorSerialize
     https://github.com/Loki-Astari/ThorsSerializer

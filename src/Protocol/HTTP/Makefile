@@ -2,17 +2,13 @@
 THORSANVIL_ROOT				?= $(realpath ../../../)
 COVERAGE_REQUIRED			= 40
 
-HAVE_DEVLOADER_yes			= -DHAVE_DEVLOADER
-HAVE_DEVLOADER				= $(HAVE_DEVLOADER_$(HAVE_ThorsSerialize))
-THOR_SERIALIZER_NEEDED_yes	= ThorSerialize
-THOR_SERIALIZER_NEEDED		= $(THOR_SERIALIZER_NEEDED_$(HAVE_ThorsSerialize))
-
 PRETEST						= TestLoadableLibBuild
 TARGET						= ThorsNisseProtocolHTTP.a
-CXXFLAGS					+= -I$(event_ROOT_DIR)/include $(thorsSerialize_ROOT_INCDIR) $(HAVE_DEVLOADER) -Wno-ignored-attributes
-LDLIBS						+= -L$(event_ROOT_DIR)/lib -l$(event_ROOT_LIB) $(thorsSerialize_ROOT_LIBDIR) $(BOOST_SYSTEM_LIB) $(BOOST_COROUTINE_LIB) $(BOOST_CONTEXT_LIB) -ldl
+CXXFLAGS					+= $(HAVE_DEVLOADER) -Wno-ignored-attributes
+LDLIBS						+= $(BOOST_SYSTEM_LIB) $(BOOST_COROUTINE_LIB) $(BOOST_CONTEXT_LIB) -ldl
 LINK_LIBS					= ThorsNisseCoreService ThorsNisseCoreSocket ThorsSerialize
 TEST_IGNORE					= http_parser.cpp http_parser.h
+LDLIBS_EXTERN_BUILD			= event ThorsSerialize 
 UNITTEST_LDLIBS				= -ldl $(thorsSerialize_ROOT_LIBDIR)
 UNITTEST_LINK_LIBS			= ThorsNisseCoreService ThorsNisseCoreSocket $(THOR_SERIALIZER_NEEDED)
 
@@ -22,6 +18,7 @@ IGNORE_BOOST_ISSUES		= $(IGNORE_BOOST_ISSUES_$(BOOST_COROUTINE_VERSION))
 UNITTEST_RUNTIME_PATH		= $(subst -L,,$(thorsSerialize_ROOT_LIBDIR))
 
 FILE_WARNING_FLAGS	+= -Wno-unknown-pragmas
+%/DeveloperHandler.o:	FILE_WARNING_FLAGS	+= -Wno-unused-private-field
 %/HTTPProtocol.o:		FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES) 
 %/HttpScanner.o:		FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES) 
 %/Binder.o:				FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES)
