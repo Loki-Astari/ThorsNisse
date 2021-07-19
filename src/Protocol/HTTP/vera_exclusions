@@ -1,0 +1,24 @@
+set ruleExclusions(M001) {
+    Types.h
+}
+set ruleExclusions(M002) {
+    http_parser.cpp
+    http_parser.h
+}
+set ruleExclusions(L006) {
+    http_parser.cpp
+}
+set ruleExclusions(T007) {
+    http_parser.cpp
+}
+set ruleExclusions(T008) {
+    http_parser.cpp
+}
+set ruleExclusions(T011A) {
+    http_parser.cpp
+    http_parser.h
+}
+set ruleExclusions(T019) {
+    http_parser.cpp
+}
+

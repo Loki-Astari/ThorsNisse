@@ -1,9 +1,7 @@
 #include "DeveloperHandler.h"
 #include "ThorsNisseCoreSocket/SocketStream.h"
-#if HAVE_DEVLOADER
 #include "ThorSerialize/Traits.h"
 #include "ThorSerialize/JsonThor.h"
-#endif
 #include <iostream>
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
@@ -23,9 +21,7 @@ struct LoadSite
     int             port;
 };
 
-#if HAVE_DEVLOADER
 ThorsAnvil_MakeTrait(LoadSite, action, lib, host, base, port);
-#endif
 
 short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
 {
@@ -47,7 +43,6 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
 
     int         status  = 200;
     std::string message = "OK";
-#if HAVE_DEVLOADER
     try
     {
         LoadSite siteToLoad;
@@ -95,12 +90,6 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
             }
         }
     }
-#else
-    try
-    {
-        throw std::domain_error("Serialize Not installed. Thus functionality not enabled");
-    }
-#endif
     catch (std::domain_error const& e)
     {
         status  = 500;
@@ -137,9 +126,7 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
 #include "ThorsNisseCoreService/ServerHandler.tpp"
-#if HAVE_DEVLOADER
 #include "ThorSerialize/Serialize.tpp"
-#endif
 template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>(ServerConnection const&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
 template ThorsAnvil::Nisse::Core::Service::ServerHandler<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
 #endif

@@ -8,7 +8,7 @@ NonBlockingMySQLConnection::NonBlockingMySQLConnection(
                             std::string const& username,
                             std::string const& password,
                             std::string const& database,
-                            ThorsAnvil::SQL::Options const& options)
+                            DB::Options const& options)
     : stream(host, port)
     , buffer(stream, true)
     , reader(buffer)
@@ -16,10 +16,10 @@ NonBlockingMySQLConnection::NonBlockingMySQLConnection(
     , connection(stream, username, password, database, options, reader, writer)
 {}
 
-std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy>
+std::unique_ptr<ThorsAnvil::DB::Access::Lib::StatementProxy>
 NonBlockingMySQLConnection::createStatementProxy(std::string const& statement)
 {
-    std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy>  result;
+    std::unique_ptr<ThorsAnvil::DB::Access::Lib::StatementProxy>  result;
     result.reset(new NonBlockingPrepareStatement(*this, connection, statement));
     return result;
 }
@@ -37,4 +37,4 @@ void NonBlockingMySQLConnection::setYield(std::function<void()>&& yr, std::funct
 void NonBlockingMySQLConnection::close()
 {}
 
-ThorsAnvil::SQL::Lib::ConnectionCreatorRegister<NonBlockingMySQLConnection>    mysqlNBConnection("mysqlNB");
+ThorsAnvil::DB::Access::Lib::ConnectionCreatorRegister<NonBlockingMySQLConnection>    mysqlNBConnection("mysqlNB");

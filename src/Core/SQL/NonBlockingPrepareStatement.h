@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_CORE_SQL_NONBLOCKING_PREPARE_STATEMENT_H
 
 #include "ConnectionNonBlocking.h"
-#include "ThorSQL/Statement.h"
+#include "ThorsDB/Statement.h"
 
 namespace ThorsAnvil
 {
@@ -13,9 +13,10 @@ namespace ThorsAnvil
             namespace SQL
             {
 
-using StatmentPIMPL = std::unique_ptr<ThorsAnvil::SQL::Lib::StatementProxy>;
+using StatmentPIMPL = std::unique_ptr<ThorsAnvil::DB::Access::Lib::StatementProxy>;
 class NonBlockingMySQLConnection;
-class NonBlockingPrepareStatement: public ThorsAnvil::SQL::Lib::StatementProxy
+
+class NonBlockingPrepareStatement: public ThorsAnvil::DB::Access::Lib::StatementProxy
 {
     StatmentPIMPL               prepareStatement;
     NonBlockingMySQLConnection& connection;
@@ -54,7 +55,7 @@ class NonBlockingPrepareStatement: public ThorsAnvil::SQL::Lib::StatementProxy
             virtual void   bind(std::string const& v)           override {prepareStatement->bind(v);}
             virtual void   bind(std::vector<char> const& v)     override {prepareStatement->bind(v);}
 
-            virtual void   bind(ThorsAnvil::SQL::UnixTimeStamp const& v)    override {prepareStatement->bind(v);}
+            virtual void   bind(ThorsAnvil::DB::Access::UnixTimeStamp const& v)    override {prepareStatement->bind(v);}
 
             // retrieve
             virtual void   retrieve(char& v)                    override {prepareStatement->retrieve(v);}
@@ -76,7 +77,7 @@ class NonBlockingPrepareStatement: public ThorsAnvil::SQL::Lib::StatementProxy
             virtual void   retrieve(std::string& v)             override {prepareStatement->retrieve(v);}
             virtual void   retrieve(std::vector<char>& v)       override {prepareStatement->retrieve(v);}
 
-            virtual void   retrieve(ThorsAnvil::SQL::UnixTimeStamp& v)      override {prepareStatement->retrieve(v);}
+            virtual void   retrieve(ThorsAnvil::DB::Access::UnixTimeStamp& v)      override {prepareStatement->retrieve(v);}
 };
 
             }
