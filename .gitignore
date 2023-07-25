@@ -14,5 +14,7 @@ debug/
 release/
 coverage/
 stamp-h?
+dependency/
+report/
 
 build

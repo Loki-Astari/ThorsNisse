@@ -1,5 +1,6 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
+COVERAGE_REQUIRED			= 40
 
 HAVE_DEVLOADER_yes			= -DHAVE_DEVLOADER
 HAVE_DEVLOADER				= $(HAVE_DEVLOADER_$(HAVE_ThorsSerialize))
@@ -20,7 +21,7 @@ IGNORE_BOOST_ISSUES		= $(IGNORE_BOOST_ISSUES_$(BOOST_COROUTINE_VERSION))
 
 UNITTEST_RUNTIME_PATH		= $(subst -L,,$(thorsSerialize_ROOT_LIBDIR))
 
-FILE_WARNING_FLAGS	+= -Wno-unknown-pragmas
+FILE_WARNING_FLAGS	+= -Wno-unknown-pragmas -Wno-unused-private-field
 %/HTTPProtocol.o:		FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES) 
 %/HttpScanner.o:		FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES) 
 %/Binder.o:				FILE_WARNING_FLAGS	+= $(IGNORE_BOOST_ISSUES)
