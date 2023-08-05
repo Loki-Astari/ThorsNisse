@@ -1,6 +1,7 @@
 #include "Socket.h"
 #include "SocketWrapper.h"
-#include "ThorsNisseCoreUtility/Utility.h"
+#include "ThorsLogging/ThorsLogging.h"
+#include "ThorsIOUtil/Utility.h"
 #include <stdexcept>
 #include <netdb.h>
 #include <unistd.h>
@@ -333,7 +334,7 @@ std::pair<bool, std::size_t> DataSocket::putMessageData(char const* buffer, std:
 
 void DataSocket::putMessageClose()
 {
-    if (::shutdown(getSocketId(), SHUT_WR) != 0)
+    if (shutdownWrapper(getSocketId(), SHUT_WR) != 0)
     {
         throw std::domain_error(Utility::buildErrorMessage("ThorsAnvil::Socket::DataSocket::", __func__,
                                                   ": shutdown: critical error: ", Utility::systemErrorMessage()));

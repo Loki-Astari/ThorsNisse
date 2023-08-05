@@ -1,9 +1,10 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
 
-TARGET						= ThorsNisseCoreService.a
+TARGET						= ThorsNisseCoreService.defer
+DEFER_NAME					= ThorsNisseCore
 LDLIBS_EXTERN_BUILD			+= event boost
-LINK_LIBS					+= ThorsNisseCoreSocket
+UNITTEST_LINK_LIBS			+= UnitTestThorsNisseCoreSocket
 
 include $(THORSANVIL_ROOT)/build/tools/Makefile
 

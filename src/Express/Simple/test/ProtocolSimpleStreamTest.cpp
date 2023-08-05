@@ -2,7 +2,6 @@
 #include "ProtocolSimple.h"
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreSocket/Socket.h"
-#include "ThorsNisseCoreUtility/Utility.h"
 #include <gtest/gtest.h>
 #include <future>
 #include <unistd.h>

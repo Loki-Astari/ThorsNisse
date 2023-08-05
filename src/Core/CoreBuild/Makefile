@@ -1,9 +1,8 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
-COVERAGE_REQUIRED			= 0
 
-TARGET						= ThorsNisseCoreSQL.defer
-DEFER_NAME					= ThorsNisseCore
+TARGET						= ThorsNisseCore.lib
+DEFER_LIBS					= ThorsNisseCoreSocket ThorsNisseCoreService ThorsNisseCoreSQL
 LDLIBS_EXTERN_BUILD			+= crypto event boost ThorsDB ThorSerialize
 
 include $(THORSANVIL_ROOT)/build/tools/Makefile
