@@ -1,6 +1,5 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
-COVERAGE_REQUIRED			= 0
 
 TARGET						= ThorsNisseCoreSQL.defer
 DEFER_NAME					= ThorsNisseCore
