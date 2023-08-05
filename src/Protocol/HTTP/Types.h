@@ -18,7 +18,6 @@ namespace ThorsAnvil
             namespace HTTP
             {
 
-#pragma vera-pushoff
 static std::string const Head_Server        = "Server";
 static std::string const Head_Date          = "Date";
 static std::string const Head_ContentLen    = "Content-Length";
@@ -31,7 +30,6 @@ static std::string const Resp_404           = "Not Found";
 static std::string const Connection_Closed  = "Closed";
 
 static std::string const ServerName         = "Nisse V1.0";
-#pragma vera-pop
 
 enum class Method {Get, Put, Post, Delete, Head};
 

@@ -95,7 +95,8 @@ inline std::string errnoToName()
 }
 
 // @function
-inline std::string systemErrorMessage()
+inline
+std::string systemErrorMessage()
 {
     std::string result = errnoToName();
     result += std::strerror(errno);

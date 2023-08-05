@@ -3,7 +3,7 @@
 #include "StreamCloser.h"
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Handler.h"
-#include "ThorMySQL/PrepareStatement.h"
+#include "ThorsMySQL/PrepareStatement.h"
 
 using namespace ThorsAnvil::Nisse::Core::SQL;
 
@@ -28,7 +28,7 @@ class MySQLPrepareHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
 
         virtual bool eventActivateNonBlocking() override
         {
-            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection, [&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
+            ThorsAnvil::DB::Access::Lib::YieldSetter   setter(connection, [&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.createProxy(nbStream, statement);
             return true;
         }
@@ -50,7 +50,7 @@ class MySQLExecuteHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspe
 
         virtual bool eventActivateNonBlocking() override
         {
-            ThorsAnvil::SQL::Lib::YieldSetter   setter(connection,[&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
+            ThorsAnvil::DB::Access::Lib::YieldSetter   setter(connection,[&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
             parent.executePrepare();
             return true;
         }
@@ -72,7 +72,7 @@ NonBlockingPrepareStatement::NonBlockingPrepareStatement(NonBlockingMySQLConnect
 }
 void NonBlockingPrepareStatement::createProxy(ConnectionNonBlocking& nbStream, std::string const& statement)
 {
-    prepareStatement.reset(new ThorsAnvil::MySQL::PrepareStatement(nbStream, statement));
+    prepareStatement.reset(new ThorsAnvil::DB::MySQL::PrepareStatement(nbStream, statement));
 }
 
 void NonBlockingPrepareStatement::doExecute()

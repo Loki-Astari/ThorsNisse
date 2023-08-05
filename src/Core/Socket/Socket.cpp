@@ -1,4 +1,5 @@
 #include "Socket.h"
+#include "SocketWrapper.h"
 #include "ThorsNisseCoreUtility/Utility.h"
 #include <stdexcept>
 #include <netdb.h>

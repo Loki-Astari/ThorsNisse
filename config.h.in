@@ -1,7 +1,11 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define which version of the boost co-routines we are using */
-#undef BOOST_COROUTINE_VERSION
+
+
+#ifndef  THORS_THORS_NISSE_CONFIG_H
+#define  THORS_THORS_NISSE_CONFIG_H
+
+    
 
 /* define if the Boost library is available */
 #undef HAVE_BOOST
@@ -12,38 +16,29 @@
 /* define if the Boost::Coroutine library is available */
 #undef HAVE_BOOST_COROUTINE
 
-/* define if the Boost::Python library is available */
-#undef HAVE_BOOST_PYTHON
-
 /* define if the Boost::System library is available */
 #undef HAVE_BOOST_SYSTEM
 
 /* define if the Boost::Thread library is available */
 #undef HAVE_BOOST_THREAD
 
+/* We have found package CRYPTO */
+#undef HAVE_CRYPTO
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* We have found libevent library */
+/* We have found package Event */
 #undef HAVE_EVENT
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the `tcl' library (-ltcl). */
-#undef HAVE_LIBTCL
-
-/* Define to 1 if you have the `tk' library (-ltk). */
-#undef HAVE_LIBTK
-
-/* Define to 1 if you have the <memory.h> header file. */
-#undef HAVE_MEMORY_H
-
-/* If available, contains the Python version number currently in use. */
-#undef HAVE_PYTHON
-
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#undef HAVE_STDIO_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
@@ -60,11 +55,11 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
-/* When on code that uses ThorsSQL will be compiled. */
-#undef HAVE_ThorsSQL
+/* We have found package Thors Serializer */
+#undef HAVE_THORSSERIALIZER
 
-/* When on code that uses ThorsSerialize will be compiled. */
-#undef HAVE_ThorsSerialize
+/* When on code that uses ThorsDB will be compiled. */
+#undef HAVE_ThorsDB
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
@@ -93,8 +88,16 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
 
 /* Version number of package */
 #undef VERSION
+
+
+
+#endif
+
+    

@@ -18,5 +18,3 @@ veryclean:	clean
 %.o: %.cpp
 	$(CXX) $(CXX_STD_FLAG) -fPIC -c -I.. $<
 
-
-

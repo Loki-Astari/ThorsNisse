@@ -27,6 +27,7 @@ class StreamCloser
             return stream.getSocketId();
         }
 };
+
 template<typename Stream>
 StreamCloser<Stream> make_StreamCloser(Stream& stream)
 {

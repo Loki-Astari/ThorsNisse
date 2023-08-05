@@ -1,8 +1,8 @@
 #ifndef THORSANVIL_NISSE_CORE_SQL_CONNECTION_NON_BLOCKING_H
 #define THORSANVIL_NISSE_CORE_SQL_CONNECTION_NON_BLOCKING_H
 
-#include "ThorMySQL/Connection.h"
-#include "ThorMySQL/MySQLStream.h"
+#include "ThorsMySQL/Connection.h"
+#include "ThorsMySQL/MySQLStream.h"
 
 namespace ThorsAnvil
 {
@@ -13,24 +13,27 @@ namespace ThorsAnvil
             namespace SQL
             {
 
+namespace DBMySQL = ThorsAnvil::DB::MySQL;
+namespace DB =      ThorsAnvil::DB::Access;
 class MySQLConnectionHandler;
-class ConnectionNonBlocking: public ThorsAnvil::MySQL::Connection
+
+class ConnectionNonBlocking: public DBMySQL::Connection
 {
     public:
-        ConnectionNonBlocking(ThorsAnvil::MySQL::MySQLStream& stream,
+        ConnectionNonBlocking(DBMySQL::MySQLStream& stream,
                           std::string const& username,
                           std::string const& password,
                           std::string const& database,
-                          ThorsAnvil::SQL::Options const& options,
-                          ThorsAnvil::MySQL::ConectReader& packageReader,
-                          ThorsAnvil::MySQL::ConectWriter& packageWriter);
+                          DB::Options const& options,
+                          DBMySQL::ConectReader& packageReader,
+                          DBMySQL::ConectWriter& packageWriter);
 
     private:
         friend class MySQLConnectionHandler;
         void doConectToServer(std::string const& username,
                               std::string const& password,
                               std::string const& database,
-                              ThorsAnvil::SQL::Options const& options
+                              DB::Options const& options
                              );
 };
 

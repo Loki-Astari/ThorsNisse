@@ -1,10 +1,10 @@
 #include "ThorsExpress/all.h"
 
 namespace Express = ThorsAnvil::Nisse::Protocol::HTTP;
-namespace SQL     = ThorsAnvil::SQL;
+namespace DB     = ThorsAnvil::DB::Access;
 
-static SQL::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
-static SQL::Statement  listBeers(connection, "SELECT Name, Age FROM Beers");
+static DB::Connection connection("mysqlNB://test.com", "test", "testPassword", "test");
+static DB::Statement  listBeers(connection, "SELECT Name, Age FROM Beers");
 
 void addSite(Express::Site& site)
 {

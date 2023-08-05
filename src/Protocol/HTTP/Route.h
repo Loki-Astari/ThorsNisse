@@ -4,11 +4,7 @@
 #include <string>
 #include <vector>
 #include <ostream>
-#include <experimental/string_view>
-
-#pragma vera-pushoff
-namespace stx = std::experimental;
-#pragma vera-pop
+#include <string_view>
 
 namespace ThorsAnvil
 {
@@ -51,8 +47,8 @@ class Route
      * The param obejct will be available via the request object.
      */
     const std::string                fullRoute;
-    std::vector<stx::string_view>    route;
-    std::vector<stx::string_view>    names;
+    std::vector<std::string_view>    route;
+    std::vector<std::string_view>    names;
 
     public:
         Route(std::string&& fullRoute);

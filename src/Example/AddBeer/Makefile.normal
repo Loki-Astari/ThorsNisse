@@ -1,0 +1,32 @@
+
+SRC		= $(wildcard *.cpp)
+OBJ		= $(patsubst %.cpp, %.o, $(SRC))
+CWD		= $(shell pwd)
+BUILD		= $(realpath $(CWD)/../../..)
+
+
+# This Makefile assumes that you have installed:
+#		ThorsNissa and ThorsDB and ThorsSerializer
+#		All the appropriate libs are available in /usr/local/include and /usr/local/lib
+#
+#
+# If you have installed these libraries manually in another location.
+# Then you need to add the appropriate -L and -I flags below.
+# Example:
+##  LIB_LOCATION=-L /Users/martinyork/Repo/UpdateConfig/ThorsDB/build/lib -L /Users/martinyork/Repo/UpdateConfig/ThorsNisse/build/lib -L /Users/martinyork/Repo/UpdateConfig/ThorsSerializer/build/lib
+##  INC_LOCATION= -I /Users/martinyork/Repo/UpdateConfig/ThorsNisse/build/include -I /Users/martinyork/Repo/UpdateConfig/ThorsDB/build/include -I /Users/martinyork/Repo/UpdateConfig/ThorsSerializer/build/include
+
+all: $(OBJ)
+	$(CXX) -std=c++17 -shared -o AddBeer.dylib $(OBJ) -L/usr/local/lib $(LIB_LOCATION) -lThorsExpress17D -lThorsDB17D -lThorsLogging17D
+build: all
+test:  all
+install: all
+doc:
+
+clean:
+	rm -rf $(OBJ) AddBeer.dylib
+veryclean: clean
+
+%.o: %.cpp
+	$(CXX) -std=c++17 $(CXX_STD_FLAG) -fPIC -c -I/usr/local/include $(INC_LOCATION) $(CXXFLAGS) $(CPPFLAGS) $<
+
