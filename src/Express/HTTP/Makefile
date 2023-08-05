@@ -1,6 +1,6 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
-COVERAGE_REQUIRED			= 30
+COVERAGE_REQUIRED			= 40
 DYLD_LIBRARY_PATH			= $(shell pwd)
 
 PRETEST						= TestLoadableLibBuild

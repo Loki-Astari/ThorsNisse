@@ -1,6 +1,10 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVER_HANDLER_H
 #define THORSANVIL_NISSE_CORE_SERVICE_SERVER_HANDLER_H
 
+#ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVICE_H
+#error "Please do not include >ThorsNisseCoreService/ServerHandler.h< directly. Include the >ThorsNisseCoreService/Service.h< file instead."
+#endif
+
 #include "ThorsNisseCoreSocket/Socket.h"
 
 namespace ThorsAnvil
@@ -50,7 +54,4 @@ class TimerHandler: public HandlerNonSuspendable<int>
     }
 }
 
-#ifndef COVERAGE_TEST
-#include "ServerHandler.tpp"
-#endif
 #endif

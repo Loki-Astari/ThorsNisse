@@ -1,7 +1,9 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_HANDLER_TPP
 #define THORSANVIL_NISSE_CORE_SERVICE_HANDLER_TPP
 
-#include "Server.h"
+#ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVICE_H
+#error "Please do not include >ThorsNisseCoreService/Handler.tpp< directly. Include the >ThorsNisseCoreService/Service.h< file instead."
+#endif
 
 namespace ThorsAnvil
 {

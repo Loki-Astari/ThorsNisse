@@ -117,16 +117,3 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
     dropHandler();
     return 0;
 }
-
-#ifdef COVERAGE_TEST
-/*
- * This code is only compiled into the unit tests for code coverage purposes
- * It is not part of the live code.
- */
-#include "ThorsNisseCoreService/Server.tpp"
-#include "ThorsNisseCoreService/Handler.tpp"
-#include "ThorsNisseCoreService/ServerHandler.tpp"
-#include "ThorSerialize/Serialize.tpp"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>(ServerConnection const&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader&);
-#endif

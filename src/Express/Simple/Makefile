@@ -1,6 +1,5 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
-COVERAGE_REQUIRED			= 0
 
 TARGET						= ThorsNisseExpressSimple.defer
 DEFER_NAME					= ThorsNisseExpress

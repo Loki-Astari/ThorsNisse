@@ -104,14 +104,3 @@ short WriteMessageHandler::eventActivate(Core::Service::LibSocketId /*sockId*/, 
     dropHandler();
     return 0;
 }
-
-#ifdef COVERAGE_TEST
-/*
- * This code is only compiled into the unit tests for code coverage purposes
- * It is not part of the live code.
- */
-#include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/Server.tpp"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageHandler>(ServerConnection const&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageHandler, std::string>(ServerConnection const&, std::string&);
-#endif

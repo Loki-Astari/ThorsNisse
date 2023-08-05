@@ -2,7 +2,7 @@
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_DYNAMIC_SITE_LOADER_H
 
 #include "Binder.h"
-#include "ThorsNisseCoreService/Server.h"
+#include "ThorsNisseCoreService/Service.h"
 #include <map>
 #include <string>
 #include <tuple>

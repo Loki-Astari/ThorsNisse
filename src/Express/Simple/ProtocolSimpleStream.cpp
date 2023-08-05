@@ -1,4 +1,5 @@
 #include "ProtocolSimpleStream.h"
+#include "ThorsNisseCoreSocket/SocketStream.h"
 
 using namespace ThorsAnvil::Nisse::Protocol::Simple;
 
@@ -41,22 +42,3 @@ bool WriteMessageStreamHandler::eventActivateNonBlocking()
     istream << message;
     return true;
 }
-
-#ifdef COVERAGE_TEST
-/*
- * This code is only compiled into the unit tests for code coverage purposes
- * It is not part of the live code.
- */
-#include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/Server.tpp"
-#include "ThorsNisseCoreService/Handler.tpp"
-#include "ThorsNisseCoreService/ServerHandler.tpp"
-#include "ProtocolSimple.h"
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ReadMessageStreamHandler>(ServerConnection const&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<WriteMessageStreamHandler, Message>(ServerConnection const&, Message&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<ReadMessageHandler, void>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&);
-template void ThorsAnvil::Nisse::Core::Service::HandlerBase::moveHandler<WriteMessageStreamHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, Message>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, Message&&);
-template void ThorsAnvil::Nisse::Core::Service::HandlerBase::moveHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
-template ThorsAnvil::Nisse::Core::Service::HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<WriteMessageHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::string, bool>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::string&&, bool&&);
-template ThorsAnvil::Nisse::Core::Service::ServerHandler<WriteMessageHandler, std::string>::ServerHandler(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::ServerSocket&&, std::string&);
-#endif

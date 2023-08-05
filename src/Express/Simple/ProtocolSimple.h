@@ -1,8 +1,7 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_H
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_H
 
-#include "ThorsNisseCoreService/Handler.h"
-#include "ThorsNisseCoreService/ServerHandler.h"
+#include "ThorsNisseCoreService/Service.h"
 
 namespace ThorsAnvil
 {

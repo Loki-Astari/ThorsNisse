@@ -1,5 +1,7 @@
 #include "ProtocolSimple.h"
-#include "ThorsNisseCoreService/Server.h"
+#include "ThorsNisseCoreService/HAndler.tpp"
+#include "ThorsNisseCoreService/Server.tpp"
+#include "ThorsNisseCoreService/ServerHandler.tpp"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <gtest/gtest.h>
 #include <future>

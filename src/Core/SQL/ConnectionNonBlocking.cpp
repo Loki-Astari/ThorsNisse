@@ -1,7 +1,6 @@
 #include "ConnectionNonBlocking.h"
 #include "StreamCloser.h"
-#include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/Handler.h"
+#include "ThorsNisseCoreService/Service.h"
 
 namespace ThorsAnvil
 {

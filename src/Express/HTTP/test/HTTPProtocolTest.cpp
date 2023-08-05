@@ -1,7 +1,9 @@
 #include "HTTPProtocol.h"
 #include <gtest/gtest.h>
 #include "Binder.h"
-#include "ThorsNisseCoreService/Server.h"
+#include "ThorsNisseCoreService/Server.tpp"
+#include "ThorsNisseCoreService/Handler.tpp"
+#include "ThorsNisseCoreService/ServerHandler.tpp"
 #include "ThorsNisseCoreSocket/Socket.h"
 #include <unistd.h>
 #include <fcntl.h>
