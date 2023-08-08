@@ -61,6 +61,9 @@
 /* We have found package Thors Serializer */
 #undef HAVE_THORSSERIALIZER
 
+/* We have found ThorSerializeHeaderOnly package */
+#undef HAVE_ThorSerializeHeaderOnly
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 

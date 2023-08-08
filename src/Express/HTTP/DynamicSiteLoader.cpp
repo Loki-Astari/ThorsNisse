@@ -87,7 +87,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
 
     if (unload.second != 0)
     {
-        ThorsMessage(loguru::Verbosity_WARNING, "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::", "unload", this, ": Disabled: ", host, ":", port, "/", base, ": Waiting for active calls to finish");
+        ThorsMessage(WARNING, "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::", "unload", this, ": Disabled: ", host, ":", port, "/", base, ": Waiting for active calls to finish");
         return std::make_tuple(unload.first, unload.second, libCount[siteLib]);
     }
 
@@ -95,7 +95,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
     siteMap.erase(find);
     if (libCount[siteLib] != 0)
     {
-        ThorsMessage(loguru::Verbosity_WARNING, "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::", "unload", this, ": Disabled: ", host, ": ", port, "/", base, ": Lib still bound");
+        ThorsMessage(WARNING, "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::", "unload", this, ": Disabled: ", host, ": ", port, "/", base, ": Lib still bound");
         return std::make_tuple(true, 0, libCount[siteLib]);
     }
 
@@ -106,7 +106,7 @@ std::tuple<bool, int, int> DynamicSiteLoader::unload(int port, std::string const
         eMessage = (eMessage) ? eMessage : "Unknown";
         ThorsLogAndThrow("ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::", "unload", " dlclose: Failed to unload: host:port/base ", host.c_str(), ":", port, "/", base, " Error: ", eMessage);
     }
-    ThorsMessage(loguru::Verbosity_WARNING, "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::", "unload", this, ": UnLoaded: ", "---- ", host, ":", port, "/", base);
+    ThorsMessage(WARNING, "ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader::", "unload", this, ": UnLoaded: ", "---- ", host, ":", port, "/", base);
     return std::make_tuple(true, 0, 0);
 }
 

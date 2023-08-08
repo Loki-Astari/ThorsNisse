@@ -17,6 +17,7 @@ event_ROOT_LIB=@event_ROOT_LIB@
 
 ThorSerialize_ROOT_DIR=@ThorSerialize_ROOT_DIR@
 ThorSerialize_ROOT_LIB=@ThorSerialize_ROOT_LIB@
+ThorSerializeHeaderOnly_ROOT_DIR=@ThorSerializeHeaderOnly_ROOT_DIR@
 
 ThorsDB_ROOT_DIR=@ThorsDB_ROOT_DIR@
 ThorsDB_ROOT_LIB=@ThorsDB_ROOT_LIB@
