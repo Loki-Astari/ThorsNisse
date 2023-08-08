@@ -2,12 +2,12 @@
 #include "ThorsNisseCoreService/HAndler.tpp"
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/ServerHandler.tpp"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <gtest/gtest.h>
 #include <future>
 
 using ThorsAnvil::Nisse::Core::Service::Server;
-using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
+using ThorsAnvil::ThorsSocket::ConnectSocketNormal;
 using ThorsAnvil::Nisse::Protocol::Simple::ReadMessageHandler;
 using ThorsAnvil::Nisse::Protocol::Simple::WriteMessageHandler;
 
@@ -27,7 +27,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandler)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9878);
+        ConnectSocketNormal connect("127.0.0.1", 9878);
         std::string message = "Test function ReadMessageHandler";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -62,7 +62,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSize)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9879);
+        ConnectSocketNormal connect("127.0.0.1", 9879);
         std::string message = "Test function ReadMessageHandlerPartialSize";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), 2);
@@ -97,7 +97,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialSizeInTwoChunks)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9880);
+        ConnectSocketNormal connect("127.0.0.1", 9880);
         std::string message = "Test function ReadMessageHandlerPartialSizeInTwoChunks";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), 2);
@@ -134,7 +134,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerSizeInTwoChunks)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9881);
+        ConnectSocketNormal connect("127.0.0.1", 9881);
         std::string message = "Test function ReadMessageHandlerSizeInTwoChunks";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), 2);
@@ -171,7 +171,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessage)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9882);
+        ConnectSocketNormal connect("127.0.0.1", 9882);
         std::string message = "Test function ReadMessageHandlerPartialMessage";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -207,7 +207,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerPartialMessageInTwoChunks)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9883);
+        ConnectSocketNormal connect("127.0.0.1", 9883);
         std::string message = "Test Function ReadMessageHandlerPartialMessageInTwoChunks";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -245,7 +245,7 @@ TEST(ProtocolSimpleTest, ReadMessageHandlerMessageInTwoChunks)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9884);
+        ConnectSocketNormal connect("127.0.0.1", 9884);
         std::string message = "Test function ReadMessageHandlerMessageInTwoChunks";
         std::size_t size    = message.size();
         connect.putMessageData(reinterpret_cast<char*>(&size), sizeof(size));
@@ -284,7 +284,7 @@ TEST(ProtocolSimpleTest, WriteMessageHandler)
 
     auto future = std::async(std::launch::async, [&finished]()
     {
-        ConnectSocket connect("127.0.0.1", 9885);
+        ConnectSocketNormal connect("127.0.0.1", 9885);
         std::string message;
         std::size_t size    = message.size();
         connect.getMessageData(reinterpret_cast<char*>(&size), sizeof(size));

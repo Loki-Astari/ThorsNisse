@@ -12,7 +12,7 @@ A simple wrapper around libEvent.
 */
 
 #include "EventUtil.h"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <memory>
 #include <unordered_map>
 #include <functional>
@@ -43,7 +43,7 @@ struct ServerConnection
     int maxConnections;
     public:
         // @method
-        ServerConnection(int port, int maxConnections = ThorsAnvil::Nisse::Core::Socket::ServerSocket::maxConnectionBacklog)
+        ServerConnection(int port, int maxConnections = ThorsAnvil::ThorsSocket::ServerSocket::maxConnectionBacklog)
             : port(port)
             , maxConnections(maxConnections)
         {}

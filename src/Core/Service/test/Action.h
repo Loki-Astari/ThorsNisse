@@ -4,13 +4,13 @@
 #include "../Server.h"
 #include "../Handler.h"
 #include "../CoRoutine.h"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 
-class Action: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
+class Action: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<ThorsAnvil::ThorsSocket::DataSocket>
 {
     ThorsAnvil::Nisse::Core::Service::Server&           service;
     public:
-        Action(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket)
+        Action(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::ThorsSocket::DataSocket&& socket)
             : HandlerNonSuspendable(parent, std::move(socket), EV_READ | EV_PERSIST)
             , service(parent)
         {}
@@ -20,11 +20,11 @@ class Action: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<Tho
             return 0;
         }
 };
-class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
+class ActionUnReg: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendable<ThorsAnvil::ThorsSocket::DataSocket>
 {
     ThorsAnvil::Nisse::Core::Service::Server&           service;
     public:
-        ActionUnReg(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket)
+        ActionUnReg(ThorsAnvil::Nisse::Core::Service::Server& parent, ThorsAnvil::ThorsSocket::DataSocket&& socket)
             : HandlerNonSuspendable(parent, std::move(socket), EV_READ | EV_PERSIST)
             , service(parent)
         {}
@@ -51,13 +51,13 @@ class SwapHandler: public ThorsAnvil::Nisse::Core::Service::HandlerNonSuspendabl
         }
 };
 
-class TestHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
+class TestHandler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::ThorsSocket::DataSocket>
 {
     ThorsAnvil::Nisse::Core::Service::Server&   server;
     std::tuple<bool, bool, bool>&               hit;
 
     public:
-        TestHandler(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket, std::tuple<bool, bool, bool>& hit)
+        TestHandler(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::ThorsSocket::DataSocket&& socket, std::tuple<bool, bool, bool>& hit)
             : HandlerSuspendable(server, std::move(socket), EV_READ)
             , server(server)
             , hit(hit)
@@ -82,7 +82,7 @@ class Test2Handler: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<
             return true;
         }
 };
-class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>
+class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::ThorsSocket::DataSocket>
 {
     using CoRoutine = ThorsAnvil::Nisse::Core::Service::Context<short>::pull_type;
     using Yield     = ThorsAnvil::Nisse::Core::Service::Context<short>::push_type;
@@ -91,7 +91,7 @@ class InHandlerTest: public ThorsAnvil::Nisse::Core::Service::HandlerSuspendable
     std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&    active;
 
     public:
-        InHandlerTest(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::Nisse::Core::Socket::DataSocket&& socket, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>& active)
+        InHandlerTest(ThorsAnvil::Nisse::Core::Service::Server& server, ThorsAnvil::ThorsSocket::DataSocket&& socket, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>& active)
             : HandlerSuspendable(server, std::move(socket), EV_READ)
             , server(server)
             , active(active)

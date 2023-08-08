@@ -1,5 +1,5 @@
 #include "Service.h"
-#include "ThorsNisseCoreSocket/SocketStream.h"
+#include "ThorsSocket/SocketStream.h"
 
 using namespace ThorsAnvil::Nisse::Core::Service;
 using TimeVal = struct timeval;
@@ -167,8 +167,9 @@ void HandlerBase::setHandlers(short eventType, TimeVal* timeVal)
 
 bool HandlerSuspendableWithStream::eventActivateNonBlocking()
 {
-    Core::Socket::ISocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);},  [](){});
-    Core::Socket::OSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
+    ThorsSocket::IOSocketStream   ioStream(stream, [&parent = *this](){parent.suspend(EV_READ);}, [&parent = *this](){parent.suspend(EV_WRITE);});
+    //Core::Socket::ISocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);},  [](){});
+    //Core::Socket::OSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [](){});
 
-    return eventActivateWithStream(input, output);
+    return eventActivateWithStream(ioStream, ioStream);
 }

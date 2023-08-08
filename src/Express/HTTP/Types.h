@@ -1,7 +1,7 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_HTTP_TYPES_H
 #define THORSANVIL_NISSE_PROTOCOL_HTTP_TYPES_H
 
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <istream>
 #include <ostream>
 #include <string>
@@ -115,7 +115,7 @@ class ReadRequestHandler;
 // @class
 class Response
 {
-    using DataSocket = ThorsAnvil::Nisse::Core::Socket::DataSocket;
+    using DataSocket = ThorsAnvil::ThorsSocket::DataSocket;
     private:
         ReadRequestHandler*    flusher;
         DataSocket*             socket;

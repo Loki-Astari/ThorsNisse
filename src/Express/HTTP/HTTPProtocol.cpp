@@ -1,5 +1,5 @@
 #include "HTTPProtocol.h"
-#include "ThorsNisseCoreSocket/SocketStream.h"
+#include "ThorsSocket/SocketStream.h"
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
@@ -32,7 +32,7 @@ class DevNullStreamBuf: public std::streambuf
         {}
 };
 
-ReadRequestHandler::ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Binder const& binder)
+ReadRequestHandler::ReadRequestHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket, Binder const& binder)
     : HandlerSuspendable(parent, std::move(socket), EV_READ)
     , binder(binder)
     , flusher(nullptr)
@@ -72,8 +72,8 @@ bool ReadRequestHandler::eventActivateNonBlocking()
         }
         suspend(EV_READ);
     }
-    Core::Socket::ISocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-    Core::Socket::OSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [&parent = *this](){parent.flushing();});
+    ThorsSocket::IOSocketStream   input(stream,  [&parent = *this](){parent.suspend(EV_READ);}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    ThorsSocket::IOSocketStream   output(stream, [&parent = *this](){parent.suspend(EV_WRITE);}, [&parent = *this](){parent.flushing();});
     DevNullStreamBuf        devNullBuffer;
     if (scanner.data.method == Method::Head)
     {

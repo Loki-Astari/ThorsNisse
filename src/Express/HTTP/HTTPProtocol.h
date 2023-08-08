@@ -17,7 +17,7 @@ namespace ThorsAnvil
             {
 
 // @class
-class ReadRequestHandler: public Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
+class ReadRequestHandler: public Core::Service::HandlerSuspendable<ThorsSocket::DataSocket>
 {
     private:
         Binder const&               binder;
@@ -27,7 +27,7 @@ class ReadRequestHandler: public Core::Service::HandlerSuspendable<Core::Socket:
         static constexpr std::size_t bufferLen = 80 * 1024;
 
     public:
-        ReadRequestHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Binder const& binder);
+        ReadRequestHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket, Binder const& binder);
         virtual bool eventActivateNonBlocking() override;
         void setFlusher(Response* f){flusher = f;}
         void flushing()             {if (flusher){flusher->flushing();}}

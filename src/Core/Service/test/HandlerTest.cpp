@@ -1,6 +1,6 @@
 #include "Service.h"
 #include "EventUtil.h"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include "test/Action.h"
 #include <gtest/gtest.h>
 #include "coverage/ThorMock.h"
@@ -14,7 +14,7 @@ using ThorsAnvil::Nisse::Core::Service::LibEvent;
 using ThorsAnvil::Nisse::Core::Service::LibEventBase;
 using ThorsAnvil::Nisse::Core::Service::LibSocketId;
 using ThorsAnvil::Nisse::Core::Service::TimeVal;
-using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
+using ThorsAnvil::ThorsSocket::ConnectSocketNormal;
 
 
 TEST(HandlerTest, SuspendResume)
@@ -23,7 +23,7 @@ TEST(HandlerTest, SuspendResume)
     std::tuple<bool, bool, bool>   hits {false, false, false};
 
     server.listenOn<TestHandler>(9876, hits);
-    auto future = std::async(std::launch::async, [&hits](){usleep(200000);while(!std::get<0>(hits)){ConnectSocket socket("127.0.0.1", 9876);}});
+    auto future = std::async(std::launch::async, [&hits](){usleep(200000);while(!std::get<0>(hits)){ConnectSocketNormal socket("127.0.0.1", 9876);}});
 
     server.start();
     future.wait();
@@ -52,7 +52,7 @@ TEST(HandlerTest, InHandlerTrue)
     };
 
     server.listenOn<InHandlerTest>(9876, active);
-    auto future = std::async(std::launch::async, [&active](){usleep(200000);while(!std::get<0>(active)){ConnectSocket socket("127.0.0.1", 9876);}});
+    auto future = std::async(std::launch::async, [&active](){usleep(200000);while(!std::get<0>(active)){ConnectSocketNormal socket("127.0.0.1", 9876);}});
 
     server.start();
     future.wait();

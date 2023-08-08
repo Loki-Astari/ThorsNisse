@@ -7,7 +7,7 @@
 
 #include "EventUtil.h"
 #include "CoRoutine.h"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <memory>
 #include <functional>
 #include <stdexcept>
@@ -170,7 +170,7 @@ class HandlerSuspendable: public HandlerStream<Stream>
 // These stream objects will call `suspend()` if they are about to perform a blocking operation on the underlying socket.
 //
 // Thus we have transparently non-blocking streams.
-class HandlerSuspendableWithStream: public HandlerSuspendable<Socket::DataSocket>
+class HandlerSuspendableWithStream: public HandlerSuspendable<ThorsSocket::DataSocket>
 {
     public:
         using HandlerSuspendable::HandlerSuspendable;

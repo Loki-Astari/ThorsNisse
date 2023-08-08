@@ -18,13 +18,13 @@ namespace ThorsAnvil
             {
 
 // @class
-class DeveloperHandler: public Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket>
+class DeveloperHandler: public Core::Service::HandlerNonSuspendable<ThorsSocket::DataSocket>
 {
     DynamicSiteLoader&          loader;
     HttpScanner                 scanner;
     std::vector<char>           buffer;
     public:
-        DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader);
+        DeveloperHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket, DynamicSiteLoader& loader);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
 };
 

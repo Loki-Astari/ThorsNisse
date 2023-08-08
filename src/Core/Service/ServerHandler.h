@@ -5,7 +5,7 @@
 #error "Please do not include >ThorsNisseCoreService/ServerHandler.h< directly. Include the >ThorsNisseCoreService/Service.h< file instead."
 #endif
 
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 
 namespace ThorsAnvil
 {
@@ -20,21 +20,21 @@ template<typename Stream> class HandlerNonSuspendable;
 // @class
 // An implementation of HandlerNonSuspendable that is used to accept connections and create other handlers.
 template<typename ActHand, typename Param>
-class ServerHandler: public HandlerNonSuspendable<Socket::ServerSocket>
+class ServerHandler: public HandlerNonSuspendable<ThorsSocket::ServerSocket>
 {
     private:
         Param&                  param;
     public:
-        ServerHandler(Server& parent, Socket::ServerSocket&& so, Param& param);
+        ServerHandler(Server& parent, ThorsSocket::ServerSocket&& so, Param& param);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };
 
 template<typename ActHand>
-class ServerHandler<ActHand, void>: public HandlerNonSuspendable<Socket::ServerSocket>
+class ServerHandler<ActHand, void>: public HandlerNonSuspendable<ThorsSocket::ServerSocket>
 {
     public:
-        ServerHandler(Server& parent, Socket::ServerSocket&& so);
+        ServerHandler(Server& parent, ThorsSocket::ServerSocket&& so);
         ~ServerHandler();
         virtual short eventActivate(LibSocketId sockId, short eventType) override;
 };

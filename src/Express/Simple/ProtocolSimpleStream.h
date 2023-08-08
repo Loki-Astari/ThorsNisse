@@ -59,21 +59,21 @@ class Message
         }
 };
 
-class ReadMessageStreamHandler: public Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
+class ReadMessageStreamHandler: public Core::Service::HandlerSuspendable<ThorsSocket::DataSocket>
 {
     public:
-        ReadMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
+        ReadMessageStreamHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket);
         virtual bool eventActivateNonBlocking() override;
     public:
         static std::string const failToReadMessage;
 };
 
-class WriteMessageStreamHandler: public Core::Service::HandlerSuspendable<Core::Socket::DataSocket>
+class WriteMessageStreamHandler: public Core::Service::HandlerSuspendable<ThorsSocket::DataSocket>
 {
     Message                     message;
     public:
-        WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message&& message);
-        WriteMessageStreamHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, Message const& message);
+        WriteMessageStreamHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket, Message&& message);
+        WriteMessageStreamHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket, Message const& message);
         ~WriteMessageStreamHandler();
         virtual bool eventActivateNonBlocking() override;
     public:

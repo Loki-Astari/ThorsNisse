@@ -12,7 +12,7 @@ namespace ThorsAnvil
             namespace Simple
             {
 
-class ReadMessageHandler: public Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket>
+class ReadMessageHandler: public Core::Service::HandlerNonSuspendable<ThorsSocket::DataSocket>
 {
     private:
         std::size_t                         readSizeObject;
@@ -20,7 +20,7 @@ class ReadMessageHandler: public Core::Service::HandlerNonSuspendable<Core::Sock
         std::size_t                         bufferSize;
         std::string                         buffer;
     public:
-        ReadMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket);
+        ReadMessageHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
 
     public:
@@ -28,14 +28,14 @@ class ReadMessageHandler: public Core::Service::HandlerNonSuspendable<Core::Sock
         static std::string const failIncompleteMessage;
 };
 
-class WriteMessageHandler: public Core::Service::HandlerNonSuspendable<Core::Socket::DataSocket>
+class WriteMessageHandler: public Core::Service::HandlerNonSuspendable<ThorsSocket::DataSocket>
 {
     private:
         std::size_t                         writeSizeObject;
         std::size_t                         writeBuffer;
         std::string                         message;
     public:
-        WriteMessageHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, std::string const& message, bool ok = false);
+        WriteMessageHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket, std::string const& message, bool ok = false);
         virtual short eventActivate(Core::Service::LibSocketId sockId, short eventType) override;
     public:
         static std::string const messageSuffix;

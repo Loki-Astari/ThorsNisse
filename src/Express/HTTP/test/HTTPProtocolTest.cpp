@@ -4,7 +4,7 @@
 #include "ThorsNisseCoreService/Server.tpp"
 #include "ThorsNisseCoreService/Handler.tpp"
 #include "ThorsNisseCoreService/ServerHandler.tpp"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <fstream>
@@ -21,7 +21,7 @@ using ThorsAnvil::Nisse::Protocol::HTTP::Headers;
 using ThorsAnvil::Nisse::Protocol::HTTP::Binder;
 using ThorsAnvil::Nisse::Protocol::HTTP::Site;
 using ThorsAnvil::Nisse::Core::Service::Server;
-using ThorsAnvil::Nisse::Core::Socket::DataSocket;
+using ThorsAnvil::ThorsSocket::DataSocket;
 
 using namespace std;
  
@@ -39,13 +39,20 @@ class HTTPProtocolTest : public testing::Test
             Server::ignore();
         }
 };
+
+static ThorsAnvil::ThorsSocket::ConnectionBuilder getNormalBuilder()
+{
+    return [](int fd){return std::make_unique<ThorsAnvil::ThorsSocket::ConnectionNormal>(fd);};
+}
+
+
  
 TEST_F(HTTPProtocolTest, Construct)
 {
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT, 0666);
 
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -60,7 +67,7 @@ TEST_F(HTTPProtocolTest, GetRequest)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -77,7 +84,7 @@ TEST_F(HTTPProtocolTest, PutRequest)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -94,7 +101,7 @@ TEST_F(HTTPProtocolTest, PostRequest)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -111,7 +118,7 @@ TEST_F(HTTPProtocolTest, DeleteRequest)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -128,7 +135,7 @@ TEST_F(HTTPProtocolTest, HeadRequest)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -145,7 +152,7 @@ TEST_F(HTTPProtocolTest, CeckHeaders)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -162,7 +169,7 @@ TEST_F(HTTPProtocolTest, CeckHeadersMultipleValue)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -179,7 +186,7 @@ TEST_F(HTTPProtocolTest, CheckBody)
     ::close(writeFD);
 
     int                     readFD = ::open("XX", O_RDWR);
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     ReadRequestHandler      reader(service, std::move(socket), binder);
@@ -194,7 +201,7 @@ TEST_F(HTTPProtocolTest, ConstructWriter)
     unlink("XX");
     int         readFD = ::open("XX", O_RDWR | O_CREAT, 0666);
 
-    DataSocket              socket(readFD);
+    DataSocket              socket(getNormalBuilder(), readFD);
     Server                  service;
     Binder                  binder;
     std::string             uri = "thorsanvil.com/index.html";
@@ -230,7 +237,7 @@ TEST_F(HTTPProtocolTest, WriterProcesses)
     Headers                 headers;
     headers["Host"] = "ThorsAnvil.com";
 
-    DataSocket              socket(fd);
+    DataSocket              socket(getNormalBuilder(), fd);
     Server                  service;
     std::string             uri = "/index.html";
     std::vector<char>       buffer;

@@ -1,7 +1,7 @@
 #include "Binder.h"
 #include <gtest/gtest.h>
 #include "Types.h"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <vector>
 
 using ThorsAnvil::Nisse::Protocol::HTTP::Site;
@@ -12,7 +12,7 @@ using ThorsAnvil::Nisse::Protocol::HTTP::Response;
 using ThorsAnvil::Nisse::Protocol::HTTP::Method;
 using ThorsAnvil::Nisse::Protocol::HTTP::URI;
 using ThorsAnvil::Nisse::Protocol::HTTP::Headers;
-using ThorsAnvil::Nisse::Core::Socket::DataSocket;
+using ThorsAnvil::ThorsSocket::DataSocket;
 
 void callMethodExpectFail(Method method, Site& site, std::string const& /*host*/, std::string&& /*path*/)
 {

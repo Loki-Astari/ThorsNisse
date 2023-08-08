@@ -18,7 +18,7 @@ template<typename Handler, typename Param> class ServerHandler;
 template<typename Handler>
 inline void Server::listenOn(ServerConnection const& info)
 {
-    addHandler<ServerHandler<Handler, void>>(Socket::ServerSocket(info.port, false, info.maxConnections));
+    addHandler<ServerHandler<Handler, void>>(ThorsSocket::ServerSocket(info.port, false, info.maxConnections));
 }
 
 template<typename Handler, typename Param>
@@ -33,7 +33,7 @@ inline void Server::listenOn(ServerConnection const& info, Param& param)
     @ param param An optional parameter: A reference to an object that is passed to the constructor of the handler type. This allows a state object to be passed to the constructor.
     @ example example/Server-listenOn.cpp
     */
-    addHandler<ServerHandler<Handler, Param>>(Socket::ServerSocket(info.port, false, info.maxConnections), param);
+    addHandler<ServerHandler<Handler, Param>>(ThorsSocket::ServerSocket(info.port, false, info.maxConnections), param);
 }
 
 template<typename H, typename... Args>

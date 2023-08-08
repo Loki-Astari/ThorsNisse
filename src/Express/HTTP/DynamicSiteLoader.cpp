@@ -2,7 +2,7 @@
 #include "HTTPProtocol.h"
 #include "ThorsLogging/ThorsLogging.h"
 #include "ThorsIOUtil/Utility.h"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <dlfcn.h>
 #include <iostream>
 
@@ -11,7 +11,7 @@ using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
 DynamicSiteLoader::DynamicSiteLoader(Core::Service::Server& server)
     : server(server)
-    , maxConnection(ThorsAnvil::Nisse::Core::Socket::ServerSocket::maxConnectionBacklog)
+    , maxConnection(ThorsAnvil::ThorsSocket::ServerSocket::maxConnectionBacklog)
 {}
 
 std::tuple<bool, int> DynamicSiteLoader::load(std::string const& site, int port, std::string const& host, std::string const& base)

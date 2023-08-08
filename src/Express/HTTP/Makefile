@@ -7,6 +7,7 @@ PRETEST						= TestLoadableLibBuild
 TARGET						= ThorsNisseExpressHTTP.defer
 DEFER_NAME					= ThorsNisseExpress
 LDLIBS_EXTERN_BUILD			+= event boost ThorSerialize ThorsDB
+LINK_LIBS					+= ThorsSocket
 
 LDLIBS						+= -ldl
 LINK_LIBS					+= ThorsNisseCore

@@ -4,11 +4,11 @@
 #include "coverage/ThorMock.h"
 #include "ThorsNisseCoreService/Server.h"
 #include "ThorsNisseCoreService/Handler.h"
-#include "ThorsNisseCoreSocket/Socket.h"
+#include "ThorsSocket/Socket.h"
 #include <future>
 
 using ThorsAnvil::Nisse::Core::Service::Server;
-using ThorsAnvil::Nisse::Core::Socket::ConnectSocket;
+using ThorsAnvil::ThorsSocket::ConnectSocketNormal;
 using ThorsAnvil::Nisse::Protocol::HTTP::DynamicSiteLoader;
 using ThorsAnvil::Nisse::Protocol::HTTP::DeveloperHandler;
 
@@ -23,7 +23,7 @@ TEST(DeveloperHandlerTest, Construct)
 
     auto future = std::async(std::launch::async, [](){
         usleep(200000);
-        ConnectSocket socket("127.0.0.1", 8078);
+        ConnectSocketNormal socket("127.0.0.1", 8078);
         std::string message = "PUT / HTTP/1.1\r\nContent-Length: 67\r\n\r\n" R"({"action": "a", "lib": "l", "host": "h", "base": "b", "port": 8000})";
         socket.putMessageData(message.c_str(), message.size());
         socket.putMessageClose();
@@ -44,7 +44,7 @@ TEST(DeveloperHandlerTest, LoadLoadable)
 
     auto future = std::async(std::launch::async, [](){
         usleep(200000);
-        ConnectSocket socket("127.0.0.1", 8078);
+        ConnectSocketNormal socket("127.0.0.1", 8078);
         std::string message = "PUT / HTTP/1.1\r\nContent-Length: 67\r\n\r\n" R"({"action": "Load", "lib": "TestLib/Loadable/Loadable.dylib", "host": "h", "base": "b", "port": 8000})";
         socket.putMessageData(message.c_str(), message.size());
         socket.putMessageClose();
@@ -66,14 +66,14 @@ TEST(DeveloperHandlerTest, UnLoadLoadable)
     auto future = std::async(std::launch::async, [](){
         usleep(200000);
         {
-            ConnectSocket socket("127.0.0.1", 8078);
+            ConnectSocketNormal socket("127.0.0.1", 8078);
             std::string message = "PUT / HTTP/1.1\r\nContent-Length: 100\r\n\r\n" R"({"action": "Load", "lib": "TestLib/Loadable/Loadable.dylib", "host": "h", "base": "b", "port": 8000})";
             socket.putMessageData(message.c_str(), message.size());
             socket.putMessageClose();
         }
         usleep(200000);
         {
-            ConnectSocket socket("127.0.0.1", 8078);
+            ConnectSocketNormal socket("127.0.0.1", 8078);
             std::string message = "PUT / HTTP/1.1\r\nContent-Length: 102\r\n\r\n" R"({"action": "Unload", "lib": "TestLib/Loadable/Loadable.dylib", "host": "h", "base": "b", "port": 8000})";
             socket.putMessageData(message.c_str(), message.size());
             socket.putMessageClose();
@@ -96,7 +96,7 @@ TEST(DeveloperHandlerExceptionTest, UnLoadFail)
     auto future = std::async(std::launch::async, [](){
         usleep(200000);
         {
-            ConnectSocket socket("127.0.0.1", 8078);
+            ConnectSocketNormal socket("127.0.0.1", 8078);
             std::string message = "PUT / HTTP/1.1\r\nContent-Length: 102\r\n\r\n" R"({"action": "Unload", "lib": "TestLib/Loadable/Loadable.dylib", "host": "h", "base": "b", "port": 8000})";
             socket.putMessageData(message.c_str(), message.size());
             socket.putMessageClose();

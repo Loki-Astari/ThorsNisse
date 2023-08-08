@@ -1,12 +1,12 @@
 #include "DeveloperHandler.h"
-#include "ThorsNisseCoreSocket/SocketStream.h"
+#include "ThorsSocket/SocketStream.h"
 #include "ThorSerialize/Traits.h"
 #include "ThorSerialize/JsonThor.h"
 #include <iostream>
 
 using namespace ThorsAnvil::Nisse::Protocol::HTTP;
 
-DeveloperHandler::DeveloperHandler(Core::Service::Server& parent, Core::Socket::DataSocket&& socket, DynamicSiteLoader& loader)
+DeveloperHandler::DeveloperHandler(Core::Service::Server& parent, ThorsSocket::DataSocket&& socket, DynamicSiteLoader& loader)
     : HandlerNonSuspendable(parent, std::move(socket), EV_READ | EV_WRITE)
     , loader(loader)
     , buffer(100)
@@ -38,8 +38,8 @@ short DeveloperHandler::eventActivate(Core::Service::LibSocketId, short)
         }
     }
 
-    Core::Socket::ISocketStream   input(stream,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
-    Core::Socket::OSocketStream   output(stream, [](){}, [](){});
+    ThorsSocket::IOSocketStream   input(stream,  [](){}, [](){}, std::move(buffer), scanner.data.bodyBegin, scanner.data.bodyEnd);
+    ThorsSocket::IOSocketStream   output(stream, [](){}, [](){});
 
     int         status  = 200;
     std::string message = "OK";
