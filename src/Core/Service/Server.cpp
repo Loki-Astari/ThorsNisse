@@ -1,6 +1,4 @@
-#include "Server.h"
-#include "Handler.h"
-#include "ServerHandler.h"
+#include "Service.h"
 
 #include <iostream>
 
@@ -173,23 +171,3 @@ void Server::ignore(std::string const& type)
         ::event_config_avoid_method(cfg, type.c_str());
     }
 }
-
-#ifdef COVERAGE_TEST
-/*
- * This code is only compiled into the unit tests for code coverage purposes
- * It is not part of the live code.
- */
-#include "Server.tpp"
-#include "Handler.tpp"
-#include "test/Action.h"
-
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<Action>(ServerConnection const&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<ActionUnReg>(ServerConnection const&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<TestHandler, std::tuple<bool, bool, bool>>(ServerConnection const&, std::tuple<bool, bool, bool>&);
-template void ThorsAnvil::Nisse::Core::Service::Server::listenOn<InHandlerTest, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>>(ServerConnection const&, std::tuple<bool, std::function<void(ThorsAnvil::Nisse::Core::Service::Server&)>>&);
-template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<Action, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
-template HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<ActionUnReg, ThorsAnvil::Nisse::Core::Socket::DataSocket>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&);
-template ThorsAnvil::Nisse::Core::Service::HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<TestHandler, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::tuple<bool, bool, bool>&>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::tuple<bool, bool, bool>&);
-template ThorsAnvil::Nisse::Core::Service::HandlerBase& ThorsAnvil::Nisse::Core::Service::Server::addHandler<InHandlerTest, ThorsAnvil::Nisse::Core::Socket::DataSocket, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)>>&>(ThorsAnvil::Nisse::Core::Socket::DataSocket&&, std::tuple<bool, std::function<void (ThorsAnvil::Nisse::Core::Service::Server&)>>&);
-template ThorsAnvil::Nisse::Core::Service::HandlerSuspendable<ThorsAnvil::Nisse::Core::Socket::DataSocket>::HandlerSuspendable(ThorsAnvil::Nisse::Core::Service::Server&, ThorsAnvil::Nisse::Core::Socket::DataSocket&&, short);
-#endif

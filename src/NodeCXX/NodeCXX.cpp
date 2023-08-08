@@ -1,11 +1,10 @@
-#include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/Handler.h"
-#include "ThorsNisseProtocolSimple/ProtocolSimple.h"
-#include "ThorsNisseProtocolSimple/ProtocolSimpleStream.h"
-#include "ThorsNisseProtocolHTTP/HTTPProtocol.h"
-#include "ThorsNisseProtocolHTTP/DynamicSiteLoader.h"
-#include "ThorsNisseProtocolHTTP/DeveloperHandler.h"
-#include "ThorsNisseProtocolHTTP/Types.h"
+#include "ThorsNisseCoreService/Service.h"
+#include "ThorsNisseExpressSimple/ProtocolSimple.h"
+#include "ThorsNisseExpressSimple/ProtocolSimpleStream.h"
+#include "ThorsNisseExpressHTTP/HTTPProtocol.h"
+#include "ThorsNisseExpressHTTP/DynamicSiteLoader.h"
+#include "ThorsNisseExpressHTTP/DeveloperHandler.h"
+#include "ThorsNisseExpressHTTP/Types.h"
 #include <sstream>
 
 #include <iostream>

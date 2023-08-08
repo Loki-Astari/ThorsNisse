@@ -2,7 +2,7 @@
 	path = build
 	url = git@github.com:Loki-Astari/ThorMaker.git
 [submodule "src/Protocol/HTTP/http-parser"]
-	path = src/Protocol/HTTP/http-parser
+	path = src/Express/HTTP/http-parser
 	url = git@github.com:nodejs/http-parser.git
 [submodule "docSource/themes/documentation"]
 	path = docSource/themes/documentation

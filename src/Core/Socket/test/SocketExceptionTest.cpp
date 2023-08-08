@@ -539,7 +539,7 @@ TEST(SocketExceptionTest, DataSocketaWriteFailsUnknownOnRead)
 }
 TEST(SocketExceptionTest, DataSocketaPutMessageCloseFails)
 {
-    MOCK_SYS(shutdown,      [](int, int){errno = ENOSPC;return -1;});
+    MOCK_SYS(shutdownWrapper,   [](int, int){errno = ENOSPC;return -1;});
     DataSocket          data(5, true);
 
     ASSERT_THROW(

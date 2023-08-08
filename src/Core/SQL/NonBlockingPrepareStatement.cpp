@@ -1,8 +1,7 @@
 #include "NonBlockingPrepareStatement.h"
 #include "NonBlockingMySQLConnection.h"
 #include "StreamCloser.h"
-#include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/Handler.h"
+#include "ThorsNisseCoreService/Service.h"
 #include "ThorsMySQL/PrepareStatement.h"
 
 using namespace ThorsAnvil::Nisse::Core::SQL;

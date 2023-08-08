@@ -1,6 +1,11 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 #define THORSANVIL_NISSE_CORE_SERVICE_SERVER_H
 
+#ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVICE_H
+#error "Please do not include >ThorsNisseCoreService/Server.h< directly. Include the >ThorsNisseCoreService/Service.h< file instead."
+#endif
+
+
 /** LibDesc:
 A simple wrapper around libEvent.
 @ example example/LibDesc.cpp
@@ -131,7 +136,4 @@ class Server
     }
 }
 
-#ifndef COVERAGE_TEST
-#include "Server.tpp"
-#endif
 #endif

@@ -3,9 +3,9 @@
 
 #include "DynamicSiteLoader.h"
 #include "HttpScanner.h"
-#include "ThorsNisseCoreService/Server.h"
-#include "ThorsNisseCoreService/Handler.h"
-#include "ThorsNisseCoreService/ServerHandler.h"
+#include "ThorsNisseCoreService/Server.tpp"
+#include "ThorsNisseCoreService/Handler.tpp"
+#include "ThorsNisseCoreService/ServerHandler.tpp"
 #include <vector>
 
 namespace ThorsAnvil

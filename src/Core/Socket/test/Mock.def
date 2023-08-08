@@ -20,7 +20,7 @@ MOCK_SYSTEM_FUNC(listen)
 MOCK_SYSTEM_FUNC(acceptWrapper)
 MOCK_SYSTEM_FUNC(readWrapper)
 MOCK_SYSTEM_FUNC(writeWrapper)
-MOCK_SYSTEM_FUNC(shutdown)
+MOCK_SYSTEM_FUNC(shutdownWrapper)
 MOCK_SYSTEM_FUNC(gethostbyname)
 
 

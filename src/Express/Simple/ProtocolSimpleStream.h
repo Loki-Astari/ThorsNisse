@@ -1,9 +1,7 @@
 #ifndef THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_STREAM_H
 #define THORSANVIL_NISSE_PROTOCOL_SIMPLE_PROTOCOL_SIMPLE_STREAM_H
 
-#include "ThorsNisseCoreService/Handler.h"
-#include "ThorsNisseCoreService/ServerHandler.h"
-#include "ThorsNisseCoreSocket/SocketStream.h"
+#include "ThorsNisseCoreService/Service.h"
 #include <istream>
 #include <ostream>
 #include <string>

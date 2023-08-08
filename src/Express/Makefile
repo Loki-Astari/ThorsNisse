@@ -1,11 +1,7 @@
 
-THORSANVIL_ROOT				?= $(realpath ../../)
+THORSANVIL_ROOT				= $(realpath ../../)
 
-TARGET						= ThorsExpress.slib
-LDLIBS_EXTERN_BUILD			+= event boost ThorSerialize ThorsDB
-LDLIBS						+= -ldl
+TARGET						= Simple HTTP AddSite ExpressBuild
 
-LINK_SLIBS					+= ThorsNisseProtocolHTTP ThorsNisseCoreService ThorsNisseCoreSocket ThorsNisseCoreSQL
-
-include $(THORSANVIL_ROOT)/build/tools/Makefile
+include $(THORSANVIL_ROOT)/build/tools/Project.Makefile
 

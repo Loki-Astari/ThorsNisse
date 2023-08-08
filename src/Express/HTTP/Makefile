@@ -4,11 +4,12 @@ COVERAGE_REQUIRED			= 40
 DYLD_LIBRARY_PATH			= $(shell pwd)
 
 PRETEST						= TestLoadableLibBuild
-TARGET						= ThorsNisseProtocolHTTP.a
-LDLIBS_EXTERN_BUILD			+= event boost ThorSerialize
+TARGET						= ThorsNisseExpressHTTP.defer
+DEFER_NAME					= ThorsNisseExpress
+LDLIBS_EXTERN_BUILD			+= event boost ThorSerialize ThorsDB
 
 LDLIBS						+= -ldl
-LINK_LIBS					+= ThorsNisseCoreService ThorsNisseCoreSocket
+LINK_LIBS					+= ThorsNisseCore
 
 %/DeveloperHandler.o:		FILE_WARNING_FLAGS=-Wno-unused-private-field
 

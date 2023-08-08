@@ -1,9 +1,10 @@
 
 THORSANVIL_ROOT				?= $(realpath ../../../)
 
-TARGET						= AddBeer.slib
+TARGET						= ThorsNisseExpressAddSite.defer
+DEFER_NAME					= ThorsNisseExpress
 LDLIBS_EXTERN_BUILD			+= event boost ThorSerialize ThorsDB
-LINK_LIBS					+= ThorsNisseExpress
+LDLIBS						+= -ldl
 
 include $(THORSANVIL_ROOT)/build/tools/Makefile
 

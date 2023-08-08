@@ -1,6 +1,10 @@
 #ifndef THORSANVIL_NISSE_CORE_SERVICE_HANDLER_H
 #define THORSANVIL_NISSE_CORE_SERVICE_HANDLER_H
 
+#ifndef THORSANVIL_NISSE_CORE_SERVICE_SERVICE_H
+#error "Please do not include >ThorsNisseCoreService/Handler.h< directly. Include the >ThorsNisseCoreService/Service.h< file instead."
+#endif
+
 #include "EventUtil.h"
 #include "CoRoutine.h"
 #include "ThorsNisseCoreSocket/Socket.h"
@@ -182,7 +186,4 @@ class HandlerSuspendableWithStream: public HandlerSuspendable<Socket::DataSocket
     }
 }
 
-#ifndef COVERAGE_TEST
-#include "Handler.tpp"
-#endif
 #endif
