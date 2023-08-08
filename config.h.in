@@ -55,11 +55,11 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* We have found package Thors DB */
+#undef HAVE_THORSDB
+
 /* We have found package Thors Serializer */
 #undef HAVE_THORSSERIALIZER
-
-/* When on code that uses ThorsDB will be compiled. */
-#undef HAVE_ThorsDB
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
